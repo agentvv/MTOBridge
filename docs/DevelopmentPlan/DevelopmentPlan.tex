@@ -20,6 +20,7 @@
 \toprule
 \textbf{Date} & \textbf{Developer(s)} & \textbf{Change}\\
 \midrule
+September 21 2022 & Darren & Team information sections\\
 Date1 & Name(s) & Description of changes\\
 Date2 & Name(s) & Description of changes\\
 ... & ... & ...\\
@@ -35,9 +36,26 @@ Date2 & Name(s) & Description of changes\\
 
 \section{Team Meeting Plan}
 
+The team will meet on Tuesdays on campus at 5:30PM weekly for 1 to 1.5 hours. Team members will meet in-person when possible but will join virtually when unable to be physically present. Meetings are expected to review progress made since the previous meeting, review the status of the project, and discuss and divide upcoming work among team members.
+
+Adham has reserved a room in Gerald Hatch Centre and will chair meetings. Darren will open the call for team members to join virtually. Meeting minutes will be taken as needed when group decisions are reached on topics, responsibility for which will pass between team members as is appropriate.
+
 \section{Team Communication Plan}
 
+Git issues will be used to track ongoing tasks on the project. Aside from meetings and impromptu conversations between shared classes, the team is communicating primarily through a group chat in Discord.
+
+The team will communicate with the client via email and Zoom calls. Team members will CC the rest of the team when emailing the client.
+
 \section{Team Member Roles}
+
+\begin{itemize}
+	\item Adham will act as team leader and chair meetings.
+	\item Darren will facilitate virtual meetings and has experience in C++.
+	\item David has experience in C++ and is most familiar with the UI implementation framework we currently expect to use.
+	\item Farzad possesses the most domain knowledge in civil engineering and is the main point of contact with the client.
+	\item Pedram will maintain the git repo.
+	\item Victor has experience in C++.
+\end{itemize}
 
 \section{Workflow Plan}
 
@@ -46,6 +64,8 @@ Date2 & Name(s) & Description of changes\\
 	\item How will you be managing issues, including template issues, issue
 	classificaiton, etc.?
 \end{itemize}
+
+The git will be separated into a dev and prod (master) branch. Developers will fork from the dev branch to implement changes. After merging changes into the dev branch and confirming no issues with integration, the dev branch will be merged into prod. CI/CD will be set up between prod and dev as well as between dev and feature branches.
 
 \section{Proof of Concept Demonstration Plan}
 
