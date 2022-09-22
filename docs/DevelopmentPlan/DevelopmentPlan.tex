@@ -21,7 +21,7 @@
 \textbf{Date} & \textbf{Developer(s)} & \textbf{Change}\\
 \midrule
 September 21 2022 & Darren & Team information sections\\
-Date1 & Name(s) & Description of changes\\
+September 21 2022 & David & Technology sections\\
 Date2 & Name(s) & Description of changes\\
 ... & ... & ...\\
 \bottomrule
@@ -75,18 +75,34 @@ you will be able to overcome this risk?
 
 \section{Technology}
 
+\subsection{Programming Language}
+C++20 will be used for the GUI, and will be connected to the backend made in MATLAB.
+
+\subsection{Linter}
+In order to maintain a consistent format, we will use clang-format for linting. Using this linter, 
+we can also easily select a coding standard to follow, which will come from a file in our repo.
+
 \begin{itemize}
-\item Specific programming language
-\item Specific linter tool (if appropriate)
 \item Specific unit testing framework
 \item Investigation of code coverage measuring tools
 \item Specific plans for Continuous Integration (CI), or an explanation that CI
   is not being done
 \item Specific performance measuring tools (like Valgrind), if
   appropriate
-\item Libraries you will likely be using?
-\item Tools you will likely be using?
 \end{itemize}
+
+\subsection{Libraries}
+A GUI framework called \href{https://www.qt.io/}{Qt} will be used.
+\begin{itemize}
+	\item This framework will allow for easy creation of a simple GUI, but also allows for extensibility which may be required.
+	\item It contains basics for creating buttons, text fields etc., and more complex components like graphs (or even 3D views) with good performance.
+	\item It also contains a testing framework for easily testing the GUI, as well as benchmarking performance.
+\end{itemize}
+MATLAB is being used for the backend, and in order to connect it with the GUI, libraries provided in MATLAB are needed in order to call MATLAB functions
+from C++.
+
+\subsection{Tools}
+For building the project, CMake will be used. Also, CMake will be used for deploying the application.
 
 \section{Coding Standard}
 
