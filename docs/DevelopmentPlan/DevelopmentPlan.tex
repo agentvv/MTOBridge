@@ -23,6 +23,7 @@
 September 21 2022 & Darren & Team information sections\\
 September 21 2022 & David & Technology sections\\
 September 21 2022 & Adham & Project Scheduling Section\\
+September 22 2022 & Victor & Technology sections\\
 ... & ... & ...\\
 \bottomrule
 \end{tabularx}
@@ -82,14 +83,17 @@ C++20 will be used for the GUI, and will be connected to the backend made in MAT
 In order to maintain a consistent format, we will use clang-format for linting. Using this linter, 
 we can also easily select a coding standard to follow, which will come from a file in our repo.
 
-\begin{itemize}
-\item Specific unit testing framework
-\item Investigation of code coverage measuring tools
-\item Specific plans for Continuous Integration (CI), or an explanation that CI
-  is not being done
-\item Specific performance measuring tools (like Valgrind), if
-  appropriate
-\end{itemize}
+\subsection{Unit Testing Framework}
+
+\subsection{Code Coverage Measuring Tools}
+
+\subsection{Continuous Integration}
+We will use GitHub's built-in CI/CD in multiple ways to help the development of this project. Firstly, we will automatically run clang-format when code is pushed to the repo, allowing us to ensure that any code on GitHub complies with the coding standard.
+We will also automatically run pdflatex on uploaded .tex files so that the PDF versions of all documents are guaranteed to be up to date. Lastly, any uploaded code will be built and tested against our current suite of tests to ensure that it has not introduced any errors.
+This testing will also include the use of Valgrind to check for any runtime bugs that may be introduced.
+
+\subsection{Performance Measuring Tools}
+Although we don't expect that the performance of our code will have much effect on the performance of the project as a whole (the majority of computing resources will be taken up by the MatLab back-end), we will still use Valgrind as a way to check for runtime errors in our code.
 
 \subsection{Libraries}
 A GUI framework called \href{https://www.qt.io/}{Qt} will be used.
@@ -102,9 +106,18 @@ MATLAB is being used for the backend, and in order to connect it with the GUI, l
 from C++.
 
 \subsection{Tools}
-For building the project, CMake will be used. Also, CMake will be used for deploying the application.
+We will use the following tools during our development:
+\begin{itemize}
+	\item GitHub will be used as our version control system. It will also be used to track issues and implement continuous integration.
+	\item MATLAB will be used to run the back-end code provided to us from the MTO.
+	\item LaTeX will be used to create the documentation for this project.
+	\item While each developer will use the IDE of their preference, a number of us will use Visual Studio.
+	\item CMake will be used to facilitate building the C++ code.
+\end{itemize}
 
 \section{Coding Standard}
+We will be using the \href{https://google.github.io/styleguide/cppguide.html}{Google C++ Style Guide} for our project as it is one of the most popular C++ style guides available. Using a standard will allow our code to have a consistent style no matter which of us wrote it.
+The Google Style Guide is also supported by clang-format, which will allow us to easily check the compliance of code.
 
 \section{Project Scheduling}
 	Scheduling will be done in somewhat of a sprint format, week to week, to avoid what we see as relatively futile attempts to predict where along the project we will be 8 weeks
