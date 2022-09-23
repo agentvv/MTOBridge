@@ -93,7 +93,8 @@ We will also automatically run pdflatex on uploaded .tex files so that the PDF v
 This testing will also include the use of Valgrind to check for any runtime bugs that may be introduced.
 
 \subsection{Performance Measuring Tools}
-Although we don't expect that the performance of our code will have much effect on the performance of the project as a whole (the majority of computing resources will be taken up by the MatLab back-end), we will still use Valgrind as a way to check for runtime errors in our code.
+Although we don't expect the performance of our code to have much effect on the performance of the project as a whole (the majority of computing resources will be taken up by the MATLAB back-end), we will still use Valgrind to measure the performance of our program to ensure that
+it is within reasonable bounds. We will also use Valgrind as a way to check for runtime errors in our code.
 
 \subsection{Libraries}
 A GUI framework called \href{https://www.qt.io/}{Qt} will be used.
@@ -113,6 +114,8 @@ We will use the following tools during our development:
 	\item LaTeX will be used to create the documentation for this project.
 	\item While each developer will use the IDE of their preference, a number of us will use Visual Studio.
 	\item CMake will be used to facilitate building the C++ code.
+	\item As stated in the linter section, we will use clang-format to enforce a standard on the code we write.
+	\item As stated in performance measuring tools, Valgrind will be used both to test performance and check for runtime bugs in the code.
 \end{itemize}
 
 \section{Coding Standard}
