@@ -4,6 +4,7 @@
 \usepackage{changepage}
 \usepackage{booktabs}
 \usepackage{tikz}
+\usepackage{caption}
 
 \title{Problem Statement and Goals\\\progname}
 
@@ -32,10 +33,11 @@
 
 \section{Problem Statement}
 
+\subsection{Background}
+
+For years, Bridge engineers in Ontario have used the Canadian Highway Bridge Design Code (CHBDC) (CSA S6-19) which typically features conservatism and adds excessive costs. With the development of refined methods of analysis, engineers can precisely determine the properties and constraints of the proposed design. Nevertheless, the new methods of analysis have yet to be offered within a one-stop program with an intuitive and simple UX. 
 
 \subsection{Problem}
-
-The approximate equations included in the Canadian Highway Bridge Design Code (CHBDC) (CSA S6-19) typically feature conservatism and add excessive costs. Although such extra costs are acceptable for designing new bridges, they may lead to unnecessary load restrictions or retrofitting of existing bridges. Using refined methods of analysis to precisely determine the load carrying capacity of bridge members would allow bridge engineers to make well-informed decisions on bridge repair and load posting.\\
 
 This is an ongoing project in partnership with the Ontario Ministry of Transportation (MTO). The software engine application code has already been developed and validated by a Ph.D. student from the Department of Civil Engineering using MATLAB Editor. The developed MATLAB code is ready to be packaged with other software components (Interactive User Interface (UI), well-defined Input/Output (I/O), and standard bridge section Database). 
 
@@ -68,12 +70,13 @@ This is an ongoing project in partnership with the Ontario Ministry of Transport
 %Shape: Frame [id:dp281589755928753] 
 \draw   (286.55,28) -- (639.55,28) -- (639.55,485) -- (286.55,485) -- cycle(628.23,39.32) -- (297.86,39.32) -- (297.86,473.68) -- (628.23,473.68) -- cycle ;
 
+\draw (60.8,36.81) node [anchor=north west][inner sep=0.75pt]   [align=left] {\textbf{{\small Input}}};
 % Text Node
-\draw (11.8,33.81) node [anchor=north west][inner sep=0.75pt]   [align=left] {\textbf{{\footnotesize Loads}}\\{\footnotesize - Moments (M) }\\{\footnotesize - Axial Forces (N)}\\{\footnotesize - Shear (V)}\\{\footnotesize - Torsion (T)}};
+\draw (11.8,56.81) node [anchor=north west][inner sep=0.75pt]   [align=left] {\textbf{{\footnotesize Loads}}\\{\footnotesize - Moments (M) }\\{\footnotesize - Axial Forces (N)}\\{\footnotesize - Shear (V)}\\{\footnotesize - Torsion (T)}};
 % Text Node
-\draw (11,157) node [anchor=north west][inner sep=0.75pt]   [align=left] {\textbf{{\footnotesize Material Properties}}\\{\footnotesize - Concrete}\\{\footnotesize - Reinforcing Steel}\\{\footnotesize - Prestressing Strands}\\};
+\draw (11,170) node [anchor=north west][inner sep=0.75pt]   [align=left] {\textbf{{\footnotesize Material Properties}}\\{\footnotesize - Concrete}\\{\footnotesize - Reinforcing Steel}\\{\footnotesize - Prestressing Strands}\\};
 % Text Node
-\draw (11,262) node [anchor=north west][inner sep=0.75pt]   [align=left] {\textbf{{\footnotesize Girder Geometry and }}\\\textbf{{\footnotesize Cross Section}}\\{\footnotesize - Girder length }\\{\footnotesize - Effective deck width}\\{\footnotesize - Girder section}\\{\footnotesize - Deck thinckness}\\{\footnotesize - Longitudinal reinforcement}\\{\footnotesize - Transverse reinforcement}};
+\draw (11,265) node [anchor=north west][inner sep=0.75pt]   [align=left] {\textbf{{\footnotesize Girder Geometry and }}\\\textbf{{\footnotesize Cross Section}}\\{\footnotesize - Girder length }\\{\footnotesize - Effective deck width}\\{\footnotesize - Girder section}\\{\footnotesize - Deck thinckness}\\{\footnotesize - Longitudinal reinforcement}\\{\footnotesize - Transverse reinforcement}};
 % Text Node
 \draw (11,420) node [anchor=north west][inner sep=0.75pt]   [align=left] {\textbf{{\footnotesize Prestress}}\\{\footnotesize - Jacking stress }\\{\footnotesize - Short-term prestress loss}\\{\footnotesize - Long-term prestress loss}};
 % Text Node
@@ -99,15 +102,17 @@ MTOBridge UI
 % Text Node
 \draw (322,383.09) node [anchor=north west][inner sep=0.75pt]   [align=left] {Flexural Stress at Transfer \\\\Flexular Stress at SLS};
 
+
 \end{tikzpicture}
 
+\captionof{figure}{\textbf{MTOBridge Data Flow}}
 
 \subsection{Stakeholders}
 
 \begin{itemize}
   \item Ontario Ministry of Transport
   \item Department of Civil Engineering, McMaster
-  \item Department of Software 
+  \item Department of Software Engineering, McMaster 
 \end{itemize}
 \subsection{Environment}
 \begin{itemize}
