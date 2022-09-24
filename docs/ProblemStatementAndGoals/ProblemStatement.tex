@@ -26,7 +26,7 @@
 \textbf{Date} & \textbf{Developer(s)} & \textbf{Change}\\
 \midrule
 9/22/2022 & Pedram Yazdinida & First Draft\\
-
+9/24/2022 & Pedram Yazdinida & First Revision\\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -35,13 +35,12 @@
 
 \subsection{Background}
 
-For years, Bridge engineers in Ontario have used the Canadian Highway Bridge Design Code (CHBDC) (CSA S6-19) which typically features conservatism and adds excessive costs. With the development of refined methods of analysis, engineers can precisely determine the properties and constraints of the proposed design. Nevertheless, the new methods of analysis have yet to be offered within a one-stop program with an intuitive and simple UX. 
+For years, Bridge engineers in Ontario have based their bridge analysis on the Canadian Highway Bridge Design Code (CHBDC) (CSA S6-19) which typically features conservatism and adds excessive costs. With the development of refined methods of analysis, engineers can precisely determine the properties and constraints of the proposed design. Nevertheless, the new methods of analysis have yet to be offered within a one-stop program with an intuitive and simple UX. 
 
 \subsection{Problem}
 
-This is an ongoing project in partnership with the Ontario Ministry of Transportation (MTO). The software engine application code has already been developed and validated by a Ph.D. student from the Department of Civil Engineering using MATLAB Editor. The developed MATLAB code is ready to be packaged with other software components (Interactive User Interface (UI), well-defined Input/Output (I/O), and standard bridge section Database). 
+As part of a direct collaboration with Ontario Ministry of Transport, the proposed solution will take advantage of the refined methods of analysis developed by the Department of Civil Engineering to create a full-fledged application that can easily elevate the computations done by Bridge Engineers. MTOBridge will package the existing engine written in MATLAB with modern interactive User Interface (UI), well-defined Input/Output (I/O), and standard bridge section Database. The program will allow engineers to intuitively input their specifications on load, material, geometry, and prestress where the engine is then used to solve for variables on ultimate flexure, shear and torsion. The user will have the ability to switch between the refined and traditional methods of analysis, visualizing the cost savings and improvements across the board. Finally, the output will also include interactable graphs and charts where the user can find further specific information based on a given point. 
 
-\pagebreak
 
 \subsection{Inputs and Outputs}
 
@@ -55,7 +54,7 @@ This is an ongoing project in partnership with the Ontario Ministry of Transport
 %\path (200,200); %set diagram left start at 0, and has height of 554
 
 %Shape: Rectangle [id:dp40713623006932687] 
-\draw   (9.8,30.81) -- (156.55,30.81) -- (156.55,482.64) -- (9.8,482.64) -- cycle ;
+\draw   (9.8,30) -- (156.55,30) -- (156.55,480) -- (9.8,480) -- cycle ;
 %Right Arrow [id:dp022223857966380267] 
 \draw   (164.55,252.93) -- (234.75,252.93) -- (234.75,232.91) -- (281.55,272.95) -- (234.75,313) -- (234.75,292.98) -- (164.55,292.98) -- cycle ;
 %Shape: Rectangle [id:dp6440046928241534] 
@@ -68,7 +67,7 @@ This is an ongoing project in partnership with the Ontario Ministry of Transport
 \draw   (321,380.9) -- (601,380.9) -- (601,450) -- (321,450) -- cycle ;
 
 %Shape: Frame [id:dp281589755928753] 
-\draw   (286.55,28) -- (639.55,28) -- (639.55,485) -- (286.55,485) -- cycle(628.23,39.32) -- (297.86,39.32) -- (297.86,473.68) -- (628.23,473.68) -- cycle ;
+\draw   (286.55,30) -- (639.55,30) -- (639.55,480) -- (286.55,480) -- cycle(628.23,41.32) -- (297.86,41.32) -- (297.86,468.68) -- (628.23,468.68) -- cycle ;
 
 \draw (60.8,36.81) node [anchor=north west][inner sep=0.75pt]   [align=left] {\textbf{{\small Input}}};
 % Text Node
@@ -94,13 +93,13 @@ MTOBridge UI
 
 \end{minipage}};
 % Text Node
-\draw (323,90.9) node [anchor=north west][inner sep=0.75pt]   [align=left] {\textbf{Flexural Stress at Transfer }\\\\\textbf{Flexular Stress at SLS}};
+\draw (320,381.09) node [anchor=north west][inner sep=0.75pt]   [align=left] {\textbf{Ultimate torsion resistance and}\\\textbf{torsion-shear diagram} \\\mbox{-} CHBDC-based design approach };
 % Text Node
-\draw (323,178.9) node [anchor=north west][inner sep=0.75pt]   [align=left] {\textbf{Ultimate Flexural Resistance and Axial }\\\textbf{load-moment diagram}\\\mbox{-} CHBDC design approach \ \\\mbox{-} Moment-curvature Analysis };
+\draw (320,292.9) node [anchor=north west][inner sep=0.75pt]   [align=left] {\textbf{Ultimate shear resistance and shear-}\\\textbf{moment diagram}\\\mbox{-} CHBDC general shear design approach \\};
 % Text Node
-\draw (322,295.9) node [anchor=north west][inner sep=0.75pt]   [align=left] {Flexural Stress at Transfer \\\\Flexular Stress at SLS};
+\draw (321,175.9) node [anchor=north west][inner sep=0.75pt]   [align=left] {\textbf{Ultimate flexural resistance and axial }\\\textbf{load-moment diagram}\\\mbox{-} CHBDC design approach \ \\\mbox{-} Moment-curvature Analysis };
 % Text Node
-\draw (322,383.09) node [anchor=north west][inner sep=0.75pt]   [align=left] {Flexural Stress at Transfer \\\\Flexular Stress at SLS};
+\draw (321,87.9) node [anchor=north west][inner sep=0.75pt]   [align=left] {\textbf{Flexural stress at transfer }\\\\\textbf{Flexular stress at SLS}};
 
 
 \end{tikzpicture}
@@ -111,8 +110,17 @@ MTOBridge UI
 
 \begin{itemize}
   \item Ontario Ministry of Transport
+	\begin{itemize}
+	\item{The proposed porgram will be primary used by Engineers within Ontario Minstry of Transport. }
+	\end{itemize}
   \item Department of Civil Engineering, McMaster
+		\begin{itemize}
+	\item{The proposed porgram will be directly developed in collaboration with Department of Civil Eningeering. }
+		\end{itemize}
   \item Department of Software Engineering, McMaster 
+		\begin{itemize}
+	\item{The proposed program will be directly developed by Engineers from the Department of Software and Computing.} 
+		\end{itemize}
 \end{itemize}
 \subsection{Environment}
 \begin{itemize}
