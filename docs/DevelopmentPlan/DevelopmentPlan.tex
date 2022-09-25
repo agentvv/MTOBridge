@@ -69,10 +69,13 @@ Issues will be used to maintain and track tasks. We expect that a relatively sma
 
 \section{Proof of Concept Demonstration Plan}
 
-What is the main risk, or risks, for the success of your project?  What will you
-demonstrate during your proof of concept demonstration to convince yourself that
-you will be able to overcome this risk?
-
+Critical parts of the proof of concept which aims to verify the viability of the project are: \\
+\begin{itemize}
+\item Creating an integration point between the MATLAB source code prepared by the primarly stakeholder with our C++ Windows application.Failure of accomplishing this task would prove the project unfeasible.
+\item The other important implementation challenge is building a robust asynchronous/concurrent program to promote useability while calling methods from matlab source code and waiting for the response.
+Since the stakeholder's emphasis is on useability making sure the UI is responsive at all times and the application is capable of performing multiple analysis is crucial. Our application would lose its value if it fails to handle multitasking.
+\item There was a discussion about incorporating the ability to sketch structures and cross sections, in which case thoroughly testing different possiblities of drawings might become unfeasible based on avaiable resources and time.
+\end{itemize}
 \section{Technology}
 
 \subsection{Programming Language}
