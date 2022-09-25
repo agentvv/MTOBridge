@@ -25,6 +25,7 @@ September 21 2022 & David & Technology sections\\
 September 21 2022 & Adham & Project Scheduling Section\\
 September 22 2022 & Victor & Technology sections\\
 September 24 2022 & Darren & Edited team roles and workflow\\
+September 24 2022 & David & Update technology sections\\
 ... & ... & ...\\
 \bottomrule
 \end{tabularx}
@@ -80,16 +81,27 @@ Since the stakeholder's emphasis is on useability making sure the UI is responsi
 
 \subsection{Programming Language}
 C++20 will be used for the GUI, and will be connected to the backend made in MATLAB.
+We chose C++ as it is a language we are all somewhat familiar with, and it works for
+Windows development. We will also use GCC-12 to compile our source code. It supports C++20
+features, and it's the compiler we are all familiar with.
 
 \subsection{Linter}
-In order to maintain a consistent format, we will use clang-format for linting. Using this linter, 
-we can also easily select a coding standard to follow, which will come from a file in our repo.
+The IDEs we are using (Visual Studio and Visual Studio Code) have their own code linters, which are enabled by default.
+We may consider using clang-tidy for error checking, as well as looking questionable code constructs. We will
+only use it if the standard IDE linting it not sufficient. This tool is fairly standard, with integration in many 
+IDEs. We can also have it look for code that is against certain coding standards, for example Google coding conventions.
+
+In order to maintain consistent code formatting, we will use clang-format for formatting. Using this linter, 
+we can also easily select a coding standard to follow, which will come from a file in our repo. Many IDEs
+also support the use of clang-format. 
 
 \subsection{Unit Testing Framework}
 We will be using a combination of two testing libraris to test our code. The first is Qt Test, a testing libary made specifically for the Qt GUI framwork we will be using. This testing library will be used to test the GUI elements of our project.
 The second testing library we will be using is Google Test. This library will allow us to test the other parts of our code in great detail, and offers many advanced features that we can use during development (report generation, death tests, automatic test discovery, etc.).
 
 \subsection{Code Coverage Measuring Tools}
+Since we will using GCC for compilation, we will be using GCOV to test our code coverage. We will use it as
+it comes standard with GCC, and will hook in directly with our compilation.
 
 \subsection{Continuous Integration}
 We will use GitHub's built-in CI/CD in multiple ways to help the development of this project. Firstly, we will automatically run clang-format when code is pushed to the repo, allowing us to ensure that any code on GitHub complies with the coding standard.
@@ -107,8 +119,8 @@ A GUI framework called \href{https://www.qt.io/}{Qt} will be used.
 	\item It contains basics for creating buttons, text fields etc., and more complex components like graphs (or even 3D views) with good performance.
 	\item It also contains a testing framework for easily testing the GUI, as well as benchmarking performance.
 \end{itemize}
-MATLAB is being used for the backend, and in order to connect it with the GUI, libraries provided in MATLAB are needed in order to call MATLAB functions
-from C++.
+MATLAB is being used for the backend, and in order to connect it with the GUI, an engine and data type API is 
+provided by MATLAB in order to integrate it with C++.
 
 \subsection{Tools}
 We will use the following tools during our development:
@@ -117,8 +129,10 @@ We will use the following tools during our development:
 	\item MATLAB will be used to run the back-end code provided to us from the MTO.
 	\item LaTeX will be used to create the documentation for this project.
 	\item While each developer will use the IDE of their preference, a number of us will use Visual Studio.
-	\item CMake will be used to facilitate building the C++ code.
-	\item As stated in the linter section, we will use clang-format to enforce a standard on the code we write.
+	\item CMake will be used to facilitate building the C++ code. It also has a lot of functionality for facilitating testing and using other tools listed seamlessly (e.g. clang-tidy).
+	\item As stated in the linter section, we will use clang-format and clang-tidy to enforce a standard on the code we write.
+	\item As stated in the language section, GCC-12 as our compiler.
+	\item As stated in code coverage tools, we will be using GCOV.
 	\item As stated in performance measuring tools, Valgrind will be used both to test performance and check for runtime bugs in the code.
 \end{itemize}
 
