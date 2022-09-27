@@ -70,16 +70,18 @@ Issues will be used to maintain and track tasks. We expect that a relatively sma
 
 Critical parts of the proof of concept which aims to verify the viability of the project are: \\
 \begin{itemize}
-\item Creating an integration point between the MATLAB source code prepared by the primarly stakeholder with our C++ Windows application.Failure of accomplishing this task would prove the project unfeasible. As part of the proof of concept we are at the very least planning on showing simple matlab scripts related to the project can be manipulated through the c++ code.
-\item The other important implementation challenge is building a robust asynchronous/concurrent program to promote useability while calling methods from matlab source code and waiting for the response.Since the stakeholder's emphasis is on useability making sure the UI is responsive at all times and the application is capable of performing multiple analysis is crucial. Our application would lose its value if it fails to handle multitasking. In order to mitigate this risk our plan is to run the UI, and each one of commanded analysis on a seperate thread while following thread safety best practices such as minimal introduction of global variables.
-\item There was a discussion about incorporating the ability to sketch structures and cross sections, in which case thoroughly testing different possiblities of drawings might become unfeasible based on avaiable resources and time.The team has decided that getting domain knowledge, as to what structural patterns are common in bridge design, is a good compromise and can help us prioritize testing possibilities.
+\item Creating an integration point between the MATLAB source code prepared by the primarily stakeholder with our C++ Windows application. Failure of accomplishing this task would prove the project unfeasible. As part of the proof of concept we are at the very least planning on showing simple MATLAB scripts related to the project can be manipulated through the C++ code.
+\item The other important implementation challenge is building a robust asynchronous/concurrent program to promote useability while calling methods from MATLAB source code and waiting for the response. Since the stakeholder's emphasis is on useability making sure the UI is responsive at all times and the application is capable of performing multiple analysis is crucial. Our application would lose its value if it fails to handle multitasking. In order to mitigate this risk our plan is to run the UI, and each one of commanded analysis on a separate thread while following thread safety best practices such as minimal introduction of global variables.
+\item There was a discussion about incorporating the ability to sketch structures and cross sections, in which case thoroughly testing different possibilities of drawings might become unfeasible based on available resources and time. The team has decided that getting domain knowledge, as to what structural patterns are common in bridge design, is a good compromise and can help us prioritize testing possibilities.
 
-If any of the assessed risks prove to be right, in reaction to such scenario discussions regarding rescoping the project can be held. In an extreme case working with the instructor of the course to redifine our project should be considered.
 \end{itemize}
+If any of the assessed risks prove to be right, in reaction to such scenario discussions regarding rescoping the project can be held. In an extreme case working with the instructor of the course to redefine our project should be considered.
+
 \section{Technology}
 
 \subsection{Programming Language}
-C++20 will be used for the GUI, and will be connected to the backend made in MATLAB.
+C++20 will be used for the GUI, and will be connected to the backend made in MATLAB. 
+The backend is already written for us in MATLAB, so we don't have a choice in this regard.
 We chose C++ as it is a language we are all somewhat familiar with, and it works for
 Windows development. We will also use GCC-12 to compile our source code. It supports C++20
 features, and it's the compiler we are all familiar with.
@@ -142,10 +144,10 @@ The Google Style Guide is also supported by clang-format, which will allow us to
 \section{Project Scheduling}
 	Scheduling will be done in somewhat of a sprint format, week to week, to avoid what we see as relatively futile attempts to predict where along the project we will be 8 weeks
 from now in spite of all the stacking uncertainties between now and then. With that in mind, a significant part of the weekly meetings will be discussing upcoming milestones,
-and decomposing larger tasks, such as this development plan, into single person-sized chunks to be split amongst the team, as well as scheduling smaller submeetings as needed.
-We will be deciding who does what based on individual preferences and suitabilities to different portions of each step of the project.\\
+and decomposing larger tasks, such as this development plan, into single person-sized chunks to be split amongst the team, as well as scheduling smaller sub meetings as needed.
+We will be deciding who does what based on individual preferences and suitability’s to different portions of each step of the project.\\
 
-	An important part of scheduling work is to ensure the schedule is the correct mix of both efficent and also feasible to accomplish. Another advantage to this week-by-week
+	An important part of scheduling work is to ensure the schedule is the correct mix of both efficiency and feasibility of accomplishment. Another advantage to this week-by-week
 sprint based scheduling is that a very granular look can be taken at the free time available to each group member each week, and adjusting accordingly, as schoolwork tends
 to come in waves, and we can therefore take advantage of lighter weeks to allow us to ease up on tougher weeks when possible, instead of assuming a static amount of free
 time per week. As well, maintaining a living schedule every week means the work ends up getting spread out across the project, and minimizes last second cramming.\\
