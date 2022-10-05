@@ -179,55 +179,82 @@ User characteristics should go under assumptions.
 \subsection{Functional Requirements}
   \textbf{FR.1} The Program should be able to call the backend MATLAB functions. \\
   \textbf{Rationale:} To visually display the outputs corresponding to user input, the UI needs to first figure out what those outputs are via the backend MATLAB.\\
-  \textbf{Fit Criterion:} Realtively Binary, analyze whether or not the program can successfully call the MATLAB functions.\\\\
+  \textbf{Fit Criterion:} Testing will be performed to confirm whether or not the program can successfully call the MATLAB functions.\\\\
   
-  \textbf{FR.2} The Program should allow the user to define the characteristics of the truck platoon, including truck configuration, number of trucks, headway, and travel speed.\\
+  \noindent\textbf{FR.2} The Program should allow the user to define the characteristics of the truck platoon, including truck configuration, number of trucks, headway, and travel speed.\\
   \textbf{Rationale:} The goal of the program is to determine the forces exerted by a given platoon on a bridge, they can come in many different forms, so flexibility in the characteristics
   of the platoon are necessary for the relevance of the simulation.\\ 
-  \textbf{Fit Criterion:} At least one method of input(text based, dropdown list, etc) exists that allows users to specify those 4 characteristics of the platoon.\\\\
+  \textbf{Fit Criterion:} At least one method of input(text based, dropdown list, etc) exists that allows users to correctly specify those 4 characteristics of the platoon.\\\\
 
-  \textbf{FR.3} The Program should allow the user to visualize the effects of their truck platoon characteristic definitions on the final platoon.\\
+  \noindent\textbf{FR.3} The Program should allow the user to visualize the effects of their truck platoon characteristic definitions on the final platoon.\\
   \textbf{Rationale:} This is mainly to help the user verify that the inputs they put into the program correspond to the platoon they had in mind. As we are making a GUI,
   visual feedback is paramount to functionality.\\
-  \textbf{Fit Criterion:} There exists some visual representation of the truck platoon that changes to reflect the impact of changes in user input.\\\\
+  \textbf{Fit Criterion:} There exists some visual representation of the truck platoon that changes to correctly reflect the impact of changes in user input.\\\\
 
-  \textbf{FR.4} The Program should allow the user to define the characteristics of the bridge, inclduing what type of bridge it is and its length.\\
+  \noindent\textbf{FR.4} The Program should allow the user to save their current truck platoon configuration for later use.\\
+  \textbf{Rationale:} Users may be interested in testing the demands a particular truck platoon places on bridges disproportionately more often than others,
+   in multiple situations, and over multiple sessions. Making it so they don't have to manually remake it every time is important for the efficient use of The Program.\\
+  \textbf{Fit Criterion:} The Program is capable of storing a truck platoon configuration in some form to be retrieved later.\\\\
+
+  \noindent\textbf{FR.5} The Program should allow the user to load in their previously saved truck platoon configurations.\\
+  \textbf{Rationale:} A companion piece to FR.4, the ability to save a configuration is functionally useless if you can't pull it back out later.\\
+  \textbf{Fit Criterion:} The Program is capable of correctly recreating a truck platoon configuration from previously saved data.\\\\
+
+  \noindent\textbf{FR.6} The Program should allow the user to define the characteristics of the bridge, inclduing what type of bridge it is and its length.\\
   \textbf{Rationale:} Different bridges will react to the same truck platoon differently, therefore specifiying the relevant characteristics of the bridge is necessary for
   the relevance of the simulation.\\
-  \textbf{Fit Criterion} At least one method of input(text based, dropdown list, etc) exists that allows users to specify those 2 characteristics of the bridge.\\\\
+  \textbf{Fit Criterion} At least one method of input(text based, dropdown list, etc) exists that allows users to correctly specify those 2 characteristics of the bridge.\\\\
   
-  \textbf{FR.5} The Program should allow the user to visualize the effects of their bridge characteristic definitions on the final bridge.\\
+  \noindent\textbf{FR.7} The Program should allow the user to visualize the effects of their bridge characteristic definitions on the final bridge.\\
   \textbf{Rationale:} This is mainly to help the user verify that the inputs they put into the program correspond to the bridge they had in mind. As we are making a GUI,
   visual feedback is paramount to functionality.\\
-  \textbf{Fit Criterion:} There exists some visual representation of the bridge that changes to reflect the impact of changes in user input.\\\\ 
+  \textbf{Fit Criterion:} There exists some visual representation of the bridge that changes to correctly reflect the impact of changes in user input.\\\\
+  
+  \noindent\textbf{FR.8} The Program should allow the user to save their current bridge configuration for later use.\\
+  \textbf{Rationale:} Users may be interested in testing a particular bridge configuration disproportionately more often than others, in multiple situations
+   and over multiple sessions. Making it so they don't have to manually remake it every time is important for the efficient use of The Program.\\
+  \textbf{Fit Criterion:} The Program is capable of storing a bridge configuration in some form to be retrieved later.\\\\
 
-  \textbf{FR.6} The Program should allow the user to define which of the two solvers they are interested in using.\\
+  \noindent\textbf{FR.9} The Program should allow the user to load in their previously saved bridge configurations.\\
+  \textbf{Rationale:} A companion piece to FR.8, the ability to save a configuration is functionally useless if you can't pull it back out later.\\
+  \textbf{Fit Criterion:} The Program is capable of correctly recreating a bridge configuration from previously saved data.\\\\
+
+  \noindent\textbf{FR.10} The Program should allow the user to define which of the two solvers they are interested in using.\\
   \textbf{Rationale:} as the MATLAB backend can solve for both the demand on a concerned section as the platoon drives along, as well as for which section has the 
   highest maximum demand over the course of the whole trip, and these are very different pieces of info, allowing the user to determine which they are currently interested in 
   is important.\\
-  \textbf{Fit Criterion:} At least one method of input(text based, dropdown list, etc) exists that allows the user to choose which solver they are would like to use.\\\\
+  \textbf{Fit Criterion:} At least one method of input(text based, dropdown list, etc) exists that allows the user to accurately choose which solver they are would like to use.\\\\
 
-  \textbf{FR.7} The Program should allow the user to define a section of concern on the bridge.\\
+  \noindent\textbf{FR.11} The Program should allow the user to define a section of concern on the bridge.\\
   \textbf{Rationale:} The first solver revolves around calculating the demand on a certain point along the bridge as the truck platoon drives over, specifying what point it is
   that we care about is necessray for this function.\\
-  \textbf{Fit Criterion:} At least one method of input(text based, dropdown list, etc) exists that allows the user to determine a section of concern on the bridge.\\\\
+  \textbf{Fit Criterion:} At least one method of input(text based, dropdown list, etc) exists that allows the user to accurately determine a section of concern on the bridge.\\\\
 
-  \textbf{FR.8} The Program should allow the user to define a discretization length for their bridge.\\
+  \noindent\textbf{FR.12} The Program should allow the user to define a discretization length for their bridge.\\
   \textbf{Rationale:} The second solver finds which section has the maximum demand placed on it over the course of the platoon's trip. The discretization length determines how
   many sections the bridge is split up into, which is necessary for the functioning of the second solver.\\
-  \textbf{Fit Criterion:} At least one method of input(text based, dropdown list, etc) exists that allows the user to define a discretization length for their bridge.\\\\
+  \textbf{Fit Criterion:} At least one method of input(text based, dropdown list, etc) exists that allows the user to accurately define a discretization length for their bridge.\\\\
 
-  \textbf{FR.9} The Program should allow the user to define which type of demand placed on the bridge they are interested in, between shear forces and positive/negative moment.\\
+  \noindent\textbf{FR.13} The Program should allow the user to define which type of demand placed on the bridge they are interested in, between shear forces and positive/negative moment.\\
   \textbf{Rationale:} There are a variety of different demands placed on the bridge as the platoon drives over, and the MATLAB backend contains calculations for all 3 of the
   above mentioned demands. Allowing the user to define which of the 3 they are interested in seeing is necessary for the functionality of the simulation.\\
-  \textbf{Fit Criterion:} At least one method of input(text based, dropdown list, etc) exists that allows the user to define which of the 3 demands they are interested in
+  \textbf{Fit Criterion:} At least one method of input(text based, dropdown list, etc) exists that allows the user to correctly define which of the 3 demands they are interested in
   simulating.\\\\
 
-  \textbf{FR.10} The Program should be capable of visualizing the results of the concerned section calculation for the user.\\
-  \textbf{Rationale:} This is essentially the main purpose of the GUI. Displaying the results of the MATLAB backend calculations visually to the user. This is one of the two
+  \noindent\textbf{FR.14} The Program should be capable of visualizing the results of the concerned section calculation for the user.\\
+  \textbf{Rationale:} This is essentially the main purpose of the GUI; displaying the results of the MATLAB backend calculations visually to the user. This is one of the two
   main caluclations to be represented, so this functionality is very necessary.\\
-  \textbf{Fit Criterion:} There exists some visualization of the mathematical results of the concerned section calculation.\\\\
+  \textbf{Fit Criterion:} There exists an accurate visualization of the mathematical results of the concerned section calculation.\\\\
 
+  \noindent\textbf{FR.15} The Program should be capable of visualizing the results of the critical section calculation for the user.\\
+  \textbf{Rationale:} This is essentially the main purpose of the GUI; displaying the results of the MATLAB backend calculations visually to the user. This is one of the two
+  main caluclations to be represented, so this functionality is very necessary.\\
+  \textbf{Fit Criterion:} There exists an accurate visualization of the mathematical results of the critical section calculation.\\\\
+
+  \noindent\textbf{FR.16} The Program should be capable of outputting a report summarizing the results of its runtime.\\
+  \textbf{Rationale:} Having a long term representation of the data presented in the program after the current session of use is over is helpful for engineers comparing
+  and contrasting diffrent simulations over time. Without this, the information would be lost as soon as the program was exited.\\
+  \textbf{Fit Criterion:} There exists an accurate report that cotains all the relevant data from simulations run over the course of the runtime in some output format.\\\\
 
 \section{Non-functional Requirements}
 
@@ -257,7 +284,7 @@ User characteristics should go under assumptions.
 
   \textbf{NFR.?} The product will appear correctly on different display resolutions.\\
   \textbf{Rationale:} Users of the product may wish to use it on displays of different resolutions.\\
-  \textbf{Fit Criterion:} The program will be viewed and its appearance validated on displays of different resolutions.\\
+  \textbf{Fit Criterion:} The Program will be viewed and its appearance validated on displays of different resolutions.\\
   \textbf{Traceability:} ?.\\\\
 
   \textbf{NFR.?} The product will allow for the resizing of text.\\
@@ -287,8 +314,8 @@ system/enviro constraints? if not a portability req\\
 
 partner applications? if matlab integration not already mentioned\\
 
-  \textbf{NFR.?} (Not sure about this one tbh) The program should run within performance requirements on expected users' (MTO engineers) computers.\\
-  \textbf{Rationale:} The program must be able to run within requirements on the computers that it is intended to be used on.\\
+  \textbf{NFR.?} (Not sure about this one tbh) The Program should run within performance requirements on expected users' (MTO engineers) computers.\\
+  \textbf{Rationale:} The Program must be able to run within requirements on the computers that it is intended to be used on.\\
   \textbf{Fit Criterion:} Performance testing will be done on a computer with the same (or reasonably similar) hardware.\\
   \textbf{Traceability:} ?.\\\\
 
@@ -312,7 +339,7 @@ fit criteria: test it\\
 
 \subsection{Cultural Requirements}
 
-  \textbf{NFR.?} The program should be able to be easily translated into other languages.\\
+  \textbf{NFR.?} The Program should be able to be easily translated into other languages.\\
   \textbf{Rationale:} People who don't speak English, especially French speakers as Canada is a bilingual country, may wish to use the program.\\
   \textbf{Fit Criterion:} ?.\\
   \textbf{Traceability:} ?.\\\\
