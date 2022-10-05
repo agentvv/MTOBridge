@@ -53,7 +53,7 @@
 \toprule
 \textbf{Date} & \textbf{Developer(s)} & \textbf{Change}\\
 \midrule
-... & ... & ...\\
+October 4 & David & Add context/partitioning of work\\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -102,7 +102,32 @@ User characteristics should go under assumptions.
 
 \subsubsection{The Context of the Work}
 
+\begin{figure}[H]
+  \includegraphics[]{context-diagram.png}
+  \caption{Context Diagram of MTOBridge}
+  \label {fig:context-diagram}
+\end{figure}
+
 \subsubsection{Work Partitioning}
+
+\begin{table}[hp]
+  \caption{Business Event List} \label{TblEventList}
+  \begin{tabular}{p{0.33\textwidth} | p{0.33\textwidth} | p{0.33\textwidth}}
+  \toprule
+  \textbf{Event Name} & \textbf{Input/Output} & \textbf{Summary}\\
+  \midrule
+  Engineer enters truck configuration & IN: Truck configuration, OUT: Truck display & Record truck configuration, show truck visualization\\
+  \midrule
+  Engineer enters bridge configuration & IN: Bridge configuration, OUT: Bridge display & Record bridge configuration, show bridge visualization\\
+  \midrule
+  Engineer enters analysis configuration & IN: Analysis configuration & Record analysis configuration\\
+  \midrule
+  Engineer requests analysis & IN: Analyze request, OUT: Analysis results & Display analysis results\\
+  \midrule
+  Time to solve forces & OUT: Solve request, IN: Solver results & Give configurations to solver to get results\\
+  \bottomrule
+\end{tabular}
+\end{table}
 
 \subsubsection{Individual Product Use Cases}
 
@@ -110,7 +135,6 @@ User characteristics should go under assumptions.
   \textbf{FR.1} The Program should be able to call the backend MATLAB functions. \\
   \textbf{Rationale:} To visually display the outputs corresponding to user input, the UI needs to first figure out what those outputs are via the backend MATLAB.\\
   \textbf{Fit Criterion:} Realtively Binary, analyze whether or not the program can successfully call the MATLAB functions.\\\\
-  
   
   \textbf{FR.2} The Program should allow the user to define the characteristics of the truck platoon, including truck configuration, number of trucks, headway, and travel speed.\\
   \textbf{Rationale:} The goal of the program is to determine the forces exerted by a given platoon on a bridge, they can come in many different forms, so flexibility in the characteristics
