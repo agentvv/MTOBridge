@@ -68,6 +68,8 @@ October 5 & Darren & Refined Non-functional Requirements\\
 October 5 & Pedram & Added Individual Product Usecase\\
 \midrule
 October 5 & Adham & Finished FRs\\
+\midrule
+October 5 & Farzad & Completed parts of project drivers\\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -93,18 +95,44 @@ in the Volere template: Appendix (and its subsections), Phase in Plan.
 \section{Project Drivers}
 
 \subsection{The Purpose of the Project}
+For years, Bridge Engineers in Ontario have based their bridge analysis on the Canadian Highway Bridge Design Code (CHBDC)(CSA S6-19) which typically features conservatism and adds excessive costs. This project aims to develop an application ’MTOBridge’ that leverages prepared MATLAB engines (containing the logic for novel analysis methods) and better visualizes their outputs while enhancing usability. This enables the refined methods of analysis to become routine for bridge design and evaluation. Moreover, A unique feature of ’MTOBridge’, which is otherwise unavailable in other bridge design/evaluation software, is that a direct comparison can be obtained between the results obtained from the CHBDC approximate/simplified approach and those from the refined analysis. This endeavor will facilitate confidence in using refined analysis for bridge evaluation and design.
 
 \subsection{The Stakeholders}
 
 \subsubsection{The Client}
-
+Ontario Ministry of Transport (MTO) is the sponsor of this project and is making the investment to bring this program to fruition in partnership with the McMaster University Civil Engineering Department.
 \subsubsection{The Customers}
-
+Civil engineering firms in the bridge design industry. They will dictate whether or not they will adopt this new tool depending on whether it has helped them save costs for their clients and how easy it was for their engineers to use the tool.
 \subsubsection{Other Stakeholders}
-
+\begin{itemize}
+  \item Department of Civil Engineering, McMaster
+		\begin{itemize}
+	\item{The proposed program will be directly developed in collaboration with The Department of Civil Eningeering. }
+		\end{itemize}
+  \item Department of Computing and Software, McMaster 
+		\begin{itemize}
+	\item{The proposed program will be directly developed by Engineers from The Department of Computing and Software.} 
+		\end{itemize}
+\end{itemize}
 \subsection{Mandated Constraints}
+    \hspace{5mm} \textbf{Const 1:} The system shall be able to perform the calculations using the prepared MATLAB Engines. \\
+    \textbf{Rationale:} Dr.Yang and her team which are one of the main stakeholders are not going to implement their engines in another language again.\\
+    \textbf{Fit Criterion:} The system shall be able to call the appropriate functions within the MATLAB engine to perform the commanded analysis.\\
+
+    \textbf{Const 2:} The product shall operate using Windows 10. \\
+    \textbf{Rationale:} The client and majority of the costumers use Windows 10 and do not wish to change to a later version.\\
+    \textbf{Fit Criterion:} The product shall be approved as Windows 10 compliant based on our tests on a windows machine.\\\\
+
+    \textbf{Const 3:} The product shouldn't require MATLAB to be installed on the end user’s machine to run the MATLAB engines. \\
+    \textbf{Rationale:} The majority of the Costumers do not have MATLAB licences and chances are they don’t want to purchase them..\\
+    \textbf{Fit Criterion:} The product shall be able to use the logic written in MATLAB without needing to install MATLAB.\\\\
 
 \subsection{Naming Conventions and Terminology}
+\textbf{Abutment:}A substructure composed of stone, concrete, brick or timber supporting the ends of a single span bridge or the extreme end of a multi-span bridge. Usually, it also supports the approach embankment.\\
+\textbf{Dead load:}The weight of the permanent, nonmoveable parts of a structure, such as the towers, cables, and roadway of a bridge.\\
+\textbf{Girder:}A horizontal main structural member (as in a building or bridge) that supports vertical loads and that consists of a single piece or of more than one piece bound together.\\
+\textbf{Live load:} Refers to traffic that moves across the bridge as well as normal environmental factors such as changes in temperature, precipitation, and winds.\\
+\textbf{Span:}In engineering parlance means the gap between two supports.
 
 \subsection{Relevant Facts and Assumptions}
 
