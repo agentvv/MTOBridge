@@ -155,40 +155,86 @@ User characteristics should go under assumptions.
 
 \subsubsection{Individual Product Use Cases}
 
-\noindent
-\textbf{User selects the Truck Configuration Tab} \\
-\emph{  Pre Condition:} None\\
-\emph{  Post Condition:} None\\ 
-\emph{  Basic Flow:} None\\
-\emph{  Extension:} None\\
 
 \noindent
-\textbf{User selects the Truck Configuration Tab} \\
+\textbf{User navigates to the Truck Configuration Tab} \\
+\emph{  Primary Actors:} Engineers\\
 \emph{  Pre Condition:} None\\
-\emph{  Post Condition:} None\\ 
-\emph{  Basic Flow:} None\\
-\emph{  Extension:} None\\
+\emph{  Post Condition:} Input values from the user conforms to the valid range required for the calculations.\\ 
+\emph{  Basic Flow:} 
+\begin{itemize}
+\item User is asked to enter the truck type (model) as well as the truck length.
+\item User is asked to enter the headway between the trucks as well as the number of trucks. 
+\item User is asked to enter Axial loads and the distance between each other
+\end{itemize}
+\emph{  Extension:}
+\begin{itemize}
+\item User can view an animation the truck platoon representing the parameters inputted by the user.
+\item User can interact with the animation of the trucks to increase the headway or aixal loads distance. 
+\end{itemize}
 
 \noindent
-\textbf{User selects the Truck Configuration Tab} \\
+\textbf{User navigates to the Bridge Configuration Tab} \\
+\emph{  Primary Actors:} Engineers\\
 \emph{  Pre Condition:} None\\
-\emph{  Post Condition:} None\\ 
-\emph{  Basic Flow:} None\\
-\emph{  Extension:} None\\
+\emph{  Post Condition:} Input values from the user conforms to the valid range required for the calculations.\\ 
+\emph{  Basic Flow:} 
+\begin{itemize}
+\item User is asked to enterthe number of spans as well as the length of each.
+\item User is asked to enter the material used for the bridge. The system will have a series of preloaded information per material type. 
+\item User will have the ability to configure any default information associated with the breidge material. 
+\end{itemize}
+\emph{  Extension:}
+\begin{itemize}
+\item User can view an animation of the bridge highlighting the parameters inputted by the user.
+\item User can interact with the animation of the bridge to change the length of the spans as well as the mateiral type.
+\end{itemize}
 
 \noindent
-\textbf{User selects the Truck Configuration Tab} \\
+\textbf{User navigates to the Analysis Configuration Tab} \\
+\emph{  Primary Actors:} Engineers\\
 \emph{  Pre Condition:} None\\
-\emph{  Post Condition:} None\\ 
-\emph{  Basic Flow:} None\\
-\emph{  Extension:} None\\
+\emph{  Post Condition:} Input values from the user conforms to the valid range required for the calculations.\\ 
+\emph{  Basic Flow:} 
+\begin{itemize}
+\item User is asked to enter the discretization length which will be directly used in the visualization process. 
+\item User is asked to enter the concerned section which is the area of interest to user when the simulation goes through. 
+\item User is asked to enter the type of force desired by the user. This can include Shear and Torsion. 
+\end{itemize}
+
 
 \noindent
-\textbf{User selects the Truck Configuration Tab} \\
+\textbf{User starts the Analyze process. } \\
+\emph{  Primary Actors:} Engineers\\
 \emph{  Pre Condition:} None\\
 \emph{  Post Condition:} None\\ 
-\emph{  Basic Flow:} None\\
-\emph{  Extension:} None\\
+\emph{  Basic Flow:} 
+\begin{itemize}
+\item User selects the Analyze tab and confirms the input data from Truck, Bridge and Analysis configuration. 
+\item The system checks for parameters once submitted.
+\subitem \emph{Alternative} If the values are not correct, the user is alereted.
+\item If correct, parameters are sent to be solved. 
+\item Text-based result in form of a report are retruned.
+\end{itemize}
+\emph{  Extension:} 
+\begin{itemize}
+\item The recieved results are generated as a report including several graphs and charts.
+\item An animamated, interactable plot is genererated along with a visualization of the trucks on the bridge to dynamically highlight different values of force.
+\end{itemize}
+
+\noindent
+\textbf{The solver solves the mathematical model using the given inputs from the system.} \\
+\emph{  Primary Actors:} Solver\\
+\emph{  Pre Condition:} Truck, Bridge and Analysis Configuration are all valid.\\
+\emph{  Post Condition:} Recieved results valid based on the testing spec.\\ 
+\emph{  Basic Flow:} 
+\begin{itemize}
+\item The system recieves the configuration data from each configurator. 
+\item The system sends the data to the Solver where the equations are solved using the given parameters. 
+\item Solver returns text-based results which are sent back into the system. 
+\subitem \emph{Alternative} The solver cannot solve the equations using the given input. The user is alerted to check their parameters. 
+\end{itemize}
+
 
 
 
