@@ -55,11 +55,13 @@
 \midrule
 October 4 & David & Add context/partitioning of work\\
 \midrule
-October 4 & Daren & Added some Non-functional Requirements\\
+October 4 & Darren & Added some Non-functional Requirements\\
 \midrule
 October 4 & Victor & Project Issues\\
 \midrule
 October 5 & Victor & Added some Non-functional Requirements\\
+\midrule
+October 5 & Darren & Refined Non-functional Requirements\\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -194,26 +196,21 @@ User characteristics should go under assumptions.
 
 \subsection{Look and Feel Requirements}
 
-  \textbf{NFR.?} graphics (ui, animations, graphic element choice e.g. bridge mockup triangle/circle) will be informative, unobtrusive, and not distracting.\\
-  \textbf{Rationale:} no shit\\
-  \textbf{Fit Criterion:} reviewed by client contacts (civil engineers)?\\
-  \textbf{Traceability:} ?.\\\\
-
-  \textbf{NFR.?} (Is this look and feel or performance??) UI elements will react promptly to user input.\\
-  \textbf{Rationale:} The users of the program will want the UI to react quickly to their input.\\
-  \textbf{Fit Criterion:} No UI element will take more than 50ms to react to user input. Here we use react to refer to the UI aknowledging the users input (e.g. a button showing a click animation), not as in the program performing calculations based on the user input.\\
+  \textbf{NFR.?} The graphics will be informative.\\
+  \textbf{Rationale:} The user should gain value out of the presence of graphics.\\
+  \textbf{Fit Criterion:} Civil engineers who use the program will understand the different graphic elements used to represent bridge parts.\\
   \textbf{Traceability:} ?.\\\\
 
 \subsection{Usability and Humanity Requirements}
 
-  \textbf{NFR.?} program will be intuitive to use.\\
-  \textbf{Rationale:} no shit\\
-  \textbf{Fit Criterion:} reviewed by civil engineers (our client contacts) to eliminate unintuitive controls?\\
+  \textbf{NFR.?} The program will be intuitive to use.\\
+  \textbf{Rationale:} The program should be easy to use for its intended audience.\\
+  \textbf{Fit Criterion:} Civil engineers can use the program to generate a bridge system analysis within 5 minutes of introduction.\\
   \textbf{Traceability:} ?.\\\\
 
-  \textbf{NFR.?} program will have a user manual and (user-based) documentation provided.\\
-  \textbf{Rationale:}so that new people can actually use it quickly.\\
-  \textbf{Fit Criterion:} they exist, idfk. review??\\
+  \textbf{NFR.?} Program will have a user manual and (user-based) documentation provided.\\
+  \textbf{Rationale:} New users should be provided with resources to quickly start using the program.\\
+  \textbf{Fit Criterion:} User-based documentation covering usage and features of the program will be written.\\
   \textbf{Traceability:} ?.\\\\
 
   \textbf{NFR.?} The product will appear correctly on different display resolutions.\\
@@ -228,36 +225,39 @@ User characteristics should go under assumptions.
 
 \subsection{Performance Requirements}
 
-reliability and availability reqs? capacity reqs? probably N/A\\
-
-Maybe speed on calculations is like a \% of the MATLAB (as in 90\% of the calculation time is the MATLAB script or something)\\
-
-  \textbf{NFR.?} speed will be not unreasonably slow.\\
-  \textbf{Rationale:} no shit\\
-  \textbf{Fit Criterion:} ...program will not cause more than 1 second delay to any valid user input (independent of matlab component)?\\
+  \textbf{NFR.?} The program will safely handle unusual user inputs.\\
+  \textbf{Rationale:} Program should be robust and not prone to failure due to common misinputs.\\
+  \textbf{Fit Criterion:} The program will not freeze or crash as a direct result of a user providing inputs to the system.\\
   \textbf{Traceability:} ?.\\\\
 
-  \textbf{NFR.?} precision reqs(!), program will be precise.\\
-  \textbf{Rationale:} no shit a bridge simulator should be precise.\\
-  \textbf{Fit Criterion:} calculations are accurate to within (???)\% relative error of (other bridge simulation engine).\\
+  \textbf{NFR.?} The program will be able to handle missing dependencies.\\
+  \textbf{Rationale:} The program should be able to handle and warn of absent files.\\
+  \textbf{Fit Criterion:} The program will produce an error message when MATLAB scripts are absent or unable to run.\\
+  \textbf{Traceability:} ?.\\\\
+
+  \textbf{NFR.?} UI elements will react promptly to user input.\\
+  \textbf{Rationale:} The users of the program will want the UI to react quickly to their input.\\
+  \textbf{Fit Criterion:} The UI will graphically update to indicate it has acknowledged user inputs within 100ms of the input.\\
+  \textbf{Traceability:} ?.\\\\
+
+  \textbf{NFR.?} UI will not be unreasonably slow.\\
+  \textbf{Rationale:} UI should not introduce substantial delay beyond what is needed to calculate results.\\
+  \textbf{Fit Criterion:} The program delay when calculating and displaying results will not exceed the underlying MATLAB script's execution time by 10\%.\\
+  \textbf{Traceability:} ?.\\\\
+
+  \textbf{NFR.?} The program will be precise.\\
+  \textbf{Rationale:} The program must be reasonably precise to provide value for simulating bridges under load.\\
+  \textbf{Fit Criterion:} Calculations are accurate to within 1\% relative error of similar bridge simulation engines.\\
   \textbf{Traceability:} ?.\\\\
 
 \subsection{Operational and Environmental Requirements}
 
-system/enviro constraints? if not a portability req\\
-
-partner applications? if matlab integration not already mentioned\\
-
-  \textbf{NFR.?} (Not sure about this one tbh) The program should run within performance requirements on expected users' (MTO engineers) computers.\\
+  \textbf{NFR.?} The program will run without slowdown on expected users' (MTO engineers) computers.\\
   \textbf{Rationale:} The program must be able to run within requirements on the computers that it is intended to be used on.\\
   \textbf{Fit Criterion:} Performance testing will be done on a computer with the same (or reasonably similar) hardware.\\
   \textbf{Traceability:} ?.\\\\
 
 \subsection{Maintainability and Support Requirements}
-
-portable for windows 10, distributable for standalone(!) use on windows 10
-rationale: expected users dont all have matlab but will use windows 10
-fit criteria: test it\\
 
   \textbf{NFR.?} The product shall be easily maintainable.\\
   \textbf{Rationale:} The code must be easily maintainable to allow for future bug fixes and/or feature additions.\\
@@ -266,27 +266,25 @@ fit criteria: test it\\
 
 \subsection{Security Requirements}
 
-  \textbf{NFR.?} protect private mtobridge assets.\\
-  \textbf{Rationale:} why DO they not want their code uploaded anyway? ...confidentiality? why...?\\
-  \textbf{Fit Criterion:} don't upload them to the git my dude.\\
-  \textbf{Traceability:} ?.\\\\
+N/A; this project does not involve significant communication of user data.\\
 
 \subsection{Cultural Requirements}
 
   \textbf{NFR.?} The program should be able to be easily translated into other languages.\\
-  \textbf{Rationale:} People who don't speak English, especially French speakers as Canada is a bilingual country, may wish to use the program.\\
-  \textbf{Fit Criterion:} ?.\\
+  \textbf{Rationale:} People who don't speak English may wish to use the program, especially French speakers as Canada is a bilingual country.\\
+  \textbf{Fit Criterion:} Localization process to support French will not take over one week to complete.\\
   \textbf{Traceability:} ?.\\\\
 
 \subsection{Legal Requirements}
 
-Thing about MATLAB being private?\\
-
-Any requirements for regulatory shit? This is being used to build bridges after all\\
+  \textbf{NFR.?} Private MTOBridge assets will not be exposed for easy access to users.\\
+  \textbf{Rationale:} The client has expressed that their assets should be held confidential.\\
+  \textbf{Fit Criterion:} Received assets including MATLAB scripts will be excluded or compiled when in public repositories and distributed.\\
+  \textbf{Traceability:} ?.\\\\
 
 \subsection{Health and Safety Requirements}
 
-Any requirements for regulatory shit? This is being used to build bridges after all\\
+N/A; this project is only concerned with the graphical representation of the underlying bridge calculations.\\
 
 \section{Project Issues}
 
