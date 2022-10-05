@@ -55,7 +55,11 @@
 \midrule
 October 4 & David & Add context/partitioning of work\\
 \midrule
+October 4 & Daren & Added some Non-functional Requirements\\
+\midrule
 October 4 & Victor & Project Issues\\
+\midrule
+October 5 & Victor & Added some Non-functional Requirements\\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -190,58 +194,99 @@ User characteristics should go under assumptions.
 
 \subsection{Look and Feel Requirements}
 
-graphics (ui, animations, graphic element choice e.g. bridge mockup triangle/circle) will be informative, unobtrusive, and not distracting
-rationale: no shit
-fit criteria: reviewed by client contacts (civil engineers)?
+  \textbf{NFR.?} graphics (ui, animations, graphic element choice e.g. bridge mockup triangle/circle) will be informative, unobtrusive, and not distracting.\\
+  \textbf{Rationale:} no shit\\
+  \textbf{Fit Criterion:} reviewed by client contacts (civil engineers)?\\
+  \textbf{Traceability:} ?.\\\\
+
+  \textbf{NFR.?} (Is this look and feel or performance??) UI elements will react promptly to user input.\\
+  \textbf{Rationale:} The users of the program will want the UI to react quickly to their input.\\
+  \textbf{Fit Criterion:} No UI element will take more than 50ms to react to user input. Here we use react to refer to the UI aknowledging the users input (e.g. a button showing a click animation), not as in the program performing calculations based on the user input.\\
+  \textbf{Traceability:} ?.\\\\
 
 \subsection{Usability and Humanity Requirements}
 
-program will be intuitive to use
-rationale: no shit
-fit criteria: reviewed by civil engineers (our client contacts) to eliminate unintuitive controls?
+  \textbf{NFR.?} program will be intuitive to use.\\
+  \textbf{Rationale:} no shit\\
+  \textbf{Fit Criterion:} reviewed by civil engineers (our client contacts) to eliminate unintuitive controls?\\
+  \textbf{Traceability:} ?.\\\\
 
-program will have a user manual and (user-based) documentation provided
-rationale: so that new people can actually use it quickly
-fit criteria: they exist, idfk. review??
+  \textbf{NFR.?} program will have a user manual and (user-based) documentation provided.\\
+  \textbf{Rationale:}so that new people can actually use it quickly.\\
+  \textbf{Fit Criterion:} they exist, idfk. review??\\
+  \textbf{Traceability:} ?.\\\\
+
+  \textbf{NFR.?} The product will appear correctly on different display resolutions.\\
+  \textbf{Rationale:} Users of the product may wish to use it on displays of different resolutions.\\
+  \textbf{Fit Criterion:} The program will be viewed and its appearance validated on displays of different resolutions.\\
+  \textbf{Traceability:} ?.\\\\
+
+  \textbf{NFR.?} The product will allow for the resizing of text.\\
+  \textbf{Rationale:} Users of the product may wish to increase text size to allow for easier reading of the text.\\
+  \textbf{Fit Criterion:} We will ensure that the text size within the program is resizable, and that the program still functions correctly when the text size is changed.\\
+  \textbf{Traceability:} ?.\\\\
 
 \subsection{Performance Requirements}
 
-speed will be not unreasonably slow
-rationale: no shit
-fit criteria: ...program will not cause more than 1 second delay to any valid user input (independent of matlab component)?
+reliability and availability reqs? capacity reqs? probably N/A\\
 
-precision reqs(!), program will be precise
-rationale: no shit a bridge simulator should be precise
-fit criteria: calculations are accurate to within (???)\% relative error of (other bridge simulation engine)
+Maybe speed on calculations is like a \% of the MATLAB (as in 90\% of the calculation time is the MATLAB script or something)\\
 
-reliability and availability reqs? capacity reqs? probably N/A
+  \textbf{NFR.?} speed will be not unreasonably slow.\\
+  \textbf{Rationale:} no shit\\
+  \textbf{Fit Criterion:} ...program will not cause more than 1 second delay to any valid user input (independent of matlab component)?\\
+  \textbf{Traceability:} ?.\\\\
+
+  \textbf{NFR.?} precision reqs(!), program will be precise.\\
+  \textbf{Rationale:} no shit a bridge simulator should be precise.\\
+  \textbf{Fit Criterion:} calculations are accurate to within (???)\% relative error of (other bridge simulation engine).\\
+  \textbf{Traceability:} ?.\\\\
 
 \subsection{Operational and Environmental Requirements}
 
-system/enviro constraints? if not a portability req
+system/enviro constraints? if not a portability req\\
 
-partner applications? if matlab integration not already mentioned
+partner applications? if matlab integration not already mentioned\\
+
+  \textbf{NFR.?} (Not sure about this one tbh) The program should run within performance requirements on expected users' (MTO engineers) computers.\\
+  \textbf{Rationale:} The program must be able to run within requirements on the computers that it is intended to be used on.\\
+  \textbf{Fit Criterion:} Performance testing will be done on a computer with the same (or reasonably similar) hardware.\\
+  \textbf{Traceability:} ?.\\\\
 
 \subsection{Maintainability and Support Requirements}
 
 portable for windows 10, distributable for standalone(!) use on windows 10
 rationale: expected users dont all have matlab but will use windows 10
-fit criteria: test it
+fit criteria: test it\\
+
+  \textbf{NFR.?} The product shall be easily maintainable.\\
+  \textbf{Rationale:} The code must be easily maintainable to allow for future bug fixes and/or feature additions.\\
+  \textbf{Fit Criterion:} We will use file length, method length, and nesting depth as our primary indicators of code maintainability.\\
+  \textbf{Traceability:} ?.\\\\
 
 \subsection{Security Requirements}
 
-protect private mtobridge assets
-rationale: why DO they not want their code uploaded anyway? ...confidentiality? why...?
-fit criteria: don't upload them to the git my dude
+  \textbf{NFR.?} protect private mtobridge assets.\\
+  \textbf{Rationale:} why DO they not want their code uploaded anyway? ...confidentiality? why...?\\
+  \textbf{Fit Criterion:} don't upload them to the git my dude.\\
+  \textbf{Traceability:} ?.\\\\
 
 \subsection{Cultural Requirements}
 
+  \textbf{NFR.?} The program should be able to be easily translated into other languages.\\
+  \textbf{Rationale:} People who don't speak English, especially French speakers as Canada is a bilingual country, may wish to use the program.\\
+  \textbf{Fit Criterion:} ?.\\
+  \textbf{Traceability:} ?.\\\\
+
 \subsection{Legal Requirements}
+
+Thing about MATLAB being private?\\
+
+Any requirements for regulatory shit? This is being used to build bridges after all\\
 
 \subsection{Health and Safety Requirements}
 
-This section is not in the original Volere template, but health and safety are
-issues that should be considered for every engineering project.
+Any requirements for regulatory shit? This is being used to build bridges after all\\
 
 \section{Project Issues}
 
