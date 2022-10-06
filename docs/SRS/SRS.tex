@@ -138,12 +138,12 @@ The potential users of this product are civil engineers designing and monitoring
     \textbf{Fit Criterion:} The product shall be approved as Windows 10 compliant based on our tests on a windows machine.\\\\
 
     \textbf{Const 3:} The product shouldn't require MATLAB to be installed on the end user’s machine to run the MATLAB engines. \\
-    \textbf{Rationale:} The majority of the customers do not have MATLAB licences and chances are they don’t want to purchase them..\\
+    \textbf{Rationale:} The majority of the customers do not have MATLAB licenses and chances are they don’t want to purchase them..\\
     \textbf{Fit Criterion:} The product shall be able to use the logic written in MATLAB without needing to install MATLAB.\\\\
 
 \subsection{Naming Conventions and Terminology}
 \textbf{Abutment:} A substructure composed of stone, concrete, brick or timber supporting the ends of a single span bridge or the extreme end of a multi-span bridge. Usually, it also supports the approach embankment.\\
-\textbf{Dead load:} The weight of the permanent, nonmoveable parts of a structure, such as the towers, cables, and roadway of a bridge.\\
+\textbf{Dead load:} The weight of the permanent, immoveable parts of a structure, such as the towers, cables, and roadway of a bridge.\\
 \textbf{Girder:} A horizontal main structural member (as in a building or bridge) that supports vertical loads and that consists of a single piece or of more than one piece bound together.\\
 \textbf{Live load:} Refers to traffic that moves across the bridge as well as normal environmental factors such as changes in temperature, precipitation, and winds.\\
 \textbf{Span:}In engineering parlance means the gap between two supports.\\
@@ -162,7 +162,7 @@ section.\\
 
 
 \section{Functional Requirements}
-\subsection{Behavioural Overview}
+\subsection{Behavioral Overview}
 The following few paragraphs comprise a verbal summary of the whole of section 2, for quick reference.\\\\
 
 \noindent The Program to be developed is a graphical user interface between the user and a duo of MATLAB solvers created by the Department of Civil Engineering at McMaster
@@ -352,7 +352,7 @@ but for now this about covers it.
 \emph{  Extension:} 
 \begin{itemize}
 \item The received results are generated as a report including several graphs and charts.
-\item An animated, interactable plot is generated along with a visualization of the trucks on the bridge to dynamically highlight different values of force.
+\item An animated, interactive plot is generated along with a visualization of the trucks on the bridge to dynamically highlight different values of force.
 \end{itemize}
 \begin{figure}[H]
   \centering
@@ -368,7 +368,7 @@ but for now this about covers it.
 \emph{  Post Condition:} Received results valid based on the testing spec.\\ 
 \emph{  Basic Flow:} 
 \begin{itemize}
-\item The system receives the configuration data from each configurator. 
+\item The system receives the configuration data. 
 \item The system sends the data to the Solver where the equations are solved using the given parameters. 
 \item Solver returns text-based results which are sent back into the system. 
 \subitem \emph{Alternative} The solver cannot solve the equations using the given input. The user is alerted to check their parameter. 
@@ -419,9 +419,9 @@ but for now this about covers it.
   \textbf{Phase in Date Rationale:} This will be among the last functionalities implemented as it is among the lowest priority requirements.\\
   \textbf{Traceability:} N/A: No constraints or assumptions trace to this requirement.\\\\
 
-  \noindent\textbf{FR.6} The Program should allow the user to define the characteristics of the bridge, inclduing what type of bridge it is, its length, and what material it
+  \noindent\textbf{FR.6} The Program should allow the user to define the characteristics of the bridge, including what type of bridge it is, its length, and what material it
   is made of.\\
-  \textbf{Rationale:} Different bridges will react to the same truck platoon differently, therefore specifiying the relevant characteristics of the bridge is necessary for
+  \textbf{Rationale:} Different bridges will react to the same truck platoon differently, therefore specifying the relevant characteristics of the bridge is necessary for
   the relevance of the simulation.\\
   \textbf{Fit Criterion} At least one method of input(text based, dropdown list, etc) exists that allows users to correctly specify those 3 characteristics of the bridge.\\
   \textbf{Priority/Phase in Date:} Medium/Dec 20th\\
@@ -462,7 +462,7 @@ but for now this about covers it.
 
   \noindent\textbf{FR.11} The Program should allow the user to define a section of concern on the bridge.\\
   \textbf{Rationale:} The first solver revolves around calculating the demand on a certain point along the bridge as the truck platoon drives over, specifying what point it is
-  that we care about is necessray for this function.\\
+  that we care about is necessary for this function.\\
   \textbf{Fit Criterion:} At least one method of input(text based, dropdown list, etc) exists that allows the user to accurately determine a section of concern on the bridge.\\
   \textbf{Priority/Phase in Date:} High/Nov 25th\\
   \textbf{Phase in Date Rationale:} This functionality will be implemented relatively early as it is an important part of the core program.\\
@@ -487,24 +487,24 @@ but for now this about covers it.
 
   \noindent\textbf{FR.14} The Program should be capable of visualizing the results of the concerned section calculation for the user.\\
   \textbf{Rationale:} This is essentially the main purpose of the GUI; displaying the results of the MATLAB backend calculations visually to the user. This is one of the two
-  main caluclations to be represented, so this functionality is very necessary.\\
+  main calculations to be represented, so this functionality is very necessary.\\
   \textbf{Fit Criterion:} There exists an accurate visualization of the mathematical results of the concerned section calculation.\\
   \textbf{Priority/Phase in Date:} Extremely High/Dec 10th\\
-  \textbf{Phase in Date Rationale:} While this functionality is THE core feature of the program, its proper implementation depends on many other FRs, so it will be fully implmented on the later side.\\
+  \textbf{Phase in Date Rationale:} While this functionality is THE core feature of the program, its proper implementation depends on many other FRs, so it will be fully implemented on the later side.\\
   \textbf{Traceability:} N/A: No constraints or assumptions trace to this requirement.\\\\
 
   \noindent\textbf{FR.15} The Program should be capable of visualizing the results of the critical section calculation for the user.\\
   \textbf{Rationale:} This is essentially the main purpose of the GUI; displaying the results of the MATLAB backend calculations visually to the user. This is one of the two
-  main caluclations to be represented, so this functionality is very necessary.\\
+  main calculations to be represented, so this functionality is very necessary.\\
   \textbf{Fit Criterion:} There exists an accurate visualization of the mathematical results of the critical section calculation.\\
   \textbf{Priority/Phase in Date:} Extremely/Dec 10th\\
-  \textbf{Phase in Date Rationale:} While this functionality is THE core feature of the program, its proper implementation depends on many other FRs, so it will be fully implmented on the later side.\\
+  \textbf{Phase in Date Rationale:} While this functionality is THE core feature of the program, its proper implementation depends on many other FRs, so it will be fully implemented on the later side.\\
   \textbf{Traceability:} N/A: No constraints or assumptions trace to this requirement.\\\\
 
   \noindent\textbf{FR.16} The Program should be capable of outputting a report summarizing the results of its runtime.\\
   \textbf{Rationale:} Having a long term representation of the data presented in the program after the current session of use is over is helpful for engineers comparing
-  and contrasting diffrent simulations over time. Without this, the information would be lost as soon as the program was exited.\\
-  \textbf{Fit Criterion:} There exists an accurate report that cotains all the relevant data from simulations run over the course of the runtime in some output format.\\
+  and contrasting different simulations over time. Without this, the information would be lost as soon as the program was exited.\\
+  \textbf{Fit Criterion:} There exists an accurate report that contains all the relevant data from simulations run over the course of the runtime in some output format.\\
   \textbf{Priority/Phase in Date:} Medium/Jan 15th\\
   \textbf{Phase in Date Rationale:} This will be among the last functionalities implemented as it is dependent on many other FRs.\\
   \textbf{Traceability:} N/A: No constraints or assumptions trace to this requirement.\\\\
@@ -523,12 +523,12 @@ but for now this about covers it.
 
   \textbf{NFR.2} The program will be intuitive to use.\\
   \textbf{Rationale:} The program should be easy to use for its intended audience.\\
-  \textbf{Fit Criterion:} Civil engineers can use the program to generate a bridge system analysis within 5 minutes of introduction.\\
+  \textbf{Fit Criterion:} 90\% of civil engineers can use the program to generate a bridge system analysis within 5 minutes of introduction.\\
   \textbf{Traceability:} N/A; this is an important quality of the program as a whole and so does not map to any individual FR, constraint, or assumption.\\\\
 
   \noindent\textbf{NFR.3} The product will appear correctly on different display resolutions.\\
   \textbf{Rationale:} Users of the product may wish to use it on displays of different resolutions.\\
-  \textbf{Fit Criterion:} The Program will be viewed and its appearance validated on displays of different resolutions.\\
+  \textbf{Fit Criterion:} The program will be viewed and its appearance validated on displays of different resolutions. The display resolutions tested will include 1920x1080, 2560x1440, 3840x2160, 1280x720, and 1366x768.\\
   \textbf{Traceability:} Const 2.\\\\
 
   \noindent\textbf{NFR.4} The product will allow for the resizing of text.\\
@@ -538,7 +538,7 @@ but for now this about covers it.
 
   \noindent\textbf{NFR.5} The program will be easy to install and run.\\
   \textbf{Rationale:} The program cannot be difficult to install for the users of our product.\\
-  \textbf{Fit Criterion:} We will measure the time it takes to download, install, and run our program.\\
+  \textbf{Fit Criterion:} The time it takes to download, install, and run our program will not exceed 30 minutes.\\
   \textbf{Traceability:} Const 2, Const 3.\\\\
 
   \noindent\textbf{NFR.6} UI elements which provide similar functionality will have a similar look.\\
@@ -549,7 +549,7 @@ but for now this about covers it.
 \subsection{Performance Requirements}
 
   \textbf{NFR.7} The program will safely handle unusual user inputs.\\
-  \textbf{Rationale:} Program should be robust and not prone to failure due to common misinputs.\\
+  \textbf{Rationale:} Program should be robust and not prone to failure due to common invalid inputs.\\
   \textbf{Fit Criterion:} The program will not freeze or crash as a direct result of a user providing inputs to the system.\\
   \textbf{Traceability:} FR.2, FR.6, FR.11, FR.12, FR.13.\\\\
 
@@ -584,7 +584,8 @@ but for now this about covers it.
 
   \textbf{NFR.13} The product shall be easily maintainable.\\
   \textbf{Rationale:} The code must be easily maintainable to allow for future bug fixes and/or feature additions.\\
-  \textbf{Fit Criterion:} We will use file length, method length, and nesting depth as our primary indicators of code maintainability.\\
+  \textbf{Fit Criterion:} We will use file length, method length, and nesting depth as our primary indicators of code maintainability.
+  75\% of our files will have a length of less than 750 lines, 75\% of our methods will have a length of less than 75 lines, and 75\% of our methods will have a maximum nesting depth of less than 5.\\
   \textbf{Traceability:} N/A; this is an important quality of the program as a whole and so does not map to any individual FR, constraint, or assumption..\\\\
 
 \subsection{Security Requirements}
@@ -633,7 +634,22 @@ N/A; this product is novel and would not be replacing an existing product.
 
 \subsection{Risks}
 
+The major risks associated with this project are:
 
+\begin{table}[H]
+\caption{Risks} \label{TblRisks}
+\begin{tabular}{p{0.65\textwidth}|p{0.2\textwidth}|p{0.15\textwidth}}
+\toprule
+\textbf{Risk} & \textbf{Probability} & \textbf{Impact}\\
+\midrule
+Not being able to integrate our program with the MATLAB script provided to us. & Very low & Very high\\
+\midrule
+Not being able to have a responsive UI while calling the MATLAB script. & Low & High\\
+\midrule
+Not being able to create a UI that allows for structure sketching. & Moderate & Moderate\\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \subsection{Costs}
 
@@ -737,6 +753,45 @@ Their values are defined in this section for easy maintenance.
 
 \subsection{Traceability Matrix}
 
+\begin{table}[H]
+\caption{Traceability Matrix} \label{TblTraceabilityMatrix}
+\begin{tabular}{p{0.15\textwidth}|p{0.85\textwidth}|}
+\toprule
+\textbf{NFR} & \textbf{Traceable to}\\
+\midrule
+NFR.1 & FR.3, FR.7, FR.14, and FR.15\\
+\midrule
+NFR.2 & N/A; this is an important quality of the program as a whole and so does not map to any individual FR, constraint, or assumption.\\
+\midrule
+NFR.3 & Const 2\\
+\midrule
+NFR.4 & FR.3, FR.7, FR.14, and FR.15\\
+\midrule
+NFR.5 & Const 2 and Const 3\\
+\midrule
+NFR.6 & FR.3, FR.7, FR.14, and FR.15\\
+\midrule
+NFR.7 & FR.2, FR.6, FR.11, FR.12, and FR.13\\
+\midrule
+NFR.8 & FR.1\\
+\midrule
+NFR.9 & FR.3, FR.7, FR.14, and FR.15\\
+\midrule
+NFR.10 & FR.3, FR.7, FR.14, and FR.15\\
+\midrule
+NFR.11 & Const 1 and FR.1\\
+\midrule
+NFR.12 & Const 1\\
+\midrule
+NFR.13 & N/A; this is an important quality of the program as a whole and so does not map to any individual FR, constraint, or assumption.\\
+\midrule
+NFR.14 & N/A; this is an important quality of the program as a whole and so does not map to any individual FR, constraint, or assumption.\\
+\midrule
+NFR.15 & N/A; this is an important quality of the program as a whole and so does not map to any individual FR, constraint, or assumption.\\
+\bottomrule
+\end{tabular}
+\end{table}
+
 \subsection{Reflection}
 
 As is the nature of a Capstone course, this project will be a learning experience for all 6 of us. we will all have to learn new skills and improve on old ones to see this 
@@ -762,12 +817,12 @@ by practicing an iterative process on my writing, where I can go back and try to
 I feel I can learn a lot more with the iterative process.\\\\
 
 \noindent\textbf{Victor}\\
-\textbf{Most Important Learning(s):}\\
-\textbf{Plan to learn what is needed:}\\\\
+\textbf{Most Important Learning(s):} The knowledge I feel I need to learn the most is domain specific knowledge about civil engineering, specifically about bridge design. I think that this knowledge will be necessary to be able to successfully complete this project because the program is being designed for bridge engineering.\\
+\textbf{Plan to learn what is needed:} To acquire this knowledge I plan to both do personal research into the subject, and then fill any gaps in my knowledge during our meetings with Dr. Yang through questions. I believe these two strategies will complement each other well as I will be able to acquire most of the knowledge needed without wasting meeting time, then I will be able to ensure that I have a complete understanding using the knowledge of a domain expert.\\\\
 
 \noindent\textbf{Darren}\\
-\textbf{Most Important Learning(s): I have little knowledge of bridge engineering. Though I have written them before, I also struggle with formalized project documentation such as design documents. Additionally, while I've worked on software engineer project teams in the past, this is the first software project where I expect to be as involved as all of my peers rather than a team with far more or far less experience on the project and interacting with all of them regularly.}\\
-\textbf{Plan to learn what is needed: I will make use of the meetings with Dr. Yang and her students to gain a deeper understanding of why we are building this product, what came before it, and what it will be used for. I will aim to take a more proactive approach to team meetings and not shying away from feedback while also remaining mindful of potential conflict. I will maintain contact "off-hours" and open communications with team members.}\\\\
+\textbf{Most Important Learning(s):} I have little knowledge of bridge engineering. Though I have written them before, I also struggle with formalized project documentation such as design documents. Additionally, while I've worked on software engineer project teams in the past, this is the first software project where I expect to be as involved as all of my peers rather than a team with far more or far less experience on the project and interacting with all of them regularly.\\
+\textbf{Plan to learn what is needed:} I will make use of the meetings with Dr. Yang and her students to gain a deeper understanding of why we are building this product, what came before it, and what it will be used for. I will aim to take a more proactive approach to team meetings and not shying away from feedback while also remaining mindful of potential conflict. I will maintain contact "off-hours" and open communications with team members.\\\\
 
 \noindent\textbf{Farzad}\\
 \textbf{Most Important Learning(s):} I believe success of any project relies on team management the most. Adopting any level of agile methodologies can not only deepen our understanding of what are the best approaches through trial and error and prototyping but also it allows our stakeholders to have a lot more influence on the outcome of the project by providing rapid feedback. Even though the course is enforcing waterfall by having step by step milestones and documentation, I believe we can still add a little bit of agile to the mix to reach a perfect balance as this is usually the case in real life.\\
