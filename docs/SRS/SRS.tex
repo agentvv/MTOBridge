@@ -74,6 +74,8 @@ October 5 & Adham & Added Likely Changes Table\\
 October 5 & Farzad & Completed parts of project drivers\\
 \midrule
 October 5 & Adham & Added Prio. and Phase in Plan for FRs and Reflection Skeleton\\
+\midrule
+October 5 & Darren & Numbered and traced Non-functional Requirements\\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -397,78 +399,78 @@ The potential users of this product are civil engineers designing and monitoring
 
 \subsection{Look and Feel Requirements}
 
-  \textbf{NFR.?} The graphics will be informative.\\
+  \textbf{NFR.1} The graphics will be informative.\\
   \textbf{Rationale:} The user should gain value out of the presence of graphics.\\
-  \textbf{Fit Criterion:} Civil engineers who use the program will understand the different graphic elements used to represent bridge parts.\\
-  \textbf{Traceability:} ?.\\\\
+  \textbf{Fit Criterion:} Civil engineers who use the program will identify and understand the different graphic elements used to represent bridge parts in at least 90\% of cases.\\
+  \textbf{Traceability:} FR.3, FR.7, FR.14, FR.15.\\\\
 
 \subsection{Usability and Humanity Requirements}
 
-  \textbf{NFR.?} The program will be intuitive to use.\\
+  \textbf{NFR.2} The program will be intuitive to use.\\
   \textbf{Rationale:} The program should be easy to use for its intended audience.\\
   \textbf{Fit Criterion:} Civil engineers can use the program to generate a bridge system analysis within 5 minutes of introduction.\\
-  \textbf{Traceability:} ?.\\\\
+  \textbf{Traceability:} N/A; this is an important quality of the program as a whole and so does not map to any individual FR, constraint, or assumption.\\\\
 
-  \noindent\textbf{NFR.?} The product will appear correctly on different display resolutions.\\
+  \noindent\textbf{NFR.3} The product will appear correctly on different display resolutions.\\
   \textbf{Rationale:} Users of the product may wish to use it on displays of different resolutions.\\
   \textbf{Fit Criterion:} The Program will be viewed and its appearance validated on displays of different resolutions.\\
-  \textbf{Traceability:} ?.\\\\
+  \textbf{Traceability:} Const 2.\\\\
 
-  \noindent\textbf{NFR.?} The product will allow for the resizing of text.\\
+  \noindent\textbf{NFR.4} The product will allow for the resizing of text.\\
   \textbf{Rationale:} Users of the product may wish to increase text size to allow for easier reading of the text.\\
-  \textbf{Fit Criterion:} We will ensure that the text size within the program is resizable, and that the program still functions correctly when the text size is changed.\\
-  \textbf{Traceability:} ?.\\\\
+  \textbf{Fit Criterion:} We will ensure that the text size within the program is resizable within a range of at least 8pt to 32pt font, and that the program still functions correctly when the text size is changed.\\
+  \textbf{Traceability:} FR.3, FR.7, FR.14, FR.15.\\\\
 
-  \noindent\textbf{NFR.?} The program will be easy to install and run.\\
+  \noindent\textbf{NFR.5} The program will be easy to install and run.\\
   \textbf{Rationale:} The program cannot be difficult to install for the users of our product.\\
   \textbf{Fit Criterion:} We will measure the time it takes to download, install, and run our program.\\
-  \textbf{Traceability:} ?.\\\\
+  \textbf{Traceability:} Const 2, Const 3.\\\\
 
-  \noindent\textbf{NFR.?} UI elements which provide similar functionality will have a similar look.\\
+  \noindent\textbf{NFR.6} UI elements which provide similar functionality will have a similar look.\\
   \textbf{Rationale:} Having UI elements with comparable functionality be visually consistent will help with usability.\\
-  \textbf{Fit Criterion:} We will classify UI elements into categories and ensure that all elements within each categories are visually similar.\\
-  \textbf{Traceability:} ?.\\\\
+  \textbf{Fit Criterion:} We will classify UI elements into categories and ensure that all elements within each categories are visually similar. Civil engineers will be able to associate UI elements with their corresponding categories in at least 90\% of cases.\\
+  \textbf{Traceability:} FR.3, FR.7, FR.14, FR.15.\\\\
 
 \subsection{Performance Requirements}
 
-  \textbf{NFR.?} The program will safely handle unusual user inputs.\\
+  \textbf{NFR.7} The program will safely handle unusual user inputs.\\
   \textbf{Rationale:} Program should be robust and not prone to failure due to common misinputs.\\
   \textbf{Fit Criterion:} The program will not freeze or crash as a direct result of a user providing inputs to the system.\\
-  \textbf{Traceability:} ?.\\\\
+  \textbf{Traceability:} FR.2, FR.6, FR.11, FR.12, FR.13.\\\\
 
-  \noindent\textbf{NFR.?} The program will be able to handle missing dependencies.\\
+  \noindent\textbf{NFR.8} The program will be able to handle missing dependencies.\\
   \textbf{Rationale:} The program should be able to handle and warn of absent files.\\
   \textbf{Fit Criterion:} The program will produce an error message when MATLAB scripts are absent or unable to run.\\
-  \textbf{Traceability:} ?.\\\\
+  \textbf{Traceability:} FR.1.\\\\
 
-  \noindent\textbf{NFR.?} UI elements will react promptly to user input.\\
+  \noindent\textbf{NFR.9} UI elements will react promptly to user input.\\
   \textbf{Rationale:} The users of the program will want the UI to react quickly to their input.\\
   \textbf{Fit Criterion:} The UI will graphically update to indicate it has acknowledged user inputs within 100ms of the input.\\
-  \textbf{Traceability:} ?.\\\\
+  \textbf{Traceability:} FR.3, FR.7, FR.14, FR.15.\\\\
 
-  \noindent\textbf{NFR.?} UI will not be unreasonably slow.\\
+  \noindent\textbf{NFR.10} UI will not be unreasonably slow.\\
   \textbf{Rationale:} UI should not introduce substantial delay beyond what is needed to calculate results.\\
   \textbf{Fit Criterion:} The program delay when calculating and displaying results will not exceed the underlying MATLAB script's execution time by 10\%.\\
-  \textbf{Traceability:} ?.\\\\
+  \textbf{Traceability:} FR.3, FR.7, FR.14, FR.15.\\\\
 
-  \noindent\textbf{NFR.?} The program will be precise.\\
+  \noindent\textbf{NFR.11} The program will be precise.\\
   \textbf{Rationale:} The program must be reasonably precise to provide value for simulating bridges under load.\\
   \textbf{Fit Criterion:} Calculations are accurate to within 1\% relative error of similar bridge simulation engines.\\
-  \textbf{Traceability:} ?.\\\\
+  \textbf{Traceability:} Const 1, FR.1.\\\\
 
 \subsection{Operational and Environmental Requirements}
 
-  \textbf{NFR.?} The program will run without slowdown on expected users' (MTO engineers) computers.\\
+  \textbf{NFR.12} The program will run without slowdown on expected users' (MTO engineers) computers.\\
   \textbf{Rationale:} The program must be able to run within requirements on the computers that it is intended to be used on.\\
   \textbf{Fit Criterion:} Performance testing will be done on a computer with the same (or reasonably similar) hardware.\\
-  \textbf{Traceability:} ?.\\\\
+  \textbf{Traceability:} Const 1.\\\\
 
 \subsection{Maintainability and Support Requirements}
 
-  \textbf{NFR.?} The product shall be easily maintainable.\\
+  \textbf{NFR.13} The product shall be easily maintainable.\\
   \textbf{Rationale:} The code must be easily maintainable to allow for future bug fixes and/or feature additions.\\
   \textbf{Fit Criterion:} We will use file length, method length, and nesting depth as our primary indicators of code maintainability.\\
-  \textbf{Traceability:} ?.\\\\
+  \textbf{Traceability:} N/A; this is an important quality of the program as a whole and so does not map to any individual FR, constraint, or assumption..\\\\
 
 \subsection{Security Requirements}
 
@@ -476,17 +478,17 @@ N/A; this project does not involve significant communication of user data.\\
 
 \subsection{Cultural Requirements}
 
-  \textbf{NFR.?} The program should be able to be easily translated into other languages.\\
+  \textbf{NFR.14} The program should be able to be easily translated into other languages.\\
   \textbf{Rationale:} People who don't speak English may wish to use the program, especially French speakers as Canada is a bilingual country.\\
   \textbf{Fit Criterion:} Localization process to support French will not take over one week to complete.\\
-  \textbf{Traceability:} ?.\\\\
+  \textbf{Traceability:} N/A; this is an important quality of the program as a whole and so does not map to any individual FR, constraint, or assumption..\\\\
 
 \subsection{Legal Requirements}
 
-  \textbf{NFR.?} Private MTOBridge assets will not be exposed for easy access to users.\\
+  \textbf{NFR.15} Private MTOBridge assets will not be exposed for easy access to users.\\
   \textbf{Rationale:} The client has expressed that their assets should be held confidential.\\
   \textbf{Fit Criterion:} Received assets including MATLAB scripts will be excluded or compiled when in public repositories and distributed.\\
-  \textbf{Traceability:} ?.\\\\
+  \textbf{Traceability:} N/A; this is an important quality of the program as a whole and so does not map to any individual FR, constraint, or assumption..\\\\
 
 \subsection{Health and Safety Requirements}
 
