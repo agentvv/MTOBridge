@@ -138,12 +138,12 @@ The potential users of this product are civil engineers designing and monitoring
     \textbf{Fit Criterion:} The product shall be approved as Windows 10 compliant based on our tests on a windows machine.\\\\
 
     \textbf{Const 3:} The product shouldn't require MATLAB to be installed on the end user’s machine to run the MATLAB engines. \\
-    \textbf{Rationale:} The majority of the customers do not have MATLAB licences and chances are they don’t want to purchase them..\\
+    \textbf{Rationale:} The majority of the customers do not have MATLAB licenses and chances are they don’t want to purchase them..\\
     \textbf{Fit Criterion:} The product shall be able to use the logic written in MATLAB without needing to install MATLAB.\\\\
 
 \subsection{Naming Conventions and Terminology}
 \textbf{Abutment:} A substructure composed of stone, concrete, brick or timber supporting the ends of a single span bridge or the extreme end of a multi-span bridge. Usually, it also supports the approach embankment.\\
-\textbf{Dead load:} The weight of the permanent, nonmoveable parts of a structure, such as the towers, cables, and roadway of a bridge.\\
+\textbf{Dead load:} The weight of the permanent, immoveable parts of a structure, such as the towers, cables, and roadway of a bridge.\\
 \textbf{Girder:} A horizontal main structural member (as in a building or bridge) that supports vertical loads and that consists of a single piece or of more than one piece bound together.\\
 \textbf{Live load:} Refers to traffic that moves across the bridge as well as normal environmental factors such as changes in temperature, precipitation, and winds.\\
 \textbf{Span:}In engineering parlance means the gap between two supports.
@@ -162,7 +162,7 @@ section.\\
 
 
 \section{Functional Requirements}
-\subsection{Behavioural Overview}
+\subsection{Behavioral Overview}
 The following few paragraphs comprise a verbal summary of the whole of section 2, for quick reference.\\\\
 
 \noindent The Program to be developed is a graphical user interface between the user and a duo of MATLAB solvers created by the Department of Civil Engineering at McMaster
@@ -352,7 +352,7 @@ but for now this about covers it.
 \emph{  Extension:} 
 \begin{itemize}
 \item The received results are generated as a report including several graphs and charts.
-\item An animated, interactable plot is generated along with a visualization of the trucks on the bridge to dynamically highlight different values of force.
+\item An animated, interactive plot is generated along with a visualization of the trucks on the bridge to dynamically highlight different values of force.
 \end{itemize}
 \begin{figure}[H]
   \centering
@@ -368,7 +368,7 @@ but for now this about covers it.
 \emph{  Post Condition:} Received results valid based on the testing spec.\\ 
 \emph{  Basic Flow:} 
 \begin{itemize}
-\item The system receives the configuration data from each configurator. 
+\item The system receives the configuration data. 
 \item The system sends the data to the Solver where the equations are solved using the given parameters. 
 \item Solver returns text-based results which are sent back into the system. 
 \subitem \emph{Alternative} The solver cannot solve the equations using the given input. The user is alerted to check their parameter. 
@@ -419,9 +419,9 @@ but for now this about covers it.
   \textbf{Phase in Date Rationale:} This will be among the last functionalities implemented as it is among the lowest priority requirements.\\
   \textbf{Traceability:} N/A: No constraints or assumptions trace to this requirement.\\\\
 
-  \noindent\textbf{FR.6} The Program should allow the user to define the characteristics of the bridge, inclduing what type of bridge it is, its length, and what material it
+  \noindent\textbf{FR.6} The Program should allow the user to define the characteristics of the bridge, including what type of bridge it is, its length, and what material it
   is made of.\\
-  \textbf{Rationale:} Different bridges will react to the same truck platoon differently, therefore specifiying the relevant characteristics of the bridge is necessary for
+  \textbf{Rationale:} Different bridges will react to the same truck platoon differently, therefore specifying the relevant characteristics of the bridge is necessary for
   the relevance of the simulation.\\
   \textbf{Fit Criterion} At least one method of input(text based, dropdown list, etc) exists that allows users to correctly specify those 3 characteristics of the bridge.\\
   \textbf{Priority/Phase in Date:} Medium/Dec 20th\\
@@ -462,7 +462,7 @@ but for now this about covers it.
 
   \noindent\textbf{FR.11} The Program should allow the user to define a section of concern on the bridge.\\
   \textbf{Rationale:} The first solver revolves around calculating the demand on a certain point along the bridge as the truck platoon drives over, specifying what point it is
-  that we care about is necessray for this function.\\
+  that we care about is necessary for this function.\\
   \textbf{Fit Criterion:} At least one method of input(text based, dropdown list, etc) exists that allows the user to accurately determine a section of concern on the bridge.\\
   \textbf{Priority/Phase in Date:} High/Nov 25th\\
   \textbf{Phase in Date Rationale:} This functionality will be implemented relatively early as it is an important part of the core program.\\
@@ -487,24 +487,24 @@ but for now this about covers it.
 
   \noindent\textbf{FR.14} The Program should be capable of visualizing the results of the concerned section calculation for the user.\\
   \textbf{Rationale:} This is essentially the main purpose of the GUI; displaying the results of the MATLAB backend calculations visually to the user. This is one of the two
-  main caluclations to be represented, so this functionality is very necessary.\\
+  main calculations to be represented, so this functionality is very necessary.\\
   \textbf{Fit Criterion:} There exists an accurate visualization of the mathematical results of the concerned section calculation.\\
   \textbf{Priority/Phase in Date:} Extremely High/Dec 10th\\
-  \textbf{Phase in Date Rationale:} While this functionality is THE core feature of the program, its proper implementation depends on many other FRs, so it will be fully implmented on the later side.\\
+  \textbf{Phase in Date Rationale:} While this functionality is THE core feature of the program, its proper implementation depends on many other FRs, so it will be fully implemented on the later side.\\
   \textbf{Traceability:} N/A: No constraints or assumptions trace to this requirement.\\\\
 
   \noindent\textbf{FR.15} The Program should be capable of visualizing the results of the critical section calculation for the user.\\
   \textbf{Rationale:} This is essentially the main purpose of the GUI; displaying the results of the MATLAB backend calculations visually to the user. This is one of the two
-  main caluclations to be represented, so this functionality is very necessary.\\
+  main calculations to be represented, so this functionality is very necessary.\\
   \textbf{Fit Criterion:} There exists an accurate visualization of the mathematical results of the critical section calculation.\\
   \textbf{Priority/Phase in Date:} Extremely/Dec 10th\\
-  \textbf{Phase in Date Rationale:} While this functionality is THE core feature of the program, its proper implementation depends on many other FRs, so it will be fully implmented on the later side.\\
+  \textbf{Phase in Date Rationale:} While this functionality is THE core feature of the program, its proper implementation depends on many other FRs, so it will be fully implemented on the later side.\\
   \textbf{Traceability:} N/A: No constraints or assumptions trace to this requirement.\\\\
 
   \noindent\textbf{FR.16} The Program should be capable of outputting a report summarizing the results of its runtime.\\
   \textbf{Rationale:} Having a long term representation of the data presented in the program after the current session of use is over is helpful for engineers comparing
-  and contrasting diffrent simulations over time. Without this, the information would be lost as soon as the program was exited.\\
-  \textbf{Fit Criterion:} There exists an accurate report that cotains all the relevant data from simulations run over the course of the runtime in some output format.\\
+  and contrasting different simulations over time. Without this, the information would be lost as soon as the program was exited.\\
+  \textbf{Fit Criterion:} There exists an accurate report that contains all the relevant data from simulations run over the course of the runtime in some output format.\\
   \textbf{Priority/Phase in Date:} Medium/Jan 15th\\
   \textbf{Phase in Date Rationale:} This will be among the last functionalities implemented as it is dependent on many other FRs.\\
   \textbf{Traceability:} N/A: No constraints or assumptions trace to this requirement.\\\\
@@ -549,7 +549,7 @@ but for now this about covers it.
 \subsection{Performance Requirements}
 
   \textbf{NFR.7} The program will safely handle unusual user inputs.\\
-  \textbf{Rationale:} Program should be robust and not prone to failure due to common misinputs.\\
+  \textbf{Rationale:} Program should be robust and not prone to failure due to common invalid inputs.\\
   \textbf{Fit Criterion:} The program will not freeze or crash as a direct result of a user providing inputs to the system.\\
   \textbf{Traceability:} FR.2, FR.6, FR.11, FR.12, FR.13.\\\\
 
