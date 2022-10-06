@@ -228,7 +228,7 @@ The potential users of this product are civil engineers designing and monitoring
 \begin{itemize}
 \item User requests an animation of the bridge. 
 \item System provides an animation of the bridge.
-\item User interactswith the animation of the bridge.
+\item User interacts with the animation of the bridge.
 \end{itemize}
 
 \noindent
@@ -239,7 +239,7 @@ The potential users of this product are civil engineers designing and monitoring
 \emph{  Basic Flow:} 
 \begin{itemize}
 \item System asks the user to enter an analysis parameter. 
-\item User enters the analysis parameteres. 
+\item User enters the analysis parameters. 
 \item System checks parameter.
 \subitem \emph{Alternative} If the parameter is incorrect, the user is alerted.
 \end{itemize}
@@ -256,11 +256,11 @@ The potential users of this product are civil engineers designing and monitoring
 \item The system checks for parameters once submitted.
 \subitem \emph{Alternative} If the values are not correct, the user is alerted.
 \item If correct, parameters are sent to be solved. 
-\item Text-based result in form of a report are retruned.
+\item Text-based result in form of a report are returned.
 \end{itemize}
 \emph{  Extension:} 
 \begin{itemize}
-\item The recieved results are generated as a report including several graphs and charts.
+\item The received results are generated as a report including several graphs and charts.
 \item An animated, interactable plot is generated along with a visualization of the trucks on the bridge to dynamically highlight different values of force.
 \end{itemize}
 
@@ -268,13 +268,13 @@ The potential users of this product are civil engineers designing and monitoring
 \textbf{The solver solves the mathematical model using the given inputs from the system.} \\
 \emph{  Primary Actors:} Solver\\
 \emph{  Pre Condition:} Truck, Bridge and Analysis Configuration are all valid.\\
-\emph{  Post Condition:} Recieved results valid based on the testing spec.\\ 
+\emph{  Post Condition:} Received results valid based on the testing spec.\\ 
 \emph{  Basic Flow:} 
 \begin{itemize}
-\item The system recieves the configuration data from each configurator. 
+\item The system receives the configuration data from each configurator. 
 \item The system sends the data to the Solver where the equations are solved using the given parameters. 
 \item Solver returns text-based results which are sent back into the system. 
-\subitem \emph{Alternative} The solver cannot solve the equations using the given input. The user is alerted to check their parameters. 
+\subitem \emph{Alternative} The solver cannot solve the equations using the given input. The user is alerted to check their parameter. 
 \end{itemize}
 
 
