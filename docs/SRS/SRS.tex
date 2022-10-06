@@ -194,6 +194,46 @@ The potential users of this product are civil engineers designing and monitoring
   \label {fig:use-case-diagram}
 \end{figure}
 
+\subsubsection{Variables}
+\begin{table}[H]
+  \caption{Variable List} \label{TblVariableList}
+  \begin{tabular}{p{0.3\textwidth} | p{0.2\textwidth} | p{0.5\textwidth}}
+  \toprule
+  \textbf{Name} & \textbf{Type} & \textbf{Description}\\
+  \midrule
+  analyze & bool & User has requested analysis?\\
+  \midrule
+  displayTrucks & bool & Display truck visualization?\\
+  \midrule
+  displayBridge & bool & Display bridge visualization?\\
+  \midrule
+  displayResults & bool & Display analysis results?\\
+  \midrule\
+  okPressed & bool & Represents whether or not invalid message was accepted\\
+  \midrule
+  validateTruck & bool & Is validation done on truck configuration?\\
+  \midrule
+  validateBridge & bool & Is validation done on bridge configuration?\\
+  \midrule
+  validateAnalysisConfig & bool & Is validation done on analysis configuration?\\
+  \midrule
+  writeReport & bool & Write results to a file?\\
+  \midrule
+  input & string & Text representing user input\\
+  \midrule
+  config & Config & Abstract representation of configuration, with definable fields and options\\
+  \midrule
+  analysisConfig & Config & Configuration of analysis\\
+  \midrule
+  bridgeConfig & Config & Configuration of a bridge\\
+  \midrule
+  truckConfig & Config & Configuration of truck platoon, contains many fields\\
+  \midrule
+  results & SolverResults & Abstract representation of output from Solver\\
+  \bottomrule
+\end{tabular}
+\end{table}
+
 \subsubsection{Individual Product Use Cases}
 
 
