@@ -98,7 +98,7 @@ October 5 & Farzad & Completed project drivers and reflection\\
 This document describes the requirements for \progname. The template for the Software
 Requirements Specification (SRS) is a subset of the Volere
 template~\cite{RobertsonAndRobertson2012}. In addition, we have added a few sections not
-in the Volere template: Appendix (and its subsections), Phase in Plan.
+in the Volere template: Appendix (and its subsections), Phase in Plan, Behavior Overview, Variables.
 
 \begin{table}
 
@@ -107,59 +107,71 @@ in the Volere template: Appendix (and its subsections), Phase in Plan.
 \section{Project Drivers}
 
 \subsection{The Purpose of the Project}
-For years, Bridge Engineers in Ontario have based their bridge analysis on the Canadian Highway Bridge Design Code (CHBDC)(CSA S6-19) which typically features conservatism and adds excessive costs. This project aims to develop an application ’MTOBridge’ that leverages prepared MATLAB engines (containing the logic for novel analysis methods) and better visualizes their outputs while enhancing usability. This enables the refined methods of analysis to become routine for bridge design and evaluation. Moreover, A unique feature of ’MTOBridge’, which is otherwise unavailable in other bridge design/evaluation software, is that a direct comparison can be obtained between the results obtained from the CHBDC approximate/simplified approach and those from the refined analysis. This endeavor will facilitate confidence in using refined analysis for bridge evaluation and design.
+For years, Bridge Engineers in Ontario have based their bridge analysis on the Canadian Highway Bridge Design Code (CHBDC)(CSA S6-19) which typically features 
+conservatism and adds excessive costs. This project aims to develop an application ’MTOBridge’ that leverages prepared MATLAB engines 
+(containing the logic for novel analysis methods) and better visualizes their outputs while enhancing usability. This enables the refined methods of analysis to 
+become routine for bridge design and evaluation. Moreover, A unique feature of ’MTOBridge’, which is otherwise unavailable in other bridge design/evaluation software, 
+is that a direct comparison can be obtained between the results obtained from the CHBDC approximate/simplified approach and those from the refined analysis. 
+This endeavor will facilitate confidence in using refined analysis for bridge evaluation and design.
 
 \subsection{The Stakeholders}
 
 \subsubsection{The Client}
-Ontario Ministry of Transport (MTO) is the sponsor of this project and is making the investment to bring this program to fruition in partnership with the McMaster University Civil Engineering Department.
+Ontario Ministry of Transport (MTO) is the sponsor of this project and is making the investment to bring this program to fruition in 
+partnership with the McMaster University Civil Engineering Department.
 \subsubsection{The Customers}
-Civil engineering firms in the bridge design industry. They will dictate whether or not they will adopt this new tool depending on whether it has helped them save costs for their clients and how easy it was for their engineers to use the tool.
+Civil engineering firms in the bridge design industry. They will dictate whether or not they will adopt this new tool depending on whether it has helped them 
+save costs for their clients and how easy it was for their engineers to use the tool.
 \subsubsection{Other Stakeholders}
 \begin{itemize}
   \item Department of Civil Engineering, McMaster
-		\begin{itemize}
-	\item{The proposed program will be directly developed in collaboration with The Department of Civil Eningeering. }
-		\end{itemize}
+	\begin{itemize}
+	  \item{The proposed program will be directly developed in collaboration with The Department of Civil Engineering. }
+	\end{itemize}
   \item Department of Computing and Software, McMaster 
-		\begin{itemize}
-	\item{The proposed program will be directly developed by Engineers from The Department of Computing and Software.} 
-		\end{itemize}
+	\begin{itemize}
+	  \item{The proposed program will be directly developed by Engineers from The Department of Computing and Software.} 
+	\end{itemize}
 \end{itemize}
+
 \subsubsection{User Characteristics}
-The potential users of this product are civil engineers designing and monitoring bridges. Age group is between 22-65 years old and they can be from wide variety of gender and ethnic groups. Civil engineers are not expected to be technology geeks but they have a basic understanding of user interfaces and how to learn to interact with them over time. The majority of the users work on cite using workstations, however as a result of the technological advancements there might be engineers that work from home.
+The potential users of this product are civil engineers designing and monitoring bridges. Age group is between 22-65 years old and they can be from wide variety of 
+gender and ethnic groups. Civil engineers are not expected to be technology geeks but they have a basic understanding of user interfaces and how to learn to interact 
+with them over time. The majority of the users work on cite using workstations, however as a result of the technological advancements there might be engineers that work 
+from home.
 \subsection{Mandated Constraints}
-    \hspace{5mm} \textbf{Const 1:} The system shall be able to perform the calculations using the prepared MATLAB Engines. \\
+    \hspace{5mm} \textbf{C.1:} The system shall be able to perform the calculations using the prepared MATLAB Engines. \\
     \textbf{Rationale:} Dr.Yang and her team which are one of the main stakeholders are not going to implement their engines in another language again.\\
     \textbf{Fit Criterion:} The system shall be able to call the appropriate functions within the MATLAB engine to perform the commanded analysis.\\
 
-    \textbf{Const 2:} The product shall operate using Windows 10. \\
+    \textbf{C.2:} The product shall operate using Windows 10. \\
     \textbf{Rationale:} The client and majority of the customers use Windows 10 and do not wish to change to a later version.\\
-    \textbf{Fit Criterion:} The product shall be approved as Windows 10 compliant based on our tests on a windows machine.\\\\
+    \textbf{Fit Criterion:} The product shall be approved as Windows 10 compliant based on our tests on a Windows machine.\\
 
-    \textbf{Const 3:} The product shouldn't require MATLAB to be installed on the end user’s machine to run the MATLAB engines. \\
+    \textbf{C.3:} The product shouldn't require MATLAB to be installed on the end user’s machine to run the MATLAB engines. \\
     \textbf{Rationale:} The majority of the customers do not have MATLAB licenses and chances are they don’t want to purchase them..\\
     \textbf{Fit Criterion:} The product shall be able to use the logic written in MATLAB without needing to install MATLAB.\\\\
 
 \subsection{Naming Conventions and Terminology}
-\textbf{Abutment:} A substructure composed of stone, concrete, brick or timber supporting the ends of a single span bridge or the extreme end of a multi-span bridge. Usually, it also supports the approach embankment.\\
+\textbf{Abutment:} A substructure composed of stone, concrete, brick or timber supporting the ends of a single span bridge or the extreme end of a multi-span bridge. 
+Usually, it also supports the approach embankment.\\
 \textbf{Dead load:} The weight of the permanent, immoveable parts of a structure, such as the towers, cables, and roadway of a bridge.\\
-\textbf{Girder:} A horizontal main structural member (as in a building or bridge) that supports vertical loads and that consists of a single piece or of more than one piece bound together.\\
+\textbf{Girder:} A horizontal main structural member (as in a building or bridge) that supports vertical loads and that consists of a single piece or of more than one piece 
+bound together.\\
 \textbf{Live load:} Refers to traffic that moves across the bridge as well as normal environmental factors such as changes in temperature, precipitation, and winds.\\
-\textbf{Span:}In engineering parlance means the gap between two supports.\\
-\textbf{Truck Platoon:} A close-knit convoy of self driving trucks that can travel faster and closer together than by traditional means. Expected to become common in the future.\\
+\textbf{Span:} In engineering parlance means the gap between two supports.\\
+\textbf{Truck Platoon:} A close-knit convoy of self driving trucks that can travel faster and closer together than by traditional means. Expected to become common 
+in the future.\\
 \textbf{Headway:} A term for the space between the last axle of one truck in the platoon and the next axle of the subsequent truck. Used to measure spacing between trucks.\\
 \textbf{Concerned Section:} A term used to define the point along the bridge for which the user is interested in viewing the loads placed on it by the platoon.\\
 \textbf{Critical Section:} A term used to mean the point along the bridge that experiences the highest loads during the platoon's trip along the bridge.\\
 \textbf{Discretization Length:} This length determines how many sections the user wants to split their bridge into for the critical section calculation. For example,
-a 10m long bridge with a discretization length of 1m would be split into 10 sections 1m apart. These 10 would then be compared over the course of the trip to find the critical
-section.\\  
-
+a 10m long bridge with a discretization length of 1m would be split into 10 sections 1m apart. These 10 would then be compared over the course of the trip to find the 
+critical section.\\  
 
 \subsection{Relevant Facts and Assumptions}
-\textbf{Ass 1:} The prepared MATLAB engines are reliable and thoroughly tested.\\
-\textbf{Ass 2:} Users have access to computers that runs windows 10 and can handle calculation intensive analysis.
-
+\textbf{A.1:} The prepared MATLAB engines are reliable and thoroughly tested.\\
+\textbf{A.2:} Users have access to computers that runs Windows 10 and can handle calculation intensive analysis.
 
 \section{Functional Requirements}
 \subsection{Behavioral Overview}
@@ -168,16 +180,16 @@ The following few paragraphs comprise a verbal summary of the whole of section 2
 \noindent The Program to be developed is a graphical user interface between the user and a duo of MATLAB solvers created by the Department of Civil Engineering at McMaster
 for load rating bridges as a truck platoon drives over them. It will allow the user to interface with the calculations in four major ways. Namely, these are:\\\\ 
 
-\noindent 1.Determining the specifics of the truck platoon that will be rolling over their bridge, in terms of the configuration of the trucks themselves, the number of trucks in
-the platoon, the headway between them, and their travel speed.\\\\ 
+\noindent 1. Determining the specifics of the truck platoon that will be rolling over their bridge, in terms of the configuration of the trucks themselves, the number of trucks in
+the platoon, the headway between them, and their travel speed.\\\
 
-\noindent 2.Determining the specifics of the bridge their truck platoon will be rolling over, in terms of whether it is a one or two span bridge, how long it is, and what 
+\noindent 2. Determining the specifics of the bridge their truck platoon will be rolling over, in terms of whether it is a one or two span bridge, how long it is, and what 
 material it is made out of.\\\\
 
-\noindent 3.Determining what they want to know about the demands placed on their bridge by the truck platoon. Namely, do they care about what happens to a particular section 
+\noindent 3. Determining what they want to know about the demands placed on their bridge by the truck platoon. Namely, do they care about what happens to a particular section 
 over the course of the trip? Or do they wish to know wish section experiences the highest load over the course of the whole trip?\\\\
 
-\noindent 4.Visualizing the results of the calculations in a comprehensive and informative fashion.\\\\
+\noindent 4. Visualizing the results of the calculations in a comprehensive and informative fashion.\\\\
 
 \noindent There will be other features to the program as well, such as generating a text based report of the outputs over the course of a session of use, and allowing the user
 to save and load their truck and bridge configurations for easy access to oft-used configurations. This is a living document, and more functionality may be added over time,
@@ -266,20 +278,19 @@ but for now this about covers it.
 
 \subsubsection{Individual Product Use Cases}
 
-
 \noindent
 \textbf{User navigates to the Truck Configuration Tab} \\
-\emph{  Primary Actors:} Engineers\\
-\emph{  Pre Condition:} None\\
-\emph{  Post Condition:} Input values from the user conforms to the valid range required for the calculations.\\ 
-\emph{  Basic Flow:} 
+\textbf{  Primary Actors:} Engineers\\
+\textbf{  Pre Condition:} None\\
+\textbf{  Post Condition:} Input values from the user conforms to the valid range required for the calculations.\\ 
+\textbf{  Basic Flow:} 
 \begin{itemize}
 \item System asks user to enter a truck parameter.
 \item User enters truck parameter.
 \item System checks parameter.
-\subitem \emph{Alternative} If the parameter is incorrect, the user is alerted.
+\subitem \textbf{Alternative} If the parameter is incorrect, the user is alerted.
 \end{itemize}
-\emph{  Extension:}
+\textbf{  Extension:}
 \begin{itemize}
 \item User requests an animation of the truck platoon.
 \item System provides an animation of the truck platoon.
@@ -294,17 +305,17 @@ but for now this about covers it.
 
 \noindent
 \textbf{User navigates to the Bridge Configuration Tab} \\
-\emph{  Primary Actors:} Engineers\\
-\emph{  Pre Condition:} None\\
-\emph{  Post Condition:} Input values from the user conforms to the valid range required for the calculations.\\ 
-\emph{  Basic Flow:} 
+\textbf{  Primary Actors:} Engineers\\
+\textbf{  Pre Condition:} None\\
+\textbf{  Post Condition:} Input values from the user conforms to the valid range required for the calculations.\\ 
+\textbf{  Basic Flow:} 
 \begin{itemize}
 \item System asks the user to enter a bridge parameter. 
 \item User enters the bridge parameters. 
 \item System checks parameter.
-\subitem \emph{Alternative} If the parameter is incorrect, the user is alerted.
+\subitem \textbf{Alternative} If the parameter is incorrect, the user is alerted.
 \end{itemize}
-\emph{  Extension:}
+\textbf{  Extension:}
 \begin{itemize}
 \item User requests an animation of the bridge. 
 \item System provides an animation of the bridge.
@@ -319,15 +330,15 @@ but for now this about covers it.
 
 \noindent
 \textbf{User navigates to the Analysis Configuration Tab} \\
-\emph{  Primary Actors:} Engineers\\
-\emph{  Pre Condition:} None\\
-\emph{  Post Condition:} Input values from the user conforms to the valid range required for the calculations.\\ 
-\emph{  Basic Flow:} 
+\textbf{  Primary Actors:} Engineers\\
+\textbf{  Pre Condition:} None\\
+\textbf{  Post Condition:} Input values from the user conforms to the valid range required for the calculations.\\ 
+\textbf{  Basic Flow:} 
 \begin{itemize}
 \item System asks the user to enter an analysis parameter. 
 \item User enters the analysis parameters. 
 \item System checks parameter.
-\subitem \emph{Alternative} If the parameter is incorrect, the user is alerted.
+\subitem \textbf{Alternative} If the parameter is incorrect, the user is alerted.
 \end{itemize}
 \begin{figure}[H]
   \centering
@@ -338,21 +349,20 @@ but for now this about covers it.
 
 \noindent
 \textbf{User starts the Analyze process. } \\
-\emph{  Primary Actors:} Engineers\\
-\emph{  Pre Condition:} None\\
-\emph{  Post Condition:} None\\ 
-\emph{  Basic Flow:} 
+\textbf{  Primary Actors:} Engineers\\
+\textbf{  Pre Condition:} None\\
+\textbf{  Post Condition:} None\\ 
+\textbf{  Basic Flow:} 
 \begin{itemize}
-\item User selects the Analyze tab and confirms the input data from Truck, Bridge and Analysis configuration. 
-\item The system checks for parameters once submitted.
-\subitem \emph{Alternative} If the values are not correct, the user is alerted.
-\item If correct, parameters are sent to be solved. 
-\item Text-based result in form of a report are returned.
+\item User selects the Analyze tab. 
+\item The system validates the configurations.
+\subitem \textbf{Alternative} If the configurations are not correct, the user is alerted.
+\item Configurations are sent to Solver. 
+\item Text-based result from Solver is returned.
 \end{itemize}
-\emph{  Extension:} 
+\textbf{  Extension:} 
 \begin{itemize}
-\item The received results are generated as a report including several graphs and charts.
-\item An animated, interactive plot is generated along with a visualization of the trucks on the bridge to dynamically highlight different values of force.
+\item Visualization of results is displayed.
 \end{itemize}
 \begin{figure}[H]
   \centering
@@ -363,15 +373,15 @@ but for now this about covers it.
 
 \noindent
 \textbf{The solver solves the mathematical model using the given inputs from the system.} \\
-\emph{  Primary Actors:} Solver\\
-\emph{  Pre Condition:} Truck, Bridge and Analysis Configuration are all valid.\\
-\emph{  Post Condition:} Received results valid based on the testing spec.\\ 
-\emph{  Basic Flow:} 
+\textbf{  Primary Actors:} Solver\\
+\textbf{  Pre Condition:} Truck, Bridge and Analysis Configuration are all valid.\\
+\textbf{  Post Condition:} Received results valid based on the testing spec.\\ 
+\textbf{  Basic Flow:} 
 \begin{itemize}
 \item The system receives the configuration data. 
 \item The system sends the data to the Solver where the equations are solved using the given parameters. 
-\item Solver returns text-based results which are sent back into the system. 
-\subitem \emph{Alternative} The solver cannot solve the equations using the given input. The user is alerted to check their parameter. 
+\item Solver returns text-based results. 
+\subitem \textbf{Alternative} The solver cannot solve the equations using the given input. The user is alerted to check their parameters. 
 \end{itemize}
 \begin{figure}[H]
   \centering
@@ -386,7 +396,7 @@ but for now this about covers it.
   \textbf{Fit Criterion:} Testing will be performed to confirm whether or not the program can successfully call the MATLAB functions.\\
   \textbf{Priority/Phase in Date:} High/Nov 7th\\
   \textbf{Phase in Date Rationale:} This will be the first functionality implemented as it is necessary for proof of concept.\\
-  \textbf{Traceability:} Const.1, Assumption 1.\\\\
+  \textbf{Traceability:} C.1, A.1.\\\\
   
   \noindent\textbf{FR.2} The Program should allow the user to define the characteristics of the truck platoon, including truck configuration, number of trucks, headway, and travel speed.\\
   \textbf{Rationale:} The goal of the program is to determine the forces exerted by a given platoon on a bridge, they can come in many different forms, so flexibility in the characteristics
@@ -452,7 +462,7 @@ but for now this about covers it.
   \textbf{Traceability:} N/A: No constraints or assumptions trace to this requirement.\\\\
 
   \noindent\textbf{FR.10} The Program should allow the user to define which of the two solvers they are interested in using.\\
-  \textbf{Rationale:} as the MATLAB backend can solve for both the demand on a concerned section as the platoon drives along, as well as for which section has the 
+  \textbf{Rationale:} As the MATLAB backend can solve for both the demand on a concerned section as the platoon drives along, as well as for which section has the 
   highest maximum demand over the course of the whole trip, and these are very different pieces of info, allowing the user to determine which they are currently interested in 
   is important.\\
   \textbf{Fit Criterion:} At least one method of input(text based, dropdown list, etc) exists that allows the user to accurately choose which solver they are would like to use.\\
@@ -528,22 +538,25 @@ but for now this about covers it.
 
   \noindent\textbf{NFR.3} The product will appear correctly on different display resolutions.\\
   \textbf{Rationale:} Users of the product may wish to use it on displays of different resolutions.\\
-  \textbf{Fit Criterion:} The program will be viewed and its appearance validated on displays of different resolutions. The display resolutions tested will include 1920x1080, 2560x1440, 3840x2160, 1280x720, and 1366x768.\\
-  \textbf{Traceability:} Const 2.\\\\
+  \textbf{Fit Criterion:} The program will be viewed and its appearance validated on displays of different resolutions. The display resolutions tested will include 1920x1080,
+   2560x1440, 3840x2160, 1280x720, and 1366x768.\\
+  \textbf{Traceability:} C.2.\\\\
 
   \noindent\textbf{NFR.4} The product will allow for the resizing of text.\\
   \textbf{Rationale:} Users of the product may wish to increase text size to allow for easier reading of the text.\\
-  \textbf{Fit Criterion:} We will ensure that the text size within the program is resizable within a range of at least 8pt to 32pt font, and that the program still functions correctly when the text size is changed.\\
+  \textbf{Fit Criterion:} We will ensure that the text size within the program is resizable within a range of at least 8pt to 32pt font, 
+  and that the program still functions correctly when the text size is changed.\\
   \textbf{Traceability:} FR.3, FR.7, FR.14, FR.15.\\\\
 
   \noindent\textbf{NFR.5} The program will be easy to install and run.\\
   \textbf{Rationale:} The program cannot be difficult to install for the users of our product.\\
   \textbf{Fit Criterion:} The time it takes to download, install, and run our program will not exceed 30 minutes.\\
-  \textbf{Traceability:} Const 2, Const 3.\\\\
+  \textbf{Traceability:} C.2, C.3.\\\\
 
   \noindent\textbf{NFR.6} UI elements which provide similar functionality will have a similar look.\\
   \textbf{Rationale:} Having UI elements with comparable functionality be visually consistent will help with usability.\\
-  \textbf{Fit Criterion:} We will classify UI elements into categories and ensure that all elements within each categories are visually similar. Civil engineers will be able to associate UI elements with their corresponding categories in at least 90\% of cases.\\
+  \textbf{Fit Criterion:} We will classify UI elements into categories and ensure that all elements within each categories are visually similar. 
+  Civil engineers will be able to associate UI elements with their corresponding categories in at least 90\% of cases.\\
   \textbf{Traceability:} FR.3, FR.7, FR.14, FR.15.\\\\
 
 \subsection{Performance Requirements}
@@ -571,14 +584,14 @@ but for now this about covers it.
   \noindent\textbf{NFR.11} The program will be precise.\\
   \textbf{Rationale:} The program must be reasonably precise to provide value for simulating bridges under load.\\
   \textbf{Fit Criterion:} Calculations are accurate to within 1\% relative error of similar bridge simulation engines.\\
-  \textbf{Traceability:} Const 1, FR.1.\\\\
+  \textbf{Traceability:} C.1, FR.1.\\\\
 
 \subsection{Operational and Environmental Requirements}
 
   \textbf{NFR.12} The program will run without slowdown on expected users' (MTO engineers) computers.\\
   \textbf{Rationale:} The program must be able to run within requirements on the computers that it is intended to be used on.\\
   \textbf{Fit Criterion:} Performance testing will be done on a computer with the same (or reasonably similar) hardware.\\
-  \textbf{Traceability:} Const 1.\\\\
+  \textbf{Traceability:} C.1.\\\\
 
 \subsection{Maintainability and Support Requirements}
 
@@ -657,8 +670,9 @@ No monetary costs are involved in creating this product. The only costs in devel
 
 \subsection{User Documentation and Training}
 
-An extensive user manual with case study examples will be produced alongside the product. This documentation will allow for bridge engineers to become familiar and comfortable using the software.
-We will also train Dr. Cancan Yang and their graduate students to use the product so that they can effectively present the product to the MTO.
+An extensive user manual with case study examples will be produced alongside the product. This documentation will allow for bridge engineers to become 
+familiar and comfortable using the software. We will also train Dr. Cancan Yang and their graduate students to use the product so that they can effectively present the 
+product to the MTO.
 
 \subsection{Waiting Room}
 
@@ -679,11 +693,6 @@ N/A; we have not currently made any decisions about solution ideas.
 
 This section has been added to the Volere template.  This is where you can place
 additional information.
-
-\subsection{Symbolic Parameters}
-
-The definition of the requirements will likely call for SYMBOLIC\_CONSTANTS.
-Their values are defined in this section for easy maintenance.
 
 \subsection{Likely Changes}
 
@@ -763,11 +772,11 @@ NFR.1 & FR.3, FR.7, FR.14, and FR.15\\
 \midrule
 NFR.2 & N/A; this is an important quality of the program as a whole and so does not map to any individual FR, constraint, or assumption.\\
 \midrule
-NFR.3 & Const 2\\
+NFR.3 & C.2\\
 \midrule
 NFR.4 & FR.3, FR.7, FR.14, and FR.15\\
 \midrule
-NFR.5 & Const 2 and Const 3\\
+NFR.5 & C.2 and C.3\\
 \midrule
 NFR.6 & FR.3, FR.7, FR.14, and FR.15\\
 \midrule
@@ -779,9 +788,9 @@ NFR.9 & FR.3, FR.7, FR.14, and FR.15\\
 \midrule
 NFR.10 & FR.3, FR.7, FR.14, and FR.15\\
 \midrule
-NFR.11 & Const 1 and FR.1\\
+NFR.11 & C.1 and FR.1\\
 \midrule
-NFR.12 & Const 1\\
+NFR.12 & C.1\\
 \midrule
 NFR.13 & N/A; this is an important quality of the program as a whole and so does not map to any individual FR, constraint, or assumption.\\
 \midrule
@@ -800,7 +809,7 @@ going about them.
 
 \noindent\textbf{Adham}\\
 \textbf{Most Important Learning(s):} Personally, I believe my biggest knowledge gaps are C++ knowledge, in terms of both general language proficiency as well as unfamiliarity
-with tools and standards such as valgrind and clang.\\
+with tools and standards such as Valgrind and clang.\\
 \textbf{Plan to learn what is needed:} I plan to do some self study to acquaint myself with C++, I am familiar with other OOP languages such as Java and Python, and have a good
 bit of experience with C as well, so I should be able to learn the ropes of C++ on my own. For more specific tools or libraries such as QT, or any other more in depth questions,
 I will leverage David and Victor, as they are both much more familiar with C++ than I am, to get me over any learning roadblocks. I could also just learn as I go through the
@@ -817,19 +826,34 @@ by practicing an iterative process on my writing, where I can go back and try to
 I feel I can learn a lot more with the iterative process.\\\\
 
 \noindent\textbf{Victor}\\
-\textbf{Most Important Learning(s):} The knowledge I feel I need to learn the most is domain specific knowledge about civil engineering, specifically about bridge design. I think that this knowledge will be necessary to be able to successfully complete this project because the program is being designed for bridge engineering.\\
-\textbf{Plan to learn what is needed:} To acquire this knowledge I plan to both do personal research into the subject, and then fill any gaps in my knowledge during our meetings with Dr. Yang through questions. I believe these two strategies will complement each other well as I will be able to acquire most of the knowledge needed without wasting meeting time, then I will be able to ensure that I have a complete understanding using the knowledge of a domain expert.\\\\
+\textbf{Most Important Learning(s):} The knowledge I feel I need to learn the most is domain specific knowledge about civil engineering, specifically about bridge design. 
+I think that this knowledge will be necessary to be able to successfully complete this project because the program is being designed for bridge engineering.\\
+\textbf{Plan to learn what is needed:} To acquire this knowledge I plan to both do personal research into the subject, and then fill any gaps in my knowledge during 
+our meetings with Dr. Yang through questions. I believe these two strategies will complement each other well as I will be able to acquire most of the knowledge needed 
+without wasting meeting time, then I will be able to ensure that I have a complete understanding using the knowledge of a domain expert.\\\\
 
 \noindent\textbf{Darren}\\
-\textbf{Most Important Learning(s):} I have little knowledge of bridge engineering. Though I have written them before, I also struggle with formalized project documentation such as design documents. Additionally, while I've worked on software engineer project teams in the past, this is the first software project where I expect to be as involved as all of my peers rather than a team with far more or far less experience on the project and interacting with all of them regularly.\\
-\textbf{Plan to learn what is needed:} I will make use of the meetings with Dr. Yang and her students to gain a deeper understanding of why we are building this product, what came before it, and what it will be used for. I will aim to take a more proactive approach to team meetings and not shying away from feedback while also remaining mindful of potential conflict. I will maintain contact "off-hours" and open communications with team members.\\\\
+\textbf{Most Important Learning(s):} I have little knowledge of bridge engineering. Though I have written them before, I also struggle with formalized project documentation 
+such as design documents. Additionally, while I've worked on software engineer project teams in the past, this is the first software project where I expect to be as involved as all of my 
+peers rather than a team with far more or far less experience on the project and interacting with all of them regularly.\\
+\textbf{Plan to learn what is needed:} I will make use of the meetings with Dr. Yang and her students to gain a deeper understanding of why we are building this product, 
+what came before it, and what it will be used for. I will aim to take a more proactive approach to team meetings and not shying away from feedback while also remaining mindful of 
+potential conflict. I will maintain contact "off-hours" and open communications with team members.\\\\
 
 \noindent\textbf{Farzad}\\
-\textbf{Most Important Learning(s):} I believe success of any project relies on team management the most. Adopting any level of agile methodologies can not only deepen our understanding of what are the best approaches through trial and error and prototyping but also it allows our stakeholders to have a lot more influence on the outcome of the project by providing rapid feedback. Even though the course is enforcing waterfall by having step by step milestones and documentation, I believe we can still add a little bit of agile to the mix to reach a perfect balance as this is usually the case in real life.\\
-\textbf{Plan to learn what is needed:} In order to become more agile everyone in the team including myself needs to get trained on the matter. On top of that we need to have a retrospective meeting after each sprint to see which agile practices were performed well or inadequately. Both approaches are required, however educating myself on the matter has the highest priority since no meaningful retrospective session can be held if at least some people don't have a deep enough understanding of agile.\\\\
+\textbf{Most Important Learning(s):} I believe success of any project relies on team management the most. Adopting any level of agile methodologies can not only deepen 
+our understanding of what are the best approaches through trial and error and prototyping but also it allows our stakeholders to have a lot more influence on the outcome 
+of the project by providing rapid feedback. Even though the course is enforcing waterfall by having step by step milestones and documentation, I believe we can still add 
+a little bit of agile to the mix to reach a perfect balance as this is usually the case in real life.\\
+\textbf{Plan to learn what is needed:} In order to become more agile everyone in the team including myself needs to get trained on the matter. On top of that we need to 
+have a retrospective meeting after each sprint to see which agile practices were performed well or inadequately. Both approaches are required, however educating myself on 
+the matter has the highest priority since no meaningful retrospective session can be held if at least some people don't have a deep enough understanding of agile.\\\\
 
 \noindent\textbf{Pedram}\\
-\textbf{Most Important Learning(s):} Personally, the most important learning includes deepening my knowledge of C++ frameworks, specifically Qt which we will be likely using to create the MTOBridge features. I will take this opportunity to learn deeper about interactions between programming languages and how different programs can be synced. I think this is also a great opportunity to understand design thinking and how it can go beyond the everyday user and be applied to an actual engineer. \\
-\textbf{Plan to learn what is needed:} My plan involves rapidly understanding of the tools through frequent building and testing. This process can be accelerated with the use of proper documentation or even help of the friends. It’s also crucial to understand about what’s happening in the engine, requiring us to increase our domain knowledge. \\\\
+\textbf{Most Important Learning(s):} Personally, the most important learning includes deepening my knowledge of C++ frameworks, specifically Qt which we will be likely 
+using to create the MTOBridge features. I will take this opportunity to learn deeper about interactions between programming languages and how different programs can be 
+synced. I think this is also a great opportunity to understand design thinking and how it can go beyond the everyday user and be applied to an actual engineer. \\
+\textbf{Plan to learn what is needed:} My plan involves rapidly understanding of the tools through frequent building and testing. This process can be accelerated with the 
+use of proper documentation or even help of the friends. It’s also crucial to understand about what’s happening in the engine, requiring us to increase our domain knowledge. \\\\
 
 \end{document}
