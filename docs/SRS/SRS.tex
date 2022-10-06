@@ -74,6 +74,8 @@ October 5 & Adham & Added Likely Changes Table\\
 October 5 & Farzad & Completed parts of project drivers\\
 \midrule
 October 5 & Adham & Added Prio. and Phase in Plan for FRs and Reflection Skeleton\\
+\midrule
+October 5 & Adham & Added Behaviour Overview, Refined Requirements, and added Reflection\\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -139,6 +141,14 @@ The potential users of this product are civil engineers designing and monitoring
 \textbf{Girder:}A horizontal main structural member (as in a building or bridge) that supports vertical loads and that consists of a single piece or of more than one piece bound together.\\
 \textbf{Live load:} Refers to traffic that moves across the bridge as well as normal environmental factors such as changes in temperature, precipitation, and winds.\\
 \textbf{Span:}In engineering parlance means the gap between two supports.
+\textbf{Truck Platoon:} A close-knit convoy of self driving trucks that can travel faster and closer together than by traditional means. Expected to become common in the future.\\
+\textbf{Headway:} A term for the space between the last axle of one truck in the platoon and the next axle of the subsequent truck. Used to measure spacing between trucks.\\
+\textbf{Concerned Section:} A term used to define the point along the bridge for which the user is interested in viewing the loads placed on it by the platoon.\\
+\textbf{Critical Section:} A term used to mean the point along the bridge that experiences the highest loads during the platoon's trip along the bridge.\\
+\textbf{Discretization Length:} This length determines how many sections the user wants to split their bridge into for the critical section calculation. For example,
+a 10m long bridge with a discretization length of 1m would be split into 10 sections 1m apart. These 10 would then be compared over the course of the trip to find the critical
+section.\\  
+
 
 \subsection{Relevant Facts and Assumptions}
 \begin{itemize}
@@ -148,6 +158,26 @@ The potential users of this product are civil engineers designing and monitoring
 
 
 \section{Functional Requirements}
+\subsection{Behavioural Overview}
+The following few paragraphs comprise a verbal summary of the whole of section 2, for quick reference.\\\\
+
+\noindent The Program to be developed is a graphical user interface between the user and a duo of MATLAB solvers created by the Department of Civil Engineering at McMaster
+for load rating bridges as a truck platoon drives over them. It will allow the user to interface with the calculations in four major ways. Namely, these are:\\\\ 
+
+\noindent 1.Determining the specifics of the truck platoon that will be rolling over their bridge, in terms of the configuration of the trucks themselves, the number of trucks in
+the platoon, the headway between them, and their travel speed.\\\\ 
+
+\noindent 2.Determining the specifics of the bridge their truck platoon will be rolling over, in terms of whether it is a one or two span bridge, how long it is, and what 
+material it is made out of.\\\\
+
+\noindent 3.Determining what they want to know about the demands placed on their bridge by the truck platoon. Namely, do they care about what happens to a particular section 
+over the course of the trip? Or do they wish to know wish section experiences the highest load over the course of the whole trip?\\\\
+
+\noindent 4.Visualizing the results of the calculations in a comprehensive and informative fashion.\\\\
+
+\noindent There will be other features to the program as well, such as generating a text based report of the outputs over the course of a session of use, and allowing the user
+to save and load their truck and bridge configurations for easy access to oft-used configurations. This is a living document, and more functionality may be added over time,
+but for now this about covers it.
 
 \subsection{The Scope of the Work}
 
@@ -279,113 +309,130 @@ The potential users of this product are civil engineers designing and monitoring
   \textbf{FR.1} The Program should be able to call the backend MATLAB functions. \\
   \textbf{Rationale:} To visually display the outputs corresponding to user input, the UI needs to first figure out what those outputs are via the backend MATLAB.\\
   \textbf{Fit Criterion:} Testing will be performed to confirm whether or not the program can successfully call the MATLAB functions.\\
-  \textbf{Priority/Phase in Date:} Extremely High/Nov 7th\\
-  \textbf{Phase in Date Rationale:} This will be the first functionality implemnted as it is necessary for proof of concept.\\\\
+  \textbf{Priority/Phase in Date:} High/Nov 7th\\
+  \textbf{Phase in Date Rationale:} This will be the first functionality implemented as it is necessary for proof of concept.\\
+  \textbf{Traceability:} Const.1, Assumption 1.\\\\
   
   \noindent\textbf{FR.2} The Program should allow the user to define the characteristics of the truck platoon, including truck configuration, number of trucks, headway, and travel speed.\\
   \textbf{Rationale:} The goal of the program is to determine the forces exerted by a given platoon on a bridge, they can come in many different forms, so flexibility in the characteristics
   of the platoon are necessary for the relevance of the simulation.\\ 
   \textbf{Fit Criterion:} At least one method of input(text based, dropdown list, etc) exists that allows users to correctly specify those 4 characteristics of the platoon.\\
-  \textbf{Priority/Phase in Date:} High/Dec 20th\\
-  \textbf{Phase in Date Rationale:} This will be among the later functionalities as while it is very important for the finished product, it is not proof of concept level.\\\\
+  \textbf{Priority/Phase in Date:} Medium/Dec 20th\\
+  \textbf{Phase in Date Rationale:} This will be among the later functionalities as while it is very important for the finished product, it is not proof of concept level.\\
+  \textbf{Traceability:} N/A: No constraints or assumptions trace to this requirement.\\\\
 
   \noindent\textbf{FR.3} The Program should allow the user to visualize the effects of their truck platoon characteristic definitions on the final platoon.\\
   \textbf{Rationale:} This is mainly to help the user verify that the inputs they put into the program correspond to the platoon they had in mind. As we are making a GUI,
   visual feedback is paramount to functionality.\\
   \textbf{Fit Criterion:} There exists some visual representation of the truck platoon that changes to correctly reflect the impact of changes in user input.\\
-  \textbf{Priority/Phase in Date:} High/Jan 5th\\
-  \textbf{Phase in Date Rationale:} This will be among the last functionalities implemented as it is dependent on FR.2.\\\\
+  \textbf{Priority/Phase in Date:} Medium/Jan 5th\\
+  \textbf{Phase in Date Rationale:} This will be among the last functionalities implemented as it is dependent on FR.2.\\
+  \textbf{Traceability:} N/A: No constraints or assumptions trace to this requirement.\\\\
 
   \noindent\textbf{FR.4} The Program should allow the user to save their current truck platoon configuration for later use.\\
   \textbf{Rationale:} Users may be interested in testing the demands a particular truck platoon places on bridges disproportionately more often than others,
    in multiple situations, and over multiple sessions. Making it so they don't have to manually remake it every time is important for the efficient use of The Program.\\
   \textbf{Fit Criterion:} The Program is capable of storing a truck platoon configuration in some form to be retrieved later.\\
-  \textbf{Priority/Phase in Date:} Medium/Jan 25th\\
-  \textbf{Phase in Date Rationale:} This will be among the last functionalities implemented as it is among the lowest priority requirements.\\\\
+  \textbf{Priority/Phase in Date:} Low/Jan 25th\\
+  \textbf{Phase in Date Rationale:} This will be among the last functionalities implemented as it is among the lowest priority requirements.\\
+  \textbf{Traceability:} N/A: No constraints or assumptions trace to this requirement.\\\\
 
   \noindent\textbf{FR.5} The Program should allow the user to load in their previously saved truck platoon configurations.\\
   \textbf{Rationale:} A companion piece to FR.4, the ability to save a configuration is functionally useless if you can't pull it back out later.\\
   \textbf{Fit Criterion:} The Program is capable of correctly recreating a truck platoon configuration from previously saved data.\\
-  \textbf{Priority/Phase in Date:} Medium/Jan 30th\\
-  \textbf{Phase in Date Rationale:} This will be among the last functionalities implemented as it is among the lowest priority requirements.\\\\
+  \textbf{Priority/Phase in Date:} Low/Jan 30th\\
+  \textbf{Phase in Date Rationale:} This will be among the last functionalities implemented as it is among the lowest priority requirements.\\
+  \textbf{Traceability:} N/A: No constraints or assumptions trace to this requirement.\\\\
 
-  \noindent\textbf{FR.6} The Program should allow the user to define the characteristics of the bridge, inclduing what type of bridge it is and its length.\\
+  \noindent\textbf{FR.6} The Program should allow the user to define the characteristics of the bridge, inclduing what type of bridge it is, its length, and what material it
+  is made of.\\
   \textbf{Rationale:} Different bridges will react to the same truck platoon differently, therefore specifiying the relevant characteristics of the bridge is necessary for
   the relevance of the simulation.\\
-  \textbf{Fit Criterion} At least one method of input(text based, dropdown list, etc) exists that allows users to correctly specify those 2 characteristics of the bridge.\\
-  \textbf{Priority/Phase in Date:} High/Dec 20th\\
-  \textbf{Phase in Date Rationale:} This will be among the later functionalities as while it is very important for the finished product, it is not proof of concept level.\\\\
+  \textbf{Fit Criterion} At least one method of input(text based, dropdown list, etc) exists that allows users to correctly specify those 3 characteristics of the bridge.\\
+  \textbf{Priority/Phase in Date:} Medium/Dec 20th\\
+  \textbf{Phase in Date Rationale:} This will be among the later functionalities as while it is very important for the finished product, it is not proof of concept level.\\
+  \textbf{Traceability:} N/A: No constraints or assumptions trace to this requirement.\\\\
   
   \noindent\textbf{FR.7} The Program should allow the user to visualize the effects of their bridge characteristic definitions on the final bridge.\\
   \textbf{Rationale:} This is mainly to help the user verify that the inputs they put into the program correspond to the bridge they had in mind. As we are making a GUI,
   visual feedback is paramount to functionality.\\
   \textbf{Fit Criterion:} There exists some visual representation of the bridge that changes to correctly reflect the impact of changes in user input.\\
-  \textbf{Priority/Phase in Date:} High/Jan 5th\\
-  \textbf{Phase in Date Rationale:} This will be among the last functionalities implemented as it is dependent on FR.6.\\\\
+  \textbf{Priority/Phase in Date:} Medium/Jan 5th\\
+  \textbf{Phase in Date Rationale:} This will be among the last functionalities implemented as it is dependent on FR.6.\\
+  \textbf{Traceability:} N/A: No constraints or assumptions trace to this requirement.\\\\
   
   \noindent\textbf{FR.8} The Program should allow the user to save their current bridge configuration for later use.\\
   \textbf{Rationale:} Users may be interested in testing a particular bridge configuration disproportionately more often than others, in multiple situations
    and over multiple sessions. Making it so they don't have to manually remake it every time is important for the efficient use of The Program.\\
   \textbf{Fit Criterion:} The Program is capable of storing a bridge configuration in some form to be retrieved later.\\
-  \textbf{Priority/Phase in Date:} Medium/Jan 25th\\
-  \textbf{Phase in Date Rationale:} This will be among the last functionalities implemented as it is among the lowest priority requirements.\\\\
+  \textbf{Priority/Phase in Date:} Low/Jan 25th\\
+  \textbf{Phase in Date Rationale:} This will be among the last functionalities implemented as it is among the lowest priority requirements.\\
+  \textbf{Traceability:} N/A: No constraints or assumptions trace to this requirement.\\\\
 
   \noindent\textbf{FR.9} The Program should allow the user to load in their previously saved bridge configurations.\\
   \textbf{Rationale:} A companion piece to FR.8, the ability to save a configuration is functionally useless if you can't pull it back out later.\\
   \textbf{Fit Criterion:} The Program is capable of correctly recreating a bridge configuration from previously saved data.\\
-  \textbf{Priority/Phase in Date:} Medium/Jan 30th\\
-  \textbf{Phase in Date Rationale:} This will be among the last functionalities implemented as it is among the lowest priority requirements.\\\\
+  \textbf{Priority/Phase in Date:} Low/Jan 30th\\
+  \textbf{Phase in Date Rationale:} This will be among the last functionalities implemented as it is among the lowest priority requirements.\\
+  \textbf{Traceability:} N/A: No constraints or assumptions trace to this requirement.\\\\
 
   \noindent\textbf{FR.10} The Program should allow the user to define which of the two solvers they are interested in using.\\
   \textbf{Rationale:} as the MATLAB backend can solve for both the demand on a concerned section as the platoon drives along, as well as for which section has the 
   highest maximum demand over the course of the whole trip, and these are very different pieces of info, allowing the user to determine which they are currently interested in 
   is important.\\
   \textbf{Fit Criterion:} At least one method of input(text based, dropdown list, etc) exists that allows the user to accurately choose which solver they are would like to use.\\
-  \textbf{Priority/Phase in Date:} Extremely High/Nov 20th\\
-  \textbf{Phase in Date Rationale:} This functionality will be implemented relatively early as it is an important part of the core program.\\\\
+  \textbf{Priority/Phase in Date:} High/Nov 20th\\
+  \textbf{Phase in Date Rationale:} This functionality will be implemented relatively early as it is an important part of the core program.\\
+  \textbf{Traceability:} N/A: No constraints or assumptions trace to this requirement.\\\\
 
   \noindent\textbf{FR.11} The Program should allow the user to define a section of concern on the bridge.\\
   \textbf{Rationale:} The first solver revolves around calculating the demand on a certain point along the bridge as the truck platoon drives over, specifying what point it is
   that we care about is necessray for this function.\\
   \textbf{Fit Criterion:} At least one method of input(text based, dropdown list, etc) exists that allows the user to accurately determine a section of concern on the bridge.\\
-  \textbf{Priority/Phase in Date:} Extremely High/Nov 25th\\
-  \textbf{Phase in Date Rationale:} This functionality will be implemented relatively early as it is an important part of the core program.\\\\
+  \textbf{Priority/Phase in Date:} High/Nov 25th\\
+  \textbf{Phase in Date Rationale:} This functionality will be implemented relatively early as it is an important part of the core program.\\
+  \textbf{Traceability:} N/A: No constraints or assumptions trace to this requirement.\\\\
 
   \noindent\textbf{FR.12} The Program should allow the user to define a discretization length for their bridge.\\
   \textbf{Rationale:} The second solver finds which section has the maximum demand placed on it over the course of the platoon's trip. The discretization length determines how
   many sections the bridge is split up into, which is necessary for the functioning of the second solver.\\
   \textbf{Fit Criterion:} At least one method of input(text based, dropdown list, etc) exists that allows the user to accurately define a discretization length for their bridge.\\
-  \textbf{Priority/Phase in Date:} Extremely High/Nov 30th\\
-  \textbf{Phase in Date Rationale:} This functionality will be implemented relatively early as it is an important part of the core program.\\\\
+  \textbf{Priority/Phase in Date:} High/Nov 30th\\
+  \textbf{Phase in Date Rationale:} This functionality will be implemented relatively early as it is an important part of the core program.\\
+  \textbf{Traceability:} N/A: No constraints or assumptions trace to this requirement.\\\\
 
   \noindent\textbf{FR.13} The Program should allow the user to define which type of demand placed on the bridge they are interested in, between shear forces and positive/negative moment.\\
   \textbf{Rationale:} There are a variety of different demands placed on the bridge as the platoon drives over, and the MATLAB backend contains calculations for all 3 of the
   above mentioned demands. Allowing the user to define which of the 3 they are interested in seeing is necessary for the functionality of the simulation.\\
   \textbf{Fit Criterion:} At least one method of input(text based, dropdown list, etc) exists that allows the user to correctly define which of the 3 demands they are interested in
   simulating.\\
-  \textbf{Priority/Phase in Date:} High/Dec 15th\\
-  \textbf{Phase in Date Rationale:} This functionality will be implemented somewhere in the middle as it is and important part of the program.\\\\
+  \textbf{Priority/Phase in Date:} Medium/Dec 15th\\
+  \textbf{Phase in Date Rationale:} This functionality will be implemented somewhere in the middle as it is and important part of the program.\\
+  \textbf{Traceability:} N/A: No constraints or assumptions trace to this requirement.\\\\
 
   \noindent\textbf{FR.14} The Program should be capable of visualizing the results of the concerned section calculation for the user.\\
   \textbf{Rationale:} This is essentially the main purpose of the GUI; displaying the results of the MATLAB backend calculations visually to the user. This is one of the two
   main caluclations to be represented, so this functionality is very necessary.\\
   \textbf{Fit Criterion:} There exists an accurate visualization of the mathematical results of the concerned section calculation.\\
-  \textbf{Priority/Phase in Date:} Paramount/Dec 10th\\
-  \textbf{Phase in Date Rationale:} While this functionality is THE core feature of the program, its proper implementation depends on many other FRs, so it will be fully implmented on the later side.\\\\
+  \textbf{Priority/Phase in Date:} Extremely High/Dec 10th\\
+  \textbf{Phase in Date Rationale:} While this functionality is THE core feature of the program, its proper implementation depends on many other FRs, so it will be fully implmented on the later side.\\
+  \textbf{Traceability:} N/A: No constraints or assumptions trace to this requirement.\\\\
 
   \noindent\textbf{FR.15} The Program should be capable of visualizing the results of the critical section calculation for the user.\\
   \textbf{Rationale:} This is essentially the main purpose of the GUI; displaying the results of the MATLAB backend calculations visually to the user. This is one of the two
   main caluclations to be represented, so this functionality is very necessary.\\
   \textbf{Fit Criterion:} There exists an accurate visualization of the mathematical results of the critical section calculation.\\
-  \textbf{Priority/Phase in Date:} Paramount/Dec 10th\\
-  \textbf{Phase in Date Rationale:} While this functionality is THE core feature of the program, its proper implementation depends on many other FRs, so it will be fully implmented on the later side.\\\\
+  \textbf{Priority/Phase in Date:} Extremely/Dec 10th\\
+  \textbf{Phase in Date Rationale:} While this functionality is THE core feature of the program, its proper implementation depends on many other FRs, so it will be fully implmented on the later side.\\
+  \textbf{Traceability:} N/A: No constraints or assumptions trace to this requirement.\\\\
 
   \noindent\textbf{FR.16} The Program should be capable of outputting a report summarizing the results of its runtime.\\
   \textbf{Rationale:} Having a long term representation of the data presented in the program after the current session of use is over is helpful for engineers comparing
   and contrasting diffrent simulations over time. Without this, the information would be lost as soon as the program was exited.\\
   \textbf{Fit Criterion:} There exists an accurate report that cotains all the relevant data from simulations run over the course of the runtime in some output format.\\
-  \textbf{Priority/Phase in Date:} High/Jan 15th\\
-  \textbf{Phase in Date Rationale:} This will be among the last functionalities implemented as it is dependent on many other FRs.\\\\
+  \textbf{Priority/Phase in Date:} Medium/Jan 15th\\
+  \textbf{Phase in Date Rationale:} This will be among the last functionalities implemented as it is dependent on many other FRs.\\
+  \textbf{Traceability:} N/A: No constraints or assumptions trace to this requirement.\\\\
 
 
 \section{Non-functional Requirements}
@@ -560,37 +607,37 @@ Their values are defined in this section for easy maintenance.
   \toprule
   \textbf{Req.} & \textbf{Likelihood of Change} & \textbf{Rationale}\\
   \midrule
-  \textbf{FR.1} & \textbf{Nigh Impossible} & \textbf{This is a core feature.}\\
+  \textbf{FR.1} & \textbf{Very Unlikely} & \textbf{This is a core feature.}\\
   \midrule
-  \textbf{FR.2} & \textbf{Very Unlikely} & \textbf{Testing different truck platoons is very important to the simulation's usefulness}\\
+  \textbf{FR.2} & \textbf{Unlikely} & \textbf{Testing different truck platoons is very important to the simulation's usefulness}\\
   \midrule
-  \textbf{FR.3} & \textbf{Very Unlikely} & \textbf{Visual Feedback is a core part of the usefulness of the UI}\\
+  \textbf{FR.3} & \textbf{Unlikely} & \textbf{Visual Feedback is a core part of the usefulness of the UI}\\
   \midrule
   \textbf{FR.4} & \textbf{Possible} & \textbf{This is a "nice to have" feature.}\\
   \midrule
   \textbf{FR.5} & \textbf{Possible} & \textbf{Same Likelihood as FR.4, as if that changes, this changes}\\
   \midrule
-  \textbf{FR.6} & \textbf{Very Unlikely} & \textbf{Testing different types of bridges is very important to the simulation's usefulness}\\
+  \textbf{FR.6} & \textbf{Unlikely} & \textbf{Testing different types of bridges is very important to the simulation's usefulness}\\
   \midrule
-  \textbf{FR.7} & \textbf{Very Unlikely} & \textbf{Visual Feedback is a core part of the usefulness of the UI}\\
+  \textbf{FR.7} & \textbf{Unlikely} & \textbf{Visual Feedback is a core part of the usefulness of the UI}\\
   \midrule
   \textbf{FR.8} & \textbf{Possible} & \textbf{This is a "nice to have" feature.}\\
   \midrule
   \textbf{FR.9} & \textbf{Possible} & \textbf{Same Likelihood as FR.8, as if that changes, this changes}\\
   \midrule
-  \textbf{FR.10} & \textbf{Nigh Impossible} & \textbf{This is a core feature.}\\
+  \textbf{FR.10} & \textbf{Very Unlikely} & \textbf{This is a core feature.}\\
   \midrule
-  \textbf{FR.11} & \textbf{Nigh Impossible} & \textbf{This is a core feature.}\\
+  \textbf{FR.11} & \textbf{Very Unlikely} & \textbf{This is a core feature.}\\
   \midrule
-  \textbf{FR.12} & \textbf{Nigh Impossible} & \textbf{This is a core feature.}\\
+  \textbf{FR.12} & \textbf{Very Unlikely} & \textbf{This is a core feature.}\\
   \midrule
-  \textbf{FR.13} & \textbf{Very Unlikely} & \textbf{Bridge Engineers are very interested in seeing multiple different types of demands on their bridge, not just one}\\
+  \textbf{FR.13} & \textbf{Unlikely} & \textbf{Bridge Engineers are very interested in seeing multiple different types of demands on their bridge, not just one}\\
   \midrule
-  \textbf{FR.14} & \textbf{Act of God} & \textbf{This is THE core feature.}\\
+  \textbf{FR.14} & \textbf{Not At All Forseen} & \textbf{This is the main purpose of the program.}\\
   \midrule
-  \textbf{FR.15} & \textbf{Act of God} & \textbf{This is THE core feature.}\\
+  \textbf{FR.15} & \textbf{Not At All Forseen} & \textbf{This is the main purpose of the program.}\\
   \midrule
-  \textbf{FR.16} & \textbf{Very Unlikely} & \textbf{A Report is important to preserve the simulation's findings}\\
+  \textbf{FR.16} & \textbf{Unlikely} & \textbf{A Report is important to preserve the simulation's findings}\\
   \bottomrule
 \end{tabular}
 \end{table}
@@ -604,8 +651,12 @@ through successfully. Below is a detailed breakdown from each Individual on what
 going about them.
 
 \noindent\textbf{Adham}\\
-\textbf{Most Important Learning(s):}\\
-\textbf{Plan to learn what is needed:}\\\\
+\textbf{Most Important Learning(s):} Personally, I believe my biggest knowledge gaps are C++ knowledge, in terms of both general language proficiency as well as unfamiliarity
+with tools and standards such as valgrind and clang.\\
+\textbf{Plan to learn what is needed:} I plan to do some self study to acquaint myself with C++, I am familiar with other OOP languages such as Java and Python, and have a good
+bit of experience with C as well, so I should be able to learn the ropes of C++ on my own. For more specific tools or libraries such as QT, or any other more in depth questions,
+I will leverage David and Victor, as they are both much more familiar with C++ than I am, to get me over any learning roadblocks. I could also just learn as I go through the
+implementation, and while that would be more exciting, I think I'll go with the former option for the sake of our group and the project.\\\\
 
 \noindent\textbf{David}\\
 \textbf{Most Important Learning(s):}\\
@@ -626,19 +677,5 @@ going about them.
 \noindent\textbf{Pedram}\\
 \textbf{Most Important Learning(s):}\\
 \textbf{Plan to learn what is needed:}\\\\
-
-\begin{enumerate}
-  \item What knowledge and skills will the team collectively need to acquire to
-  successfully complete this capstone project?  Examples of possible knowledge
-  to acquire include domain specific knowledge from the domain of your
-  application, or software engineering knowledge, mechatronics knowledge or
-  computer science knowledge.  Skills may be related to technology, or writing,
-  or presentation, or team management, etc.  You should look to identify at
-  least one item for each team member.
-  \item For each of the knowledge areas and skills identified in the previous
-  question, what are at least two approaches to acquiring the knowledge or
-  mastering the skill?  Of the identified approaches, which will each team
-  member pursue, and why did they make this choice?
-\end{enumerate}
 
 \end{document}
