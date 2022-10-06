@@ -30,6 +30,8 @@
 \input{../Comments}
 \input{../Common}
 
+\graphicspath{{images/}}
+
 \title{Software Requirements Specification\\\progname}
 
 \author{\authname}
@@ -203,7 +205,7 @@ The potential users of this product are civil engineers designing and monitoring
 \emph{  Basic Flow:} 
 \begin{itemize}
 \item System asks user to enter a truck parameter.
-\item User enters the truck parameter.
+\item User enters truck parameter.
 \item System checks parameter.
 \subitem \emph{Alternative} If the parameter is incorrect, the user is alerted.
 \end{itemize}
@@ -213,6 +215,12 @@ The potential users of this product are civil engineers designing and monitoring
 \item System provides an animation of the truck platoon.
 \item User interacts with the animation of the trucks. 
 \end{itemize}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.5\linewidth]{use-case-1-sm.png}
+  \caption{Use Case 1 State Machine}
+  \label {fig:use-case-1-sm}
+\end{figure}
 
 \noindent
 \textbf{User navigates to the Bridge Configuration Tab} \\
@@ -230,8 +238,14 @@ The potential users of this product are civil engineers designing and monitoring
 \begin{itemize}
 \item User requests an animation of the bridge. 
 \item System provides an animation of the bridge.
-\item User interactswith the animation of the bridge.
+\item User interacts with the animation of the bridge.
 \end{itemize}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.5\linewidth]{use-case-2-sm.png}
+  \caption{Use Case 2 State Machine}
+  \label {fig:use-case-2-sm}
+\end{figure}
 
 \noindent
 \textbf{User navigates to the Analysis Configuration Tab} \\
@@ -241,11 +255,16 @@ The potential users of this product are civil engineers designing and monitoring
 \emph{  Basic Flow:} 
 \begin{itemize}
 \item System asks the user to enter an analysis parameter. 
-\item User enters the analysis parameteres. 
+\item User enters the analysis parameters. 
 \item System checks parameter.
 \subitem \emph{Alternative} If the parameter is incorrect, the user is alerted.
 \end{itemize}
-
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.5\linewidth]{use-case-3-sm.png}
+  \caption{Use Case 3 State Machine}
+  \label {fig:use-case-3-sm}
+\end{figure}
 
 \noindent
 \textbf{User starts the Analyze process. } \\
@@ -258,29 +277,38 @@ The potential users of this product are civil engineers designing and monitoring
 \item The system checks for parameters once submitted.
 \subitem \emph{Alternative} If the values are not correct, the user is alerted.
 \item If correct, parameters are sent to be solved. 
-\item Text-based result in form of a report are retruned.
+\item Text-based result in form of a report are returned.
 \end{itemize}
 \emph{  Extension:} 
 \begin{itemize}
-\item The recieved results are generated as a report including several graphs and charts.
+\item The received results are generated as a report including several graphs and charts.
 \item An animated, interactable plot is generated along with a visualization of the trucks on the bridge to dynamically highlight different values of force.
 \end{itemize}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.5\linewidth]{use-case-4-sm.png}
+  \caption{Use Case 4 State Machine}
+  \label {fig:use-case-4-sm}
+\end{figure}
 
 \noindent
 \textbf{The solver solves the mathematical model using the given inputs from the system.} \\
 \emph{  Primary Actors:} Solver\\
 \emph{  Pre Condition:} Truck, Bridge and Analysis Configuration are all valid.\\
-\emph{  Post Condition:} Recieved results valid based on the testing spec.\\ 
+\emph{  Post Condition:} Received results valid based on the testing spec.\\ 
 \emph{  Basic Flow:} 
 \begin{itemize}
-\item The system recieves the configuration data from each configurator. 
+\item The system receives the configuration data from each configurator. 
 \item The system sends the data to the Solver where the equations are solved using the given parameters. 
 \item Solver returns text-based results which are sent back into the system. 
-\subitem \emph{Alternative} The solver cannot solve the equations using the given input. The user is alerted to check their parameters. 
+\subitem \emph{Alternative} The solver cannot solve the equations using the given input. The user is alerted to check their parameter. 
 \end{itemize}
-
-
-
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.5\linewidth]{use-case-5-sm.png}
+  \caption{Use Case 5 State Machine}
+  \label {fig:use-case-5-sm}
+\end{figure}
 
 \subsection{Functional Requirements/Phase in Plan}
   \textbf{FR.1} The Program should be able to call the backend MATLAB functions. \\
@@ -610,8 +638,14 @@ going about them.
 \textbf{Plan to learn what is needed:}\\\\
 
 \noindent\textbf{David}\\
-\textbf{Most Important Learning(s):}\\
-\textbf{Plan to learn what is needed:}\\\\
+\textbf{Most Important Learning(s):} I feel I will need to gather some domain specific knowledge, specifically related to bridge engineering. 
+I feel I will also need to work on my technical writing skills (formal and succinct). \\
+\textbf{Plan to learn what is needed:} We have an amazing resource in Dr. Yang and her students, as they are domain experts in bridge engineering. I think throughout the 
+project, speaking to them about bridge engineering will help me learn a lot. I also think a lot can be learned from Google, since a lot of the simpler concepts can be learned 
+about through various sources. I will mainly rely on speaking to Dr. Yang and her students, since I know they are a reliable source for information, especially in terms of 
+the knowledge required for this project. Technical writing can be improved through gaining valuable feedback from our TA on my writing. This can also be improved
+by practicing an iterative process on my writing, where I can go back and try to simplify my writing while maintaining its meaning. I will mainly rely on the latter, since 
+I feel I can learn a lot more with the iterative process.\\\\
 
 \noindent\textbf{Victor}\\
 \textbf{Most Important Learning(s):}\\
