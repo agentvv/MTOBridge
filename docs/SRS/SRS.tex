@@ -30,8 +30,6 @@
 \input{../Comments}
 \input{../Common}
 
-\graphicspath{{images/}}
-
 \title{Software Requirements Specification\\\progname}
 
 \author{\authname}
@@ -77,7 +75,7 @@ October 5 & Farzad & Completed parts of project drivers\\
 \midrule
 October 5 & Adham & Added Prio. and Phase in Plan for FRs and Reflection Skeleton\\
 \midrule
-October 5 & Darren & Numbered and traced Non-functional Requirements\\
+October 5 & Farzad & Completed project drivers AND reflection\\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -145,10 +143,10 @@ The potential users of this product are civil engineers designing and monitoring
 \textbf{Span:} In engineering parlance means the gap between two supports.
 
 \subsection{Relevant Facts and Assumptions}
-\begin{itemize}
-  \item The prepared MATLAB engines are reliable and thoroughly tested.
-  \item Users have access to computers that runs windows 10 and can handle calculation intensive analysis.
-\end{itemize}
+
+  \textbf{Ass 1:} The prepared MATLAB engines are reliable and thoroughly tested.\\
+  \textbf{Ass 2:} Users have access to computers that runs windows 10 and can handle calculation intensive analysis.
+
 
 
 \section{Functional Requirements}
@@ -215,12 +213,6 @@ The potential users of this product are civil engineers designing and monitoring
 \item System provides an animation of the truck platoon.
 \item User interacts with the animation of the trucks. 
 \end{itemize}
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=0.5\linewidth]{use-case-1-sm.png}
-  \caption{Use Case 1 State Machine}
-  \label {fig:use-case-1-sm}
-\end{figure}
 
 \noindent
 \textbf{User navigates to the Bridge Configuration Tab} \\
@@ -240,12 +232,6 @@ The potential users of this product are civil engineers designing and monitoring
 \item System provides an animation of the bridge.
 \item User interacts with the animation of the bridge.
 \end{itemize}
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=0.5\linewidth]{use-case-2-sm.png}
-  \caption{Use Case 2 State Machine}
-  \label {fig:use-case-2-sm}
-\end{figure}
 
 \noindent
 \textbf{User navigates to the Analysis Configuration Tab} \\
@@ -259,12 +245,7 @@ The potential users of this product are civil engineers designing and monitoring
 \item System checks parameter.
 \subitem \emph{Alternative} If the parameter is incorrect, the user is alerted.
 \end{itemize}
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=0.5\linewidth]{use-case-3-sm.png}
-  \caption{Use Case 3 State Machine}
-  \label {fig:use-case-3-sm}
-\end{figure}
+
 
 \noindent
 \textbf{User starts the Analyze process. } \\
@@ -284,12 +265,6 @@ The potential users of this product are civil engineers designing and monitoring
 \item The received results are generated as a report including several graphs and charts.
 \item An animated, interactable plot is generated along with a visualization of the trucks on the bridge to dynamically highlight different values of force.
 \end{itemize}
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=0.5\linewidth]{use-case-4-sm.png}
-  \caption{Use Case 4 State Machine}
-  \label {fig:use-case-4-sm}
-\end{figure}
 
 \noindent
 \textbf{The solver solves the mathematical model using the given inputs from the system.} \\
@@ -303,12 +278,9 @@ The potential users of this product are civil engineers designing and monitoring
 \item Solver returns text-based results which are sent back into the system. 
 \subitem \emph{Alternative} The solver cannot solve the equations using the given input. The user is alerted to check their parameter. 
 \end{itemize}
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=0.5\linewidth]{use-case-5-sm.png}
-  \caption{Use Case 5 State Machine}
-  \label {fig:use-case-5-sm}
-\end{figure}
+
+
+
 
 \subsection{Functional Requirements/Phase in Plan}
   \textbf{FR.1} The Program should be able to call the backend MATLAB functions. \\
@@ -427,78 +399,78 @@ The potential users of this product are civil engineers designing and monitoring
 
 \subsection{Look and Feel Requirements}
 
-  \textbf{NFR.1} The graphics will be informative.\\
+  \textbf{NFR.?} The graphics will be informative.\\
   \textbf{Rationale:} The user should gain value out of the presence of graphics.\\
-  \textbf{Fit Criterion:} Civil engineers who use the program will identify and understand the different graphic elements used to represent bridge parts in at least 90\% of cases.\\
-  \textbf{Traceability:} FR.3, FR.7, FR.14, FR.15.\\\\
+  \textbf{Fit Criterion:} Civil engineers who use the program will understand the different graphic elements used to represent bridge parts.\\
+  \textbf{Traceability:} ?.\\\\
 
 \subsection{Usability and Humanity Requirements}
 
-  \textbf{NFR.2} The program will be intuitive to use.\\
+  \textbf{NFR.?} The program will be intuitive to use.\\
   \textbf{Rationale:} The program should be easy to use for its intended audience.\\
   \textbf{Fit Criterion:} Civil engineers can use the program to generate a bridge system analysis within 5 minutes of introduction.\\
-  \textbf{Traceability:} N/A; this is an important quality of the program as a whole and so does not map to any individual FR, constraint, or assumption.\\\\
+  \textbf{Traceability:} ?.\\\\
 
-  \noindent\textbf{NFR.3} The product will appear correctly on different display resolutions.\\
+  \noindent\textbf{NFR.?} The product will appear correctly on different display resolutions.\\
   \textbf{Rationale:} Users of the product may wish to use it on displays of different resolutions.\\
   \textbf{Fit Criterion:} The Program will be viewed and its appearance validated on displays of different resolutions.\\
-  \textbf{Traceability:} Const 2.\\\\
+  \textbf{Traceability:} ?.\\\\
 
-  \noindent\textbf{NFR.4} The product will allow for the resizing of text.\\
+  \noindent\textbf{NFR.?} The product will allow for the resizing of text.\\
   \textbf{Rationale:} Users of the product may wish to increase text size to allow for easier reading of the text.\\
-  \textbf{Fit Criterion:} We will ensure that the text size within the program is resizable within a range of at least 8pt to 32pt font, and that the program still functions correctly when the text size is changed.\\
-  \textbf{Traceability:} FR.3, FR.7, FR.14, FR.15.\\\\
+  \textbf{Fit Criterion:} We will ensure that the text size within the program is resizable, and that the program still functions correctly when the text size is changed.\\
+  \textbf{Traceability:} ?.\\\\
 
-  \noindent\textbf{NFR.5} The program will be easy to install and run.\\
+  \noindent\textbf{NFR.?} The program will be easy to install and run.\\
   \textbf{Rationale:} The program cannot be difficult to install for the users of our product.\\
   \textbf{Fit Criterion:} We will measure the time it takes to download, install, and run our program.\\
-  \textbf{Traceability:} Const 2, Const 3.\\\\
+  \textbf{Traceability:} ?.\\\\
 
-  \noindent\textbf{NFR.6} UI elements which provide similar functionality will have a similar look.\\
+  \noindent\textbf{NFR.?} UI elements which provide similar functionality will have a similar look.\\
   \textbf{Rationale:} Having UI elements with comparable functionality be visually consistent will help with usability.\\
-  \textbf{Fit Criterion:} We will classify UI elements into categories and ensure that all elements within each categories are visually similar. Civil engineers will be able to associate UI elements with their corresponding categories in at least 90\% of cases.\\
-  \textbf{Traceability:} FR.3, FR.7, FR.14, FR.15.\\\\
+  \textbf{Fit Criterion:} We will classify UI elements into categories and ensure that all elements within each categories are visually similar.\\
+  \textbf{Traceability:} ?.\\\\
 
 \subsection{Performance Requirements}
 
-  \textbf{NFR.7} The program will safely handle unusual user inputs.\\
+  \textbf{NFR.?} The program will safely handle unusual user inputs.\\
   \textbf{Rationale:} Program should be robust and not prone to failure due to common misinputs.\\
   \textbf{Fit Criterion:} The program will not freeze or crash as a direct result of a user providing inputs to the system.\\
-  \textbf{Traceability:} FR.2, FR.6, FR.11, FR.12, FR.13.\\\\
+  \textbf{Traceability:} ?.\\\\
 
-  \noindent\textbf{NFR.8} The program will be able to handle missing dependencies.\\
+  \noindent\textbf{NFR.?} The program will be able to handle missing dependencies.\\
   \textbf{Rationale:} The program should be able to handle and warn of absent files.\\
   \textbf{Fit Criterion:} The program will produce an error message when MATLAB scripts are absent or unable to run.\\
-  \textbf{Traceability:} FR.1.\\\\
+  \textbf{Traceability:} ?.\\\\
 
-  \noindent\textbf{NFR.9} UI elements will react promptly to user input.\\
+  \noindent\textbf{NFR.?} UI elements will react promptly to user input.\\
   \textbf{Rationale:} The users of the program will want the UI to react quickly to their input.\\
   \textbf{Fit Criterion:} The UI will graphically update to indicate it has acknowledged user inputs within 100ms of the input.\\
-  \textbf{Traceability:} FR.3, FR.7, FR.14, FR.15.\\\\
+  \textbf{Traceability:} ?.\\\\
 
-  \noindent\textbf{NFR.10} UI will not be unreasonably slow.\\
+  \noindent\textbf{NFR.?} UI will not be unreasonably slow.\\
   \textbf{Rationale:} UI should not introduce substantial delay beyond what is needed to calculate results.\\
   \textbf{Fit Criterion:} The program delay when calculating and displaying results will not exceed the underlying MATLAB script's execution time by 10\%.\\
-  \textbf{Traceability:} FR.3, FR.7, FR.14, FR.15.\\\\
+  \textbf{Traceability:} ?.\\\\
 
-  \noindent\textbf{NFR.11} The program will be precise.\\
+  \noindent\textbf{NFR.?} The program will be precise.\\
   \textbf{Rationale:} The program must be reasonably precise to provide value for simulating bridges under load.\\
   \textbf{Fit Criterion:} Calculations are accurate to within 1\% relative error of similar bridge simulation engines.\\
-  \textbf{Traceability:} Const 1, FR.1.\\\\
+  \textbf{Traceability:} ?.\\\\
 
 \subsection{Operational and Environmental Requirements}
 
-  \textbf{NFR.12} The program will run without slowdown on expected users' (MTO engineers) computers.\\
+  \textbf{NFR.?} The program will run without slowdown on expected users' (MTO engineers) computers.\\
   \textbf{Rationale:} The program must be able to run within requirements on the computers that it is intended to be used on.\\
   \textbf{Fit Criterion:} Performance testing will be done on a computer with the same (or reasonably similar) hardware.\\
-  \textbf{Traceability:} Const 1.\\\\
+  \textbf{Traceability:} ?.\\\\
 
 \subsection{Maintainability and Support Requirements}
 
-  \textbf{NFR.13} The product shall be easily maintainable.\\
+  \textbf{NFR.?} The product shall be easily maintainable.\\
   \textbf{Rationale:} The code must be easily maintainable to allow for future bug fixes and/or feature additions.\\
   \textbf{Fit Criterion:} We will use file length, method length, and nesting depth as our primary indicators of code maintainability.\\
-  \textbf{Traceability:} N/A; this is an important quality of the program as a whole and so does not map to any individual FR, constraint, or assumption..\\\\
+  \textbf{Traceability:} ?.\\\\
 
 \subsection{Security Requirements}
 
@@ -506,17 +478,17 @@ N/A; this project does not involve significant communication of user data.\\
 
 \subsection{Cultural Requirements}
 
-  \textbf{NFR.14} The program should be able to be easily translated into other languages.\\
+  \textbf{NFR.?} The program should be able to be easily translated into other languages.\\
   \textbf{Rationale:} People who don't speak English may wish to use the program, especially French speakers as Canada is a bilingual country.\\
   \textbf{Fit Criterion:} Localization process to support French will not take over one week to complete.\\
-  \textbf{Traceability:} N/A; this is an important quality of the program as a whole and so does not map to any individual FR, constraint, or assumption..\\\\
+  \textbf{Traceability:} ?.\\\\
 
 \subsection{Legal Requirements}
 
-  \textbf{NFR.15} Private MTOBridge assets will not be exposed for easy access to users.\\
+  \textbf{NFR.?} Private MTOBridge assets will not be exposed for easy access to users.\\
   \textbf{Rationale:} The client has expressed that their assets should be held confidential.\\
   \textbf{Fit Criterion:} Received assets including MATLAB scripts will be excluded or compiled when in public repositories and distributed.\\
-  \textbf{Traceability:} N/A; this is an important quality of the program as a whole and so does not map to any individual FR, constraint, or assumption..\\\\
+  \textbf{Traceability:} ?.\\\\
 
 \subsection{Health and Safety Requirements}
 
@@ -652,12 +624,12 @@ I feel I can learn a lot more with the iterative process.\\\\
 \textbf{Plan to learn what is needed:}\\\\
 
 \noindent\textbf{Darren}\\
-\textbf{Most Important Learning(s): I have little knowledge of bridge engineering. Though I have written them before, I also struggle with formalized project documentation such as design documents. Additionally, while I've worked on software engineer project teams in the past, this is the first software project where I expect to be as involved as all of my peers rather than a team with far more or far less experience on the project and interacting with all of them regularly.}\\
-\textbf{Plan to learn what is needed: I will make use of the meetings with Dr. Yang and her students to gain a deeper understanding of why we are building this product, what came before it, and what it will be used for. I will aim to take a more proactive approach to team meetings and not shying away from feedback while also remaining mindful of potential conflict. I will maintain contact "off-hours" and open communications with team members.}\\\\
-
-\noindent\textbf{Farzad}\\
 \textbf{Most Important Learning(s):}\\
 \textbf{Plan to learn what is needed:}\\\\
+
+\noindent\textbf{Farzad}\\
+\textbf{Most Important Learning(s): I believe success of any project relies on team management the most. Adopting any level of agile methodologies can not only deepen our understanding of what are the best approaches through trial and error and prototyping but also it allows our stakeholders to have a lot more influence on the outcome of the project by providing rapid feedback. Even though the course is enforcing waterfall by having step by step milestones and documentation, I believe we can still add a little bit of agile to the mix to reach a perfect balance as this is usually the case in real life. }\\
+\textbf{Plan to learn what is needed: In order to become more agile everyone in the team including myself needs to get trained on the matter. On top of that we need to have a retrospective meeting after each sprint to see which agile practices were performed well or inadequately. Both approaches are required, however educating myself on the matter has the highest priority since no meaningful retrospective session can be held if at least some people don't have a deep enough understanding of agile.}\\\\
 
 \noindent\textbf{Pedram}\\
 \textbf{Most Important Learning(s):} Personally, the most important learning includes deepening my knowledge of C++ frameworks, specifically Qt which we will be likely using to create the MTOBridge features. I will take this opportunity to learn deeper about interactions between programming languages and how different programs can be synced. I think this is also a great opportunity to understand design thinking and how it can go beyond the everyday user and be applied to an actual engineer. \\
