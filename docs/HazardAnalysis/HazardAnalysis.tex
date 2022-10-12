@@ -36,7 +36,7 @@
 \toprule
 \textbf{Date} & \textbf{Developer(s)} & \textbf{Change}\\
 \midrule
-Date1 & Name(s) & Description of changes\\
+October 12 2022 & Darren & Added System Boundaries \& Components\\
 Date2 & Name(s) & Description of changes\\
 ... & ... & ...\\
 \bottomrule
@@ -60,6 +60,18 @@ Date2 & Name(s) & Description of changes\\
 \section{Scope and Purpose of Hazard Analysis}
 
 \section{System Boundaries and Components}
+
+This hazard analysis addresses the system that consists of the following components:
+
+\begin{enumerate}
+	\item UI Component, for providing a graphic display to the user and visualizing MATLAB results
+	\item Input Handler Component, for processing user inputs
+	\item MATLAB Interaction Component, for calling scripts and supplying specified arguments to them
+	\item MATLAB Engine Component, for performing bridge calculations
+	\item File Manager Component, for reading inputs from files and saving results in various formats
+\end{enumerate}
+
+The system boundary includes these software components and any dependency files required for the application to operate. Although the MATLAB Engine Component is owned by the client and its exact contents verified independent of this project, this hazard analysis will address it due to being a crucial component of the system.
 
 \section{Critical Assumptions}
 
