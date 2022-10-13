@@ -75,10 +75,13 @@ The system boundary includes these software components and any dependency files 
 
 \section{Critical Assumptions}
 
-\wss{These assumptions that are made about the software or system.  You should
-minimize the number of assumptions that remove potential hazards.  For instance,
-you could assume a part will never fail, but it is generally better to include
-this potential failure mode.}
+We will be making the following assumptions about the system:
+\begin{enumerate}
+    \item The MATLAB Engine Component will take less than 1 second to perform bridge calculations. 
+    This is because the equations that need to be solved have closed form solutions, and should be easy
+    to compute.
+    \item The user of the system will have input (keyboard, mouse) and output (monitor/display) devices.
+\end{enumerate}
 
 \section{Failure Mode and Effect Analysis}
 
