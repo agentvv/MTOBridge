@@ -115,14 +115,6 @@ any assumptions about its correctness and functionality.
     \textbf{b.} Same as HA-1b\newline
     \textbf{c.} Same as HA-1c
 &None&HA-2\\
-    \midrule
-    UI & UI Displays bridge config incorrectly. & User confusion / Misleading interface & \textbf{a.} Incorrect processing of regular user input\newline
-    \textbf{b.} Runtime error in truck display module\newline
-    \textbf{c.} Unexpected/boundary case user input 
-&  \textbf{a.} Same as HA-1a\newline
-    \textbf{b.} Same as HA-1b.\newline
-    \textbf{c.} Same as HA-1c.
-    &None&HA-3\\
     \bottomrule
   \end{tabular}
   \end{table}
@@ -131,6 +123,14 @@ any assumptions about its correctness and functionality.
     \begin{tabular}{|p{0.1\textwidth} | p{0.2\textwidth} | p{0.2\textwidth} | p{0.35\textwidth} | p{0.45\textwidth} | p{0.07\textwidth} | p{0.09\textwidth}|}
     \toprule
     \textbf{Comp onent} & \textbf{Failure} & \textbf{Effect} & \textbf{Cause} & \textbf{Recommended Action} & \textbf{SR} & \textbf{Ref}\\
+\midrule
+    UI & UI Displays bridge config incorrectly. & User confusion / Misleading interface & \textbf{a.} Incorrect processing of regular user input\newline
+    \textbf{b.} Runtime error in truck display module\newline
+    \textbf{c.} Unexpected/boundary case user input 
+&  \textbf{a.} Same as HA-1a\newline
+    \textbf{b.} Same as HA-1b.\newline
+    \textbf{c.} Same as HA-1c.
+    &None&HA-3\\
 \midrule
     UI & UI does not update to match new bridge config at all & User missing important information. &  \textbf{a.} Failure to catch invalid user input.\newline
     \textbf{b.} Runtime error in truck display module\newline
@@ -146,15 +146,6 @@ any assumptions about its correctness and functionality.
     \textbf{b.} Minimize complexity of input handler/solver selection display modules and the interaction between them to reduce chances of incorrect information passing
      and misleading or incorrect displays of input.
     &None&HA-5\\
-\midrule
-    UI&Truck platoon trip display does not match bridge load display.
-    &Display is impossible to parse&\textbf{a.} Incorrect calculation display logic.\newline
-    \textbf{b.} Unexpected bug or glitch is calculation display modules.
-&\textbf{a.} Thoroughly test calculation display module(s) to avoid unexpected behavior.\newline
-\textbf{b.} Include checks to determine if the two displays align and catch/correct it if they don’t instead of just displaying it anyways.\newline
-\textbf{a/b.} Look into splitting the calculation display modules into two modules entirely, platoon trip and bridge load display, to simplify each part and 
-reduce chance of logical errors.
-&SR-1&HA-6\\
 \bottomrule
   \end{tabular}
   \end{table}
@@ -163,6 +154,15 @@ reduce chance of logical errors.
     \begin{tabular}{|p{0.1\textwidth} | p{0.2\textwidth} | p{0.2\textwidth} | p{0.35\textwidth} | p{0.45\textwidth} | p{0.07\textwidth} | p{0.09\textwidth}|}
       \toprule
       \textbf{Comp onent} & \textbf{Failure} & \textbf{Effect} & \textbf{Cause} & \textbf{Recommended Action} & \textbf{SR} & \textbf{Ref}\\
+  \midrule
+    UI&Truck platoon trip display does not match bridge load display.
+    &Display is impossible to parse&\textbf{a.} Incorrect calculation display logic.\newline
+    \textbf{b.} Unexpected bug or glitch is calculation display modules.
+&\textbf{a.} Thoroughly test calculation display module(s) to avoid unexpected behavior.\newline
+\textbf{b.} Include checks to determine if the two displays align and catch/correct it if they don’t instead of just displaying it anyways.\newline
+\textbf{a/b.} Look into splitting the calculation display modules into two modules entirely, platoon trip and bridge load display, to simplify each part and 
+reduce chance of logical errors.
+&SR-1&HA-6\\
   \midrule
       UI & Platoon trip and Bridge load synch check(s) provides false positives or negatives &  Deny a fine display or let through an erroneous one.
     & \textbf{a.} Incorrect synch check logic.\newline
@@ -177,13 +177,6 @@ reduce chance of logical errors.
       \textbf{b.} Minimize complexity of input handler and concerned section display display modules and the interaction to reduce chances of 
       incorrect information passing and misleading/incorrect displays of input.
       &None&HA-8\\
-  \midrule
-      UI&UI incorrectly displays discretized bridge segments.
-      &Display is worthless& \textbf{a.} Unexpected bug/glitch in concerned section display module.\newline
-      \textbf{b.} Misleading or incorrect display of user concerned section selection.
-      &\textbf{a.} Same as HA-8a.\newline
-      \textbf{b.} Same as HA-8b.
-      &None&HA-9\\
   \bottomrule
     \end{tabular}
     \end{table}
@@ -192,6 +185,13 @@ reduce chance of logical errors.
     \begin{tabular}{|p{0.1\textwidth} | p{0.2\textwidth} | p{0.2\textwidth} | p{0.35\textwidth} | p{0.45\textwidth} | p{0.07\textwidth} | p{0.09\textwidth}|}
         \toprule
         \textbf{Comp onent} & \textbf{Failure} & \textbf{Effect} & \textbf{Cause} & \textbf{Recommended Action} & \textbf{SR} & \textbf{Ref}\\
+    \midrule
+      UI&UI incorrectly displays discretized bridge segments.
+      &Display is worthless& \textbf{a.} Unexpected bug/glitch in concerned section display module.\newline
+      \textbf{b.} Misleading or incorrect display of user concerned section selection.
+      &\textbf{a.} Same as HA-8a.\newline
+      \textbf{b.} Same as HA-8b.
+      &None&HA-9\\
     \midrule
         UI &  UI fails to display calculation results entirely. &  Display is worthless.
       & \textbf{a.} Unexpected/boundary case user input.\newline               
@@ -204,6 +204,14 @@ reduce chance of logical errors.
         \textbf{a/b.} Design modules with separation of concerns in mind to limit error propagation and increase program robustness.\newline
         \textbf{c.} Ensure calculation display modules have proper input bounds and safety nets to catch invalid user inputs, instead of just running with them.
       &None&HA-10\\
+    \bottomrule
+      \end{tabular}
+      \end{table}
+      \pagebreak
+    \begin{table}[H]
+    \begin{tabular}{|p{0.1\textwidth} | p{0.2\textwidth} | p{0.2\textwidth} | p{0.35\textwidth} | p{0.45\textwidth} | p{0.07\textwidth} | p{0.09\textwidth}|}
+        \toprule
+        \textbf{Comp onent} & \textbf{Failure} & \textbf{Effect} & \textbf{Cause} & \textbf{Recommended Action} & \textbf{SR} & \textbf{Ref}\\
     \midrule
         UI&UI stops reacting to user inputs&User locked out from using UI, program is worthless
       & \textbf{a.} Runtime error in calculation display modules.\newline
@@ -214,14 +222,6 @@ reduce chance of logical errors.
         \textbf{b.} Implement proper thread safety measures to avoid deadlocks and other such issues.\newline
         \textbf{a/b.} Design all modules with separation of concerns in mind to limit error propagation and increase program robustness.
       &None&HA-11\\
-    \bottomrule
-      \end{tabular}
-      \end{table}
-      \pagebreak
-    \begin{table}[H]
-    \begin{tabular}{|p{0.1\textwidth} | p{0.2\textwidth} | p{0.2\textwidth} | p{0.35\textwidth} | p{0.45\textwidth} | p{0.07\textwidth} | p{0.09\textwidth}|}
-        \toprule
-        \textbf{Comp onent} & \textbf{Failure} & \textbf{Effect} & \textbf{Cause} & \textbf{Recommended Action} & \textbf{SR} & \textbf{Ref}\\
     \midrule
     UI& UI encounters parallel computing issue such as deadlock/race condition.
     & Incorrect results or unexpected program behavior
@@ -238,15 +238,6 @@ reduce chance of logical errors.
       The program will always log in-depth error information and display an error message to the user telling them to contact the developers when 
       there is an issue with the MATLAB component.     
     &SR-3 &HB-1\\
-    \midrule
-    Matlab Interaction& Unable to call engine.
-      & Program cannot function
-      & \textbf{a.} One-time error in cross-program communication caused by outside factors (OS, hardware, etc.)\newline
-        \textbf{b.} Engine not installed / installed improperly 
-      & \textbf{a.} Same as HB-1a\newline
-        \textbf{b.} The program will always display a message telling the user that they must install the MATLAB engine with a reference 
-        to the installation section of the user manual when the MATLAB engine is not detected 
-      &SR-3 & HB-2\\
     \bottomrule
       \end{tabular}
       \end{table}
@@ -255,6 +246,15 @@ reduce chance of logical errors.
     \begin{tabular}{|p{0.1\textwidth} | p{0.2\textwidth} | p{0.2\textwidth} | p{0.35\textwidth} | p{0.45\textwidth} | p{0.07\textwidth} | p{0.09\textwidth}|}
           \toprule
           \textbf{Comp onent} & \textbf{Failure} & \textbf{Effect} & \textbf{Cause} & \textbf{Recommended Action} & \textbf{SR} & \textbf{Ref}\\
+      \midrule
+    Matlab Interaction& Unable to call engine.
+      & Program cannot function
+      & \textbf{a.} One-time error in cross-program communication caused by outside factors (OS, hardware, etc.)\newline
+        \textbf{b.} Engine not installed / installed improperly 
+      & \textbf{a.} Same as HB-1a\newline
+        \textbf{b.} The program will always display a message telling the user that they must install the MATLAB engine with a reference 
+        to the installation section of the user manual when the MATLAB engine is not detected 
+      &SR-3 & HB-2\\
       \midrule
       Matlab Engine& The engine crashes unexpectedly.
       & Program cannot function
