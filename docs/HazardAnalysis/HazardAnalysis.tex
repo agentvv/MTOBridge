@@ -3,7 +3,8 @@
 \usepackage{booktabs}
 \usepackage{tabularx}
 \usepackage{hyperref}
-
+\usepackage{float}
+\usepackage{enumitem}
 \hypersetup{
     colorlinks=true,       % false: boxed links; true: colored links
     linkcolor=red,          % color of internal links (change box color with linkbordercolor)
@@ -37,7 +38,8 @@
 \textbf{Date} & \textbf{Developer(s)} & \textbf{Change}\\
 \midrule
 October 12 2022 & Darren & Added System Boundaries \& Components\\
-Date2 & Name(s) & Description of changes\\
+October 19 2022& Adham & Added Adham/Victor/Farzads FMEA work into a latex table\\
+X & Y & Z\\
 ... & ... & ...\\
 \bottomrule
 \end{tabularx}
@@ -86,8 +88,236 @@ We will be making the following assumptions about the system:
 \end{enumerate}
 
 \section{Failure Mode and Effect Analysis}
+\begin{table}[H]
+    \caption{FMEA Analysis} \label{TblFMEA}
+    \begin{tabular}{|p{0.1\textwidth} | p{0.1\textwidth} | p{0.1\textwidth} | p{0.3\textwidth} | p{0.3\textwidth} | p{0.05\textwidth} | p{0.05\textwidth}|}
+    \toprule
+    \textbf{Comp onent} & \textbf{Failure} & \textbf{Effect} & \textbf{Cause} & \textbf{Recommended Action} & \textbf{SR} & \textbf{Ref}\\
+    \midrule
+    UI & UI Displays truck config incorrectly & User confusion / Misleading interface
+&   \textbf{A.} Incorrect processing of regular user input---
+    \textbf{B.} Runtime error in truck display module---
+    \textbf{C.} Unexpected/boundary case user input 
+&   \textbf{A.} Thoroughly test the truck display module to avoid unexpected responses to input---
+    \textbf{B.}  Ensure truck display module has proper error handling to avoid catastrophic failure if an error is encountered, and perhaps instead prompt the user to try again, for example.---
+    \textbf{C.} Design modules with separation of concerns in mind to limit complexity and increase program robustness.
+&None&HA-1\\
+    \midrule
+    UI & UI does not update to match new truck config at all & User missing important information. & \textbf{A.} Failure to catch invalid user input.---
+    \textbf{B.} Same as HA-1---
+    \textbf{C.} Same as HA-1 
+&   \textbf{A.} Ensure truck display module has proper input bounds and safety nets to catch invalid user inputs, instead of just running with them.---
+    \textbf{B.} Same as HA-1---
+    \textbf{C.} Same as HA-1
+&None&HA-2\\
+    \midrule
+    UI & UI Displays bridge config incorrectly. & Same as HA-1 & \textbf{A.} Same as HA-1.---
+    \textbf{B.} Same as HA-1.---
+    \textbf{C.}  Same as HA-1.
+&  \textbf{A.} Same as HA-1---
+    \textbf{B.} Same as HA-1.---
+    \textbf{C.} Same as HA-1.
+    &None&HA-3\\
+    \bottomrule
+  \end{tabular}
+  \end{table}
+\pagebreak
+\begin{table}[H]
+    \begin{tabular}{|p{0.1\textwidth} | p{0.1\textwidth} | p{0.1\textwidth} | p{0.3\textwidth} | p{0.3\textwidth} | p{0.05\textwidth} | p{0.05\textwidth}|}
+    \toprule
+    \textbf{Comp onent} & \textbf{Failure} & \textbf{Effect} & \textbf{Cause} & \textbf{Recommended Action} & \textbf{SR} & \textbf{Ref}\\
+\midrule
+    UI & UI does not update to match new bridge config at all & Same as HA-2 &  \textbf{A.} Same as HA-2.---  
+    \textbf{B.} Same as HA-2.---
+    \textbf{C.} Same as HA-2.
+&   \textbf{A.} Same as HA-2.---
+    \textbf{B.}  Same as HA-2.---
+    \textbf{C.} Same as HA-2.
+    &None&HA-4\\
+\midrule
+    UI&UI attempts to display undesired calculation type&Display is worthless&\textbf{A.} Incorrect processing of regular user input.---
+    \textbf{B.} Misleading or incorrect display of user solver selection.
+    &\textbf{A.} Thoroughly test solver configuration module to incorrect processing of user input---
+    \textbf{B.} Minimize complexity of input handler/solver selection display modules and the interaction between them to reduce chances of incorrect information passing
+     and misleading or incorrect displays of input.
+    &None&HA-5\\
+\midrule
+    UI&Truck platoon trip display does not match bridge load display.
+    &Display is impossible to parse&\textbf{A.} Incorrect calculation display logic.---
+    \textbf{B.} Unexpected bug or glitch is calculation display modules.
+&\textbf{A.} Thoroughly test calculation display module(s) to avoid unexpected behavior.---
+\textbf{B.} Include checks to determine if the two displays align and catch/correct it if they don’t instead of just displaying it anyways.---
+\textbf{A/B.} Look into splitting the calculation display modules into two modules entirely, platoon trip and bridge load display, to simplify each part and 
+reduce chance of logical errors.
+&SR-1&HA-6\\
+\bottomrule
+  \end{tabular}
+  \end{table}
+  \pagebreak
+  \begin{table}[H]
+      \begin{tabular}{|p{0.1\textwidth} | p{0.1\textwidth} | p{0.1\textwidth} | p{0.3\textwidth} | p{0.3\textwidth} | p{0.05\textwidth} | p{0.05\textwidth}|}
+      \toprule
+      \textbf{Comp onent} & \textbf{Failure} & \textbf{Effect} & \textbf{Cause} & \textbf{Recommended Action} & \textbf{SR} & \textbf{Ref}\\
+  \midrule
+      UI & Platoon trip and Bridge load synch check(s) provides false positives or negatives &  Deny a fine display or let through an erroneous one.
+    & \textbf{A.} Incorrect synch check logic.---
+      \textbf{B.} Unexpected bug or glitch in synch module.
+    & \textbf{A.} Thoroughly test synch checks to avoid unexpected behavior.---
+      \textbf{B.} Simplify synch check logic as much as is possible while maintaining accuracy to limit chance of incorrect logic programming
+    &SR-1&HA-7\\
+  \midrule
+      UI&UI incorrectly displays the concerned section&Display is worthless& \textbf{A.} unexpected bug/glitch in concerned section display module.---
+      \textbf{B.} misleading or incorrect display of user concerned section selection.
+    & \textbf{A.} Thoroughly test concerned section display module to incorrect processing of user input---
+      \textbf{B.} Minimize complexity of input handler and concerned section display display modules and the interaction to reduce chances of 
+      incorrect information passing and misleading/incorrect displays of input.
+      &None&HA-8\\
+  \midrule
+      UI&UI incorrectly displays discretized bridge segments.
+      &Same as HA-8&\textbf{A.} Same as HA-8.---
+      \textbf{B.}Same as HA-8.
+      &\textbf{A.} Same as HA-8.---
+      \textbf{B.}Same as HA-8.
+      &None&HA-9\\
+  \bottomrule
+    \end{tabular}
+    \end{table}
+    \pagebreak
+    \begin{table}[H]
+        \begin{tabular}{|p{0.1\textwidth} | p{0.1\textwidth} | p{0.1\textwidth} | p{0.3\textwidth} | p{0.3\textwidth} | p{0.05\textwidth} | p{0.05\textwidth}|}
+        \toprule
+        \textbf{Comp onent} & \textbf{Failure} & \textbf{Effect} & \textbf{Cause} & \textbf{Recommended Action} & \textbf{SR} & \textbf{Ref}\\
+    \midrule
+        UI &  UI fails to display calculation results entirely. &  Display is worthless.
+      & \textbf{A.} Unexpected/boundary case user input.---               
+        \textbf{B.} Runtime error in calculation display modules.---
+        \textbf{C.} Failure to catch invalid user input
 
-\wss{Include your FMEA table here}
+      & \textbf{A.} Thoroughly test the calculation display modules to avoid unexpected responses to input---
+        \textbf{B.}  Ensure calculation display modules have proper error handling to avoid catastrophic failure if an error is encountered, and perhaps instead prompt
+        the user to try again, for example.---
+        \textbf{A/B.} Design modules with separation of concerns in mind to limit error propagation and increase program robustness.---
+        \textbf{C.} Ensure calculation display modules have proper input bounds and safety nets to catch invalid user inputs, instead of just running with them.
+      &None&HA-10\\
+    \midrule
+        UI&UI stops reacting to user inputs&User locked out from using UI, program is worthless
+      & \textbf{A.} Runtime error in calculation display modules.---
+        \textbf{B.} Parallel computing issue such as deadlock that hangs the program.
+ 
+      & \textbf{A.}  Ensure all display modules have proper error handling to avoid catastrophic failure if an error is encountered, 
+        and perhaps instead prompt the user to try again, for example.---
+        \textbf{B.} Implement proper thread safety measures to avoid deadlocks and other such issues.---
+        \textbf{A/B.} Design all modules with separation of concerns in mind to limit error propagation and increase program robustness.
+      &None&HA-11\\
+    \bottomrule
+      \end{tabular}
+      \end{table}
+      \pagebreak
+    \begin{table}[H]
+        \begin{tabular}{|p{0.1\textwidth} | p{0.1\textwidth} | p{0.1\textwidth} | p{0.3\textwidth} | p{0.3\textwidth} | p{0.05\textwidth} | p{0.05\textwidth}|}
+        \toprule
+        \textbf{Comp onent} & \textbf{Failure} & \textbf{Effect} & \textbf{Cause} & \textbf{Recommended Action} & \textbf{SR} & \textbf{Ref}\\
+    \midrule
+    UI& UI encounters parallel computing issue such as deadlock/race condition.
+    & Incorrect results or unexpected program behavior
+    & \textbf{A.} Multiple threads modifying the same values/waiting on each other.---
+    & \textbf{A.} Implement proper thready safety measures to avoid deadlocks and other such issues
+    &None & HA-12\\
+    \midrule
+    Matlab Interaction& Data received is incorrectly formatted.
+    & Program cannot function
+    & \textbf{A.} One-time error in cross-program communication caused by outside factors (OS, hardware, etc.)---
+      \textbf{B.} Bug or error in MATLAB engine
+    & \textbf{A.} Try all calculations a second time when the first calculation fails---
+      \textbf{B.} The MATLAB engine will be tested thoroughly to try to reduce the amount of bugs it has. 
+      The program will always log in-depth error information and display an error message to the user telling them to contact the developers when 
+      there is an issue with the MATLAB component.     
+    &SR-3 &HB-1\\
+    \midrule
+    Matlab Interaction& Unable to call engine.
+      & Same as HB-1
+      & \textbf{A.} One-time error in cross-program communication caused by outside factors (OS, hardware, etc.)---
+        \textbf{B.} Engine not installed / installed improperly 
+      & \textbf{A.} Try all calculations a second time when the first calculation fails---
+        \textbf{B.} The program will always display a message telling the user that they must install the MATLAB engine with a reference 
+        to the installation section of the user manual when the MATLAB engine is not detected 
+      &SR-3 & HB-2\\
+    \bottomrule
+      \end{tabular}
+      \end{table}
+      \pagebreak
+      \begin{table}[H]
+          \begin{tabular}{|p{0.1\textwidth} | p{0.1\textwidth} | p{0.1\textwidth} | p{0.3\textwidth} | p{0.3\textwidth} | p{0.05\textwidth} | p{0.05\textwidth}|}
+          \toprule
+          \textbf{Comp onent} & \textbf{Failure} & \textbf{Effect} & \textbf{Cause} & \textbf{Recommended Action} & \textbf{SR} & \textbf{Ref}\\
+      \midrule
+      Matlab Engine& The engine crashes unexpectedly.
+      & Same as HB-1
+      & \textbf{A.} One-time crash caused by outside factors (OS, hardware, etc.)---
+        \textbf{B.} Bug or error in MATLAB engine      
+      & Same as HB-1    
+      &None&HC-1\\
+      \midrule
+      Matlab Engine& The engine calculations take more time than should be required (more than 1 second).
+      & Program must wait for results
+      & \textbf{A.} One-time error causing infinite looping caused by outside factors (OS, hardware, etc.)---
+        \textbf{B.} Bug or error in MATLAB engine      
+      & Same as HB-1    
+      &None&HC-2\\
+      \midrule
+      Matlab Engine& Data received from the engine is incorrect (as in physically impossible).
+      & Same as HB-1
+      & \textbf{A.} One-time calculation error caused by outside factors (OS, hardware, etc.)---
+        \textbf{B.} Bug or error in MATLAB engine.     
+      & Same as HB-1    
+      &None&HC-3\\
+      \bottomrule
+        \end{tabular}
+        \end{table}
+        \pagebreak
+        \begin{table}[H]
+            \begin{tabular}{|p{0.1\textwidth} | p{0.1\textwidth} | p{0.1\textwidth} | p{0.3\textwidth} | p{0.3\textwidth} | p{0.05\textwidth} | p{0.05\textwidth}|}
+            \toprule
+            \textbf{Comp onent} & \textbf{Failure} & \textbf{Effect} & \textbf{Cause} & \textbf{Recommended Action} & \textbf{SR} & \textbf{Ref}\\
+        \midrule
+        Input Handler& Handler passes inputs to other components that are too large or small.
+        & Inaccurate analysis results
+        & \textbf{A.} Accidental changes of input for example writing 100000 instead of 10000000      
+        & \textbf{A.} Validating numeric values are within an acceptable range   
+        &SR-4&HD-1\\
+        \midrule
+        Input Handler& Handler invariant to type changes.
+        & System Crash
+        & \textbf{A.} Accidental mix and match of inputs for example inputting structure material inside load section
+        & \textbf{A.} Validating input type before passing it on.    
+        &SR-5&HD-2\\
+        \midrule
+        Input Handler& Handler passes on incomplete set of inputs.
+        & Same as HD-2
+        & \textbf{A.} Submitting before completing all input sections     
+        & \textbf{A.} Detecting if required inputs are missing from the model   
+        &None&HD-3\\
+        \midrule
+        File Manager& File Manager loads corrupted configuration and saved files.
+        & Inaccurate results or system crash
+        & \textbf{A.} Process responsible for creating the file was interrupted.---
+          \textbf{B.} files edited manually by power users
+        & \textbf{A.} Have metrics that indicates file creation was completed and if not it is communicated to the user when loading.---
+          \textbf{B.} Have metrics such as checksums to ensure the integrity of the files.  
+        &SR-6&HE-1\\
+        \midrule
+        File Manager& File Manager partially saves file.
+        & Data loss
+        & \textbf{A.} Power outage---
+          \textbf{B.} System crash        
+        & \textbf{A/B.} Automatically save to a file whenever user changes the configuration or at reasonable time intervals  
+        &SR-7&HE-2\\
+        \bottomrule
+          \end{tabular}
+          \end{table}
+
+      
+ 
 
 \section{Safety and Security Requirements}
 
