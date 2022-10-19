@@ -319,6 +319,44 @@ reduce chance of logical errors.
  
 
 \section{Safety and Security Requirements}
+Using the results of FMEA, we can derive the following safety and security requirements for our system in order to mitigate the identified hazards. \\
+
+\textbf{SR-1}:
+The system must be able to synchronize the display of the truck platoon with the input bridge load through various logic checks and boundary tests. An alarm/error shall be produced if the display requirements across both modules are not met. 
+
+\emph{Rationale}: While splitting the calculation display modules into two modules; platoon trip and bridge load display, can simplify each part, it can lead to mismatch in respective display.\\
+
+\textbf{SR-2}: 
+The system must produce a log of calls and functions with a detailed trace of function callbacks highlighting the code locations. The log will include timestamps along with software environment information such as input.
+
+\emph{Rationale}:
+The logs will be directly used in the debugging process which can be presented in different ways to the user. Such logs can prove useful in case of engine crashes, data loss and timeouts. \\
+
+\textbf{SR-3}:
+In case of an Matlab engine failure, the system must be able to use the recorded logs to provide a clear message to the user.
+
+\emph{Rationale}: Logs while carrying a lot of information can be too heavy to digest, we can help the user further with a bit of processing.\\ 
+
+\textbf{SR-4}:
+The system must validate numeric values are within an acceptable range before being passed on to other components.
+
+\emph{Rationale}: Accidental changes of input can cause massive shifts in the analysis and cause inaccurate results. (e.g. adding extra 0’s) \\
+
+\textbf{SR-5}:
+The system must validate input type before being passed on to other components.
+
+\emph{Rationale}: This is to prevent accidental mix and match of inputs for example inputting structure material inside load section.\\
+
+\textbf{SR-6}:
+The system must include information that indicates the integrity of the file and whether the file creation is completed.
+
+\emph{Rationale}: This can help remove the risks associated with corrupt files during an import or export. \\
+
+\textbf{SR-7}:
+The system must automatically save to a file whenever user changes the configuration or at reasonable time intervals
+
+\emph{Rationale}: This is meant to mitigate risks associated with system crashes or power outages.\\
+
 
 \wss{Newly discovered requirements.  These should also be added to the SRS.  (A
 rationale design process how and why to fake it.)}
