@@ -39,8 +39,8 @@
 \midrule
 October 12 2022 & Darren & Added System Boundaries \& Components\\
 October 19 2022& Adham & Added Adham/Victor/Farzads FMEA work into a latex table\\
-October 19 2022& Pedram & Added Safety and Security requirments\\
-... & ... & ...\\
+October 19 2022& Pedram & Added Safety reqs and Roadmap\\
+
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -53,7 +53,7 @@ October 19 2022& Pedram & Added Safety and Security requirments\\
 
 \pagenumbering{arabic}
 
-\wss{You are free to modify this template.}
+
 
 \section{Introduction}
 
@@ -358,12 +358,17 @@ The system must automatically save to a file whenever user changes the configura
 \emph{Rationale}: This is meant to mitigate risks associated with system crashes or power outages.\\
 
 
-\wss{Newly discovered requirements.  These should also be added to the SRS.  (A
-rationale design process how and why to fake it.)}
 
 \section{Roadmap}
 
-\wss{Which safety requirements will be implemented as part of the capstone timeline?
-Which requirements will be implemented in the future?}
+The new requirements derived in the previous section can be prioritized based on time to develop, probability of happening and the severity with severity given the most weight. As such we believe requirements that can disrupt the user-flow must be integrated regardless of other factors. These requirements will be developed as part of the primary development phase while the rest are allocated as stretch requirements for later implementation. 
+
+\subsection{Phase 1}
+Critical requirements include SR-1, SR-2, SR-3, SR-4, SR-5 and SR-6. The first requirement is meant to mitigate the risk of mismatch and miscalculations across modules which even though very unlikely can cause faulty results with a low chance of detection. SR-2 and SR-3 are meant to implement the logging system which will directly support debugging especially due to engine and pipeline erros. SR-4, SR-5 and SR-6 are meant to mitigate the risks associated with input and sophisticated time handling. While such requirements can quickly grow and take time to develop, they have high probability and severity due to continuous work models. 
+\subsection{Phase 2}
+Phase two requirements include SR-7 and SR-8. SR-7 is another security requirement meant to validate imported files and their integrity through different methods. While a fairly severe requirement, we believe that it has a low probability and high time to develop. Similarly, SR-8 is another requirement which can protect the user against unforeseen environment changes such as BSOD’s or power outages. Such requirements are of low priority and are scheduled as part of the stretch requirements for later development. 
+
+
+
 
 \end{document}
