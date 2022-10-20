@@ -6,6 +6,8 @@
 \usepackage{hyperref}
 \usepackage{float}
 \usepackage{enumitem}
+\usepackage{longtable}
+\usepackage{multirow}
 \hypersetup{
     colorlinks=true,       % false: boxed links; true: colored links
     linkcolor=red,          % color of internal links (change box color with linkbordercolor)
@@ -93,237 +95,314 @@ any assumptions about its correctness and functionality.
 \begin{landscape}
 
 \section{Failure Mode and Effect Analysis}
-\begin{table}[H]
-    \caption{FMEA Analysis} \label{TblFMEA}
-    \begin{tabular}{|p{0.1\textwidth} | p{0.2\textwidth} | p{0.2\textwidth} | p{0.35\textwidth} | p{0.45\textwidth} | p{0.07\textwidth} | p{0.09\textwidth}|}
-    \toprule
-    \textbf{Comp onent} & \textbf{Failure} & \textbf{Effect} & \textbf{Cause} & \textbf{Recommended Action} & \textbf{SR} & \textbf{Ref}\\
-    \midrule
-    UI & UI Displays truck config incorrectly & User confusion / Misleading interface
-&   \textbf{a.} Incorrect processing of regular user input\newline
-    \textbf{b.} Runtime error in truck display module\newline
-    \textbf{c.} Unexpected/boundary case user input 
-&   \textbf{a.} Thoroughly test the truck display module to avoid unexpected responses to input\newline
-    \textbf{b.}  Ensure truck display module has proper error handling to avoid catastrophic failure if an error is encountered, and perhaps instead prompt the user to try again, for example.\newline
-    \textbf{c.} Design modules with separation of concerns in mind to limit complexity and increase program robustness.
-&None&HA-1\\
-    \midrule
-    UI & UI does not update to match new truck config at all & User missing important information. & \textbf{a.} Failure to catch invalid user input.\newline
-    \textbf{b.} Runtime error in truck display module\newline
-    \textbf{c.} Unexpected/boundary case user input 
-&   \textbf{a.} Ensure truck display module has proper input bounds and safety nets to catch invalid user inputs, instead of just running with them.\newline
-    \textbf{b.} Same as HA-1b\newline
-    \textbf{c.} Same as HA-1c
-&None&HA-2\\
-    \bottomrule
-  \end{tabular}
-  \end{table}
-\pagebreak
-\begin{table}[H]
-    \begin{tabular}{|p{0.1\textwidth} | p{0.2\textwidth} | p{0.2\textwidth} | p{0.35\textwidth} | p{0.45\textwidth} | p{0.07\textwidth} | p{0.09\textwidth}|}
-    \toprule
-    \textbf{Comp onent} & \textbf{Failure} & \textbf{Effect} & \textbf{Cause} & \textbf{Recommended Action} & \textbf{SR} & \textbf{Ref}\\
-\midrule
-    UI & UI Displays bridge config incorrectly. & User confusion / Misleading interface & \textbf{a.} Incorrect processing of regular user input\newline
-    \textbf{b.} Runtime error in truck display module\newline
-    \textbf{c.} Unexpected/boundary case user input 
-&  \textbf{a.} Same as HA-1a\newline
-    \textbf{b.} Same as HA-1b.\newline
-    \textbf{c.} Same as HA-1c.
-    &None&HA-3\\
-\midrule
-    UI & UI does not update to match new bridge config at all & User missing important information. &  \textbf{a.} Failure to catch invalid user input.\newline
-    \textbf{b.} Runtime error in truck display module\newline
-    \textbf{c.} Unexpected/boundary case user input 
-&   \textbf{a.} Same as HA-2a.\newline
-    \textbf{b.}  Same as HA-1b.\newline
-    \textbf{c.} Same as HA-1c.
-    &None&HA-4\\
-\midrule
-    UI&UI attempts to display undesired calculation type&Display is worthless&\textbf{a.} Incorrect processing of regular user input.\newline
-    \textbf{b.} Misleading or incorrect display of user solver selection.
-    &\textbf{a.} Thoroughly test solver configuration module to incorrect processing of user input\newline
-    \textbf{b.} Minimize complexity of input handler/solver selection display modules and the interaction between them to reduce chances of incorrect information passing
-     and misleading or incorrect displays of input.
-    &None&HA-5\\
-\bottomrule
-  \end{tabular}
-  \end{table}
-  \pagebreak
-  \begin{table}[H]
-    \begin{tabular}{|p{0.1\textwidth} | p{0.2\textwidth} | p{0.2\textwidth} | p{0.35\textwidth} | p{0.45\textwidth} | p{0.07\textwidth} | p{0.09\textwidth}|}
-      \toprule
-      \textbf{Comp onent} & \textbf{Failure} & \textbf{Effect} & \textbf{Cause} & \textbf{Recommended Action} & \textbf{SR} & \textbf{Ref}\\
-  \midrule
-    UI&Truck platoon trip display does not match bridge load display.
-    &Display is impossible to parse&\textbf{a.} Incorrect calculation display logic.\newline
-    \textbf{b.} Unexpected bug or glitch is calculation display modules.
-&\textbf{a.} Thoroughly test calculation display module(s) to avoid unexpected behavior.\newline
-\textbf{b.} Include checks to determine if the two displays align and catch/correct it if they don’t instead of just displaying it anyways.\newline
-\textbf{a/b.} Look into splitting the calculation display modules into two modules entirely, platoon trip and bridge load display, to simplify each part and 
-reduce chance of logical errors.
-&SR-1&HA-6\\
-  \midrule
-      UI & Platoon trip and Bridge load synch check(s) provides false positives or negatives &  Deny a fine display or let through an erroneous one.
-    & \textbf{a.} Incorrect synch check logic.\newline
-      \textbf{b.} Unexpected bug or glitch in synch module.
-    & \textbf{a.} Thoroughly test synch checks to avoid unexpected behavior.\newline
-      \textbf{b.} Simplify synch check logic as much as is possible while maintaining accuracy to limit chance of incorrect logic programming
-    &SR-1&HA-7\\
-  \midrule
-      UI&UI incorrectly displays the concerned section&Display is worthless& \textbf{a.} Unexpected bug/glitch in concerned section display module.\newline
-      \textbf{b.} Misleading or incorrect display of user concerned section selection.
-    & \textbf{a.} Thoroughly test concerned section display module to incorrect processing of user input\newline
-      \textbf{b.} Minimize complexity of input handler and concerned section display display modules and the interaction to reduce chances of 
-      incorrect information passing and misleading/incorrect displays of input.
-      &None&HA-8\\
-  \bottomrule
-    \end{tabular}
-    \end{table}
-    \pagebreak
-    \begin{table}[H]
-    \begin{tabular}{|p{0.1\textwidth} | p{0.2\textwidth} | p{0.2\textwidth} | p{0.35\textwidth} | p{0.45\textwidth} | p{0.07\textwidth} | p{0.09\textwidth}|}
-        \toprule
-        \textbf{Comp onent} & \textbf{Failure} & \textbf{Effect} & \textbf{Cause} & \textbf{Recommended Action} & \textbf{SR} & \textbf{Ref}\\
-    \midrule
-      UI&UI incorrectly displays discretized bridge segments.
-      &Display is worthless& \textbf{a.} Unexpected bug/glitch in concerned section display module.\newline
-      \textbf{b.} Misleading or incorrect display of user concerned section selection.
-      &\textbf{a.} Same as HA-8a.\newline
-      \textbf{b.} Same as HA-8b.
-      &None&HA-9\\
-    \midrule
-        UI &  UI fails to display calculation results entirely. &  Display is worthless.
-      & \textbf{a.} Unexpected/boundary case user input.\newline               
-        \textbf{b.} Runtime error in calculation display modules.\newline
-        \textbf{c.} Failure to catch invalid user input
+\begin{longtable}{|p{0.1\textwidth} | p{0.2\textwidth} | p{0.2\textwidth} | p{0.35\textwidth} | p{0.45\textwidth} | p{0.07\textwidth} | p{0.09\textwidth}|}
+  \caption{FMEA Analysis}
+  \label{TblFMEA}\\
+  \hline
+  \textbf{Comp- onent} & \textbf{Failure} & \textbf{Effect} & \textbf{Cause} & \textbf{Recommended Action} & \textbf{SR} & \textbf{Ref}\\
+  \hline
+  \endhead
+  UI & UI Displays truck config incorrectly & User confusion / Misleading interface &
+  \begin{enumerate}[leftmargin=*, label={\alph*.}, itemsep=1pt, topsep=0pt, partopsep=0pt] 
+    \item Incorrect processing of regular user Input
+    \item Runtime error in truck display module
+    \item Unexpected/boundary case user input
+  \end{enumerate} &
+  \begin{enumerate}[leftmargin=*, label={\alph*.}, itemsep=1pt, topsep=0pt, partopsep=0pt] 
+    \item Thoroughly test the truck display module to avoid unexpected responses to input
+    \item  Ensure truck display module has proper error handling to avoid catastrophic failure if an error is encountered.
+    \item Design modules with separation of concerns in mind to limit complexity and increase program robustness.
+  \end{enumerate} & 
+  None & HA-1 \\
 
-      & \textbf{a.} Thoroughly test the calculation display modules to avoid unexpected responses to input\newline
-        \textbf{b.}  Ensure calculation display modules have proper error handling to avoid catastrophic failure if an error is encountered, and perhaps instead prompt
-        the user to try again, for example.\newline
-        \textbf{a/b.} Design modules with separation of concerns in mind to limit error propagation and increase program robustness.\newline
-        \textbf{c.} Ensure calculation display modules have proper input bounds and safety nets to catch invalid user inputs, instead of just running with them.
-      &None&HA-10\\
-    \bottomrule
-      \end{tabular}
-      \end{table}
-      \pagebreak
-    \begin{table}[H]
-    \begin{tabular}{|p{0.1\textwidth} | p{0.2\textwidth} | p{0.2\textwidth} | p{0.35\textwidth} | p{0.45\textwidth} | p{0.07\textwidth} | p{0.09\textwidth}|}
-        \toprule
-        \textbf{Comp onent} & \textbf{Failure} & \textbf{Effect} & \textbf{Cause} & \textbf{Recommended Action} & \textbf{SR} & \textbf{Ref}\\
-    \midrule
-        UI&UI stops reacting to user inputs&User locked out from using UI, program is worthless
-      & \textbf{a.} Runtime error in calculation display modules.\newline
-        \textbf{b.} Parallel computing issue such as deadlock that hangs the program.
- 
-      & \textbf{a.}  Ensure all display modules have proper error handling to avoid catastrophic failure if an error is encountered, 
-        and perhaps instead prompt the user to try again, for example.\newline
-        \textbf{b.} Implement proper thread safety measures to avoid deadlocks and other such issues.\newline
-        \textbf{a/b.} Design all modules with separation of concerns in mind to limit error propagation and increase program robustness.
-      &SR-2&HA-11\\
-    \midrule
-    UI& UI encounters parallel computing issue such as deadlock/race condition.
-    & Incorrect results or unexpected program behavior
-    & \textbf{a.} Multiple threads modifying the same values/waiting on each other.\newline
-    & \textbf{a.} Implement proper thready safety measures to avoid deadlocks and other such issues
-    &SR-2 & HA-12\\
-    \midrule
-    Matlab Interaction& Data received is incorrectly formatted.
-    & Program cannot function
-    & \textbf{a.} One-time error in cross-program communication caused by outside factors (OS, hardware, etc.)\newline
-      \textbf{b.} Bug or error in MATLAB engine
-    & \textbf{a.} Try all calculations a second time when the first calculation fails\newline
-      \textbf{b.} The MATLAB engine will be tested thoroughly to try to reduce the amount of bugs it has. 
-      The program will always log in-depth error information and display an error message to the user telling them to contact the developers when 
-      there is an issue with the MATLAB component.     
-    &SR-3, SR-4 &HB-1\\
-    \bottomrule
-      \end{tabular}
-      \end{table}
-      \pagebreak
-      \begin{table}[H]
-    \begin{tabular}{|p{0.1\textwidth} | p{0.2\textwidth} | p{0.2\textwidth} | p{0.35\textwidth} | p{0.45\textwidth} | p{0.07\textwidth} | p{0.09\textwidth}|}
-          \toprule
-          \textbf{Comp onent} & \textbf{Failure} & \textbf{Effect} & \textbf{Cause} & \textbf{Recommended Action} & \textbf{SR} & \textbf{Ref}\\
-      \midrule
-    Matlab Interaction& Unable to call engine.
-      & Program cannot function
-      & \textbf{a.} One-time error in cross-program communication caused by outside factors (OS, hardware, etc.)\newline
-        \textbf{b.} Engine not installed / installed improperly 
-      & \textbf{a.} Same as HB-1a\newline
-        \textbf{b.} The program will always display a message telling the user that they must install the MATLAB engine with a reference 
-        to the installation section of the user manual when the MATLAB engine is not detected 
-      &SR-3, SR-4 & HB-2\\
-      \midrule
-      Matlab Engine& The engine crashes unexpectedly.
-      & Program cannot function
-      & \textbf{a.} One-time crash caused by outside factors (OS, hardware, etc.)\newline
-        \textbf{b.} Bug or error in MATLAB engine    
-      & \textbf{a.} Same as HB-1a\newline
-        \textbf{b.} Same as HB-1b 
-      &SR-3, SR-4&HC-1\\
-      \midrule
-      Matlab Engine& The engine calculations take more time than should be required (more than 1 second).
-      & Program must wait for results
-      & \textbf{a.} One-time error causing infinite looping caused by outside factors (OS, hardware, etc.)\newline
-        \textbf{b.} Bug or error in MATLAB engine   
-      & \textbf{a.} Same as HB-1a\newline
-        \textbf{b.} Same as HB-1b 
-      &SR-3, SR-4&HC-2\\
-      \midrule
-      Matlab Engine& Data received from the engine is incorrect (as in physically impossible).
-      & Program cannot function
-      & \textbf{a.} One-time calculation error caused by outside factors (OS, hardware, etc.)\newline
-        \textbf{b.} Bug or error in MATLAB engine.  
-      & \textbf{a.} Same as HB-1a\newline
-        \textbf{b.} Same as HB-1b 
-      &SR-3, SR-4&HC-3\\
-      \bottomrule
-        \end{tabular}
-        \end{table}
-        \pagebreak
-        \begin{table}[H]
-    \begin{tabular}{|p{0.1\textwidth} | p{0.2\textwidth} | p{0.2\textwidth} | p{0.35\textwidth} | p{0.45\textwidth} | p{0.07\textwidth} | p{0.09\textwidth}|}
-            \toprule
-            \textbf{Comp onent} & \textbf{Failure} & \textbf{Effect} & \textbf{Cause} & \textbf{Recommended Action} & \textbf{SR} & \textbf{Ref}\\
-        \midrule
-        Input Handler& Handler passes inputs to other components that are too large or small.
-        & Inaccurate analysis results
-        & \textbf{a.} Accidental changes of input for example writing 100000 instead of 10000000      
-        & \textbf{a.} Validating numeric values are within an acceptable range   
-        &SR-5&HD-1\\
-        \midrule
-        Input Handler& Handler invariant to type changes.
-        & System Crash
-        & \textbf{a.} Accidental mix and match of inputs for example inputting structure material inside load section
-        & \textbf{a.} Validating input type before passing it on.    
-        &SR-6&HD-2\\
-        \midrule
-        Input Handler& Handler passes on incomplete set of inputs.
-        & System Crash
-        & \textbf{a.} Submitting before completing all input sections     
-        & \textbf{a.} Detecting if required inputs are missing from the model   
-        &None&HD-3\\
-        \midrule
-        File Manager& File Manager loads corrupted configuration and saved files.
-        & Inaccurate results or system crash
-        & \textbf{a.} Process responsible for creating the file was interrupted.\newline
-          \textbf{b.} files edited manually by power users
-        & \textbf{a.} Have metrics that indicates file creation was completed and if not it is communicated to the user when loading.\newline
-          \textbf{b.} Have metrics such as checksums to ensure the integrity of the files.  
-        &SR-7&HE-1\\
-        \midrule
-        File Manager& File Manager partially saves file.
-        & Data loss
-        & \textbf{a.} Power outage\newline
-          \textbf{b.} System crash        
-        & \textbf{a.} Automatically save to a file whenever user changes the configuration or at reasonable time intervals\newline
-        \textbf{b.} Same as HE-2a  
-        &SR-8&HE-2\\
-        \bottomrule
-          \end{tabular}
-          \end{table}
+  \hline
+
+  UI & UI does not update to match new truck config at all & User missing important information. & 
+  \begin{enumerate}[leftmargin=*, label={\alph*.}, itemsep=1pt, topsep=0pt, partopsep=0pt] 
+    \item Failure to catch invalid user input.
+    \item Runtime error in truck display module
+    \item Unexpected/boundary case user input
+  \end{enumerate} &
+  \begin{enumerate}[leftmargin=*, label={\alph*.}, itemsep=1pt, topsep=0pt, partopsep=0pt] 
+    \item Ensure truck display module has proper input bounds and safety nets to catch invalid user inputs, instead of just running with them.
+    \item Same as HA-1b
+    \item Same as HA-1c
+  \end{enumerate} & 
+  None & HA-2 \\
+
+  \hline
+
+  UI & UI Displays bridge config incorrectly. & User confusion / Misleading interface &
+  \begin{enumerate}[leftmargin=*, label={\alph*.}, itemsep=1pt, topsep=0pt, partopsep=0pt] 
+    \item Incorrect processing of regular user input
+    \item Runtime error in truck display module
+    \item Unexpected/boundary case user input 
+  \end{enumerate} &
+  \begin{enumerate}[leftmargin=*, label={\alph*.}, itemsep=1pt, topsep=0pt, partopsep=0pt] 
+    \item Same as HA-1a
+    \item Same as HA-1b.
+    \item Same as HA-1c.
+  \end{enumerate} & 
+  None & HA-3 \\
+
+  \hline
+
+  UI & UI does not update to match new bridge config at all & User missing important information. &
+  \begin{enumerate}[leftmargin=*, label={\alph*.}, itemsep=1pt, topsep=0pt, partopsep=0pt] 
+    \item Failure to catch invalid user input.
+    \item Runtime error in truck display module
+    \item Unexpected/boundary case user input
+  \end{enumerate} &
+  \begin{enumerate}[leftmargin=*, label={\alph*.}, itemsep=1pt, topsep=0pt, partopsep=0pt] 
+    \item Same as HA-2a.
+    \item  Same as HA-1b.
+    \item Same as HA-1c.
+  \end{enumerate} &
+  None & HA-4 \\
+
+  \hline
+
+  UI & UI attempts to display undesired calculation type& Display is worthless & 
+  \begin{enumerate}[leftmargin=*, label={\alph*.}, itemsep=1pt, topsep=0pt, partopsep=0pt] 
+    \item Incorrect processing of regular user input.
+    \item Misleading or incorrect display of user solver selection.
+  \end{enumerate} &
+  \begin{enumerate}[leftmargin=*, label={\alph*.}, itemsep=1pt, topsep=0pt, partopsep=0pt] 
+    \item Thoroughly test solver configuration module to incorrect processing of user input
+    \item Minimize complexity of input handler/solver selection display modules and the interaction between them to reduce chances of incorrect information passing
+    and misleading or incorrect displays of input.
+  \end{enumerate} &
+  None & HA-5 \\
+
+  \hline
+
+  UI & Truck platoon trip display does not match bridge load display. &
+  Display is impossible to parse &
+  \begin{enumerate}[leftmargin=*, label={\alph*.}, itemsep=1pt, topsep=0pt, partopsep=0pt] 
+    \item Incorrect calculation display logic.
+    \item Unexpected bug or glitch is calculation display modules.
+  \end{enumerate} &
+  \begin{enumerate}[leftmargin=*, label={\alph*.}, itemsep=1pt, topsep=0pt, partopsep=0pt] 
+    \item Thoroughly test calculation display module(s) to avoid unexpected behavior.
+    \item Include checks to determine if the two displays align and catch/correct it if they don’t instead of just displaying it anyways.
+  \end{enumerate} &
+  SR-1 & HA-6 \\
+
+  \hline
+
+  UI & Platoon trip and Bridge load synch check(s) provides false positives or negatives & 
+  Deny a fine display or let through an erroneous one. & 
+  \begin{enumerate}[leftmargin=*, label={\alph*.}, itemsep=1pt, topsep=0pt, partopsep=0pt] 
+    \item Incorrect synch check logic.
+    \item Unexpected bug or glitch in synch module.
+  \end{enumerate} & 
+  \begin{enumerate}[leftmargin=*, label={\alph*.}, itemsep=1pt, topsep=0pt, partopsep=0pt] 
+    \item Thoroughly test synch checks to avoid unexpected behavior.
+    \item Simplify synch check logic as much as is possible while maintaining accuracy to limit chance of incorrect logic programming
+  \end{enumerate} &
+  SR-1 & HA-7 \\
+
+  \hline
+  
+  UI & UI incorrectly displays the concerned section& Display is worthless & 
+  \begin{enumerate}[leftmargin=*, label={\alph*.}, itemsep=1pt, topsep=0pt, partopsep=0pt] 
+    \item Unexpected bug/glitch in concerned section display module.
+    \item Misleading or incorrect display of user concerned section selection.
+  \end{enumerate} &
+  \begin{enumerate}[leftmargin=*, label={\alph*.}, itemsep=1pt, topsep=0pt, partopsep=0pt] 
+    \item Thoroughly test concerned section display module to incorrect processing of user input
+    \item Minimize complexity of input handler and concerned section display display modules and the interaction to 
+    reduce chances of incorrect information passing and misleading/incorrect displays of input.
+  \end{enumerate} &
+  None & HA-8 \\
+
+  \hline
+  
+  UI & UI incorrectly displays discretized bridge segments. & Display is worthless & 
+  \begin{enumerate}[leftmargin=*, label={\alph*.}, itemsep=1pt, topsep=0pt, partopsep=0pt] 
+    \item Unexpected bug/glitch in concerned section display module.
+    \item Misleading or incorrect display of user concerned section selection.
+  \end{enumerate} &
+  \begin{enumerate}[leftmargin=*, label={\alph*.}, itemsep=1pt, topsep=0pt, partopsep=0pt] 
+    \item Same as HA-8a.
+    \item Same as HA-8b.
+  \end{enumerate} &
+  None & HA-9 \\
+
+  \hline
+
+  UI &  UI fails to display calculation results entirely. &  Display is worthless. &
+  \begin{enumerate}[leftmargin=*, label={\alph*.}, itemsep=1pt, topsep=0pt, partopsep=0pt] 
+    \item Unexpected/boundary case user input.               
+    \item Runtime error in calculation display modules.
+    \item Failure to catch invalid user input
+  \end{enumerate} &
+  \begin{enumerate}[leftmargin=*, label={\alph*.}, itemsep=1pt, topsep=0pt, partopsep=0pt] 
+    \item Thoroughly test the calculation display modules to avoid unexpected responses to input
+    \item  Ensure calculation display modules have proper error handling to avoid catastrophic failure if an error is encountered, and design modules with separation of concerns in mind to limit error propagation and increase program robustness.
+    \item Ensure calculation display modules have proper input bounds and safety nets to catch invalid user inputs, instead of just running with them.
+  \end{enumerate} & 
+  None & HA-10 \\
+
+  \hline
+  
+  UI&UI stops reacting to user inputs&User locked out from using UI, program is worthless &
+  \begin{enumerate}[leftmargin=*, label={\alph*.}, itemsep=1pt, topsep=0pt, partopsep=0pt] 
+    \item Runtime error in calculation display modules.
+    \item Parallel computing issue such as deadlock that hangs the program.
+  \end{enumerate} & 
+  \begin{enumerate}[leftmargin=*, label={\alph*.}, itemsep=1pt, topsep=0pt, partopsep=0pt] 
+    \item  Ensure all display modules have proper error handling to avoid catastrophic failure if an error is encountered, and design all modules with separation of concerns in mind to limit error propagation and increase program robustness.
+    \item Implement proper thread safety measures to avoid deadlocks and other such issues.
+  \end{enumerate} &
+  SR-2 & HA-11 \\
+
+  \hline
+
+  UI & UI encounters parallel computing issue such as deadlock/race condition. & 
+  Incorrect results or unexpected program behavior &
+  \begin{enumerate}[leftmargin=*, label={\alph*.}, itemsep=1pt, topsep=0pt, partopsep=0pt] 
+    \item Multiple threads modifying the same values/waiting on each other.
+  \end{enumerate} &
+  \begin{enumerate}[leftmargin=*, label={\alph*.}, itemsep=1pt, topsep=0pt, partopsep=0pt] 
+    \item Implement proper thready safety measures to avoid deadlocks and other such issues
+  \end{enumerate} &
+  SR-2 & HA-12 \\
+
+  \hline
+
+  Matlab Interaction & Data received is incorrectly formatted. & Program cannot function & 
+  \begin{enumerate}[leftmargin=*, label={\alph*.}, itemsep=1pt, topsep=0pt, partopsep=0pt] 
+    \item One-time error in cross-program communication caused by outside factors (OS, hardware, etc.)
+    \item Bug or error in MATLAB engine
+  \end{enumerate} &
+  \begin{enumerate}[leftmargin=*, label={\alph*.}, itemsep=1pt, topsep=0pt, partopsep=0pt] 
+    \item Try all calculations a second time when the first calculation fails
+    \item The MATLAB engine will be tested thoroughly to try to reduce the amount of bugs it has. 
+    The program will always log in-depth error information and display an error message to the user telling them to contact the developers when there is an issue with the MATLAB component. 
+  \end{enumerate} &
+  SR-3, SR-4 & HB-1 \\
+
+  \hline
+
+  Matlab Interaction & Unable to call engine. & Program cannot function &
+  \begin{enumerate}[leftmargin=*, label={\alph*.}, itemsep=1pt, topsep=0pt, partopsep=0pt] 
+    \item One-time error in cross-program communication caused by outside factors (OS, hardware, etc.)
+    \item Engine not installed / installed improperly 
+  \end{enumerate} &
+  \begin{enumerate}[leftmargin=*, label={\alph*.}, itemsep=1pt, topsep=0pt, partopsep=0pt] 
+    \item Same as HB-1a
+    \item The program will always display a message telling the user that they must install the MATLAB engine with a reference 
+    to the installation section of the user manual when the MATLAB engine is not detected 
+  \end{enumerate} &
+  SR-3, SR-4 & HB-2 \\
+
+  \hline
+
+  Matlab Engine & The engine crashes unexpectedly. & Program cannot function &
+  \begin{enumerate}[leftmargin=*, label={\alph*.}, itemsep=1pt, topsep=0pt, partopsep=0pt] 
+    \item One-time crash caused by outside factors (OS, hardware, etc.)
+    \item Bug or error in MATLAB engine   
+  \end{enumerate} &
+  \begin{enumerate}[leftmargin=*, label={\alph*.}, itemsep=1pt, topsep=0pt, partopsep=0pt] 
+    \item Same as HB-1a
+    \item Same as HB-1b 
+  \end{enumerate} &
+  SR-3, SR-4 & HC-1 \\
+
+  \hline
+
+  Matlab Engine & The engine calculations take more time than should be required (more than 1 second).
+  & Program must wait for results &
+  \begin{enumerate}[leftmargin=*, label={\alph*.}, itemsep=1pt, topsep=0pt, partopsep=0pt] 
+    \item One-time error causing infinite looping caused by outside factors (OS, hardware, etc.)
+    \item Bug or error in MATLAB engine   
+  \end{enumerate} &
+  \begin{enumerate}[leftmargin=*, label={\alph*.}, itemsep=1pt, topsep=0pt, partopsep=0pt] 
+    \item Same as HB-1a
+    \item Same as HB-1b 
+  \end{enumerate} &
+  SR-3, SR-4 & HC-2 \\
+
+  \hline
+
+  Matlab Engine & Data received from the engine is incorrect (as in physically impossible).
+  & Program cannot function &
+  \begin{enumerate}[leftmargin=*, label={\alph*.}, itemsep=1pt, topsep=0pt, partopsep=0pt] 
+    \item One-time calculation error caused by outside factors (OS, hardware, etc.)
+    \item Bug or error in MATLAB engine.  
+  \end{enumerate} &
+  \begin{enumerate}[leftmargin=*, label={\alph*.}, itemsep=1pt, topsep=0pt, partopsep=0pt] 
+    \item Same as HB-1a
+    \item Same as HB-1b 
+  \end{enumerate}& 
+  SR-3, SR-4 & HC-3 \\
+
+  \hline
+
+  Input Handler & Handler passes inputs to other components that are too large or small.
+  & Inaccurate analysis results &
+  \begin{enumerate}[leftmargin=*, label={\alph*.}, itemsep=1pt, topsep=0pt, partopsep=0pt] 
+      \item Accidental changes of input for example writing 100000 instead of 10000000  
+  \end{enumerate} &
+  \begin{enumerate}[leftmargin=*, label={\alph*.}, itemsep=1pt, topsep=0pt, partopsep=0pt] 
+    \item Validating numeric values are within an acceptable range   
+  \end{enumerate} &
+  SR-5 & HD-1 \\
+
+  \hline
+
+  Input Handler & Handler invariant to type changes. & System Crash &
+  \begin{enumerate}[leftmargin=*, label={\alph*.}, itemsep=1pt, topsep=0pt, partopsep=0pt] 
+      \item Accidental mix and match of inputs for example inputting structure material inside load section
+  \end{enumerate} &
+  \begin{enumerate}[leftmargin=*, label={\alph*.}, itemsep=1pt, topsep=0pt, partopsep=0pt] 
+    \item Validating input type before passing it on.    
+  \end{enumerate} &
+  SR-6 & HD-2 \\
+
+  \hline
+
+  Input Handler & Handler passes on incomplete set of inputs. & System Crash &
+  \begin{enumerate}[leftmargin=*, label={\alph*.}, itemsep=1pt, topsep=0pt, partopsep=0pt] 
+    \item Submitting before completing all input sections 
+  \end{enumerate} &
+  \begin{enumerate}[leftmargin=*, label={\alph*.}, itemsep=1pt, topsep=0pt, partopsep=0pt] 
+    \item Detecting if required inputs are missing from the model   
+  \end{enumerate} &
+  None & HD-3 \\
+
+  \hline
+
+  File Manager & File Manager loads corrupted configuration and saved files.
+  & Inaccurate results or system crash &
+  \begin{enumerate}[leftmargin=*, label={\alph*.}, itemsep=1pt, topsep=0pt, partopsep=0pt] 
+    \item Process responsible for creating the file was interrupted.
+    \item files edited manually by power users
+  \end{enumerate} &
+  \begin{enumerate}[leftmargin=*, label={\alph*.}, itemsep=1pt, topsep=0pt, partopsep=0pt] 
+    \item Have metrics that indicates file creation was completed and if not it is communicated to the user when loading.
+    \item Have metrics such as checksums to ensure the integrity of the files.  
+  \end{enumerate} &
+  SR-7 & HE-1 \\
+
+  \hline
+
+  File Manager & File Manager partially saves file. & Data loss &
+  \begin{enumerate}[leftmargin=*, label={\alph*.}, itemsep=1pt, topsep=0pt, partopsep=0pt] 
+    \item Power outage
+    \item System crash        
+  \end{enumerate} &
+  \begin{enumerate}[leftmargin=*, label={\alph*.}, itemsep=1pt, topsep=0pt, partopsep=0pt] 
+    \item Automatically save to a file whenever user changes the configuration or at reasonable time intervals
+    \item Same as HE-2a  
+  \end{enumerate} & 
+  SR-8 & HE-2 \\
+
+  \hline
+
+\end{longtable}
+
 \end{landscape}
 
 \newpage
