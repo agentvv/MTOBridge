@@ -221,13 +221,13 @@ reduce chance of logical errors.
         and perhaps instead prompt the user to try again, for example.\newline
         \textbf{b.} Implement proper thread safety measures to avoid deadlocks and other such issues.\newline
         \textbf{a/b.} Design all modules with separation of concerns in mind to limit error propagation and increase program robustness.
-      &None&HA-11\\
+      &SR-2&HA-11\\
     \midrule
     UI& UI encounters parallel computing issue such as deadlock/race condition.
     & Incorrect results or unexpected program behavior
     & \textbf{a.} Multiple threads modifying the same values/waiting on each other.\newline
     & \textbf{a.} Implement proper thready safety measures to avoid deadlocks and other such issues
-    &None & HA-12\\
+    &SR-2 & HA-12\\
     \midrule
     Matlab Interaction& Data received is incorrectly formatted.
     & Program cannot function
@@ -237,7 +237,7 @@ reduce chance of logical errors.
       \textbf{b.} The MATLAB engine will be tested thoroughly to try to reduce the amount of bugs it has. 
       The program will always log in-depth error information and display an error message to the user telling them to contact the developers when 
       there is an issue with the MATLAB component.     
-    &SR-3 &HB-1\\
+    &SR-3, SR-4 &HB-1\\
     \bottomrule
       \end{tabular}
       \end{table}
@@ -254,7 +254,7 @@ reduce chance of logical errors.
       & \textbf{a.} Same as HB-1a\newline
         \textbf{b.} The program will always display a message telling the user that they must install the MATLAB engine with a reference 
         to the installation section of the user manual when the MATLAB engine is not detected 
-      &SR-3 & HB-2\\
+      &SR-3, SR-4 & HB-2\\
       \midrule
       Matlab Engine& The engine crashes unexpectedly.
       & Program cannot function
@@ -262,7 +262,7 @@ reduce chance of logical errors.
         \textbf{b.} Bug or error in MATLAB engine    
       & \textbf{a.} Same as HB-1a\newline
         \textbf{b.} Same as HB-1b 
-      &SR-3&HC-1\\
+      &SR-3, SR-4&HC-1\\
       \midrule
       Matlab Engine& The engine calculations take more time than should be required (more than 1 second).
       & Program must wait for results
@@ -270,7 +270,7 @@ reduce chance of logical errors.
         \textbf{b.} Bug or error in MATLAB engine   
       & \textbf{a.} Same as HB-1a\newline
         \textbf{b.} Same as HB-1b 
-      &SR-3&HC-2\\
+      &SR-3, SR-4&HC-2\\
       \midrule
       Matlab Engine& Data received from the engine is incorrect (as in physically impossible).
       & Program cannot function
@@ -278,7 +278,7 @@ reduce chance of logical errors.
         \textbf{b.} Bug or error in MATLAB engine.  
       & \textbf{a.} Same as HB-1a\newline
         \textbf{b.} Same as HB-1b 
-      &SR-3&HC-3\\
+      &SR-3, SR-4&HC-3\\
       \bottomrule
         \end{tabular}
         \end{table}
@@ -292,13 +292,13 @@ reduce chance of logical errors.
         & Inaccurate analysis results
         & \textbf{a.} Accidental changes of input for example writing 100000 instead of 10000000      
         & \textbf{a.} Validating numeric values are within an acceptable range   
-        &SR-4&HD-1\\
+        &SR-5&HD-1\\
         \midrule
         Input Handler& Handler invariant to type changes.
         & System Crash
         & \textbf{a.} Accidental mix and match of inputs for example inputting structure material inside load section
         & \textbf{a.} Validating input type before passing it on.    
-        &SR-5&HD-2\\
+        &SR-6&HD-2\\
         \midrule
         Input Handler& Handler passes on incomplete set of inputs.
         & System Crash
@@ -312,7 +312,7 @@ reduce chance of logical errors.
           \textbf{b.} files edited manually by power users
         & \textbf{a.} Have metrics that indicates file creation was completed and if not it is communicated to the user when loading.\newline
           \textbf{b.} Have metrics such as checksums to ensure the integrity of the files.  
-        &SR-6&HE-1\\
+        &SR-7&HE-1\\
         \midrule
         File Manager& File Manager partially saves file.
         & Data loss
@@ -320,13 +320,10 @@ reduce chance of logical errors.
           \textbf{b.} System crash        
         & \textbf{a.} Automatically save to a file whenever user changes the configuration or at reasonable time intervals\newline
         \textbf{b.} Same as HE-2a  
-        &SR-7&HE-2\\
+        &SR-8&HE-2\\
         \bottomrule
           \end{tabular}
           \end{table}
-
-      
- 
 \end{landscape}
 
 \newpage
@@ -337,47 +334,67 @@ Using the results of FMEA, we can derive the following safety and security requi
 \textbf{SR-1}:
 The system must be able to synchronize the display of the truck platoon with the input bridge load through various logic checks and boundary tests. An alarm/error shall be produced if the display requirements across both modules are not met. 
 
-\emph{Rationale}: While splitting the calculation display modules into two modules; platoon trip and bridge load display, can simplify each part, it can lead to mismatch in respective display.\\
+\emph{Rationale}: While splitting the calculation display modules into two modules; platoon trip and bridge load display, can simplify each part, it can lead to mismatch in respective display.
+
+\emph{Trace}: HA-6, HA-7\\
 
 \textbf{SR-2}: 
+The system must have thread safety between the UI and other connected components.
+
+\emph{Rationale}: In order to avoid race conditions and deadlocks that could result in undesirable behavior,
+thread safety must be an integral part of the interaction between components.
+
+\emph{Trace}: HA-11, HA-12 \\
+
+\textbf{SR-3}: 
 The system must produce a log of calls and functions with a detailed trace of function callbacks highlighting the code locations. The log will include timestamps along with software environment information such as input.
 
 \emph{Rationale}:
-The logs will be directly used in the debugging process which can be presented in different ways to the user. Such logs can prove useful in case of engine crashes, data loss and timeouts. \\
+The logs will be directly used in the debugging process which can be presented in different ways to the user. Such logs can prove useful in case of engine crashes, data loss and timeouts.
 
-\textbf{SR-3}:
-In case of an Matlab engine failure, the system must be able to use the recorded logs to provide a clear message to the user.
-
-\emph{Rationale}: Logs while carrying a lot of information can be too heavy to digest, we can help the user further with a bit of processing.\\ 
+\emph{Trace}: HB-1, HB-2, HC-1, HC-2, HC-3\\
 
 \textbf{SR-4}:
-The system must validate numeric values are within an acceptable range before being passed on to other components.
+In case of an Matlab engine failure, the system must be able to use the recorded logs to provide a clear message to the user.
 
-\emph{Rationale}: Accidental changes of input can cause massive shifts in the analysis and cause inaccurate results. (e.g. adding extra 0’s) \\
+\emph{Rationale}: Logs while carrying a lot of information can be too heavy to digest, we can help the user further with a bit of processing.
+
+\emph{Trace}: HB-1, HB-2, HC-1, HC-2, HC-3\\
 
 \textbf{SR-5}:
-The system must validate input type before being passed on to other components.
+The system must validate numeric values are within an acceptable range before being passed on to other components.
 
-\emph{Rationale}: This is to prevent accidental mix and match of inputs for example inputting structure material inside load section.\\
+\emph{Rationale}: Accidental changes of input can cause massive shifts in the analysis and cause inaccurate results. (e.g. adding extra 0’s)
+
+\emph{Trace}: HD-1 \\
 
 \textbf{SR-6}:
-The system must include information that indicates the integrity of the file and whether the file creation is completed.
+The system must validate input type before being passed on to other components.
 
-\emph{Rationale}: This can help remove the risks associated with corrupt files during an import or export. \\
+\emph{Rationale}: This is to prevent accidental mix and match of inputs for example inputting structure material inside load section.
+
+\emph{Trace}: HD-2\\
 
 \textbf{SR-7}:
+The system must include information that indicates the integrity of the file and whether the file creation is completed.
+
+\emph{Rationale}: This can help remove the risks associated with corrupt files during an import or export. 
+
+\emph{Trace}: HE-1\\
+
+\textbf{SR-8}:
 The system must automatically save to a file whenever user changes the configuration or at reasonable time intervals
 
-\emph{Rationale}: This is meant to mitigate risks associated with system crashes or power outages.\\
+\emph{Rationale}: This is meant to mitigate risks associated with system crashes or power outages.
 
-
+\emph{Trace}: HE-2\\
 
 \section{Roadmap}
 
 The new requirements derived in the previous section can be prioritized based on time to develop, probability of happening and the severity with severity given the most weight. As such we believe requirements that can disrupt the user-flow must be integrated regardless of other factors. These requirements will be developed as part of the primary development phase while the rest are allocated as stretch requirements for later implementation. 
 
 \subsection{Phase 1}
-Critical requirements include SR-1, SR-2, SR-3, SR-4, SR-5 and SR-6. The first requirement is meant to mitigate the risk of mismatch and miscalculations across modules which even though very unlikely can cause faulty results with a low chance of detection. SR-2 and SR-3 are meant to implement the logging system which will directly support debugging especially due to engine and pipeline erros. SR-4, SR-5 and SR-6 are meant to mitigate the risks associated with input and sophisticated time handling. While such requirements can quickly grow and take time to develop, they have high probability and severity due to continuous work models. 
+Critical requirements include SR-1, SR-2, SR-3, SR-4, SR-5 and SR-6. The first requirement is meant to mitigate the risk of mismatch and miscalculations across modules which even though very unlikely can cause faulty results with a low chance of detection. SR-3 and SR-4 are meant to implement the logging system which will directly support debugging especially due to engine and pipeline errors. SR-5, SR-6 are meant to mitigate the risks associated with input and sophisticated time handling. While such requirements can quickly grow and take time to develop, they have high probability and severity due to continuous work models. 
 \subsection{Phase 2}
 Phase two requirements include SR-7 and SR-8. SR-7 is another security requirement meant to validate imported files and their integrity through different methods. While a fairly severe requirement, we believe that it has a low probability and high time to develop. Similarly, SR-8 is another requirement which can protect the user against unforeseen environment changes such as BSOD’s or power outages. Such requirements are of low priority and are scheduled as part of the stretch requirements for later development. 
 
