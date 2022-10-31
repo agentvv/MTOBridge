@@ -219,13 +219,13 @@ How test will be performed:
 
 \begin{enumerate}
 
-\item{test-id1\\}
+\item{NFR.ST1\\}
 
 Initial State: Bridge UI mockups containing graphic elements will be prepared
 
-Type: 
+Type: Manual, Static
 
-How test will be performed: Civil engineers will be presented with mockups and expected to identify what the graphic elements represent with at least 90\% accuracy.
+How test will be performed: Civil engineers will be presented with mockups and expected to identify what the graphic elements represent with at least 90\% accuracy
 
 \end{enumerate}
 
@@ -235,11 +235,11 @@ How test will be performed: Civil engineers will be presented with mockups and e
 
 \begin{enumerate}
 
-\item{test-id1\\}
+\item{NFR.ST2\\}
 
 Initial State: Application is opened with no past data
 
-Type: 
+Type: Manual, Dynamic
 
 Input/Condition: User inputs
 
@@ -253,21 +253,31 @@ How test will be performed: Civil engineer will be asked to provide inputs
 
 \begin{enumerate}
 
-\item{test-id1\\}
+\item{NFR.ST3\\}
 
-Initial State: Application is opened with no past data
+Initial State: Application is opened
 
-Type: 
+Type: Manual, Dynamic
 
 Input/Condition: Application is running on a computer with 1280x720 display
 
 Output/Results: All buttons and animation window remain visible and accessible
 
-How test will be performed: 
+\item{NFR.ST4\\}
 
-\item{test-id2\\}
+Repeat test NFR.ST3 for 1366x768 display
 
-repeat the above for 1366x768, 1920x1080, 2560x1440, 3840x2160
+\item{NFR.ST5\\}
+
+Repeat test NFR.ST3 for 1920x1080 display
+
+\item{NFR.ST6\\}
+
+Repeat test NFR.ST3 for 2560x1440 display
+
+\item{NFR.ST7\\}
+
+Repeat test NFR.ST3 for 3840x2160 display
 
 \end{enumerate}
 
@@ -275,11 +285,11 @@ repeat the above for 1366x768, 1920x1080, 2560x1440, 3840x2160
 
 \begin{enumerate}
 
-\item{test-id1\\}
+\item{NFR.ST8\\}
 
 Initial State: Application is opened with no past data
 
-Type: 
+Type: Manual, Dynamic
 
 Input/Condition: Font size setting is changed to display as 8pt
 
@@ -287,9 +297,17 @@ Output/Results: All buttons and animation window remain visible and accessible
 
 How test will be performed: 
 
-\item{test-id2\\}
+\item{NFR.ST9\\}
 
-repeat the above for 16pt, 24pt, 32pt
+Repeat test NFR.ST8 with font size 16pt
+
+\item{NFR.ST10\\}
+
+Repeat test NFR.ST8 with font size 24pt
+
+\item{NFR.ST11\\}
+
+Repeat test NFR.ST8 with font size 32pt
 
 \end{enumerate}
 
@@ -297,11 +315,11 @@ repeat the above for 16pt, 24pt, 32pt
 
 \begin{enumerate}
 
-\item{test-id1\\}
+\item{NFR.ST12\\}
 
 Initial State: Application is not installed
 
-Type: 
+Type: Manual
 
 Input/Condition: Application is downloaded and installed
 
@@ -315,17 +333,15 @@ How test will be performed: By civil engineer
 
 \begin{enumerate}
 
-\item{test-id1\\}
+\item{NFR.ST13\\}
 
 Initial State: Visually similar UI elements are grouped into categories by developers
 
-Type: 
+Type: Manual, Static
 
 Input/Condition: Civil engineer asked to associate UI elements with their respective categories
 
-Output/Results: At least 90\% of UI elements are sorted into their predefined categories
-
-How test will be performed: 
+Output/Results: Civil engineer sorts at least 90\% of UI elements into their predefined categories
 
 \end{enumerate}
 
@@ -335,17 +351,25 @@ How test will be performed:
 
 \begin{enumerate}
 
-\item{test-id1\\}
+\item{NFR.ST14\\}
 
 Initial State: Application is opened with no past data
 
-Type: 
+Type: Manual, Dynamic
 
-Input/Condition: Application used to generate a large bridge analysis
+Input/Condition: Application used to generate a small bridge analysis whose total execution time is at most \textcolor{red}{X} seconds
 
-Output/Results: Total delay will not exceed underlying MATLAB script's execution time by 10\%
+Output/Results: Total execution time will not exceed underlying MATLAB script's execution time by 10\%
 
-How test will be performed: 
+\item{NFR.ST15\\}
+
+Initial State: Application is opened with no past data
+
+Type: Manual, Dynamic
+
+Input/Condition: Application used to generate a large bridge analysis whose total execution time is at least \textcolor{red}{Y} seconds
+
+Output/Results: Total execution time will not exceed underlying MATLAB script's execution time by 10\%
 
 \end{enumerate}
 
@@ -355,17 +379,29 @@ How test will be performed:
 
 \begin{enumerate}
 
-\item{test-id1\\}
+\item{NFR.ST16\\}
 
 Initial State: Application is opened on expected users' computer
 
-Type: 
+Type: Manual, Dynamic
+
+Input/Condition: Application used to generate a small bridge analysis
+
+Output/Results: Time needed on user computer will not exceed time needed on developer computers by 10\%(?)
+
+How test will be performed: The bridge analysis configuration will be one whose total execution time is at most \textcolor{red}{X} seconds on developer computers
+
+\item{NFR.ST17\\}
+
+Initial State: Application is opened on expected users' computer
+
+Type: Manual, Dynamic
 
 Input/Condition: Application used to generate a large bridge analysis
 
-Output/Results: Delay on user computer will not exceed delay on developer computers by 10\%(?)
+Output/Results: Time needed on user computer will not exceed time needed on developer computers by 10\%(?)
 
-How test will be performed: 
+How test will be performed: The bridge analysis configuration will be one whose total execution time is at least \textcolor{red}{Y} seconds on developer computers
 
 \end{enumerate}
 
@@ -375,9 +411,9 @@ How test will be performed:
 
 \begin{enumerate}
 
-\item{test-id1\\}
+\item{NFR.ST18\\}
 
-Type: 
+Type: Automatic, Static
 
 Input/Condition: Measure code file length in lines
 
@@ -385,9 +421,9 @@ Output/Results: At least 75\% of files will contain 750 lines of code or less
 
 How test will be performed: 
 
-\item{test-id2\\}
+\item{NFR.ST19\\}
 
-Type: 
+Type: Automatic, Static
 
 Input/Condition: Measure method length in lines
 
@@ -395,9 +431,9 @@ Output/Results: At least 75\% of methods will contain 75 lines of code or less
 
 How test will be performed: 
 
-\item{test-id3\\}
+\item{NFR.ST20\\}
 
-Type: 
+Type: Automatic, Static
 
 Input/Condition: Measure length of code lines
 
@@ -405,9 +441,9 @@ Output/Results: At least 75\% of lines will contain \textcolor{red}{\bf 120} cha
 
 How test will be performed: 
 
-\item{test-id4\\}
+\item{NFR.ST21\\}
 
-Type: 
+Type: Automatic, Static
 
 Input/Condition: Measure nesting depth of methods
 
@@ -416,42 +452,6 @@ Output/Results: At least 75\% of methods will have a maximum nesting depth of 5 
 How test will be performed: 
 
 \end{enumerate}
-
-\subsubsection{Area of Testing1}
-		
-\paragraph{Title for Test}
-
-\begin{enumerate}
-
-\item{test-id1\\}
-
-Type: 
-					
-Initial State: 
-					
-Input/Condition: 
-					
-Output/Result: 
-					
-How test will be performed: 
-					
-\item{test-id2\\}
-
-Type: Functional, Dynamic, Manual, Static etc.
-					
-Initial State: 
-					
-Input: 
-					
-Output: 
-					
-How test will be performed: 
-
-\end{enumerate}
-
-\subsubsection{Area of Testing2}
-
-...
 
 \subsection{Traceability Between Test Cases and Requirements}
 
