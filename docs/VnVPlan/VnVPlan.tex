@@ -297,7 +297,7 @@ Output: Calculation results based on the defined length
 
 Test Case Derivation: In order to use the second solver, the system requires information on the number of equally spaced parts of the bridge. 
 
-How test will be performed: Using an array of discretization lengths, we can take advantage of the engine's efficiency to calculate the maximum demand force on different context and compare with our own result. 
+How test will be performed: Using an array of discretization lengths, we can take advantage of the engine's efficiency to calculate the maximum demand force in different context and compare with our own expected results. 
 
 \end{enumerate}
 
@@ -312,11 +312,11 @@ Control: Manual versus Automatic
 					
 Initial State: None
 					
-Input: text input to indicate the desired force type and moment  
+Input: text input to indicate the desired force type  
 					
 Output: Calculation results based on the selected parameters 
 
-Test Case Derivation: The current implmentation of the engine allows for calculation across shear, torsion and flexural resistance using both negative and positive moment. 
+Test Case Derivation: The current implmentation of the engine allows for calculation across shear, torsion and flexural resistance
 
 How test will be performed: The test entails 
 					
@@ -326,49 +326,17 @@ Control: Manual versus Automatic
 					
 Initial State: None
 					
-Input: 
-					
-Output:
+Input: text input to indicate the desired moment  
+					 
+Output: Calculation results based on the selected parameters 
 
-Test Case Derivation: 
+Test Case Derivation: The current implmentation of the engine allows for calculation using postivie and negative moment 
 
-\end{enumerate}
-
-\subsubsection{Bridge Visualizer}
-
-\begin{enumerate}
-
-\item{UTFR-5.1\\}
-
-Control: Manual versus Automatic
-					
-Initial State: None
-					
-Input: text input to indicate the desired section 
-					
-Output: 
-
-Test Case Derivation: 
-
-How test will be performed:
-					
-\item{UTFR-5.2\\}
-
-Control: Manual versus Automatic
-					
-Initial State: None
-					
-Input: text input to indicate the discretization length 
-					
-Output: Calculation results based on the defined length
-
-Test Case Derivation: 
-
-How test will be performed:
+How test will be performed: 
 
 \end{enumerate}
 
-\subsubsection{Exectution Flow Logging}
+\subsubsection{Result Visualizer}
 
 \begin{enumerate}
 
@@ -378,11 +346,11 @@ Control: Manual versus Automatic
 					
 Initial State: None
 					
-Input: text input to indicate the desired section 
+Input: calculations based on the concerend section 
 					
-Output: 
+Output: Animation and visualiation highlighting the resulting properties on the specified bridge and load 
 
-Test Case Derivation: 
+Test Case Derivation: As one of the main purposes of the program, the visualization will be interactable 
 
 How test will be performed: 
 					
@@ -392,9 +360,43 @@ Control: Manual versus Automatic
 					
 Initial State: None
 					
-Input: text input to indicate the discretization length 
+Input: calculations based on the discretization length 
 					
-Output: Calculation results based on the defined length
+Output:  Animation and visualiation highlighting the resulting properties on the specified bridge and load 
+
+Test Case Derivation: As one of the main purposes of the program, the visualization will be interactable 
+
+How test will be performed: 
+
+\end{enumerate}
+
+\subsubsection{Exectution Flow Logging}
+
+\begin{enumerate}
+
+\item{UTFR-7.1\\}
+
+Control: Manual versus Automatic
+					
+Initial State: None
+					
+Input: text input to indicate logging flags 
+					
+Output: 
+
+Test Case Derivation: 
+
+How test will be performed: 
+					
+\item{UTFR-7.2\\}
+
+Control: Manual versus Automatic
+					
+Initial State: None
+					
+Input:  text input to indicate logging flags 
+					
+Output: 
 
 Test Case Derivation: 
 
