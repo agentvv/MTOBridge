@@ -11,9 +11,12 @@
     urlcolor=blue
 }
 \usepackage[round]{natbib}
+\usepackage{graphicx}
 
 \input{../Comments}
 \input{../Common}
+
+\graphicspath{{images/}}
 
 \begin{document}
 
@@ -428,7 +431,7 @@ Initial State: Bridge UI mockups containing graphic elements will be prepared
 
 Type: Manual, Static
 
-How test will be performed: Civil engineers will be presented with mockups and expected to identify what the graphic elements represent with at least 90\% accuracy
+How test will be performed: Civil engineers will be presented with mockups and expected to identify what the graphic elements represent with at least 90\% accuracy. Refer to Figure \ref{fig:ui-mockup} for example UI mockup.
 
 \end{enumerate}
 
@@ -663,7 +666,7 @@ How test will be performed:
 
 \section{Unit Test Description}
 
-As outlined in our Development Plan, we will be using Qt Test and Google Test to conduct our unit testing. These testing frameworks will allow us to create and run unit tests quickly and easily.
+As outlined in our \href{https://github.com/agentvv/MTOBridge/blob/main/docs/DevelopmentPlan/DevelopmentPlan.pdf}{Development Plan}, we will be using Qt Test and Google Test to conduct our unit testing. These testing frameworks will allow us to create and run unit tests quickly and easily.
 
 \subsection{Unit Testing Scope}
 
@@ -783,6 +786,12 @@ How test will be performed:
 \section{Appendix}
 
 This is where you can place additional information.
+
+\begin{figure}[]
+  \includegraphics[width=\linewidth]{UI.png}
+  \caption{UI mockup}
+  \label {fig:ui-mockup}
+\end{figure}
 
 \subsection{Symbolic Parameters}
 
