@@ -12,6 +12,7 @@
 }
 \usepackage[round]{natbib}
 \usepackage{graphicx}
+\usepackage{longtable}
 
 \input{../Comments}
 \input{../Common}
@@ -661,8 +662,44 @@ How test will be performed:
 
 \subsection{Traceability Between Test Cases and Requirements}
 
-\wss{Provide a table that shows which test cases are supporting which
-  requirements.}
+\begin{longtable}{|p{0.2\textwidth} | p{0.8\textwidth}|}
+  \caption{System Test Traceability}
+  \label{TblSTTraceability}\\
+  \hline
+  \textbf{Requirement} & \textbf{System Tests}\\
+  \hline
+  NFR1 & NFR1.ST1\\
+  \hline
+  NFR2 & NFR2.ST1\\
+  \hline
+  NFR3 & NFR3.ST1, NFR3.ST2, NFR3.ST3, NFR3.ST4, NFR3.ST5\\
+  \hline
+  NFR4 & NFR4.ST1, NFR4.ST2, NFR4.ST3, NFR4.ST4\\
+  \hline
+  NFR5 & NFR5.ST1\\
+  \hline
+  NFR6 & NFR6.ST1\\
+  \hline
+  NFR7 & \\
+  \hline
+  NFR8 & \\
+  \hline
+  NFR9 & \\
+  \hline
+  NFR10 & NFR10.ST1, NFR10.ST2\\
+  \hline
+  NFR11 & \\
+  \hline
+  NFR12 & NFR12.ST1, NFR12.ST2\\
+  \hline
+  NFR13 & NFR13.ST1, NFR13.ST2, NFR13.ST3, NFR13.ST4\\
+  \hline
+  NFR14 & \\
+  \hline
+  NFR15 & \\
+  \hline
+\end{longtable}
+
 
 \section{Unit Test Description}
 
