@@ -177,7 +177,7 @@ This document ... \wss{provide an introductory blurb and roadmap of the
 
 \item{test-id1\\}
 
-Control: Manual versus Automatic
+Control: Automatic
 					
 Initial State: 
 					
@@ -191,7 +191,7 @@ How test will be performed:
 					
 \item{test-id2\\}
 
-Control: Manual versus Automatic
+Control: Automatic
 					
 Initial State: 
 					
@@ -211,7 +211,7 @@ How test will be performed:
 
 \item{UTFR-2.1\\}
 
-Control: Manual versus Automatic
+Control: Automatic
 					
 Initial State: None
 					
@@ -219,13 +219,13 @@ Input: File location path
 					
 Output: New MTOBridge instance initialized with the given data instead of the default 
 
-Test Case Derivation: The initial data has to be checked before being plugged into the program 
+Test Case Derivation: Config file contains data that were previously inputted by a user, so to the load the data we have to restart the process 
 					
 How test will be performed: The test involves instantiating an MTOBridge process with the saved data and then running our logic checks to validate the saved input.
 					
 \item{UTFR-2.2\\}
 
-Control: Manual versus Automatic
+Control: Automatic
 					
 Initial State: None
 					
@@ -233,9 +233,9 @@ Input: File location path
 					
 Output: Boolean variable indicating True or False 
 
-Test Case Derivation: Require a method to check for the integrity of the saved configurations
+Test Case Derivation: Require a method to check for the integrity of the saved configurations as the data can be faulty or incomplete
 
-How test will be performed:The test is performed by validating the completeness and metadata of the file to make sure the file hasn't been corrupted hence preventing an instance construct call with faulty data.
+How test will be performed: The test is performed by validating the completeness and metadata of the file to make sure the file hasn't been corrupted hence preventing an instance construct call with faulty data.
 
 \end{enumerate}
 
@@ -245,7 +245,7 @@ How test will be performed:The test is performed by validating the completeness 
 
 \item{UTFR-3.1\\}
 
-Control: Manual versus Automatic
+Control: Automatic
 					
 Initial State: None
 					
@@ -257,19 +257,6 @@ Test Case Derivation: The current logic allows for calculation of the demand at 
 
 How test will be performed: The test involves running a series of pre-determined calculation using both solvers and then comparing with the auotmaic output selecting one solver at a time. 
 					
-\item{UTFR-3.2\\}
-
-Control: Manual versus Automatic
-					
-Initial State: None
-					
-Input: text input to indicate the desired solver  
-					
-Output: 
-
-Test Case Derivation: Require a method to check for the integrity of the saved configurations
-
-How test will be performed: The test is performed by validating the completeness and metadata of the file to make sure the file hasn't been corrupted hence preventing an instance construct call with faulty data.
 
 \end{enumerate}
 
@@ -279,7 +266,7 @@ How test will be performed: The test is performed by validating the completeness
 
 \item{UTFR-4.1\\}
 
-Control: Manual versus Automatic
+Control: Automatic
 					
 Initial State: None
 					
@@ -293,7 +280,7 @@ How test will be performed: Once the section is selected, the test is performed 
 					
 \item{UTFR-4.2\\}
 
-Control: Manual versus Automatic
+Control: Automatic
 					
 Initial State: None
 					
@@ -314,7 +301,7 @@ How test will be performed: Using an array of discretization lengths, we can tak
 
 \item{UTFR-5.1\\}
 
-Control: Manual versus Automatic
+Control: Automatic
 					
 Initial State: None
 					
@@ -324,11 +311,11 @@ Output: Calculation results based on the selected parameters
 
 Test Case Derivation: The current implmentation of the engine allows for calculation across shear, torsion and flexural resistance
 
-How test will be performed: The test entails 
+How test will be performed: The test entails creating a series of bridge types with different truck platoons that can be tested for all force types such as shear, torsion and flexural. Each data test is manually fed into the engine to output an expected output. 
 					
 \item{UTFR-5.2\\}
 
-Control: Manual versus Automatic
+Control: Automatic
 					
 Initial State: None
 					
@@ -338,7 +325,7 @@ Output: Calculation results based on the selected parameters
 
 Test Case Derivation: The current implmentation of the engine allows for calculation using postivie and negative moment 
 
-How test will be performed: 
+How test will be performed: The test will be performed by using our pool of pre-determined bridge and truck platoon configs to test for both positive and negative moment given a certain force type. 
 
 \end{enumerate}
 
@@ -348,21 +335,21 @@ How test will be performed:
 
 \item{UTFR-6.1\\}
 
-Control: Manual versus Automatic
-					
+Control: Automatic
+				
 Initial State: None
 					
-Input: calculations based on the concerend section 
+Input: calculations based on the concerened section 
 					
 Output: Animation and visualiation highlighting the resulting properties on the specified bridge and load 
 
-Test Case Derivation: As one of the main purposes of the program, the visualization will be interactable 
+Test Case Derivation: As one of the main purposes of the program, the visualization will be interactable to show various views
 
-How test will be performed: 
+How test will be performed: Relying on the pre-determined and validated data, we will graph the visulizations of each through the system as well as manually through the data produced by the engine. We can then compare the the expected and actual result across all available views. 
 					
 \item{UTFR-6.2\\}
 
-Control: Manual versus Automatic
+Control: Automatic
 					
 Initial State: None
 					
@@ -370,9 +357,9 @@ Input: calculations based on the discretization length
 					
 Output:  Animation and visualiation highlighting the resulting properties on the specified bridge and load 
 
-Test Case Derivation: As one of the main purposes of the program, the visualization will be interactable 
+Test Case Derivation: As one of the main purposes of the program, the visualization will be interactable to show various views
 
-How test will be performed: 
+How test will be performed: Relying on the pre-determined and validated data, we will graph the visulizations of each through the system as well as manually through the data produced by the engine. We can then compare the the expected and actual result across all available views. 
 
 \end{enumerate}
 
@@ -382,31 +369,18 @@ How test will be performed:
 
 \item{UTFR-7.1\\}
 
-Control: Manual versus Automatic
+Control: Automatic
 					
 Initial State: None
 					
 Input: text input to indicate logging flags 
 					
-Output: 
+Output: text output, "logs"
 
-Test Case Derivation: 
+Test Case Derivation: With the engine built in another framework, its important to log every state change throughout the calculations as triggered by the system
 
-How test will be performed: 
+How test will be performed: While running multiple calculations, the system is asked to comprehensively log the flow in the engine. The system will be interrupted at times to test the robustness as well. The resulting logs should be clearly highlighting the steps taken including any errors or warnings.
 					
-\item{UTFR-7.2\\}
-
-Control: Manual versus Automatic
-					
-Initial State: None
-					
-Input:  text input to indicate logging flags 
-					
-Output: 
-
-Test Case Derivation: 
-
-How test will be performed: 
 
 \end{enumerate}
 
