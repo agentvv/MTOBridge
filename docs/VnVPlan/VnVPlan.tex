@@ -158,50 +158,249 @@ This document ... \wss{provide an introductory blurb and roadmap of the
 	
 \subsection{Tests for Functional Requirements}
 
-\wss{Subsets of the tests may be in related, so this section is divided into
-  different areas.  If there are no identifiable subsets for the tests, this
-  level of document structure can be removed.}
-
-\wss{Include a blurb here to explain why the subsections below
-  cover the requirements.  References to the SRS would be good.}
-
-\subsubsection{Area of Testing1}
-
-\wss{It would be nice to have a blurb here to explain why the subsections below
-  cover the requirements.  References to the SRS would be good.  If a section
-  covers tests for input constraints, you should reference the data constraints
-  table in the SRS.}
+Below are system tests for the functional requirements in the SRS for MTOBridge.
+Each functional requirement has at least one system test. The identifiers follow a pattern of
+functional requirement number, system test number. For example, FR1.ST2 refers to the second
+system test for functional requirement 1.
 		
+\paragraph{MATLAB Communication}
 
 \begin{enumerate}
 
-\item{test-id1\\}
+  \item{FR1.ST1\\}
 
-Control: Automatic
-					
-Initial State: 
-					
-Input: 
-					
-Output: \wss{The expected result for the given inputs}
+  Control: Automatic
 
-Test Case Derivation: \wss{Justify the expected value given in the Output field}
-					
-How test will be performed: 
-					
-\item{test-id2\\}
+  Initial State: None
 
-Control: Automatic
-					
-Initial State: 
-					
-Input: 
-					
-Output: \wss{The expected result for the given inputs}
+  Input: None
 
-Test Case Derivation: \wss{Justify the expected value given in the Output field}
+  Output: MATLAB engine started
 
-How test will be performed: 
+  Test Case Derivation: The first step in the communication is to get the MATLAB engine
+  to start.
+
+  How test will be performed: The test will instantiate our MATLAB engine wrapper.
+
+  \item{FR1.ST2\\}
+
+  Control: Automatic
+
+  Initial State: None
+
+  Input: Truck, Bridge, and Analysis configurations
+
+  Output: Any result from standard out or standard error
+
+  Test Case Derivation: We just need to confirm that the engine is processing our
+  input in some way, whether it gives an error or not.
+
+  How test will be performed: Start the MATLAB engine through our wrapper, create
+  some default truck, bridge, and analysis configurations, and try to run the analysis.
+
+\end{enumerate}
+
+\paragraph{Truck Configuration}
+
+\begin{enumerate}
+
+  \item{FR2.ST1\\}
+
+  Control: Automatic
+
+  Initial State: GUI exists
+
+  Input: Axle load, axle spacing, number of trucks, headway
+
+  Output: GUI fields are filled
+
+  Test Case Derivation: If the data of the input fields can be entered, then the user
+  should also be able to fill in the fields.
+
+  How test will be performed: Input fields will filled, and checked if they have the
+  correct value.
+
+  \item{FR2.ST2\\}
+
+  Control: Automatic
+
+  Initial State: GUI exists
+
+  Input: Invalid axle load, axle spacing, number of trucks, headway
+
+  Output: GUI fields are filled, highlighted as incorrect
+
+  Test Case Derivation: The user should be able to enter data, but be informed if the
+  entered information is invalid.
+
+  How test will be performed: Input fields will filled with incorrect information, 
+  and the fields should be highlighted as incorrect.
+
+  \item{FR3.ST1\\}
+
+  Control: Automatic
+
+  Initial State: GUI exists
+
+  Input: Valid truck configuration
+
+  Output: A valid visualization of the truck platoon shown
+
+  Test Case Derivation: If a valid truck configuration is given, the user should be able to
+  visualize the truck platoon.
+
+  How test will be performed: Given a valid truck configuration, a visualization will be generated.
+  The visualization will be saved as a picture and compared to the expected visualization.
+
+  \item{FR3.ST2\\}
+
+  Control: Automatic
+
+  Initial State: GUI exists
+
+  Input: Invalid truck configuration
+
+  Output: A message informing the user of an incorrect truck configuration
+
+  Test Case Derivation: If an invalid truck configuration is given, the user should be informed
+  that the visualization cannot be created without a valid truck configuration.
+
+  How test will be performed: Given an invalid configuration, the program will not show
+  a visualization, but a message informing the user that a visualization cannot be created/shown
+  until the configuration is valid.
+
+  \item{FR4.ST1\\}
+
+  Control: Automatic
+
+  Initial State: GUI exists
+
+  Input: A truck configuration
+
+  Output: A file with the correctly saved configuration
+
+  Test Case Derivation: See FR.4.
+
+  How test will be performed: Given a truck configuration, a file will be created. Its contents
+  will be compared with the expected contents.
+
+
+  \item{FR5.ST1\\}
+
+  Control: Automatic
+
+  Initial State: GUI exists, a truck configuration file exists
+
+  Input: None
+
+  Output: Truck configuration input fields will be filled correctly
+
+  Test Case Derivation: See FR.5.
+
+  How test will be performed: Given a truck configuration, a file will be created. Its contents
+  will be compared with the expected contents.
+
+\end{enumerate}
+
+\paragraph{Bridge Configuration}
+
+\begin{enumerate}
+
+  \item{FR6.ST1\\}
+
+  Control: Automatic
+  
+  Initial State: GUI exists
+  
+  Input: Number of spans, bridge length
+  
+  Output: GUI fields are filled
+  
+  Test Case Derivation: If the data of the input fields can be entered, then the user
+  should also be able to fill in the fields.
+  
+  How test will be performed: Input fields will filled, and checked if they have the
+  correct value.
+  
+  \item{FR6.ST2\\}
+  
+  Control: Automatic
+  
+  Initial State: GUI exists
+  
+  Input: Invalid number of spans, bridge length
+  
+  Output: GUI fields are filled, highlighted as incorrect
+  
+  Test Case Derivation: The user should be able to enter data, but be informed if the
+  entered information is invalid.
+  
+  How test will be performed: Input fields will filled with incorrect information, 
+  and the fields should be highlighted as incorrect.
+  
+  \item{FR7.ST1\\}
+  
+  Control: Automatic
+  
+  Initial State: GUI exists
+  
+  Input: Valid bridge configuration
+  
+  Output: A valid visualization of the bridge shown
+  
+  Test Case Derivation: If a valid bridge configuration is given, the user should be able to
+  visualize the bridge.
+  
+  How test will be performed: Given a valid bridge configuration, a visualization will be generated.
+  The visualization will be saved as a picture and compared to the expected visualization.
+  
+  \item{FR7.ST2\\}
+  
+  Control: Automatic
+  
+  Initial State: GUI exists
+  
+  Input: Invalid bridge configuration
+  
+  Output: A message informing the user of an incorrect bridge configuration
+  
+  Test Case Derivation: If an invalid bridge configuration is given, the user should be informed
+  that the visualization cannot be created without a valid bridge configuration.
+  
+  How test will be performed: Given an invalid configuration, the program will not show
+  a visualization, but a message informing the user that a visualization cannot be created/shown
+  until the configuration is valid.
+  
+  \item{FR8.ST1\\}
+  
+  Control: Automatic
+  
+  Initial State: GUI exists
+  
+  Input: A bridge configuration
+  
+  Output: A file with the correctly saved configuration
+  
+  Test Case Derivation: See FR.4.
+  
+  How test will be performed: Given a bridge configuration, a file will be created. Its contents
+  will be compared with the expected contents.
+  
+  
+  \item{FR9.ST1\\}
+  
+  Control: Automatic
+  
+  Initial State: GUI exists, a bridge configuration file exists
+  
+  Input: None
+  
+  Output: bridge configuration input fields will be filled correctly
+  
+  Test Case Derivation: See FR.5.
+  
+  How test will be performed: Given a bridge configuration, a file will be created. Its contents
+  will be compared with the expected contents.
 
 \end{enumerate}
 
