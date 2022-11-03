@@ -718,28 +718,21 @@ How test will be performed: While running multiple calculations, the system is a
 
 \subsection{Tests for Nonfunctional Requirements}
 
-\wss{The nonfunctional requirements for accuracy will likely just reference the
-  appropriate functional tests from above.  The test cases should mention
-  reporting the relative error for these tests.}
-
-\wss{Tests related to usability could include conducting a usability test and
-  survey.}
-
 \subsubsection{Look and Feel Requirements}
 
 \begin{enumerate}
 
 \item{NFR1.ST1\\}
 
-Initial State: Bridge UI mockups containing graphic elements will be prepared
-
 Type: Manual, Static
+
+Initial State: Bridge UI mockups containing graphic elements will be prepared
 
 Input/Condition: Civil engineers are presented with a UI mockup as seen in Figure \ref{fig:ui-mockup} 
 
-Output/Results: The engineers can correctly identify what part of a bridge each UI element corresponds to in 90% of cases.
+Output/Results: The engineers can correctly identify what part of a bridge each UI element corresponds to in 90\% of cases.
 
-How test will be performed: 
+How test will be performed: The developers will present a UI mockup to civil engineers and will assess how accurately the engineers can identify the UI elements.
 
 \end{enumerate}
 
@@ -749,27 +742,27 @@ How test will be performed:
 
 \item{NFR2.ST1\\}
 
-Initial State: Application is opened with no past data
-
 Type: Manual, Dynamic
 
-Input/Condition: User inputs
+Initial State: Application is opened with no past data
 
-Output/Results: Bridge analysis within 5 minutes of introduction
+Input/Condition: Civil engineers are presented with the application and a brief explanation
 
-How test will be performed: Civil engineer will be asked to provide inputs
+Output/Results: 90\% of the civil engineers are able to perform bridge analysis within 5 minutes of introduction
+
+How test will be performed: Civil engineers will be presented with the application and a brief explanation by the developers, then the amount of time it takes them to complete a bridge analysis will be measured.
 
 \item{NFR3.ST1\\}
 
-Initial State: Application is opened
-
 Type: Manual, Dynamic
+
+Initial State: Application is opened
 
 Input/Condition: Application is running on a computer with 1280x720 display
 
 Output/Results: All buttons and animation window remain visible and accessible
 
-How test will be performed: 
+How test will be performed: The application will be manually opened on a 1280x720 display and checked to ensure that all buttons and animation windows are still visible.
 
 \item{NFR3.ST2\\}
 
@@ -789,15 +782,15 @@ Repeat test NFR.ST3 for 3840x2160 display
 
 \item{NFR4.ST1\\}
 
-Initial State: Application is opened with no past data
-
 Type: Manual, Dynamic
 
-Input/Condition: Font size setting is changed to display as 8pt
+Initial State: Application is opened with no past data
+
+Input/Condition: Font size setting is changed to 8pt
 
 Output/Results: All buttons and animation window remain visible and accessible
 
-How test will be performed: 
+How test will be performed: The application will be manually opened and set to use 8pt font, then checked to ensure that all buttons and animation windows are still visible.
 
 \item{NFR4.ST2\\}
 
@@ -813,27 +806,27 @@ Repeat test NFR.ST8 with font size 32pt
 
 \item{NFR5.ST1\\}
 
-Initial State: Application is not installed
+Type: Manual, Dynamic
 
-Type: Manual
+Initial State: Application is not installed
 
 Input/Condition: Application is downloaded and installed
 
 Output/Results: Application is ready to use within 30 minutes
 
-How test will be performed: By civil engineer
+How test will be performed: The application will be manually downloaded (on an internet connection with at least a 10Mbps download speed), installed, and run. This process will be timed to ensure that it takes less than 30 minutes.
 
 \item{NFR6.ST1\\}
 
-Initial State: Visually similar UI elements are grouped into categories by developers
-
 Type: Manual, Static
 
-Input/Condition: Civil engineer asked to associate UI elements with their respective categories
+Initial State: Visually similar UI elements are grouped into categories by developers
+
+Input/Condition: Civil engineer are asked to associate UI elements with their respective categories
 
 Output/Results: Civil engineer sorts at least 90\% of UI elements into their predefined categories
 
-How test will be performed: 
+How test will be performed: The developers will present a UI mockup to civil engineers and will assess how accurately the engineers can correctly group the UI elements.
 
 \end{enumerate}
 
@@ -843,9 +836,9 @@ How test will be performed:
 
 \item{NFR7.ST1\\}
 
-Initial State: Application is opened with no past data
-
 Type: Automatic, Dynamic
+
+Initial State: Application is opened with no past data
 
 Input/Condition: The application is run with invalid inputs (zeroes, negative numbers, strings, etc.)
 
@@ -855,9 +848,9 @@ How test will be performed: The application will be automatically run with many 
 
 \item{NFR8.ST1\\}
 
-Initial State: Application is installed but the MATLAB files are not installed
-
 Type: Manual, Dynamic
+
+Initial State: Application is installed but the MATLAB files are not installed
 
 Input/Condition: The application is opened
 
@@ -867,9 +860,9 @@ How test will be performed: The application will be manually installed without t
 
 \item{NFR9.ST1\\}
 
-Initial State: Application is opened with no past data
-
 Type: Automatic, Dynamic
+
+Initial State: Application is opened with no past data
 
 Input/Condition: Various UI elements are interacted with
 
@@ -879,27 +872,15 @@ How test will be performed: Various interactions with UI elements will be simula
 
 \item{NFR10.ST1\\}
 
-Initial State: Application is opened with no past data
-
-Type: Manual, Dynamic
-
-Input/Condition: Application used to generate a small bridge analysis whose total execution time is at most \textcolor{red}{X} seconds
-
-Output/Results: Total execution time will not exceed underlying MATLAB script's execution time by 10\%
-
-How test will be performed: on a computer with hardware similar to that of an MTO engineer's
-
-\item{NFR10.ST2\\}
+Type: Automatic, Dynamic
 
 Initial State: Application is opened with no past data
 
-Type: Manual, Dynamic
+Input/Condition: Various valid inputs
 
-Input/Condition: Application used to generate a large bridge analysis whose total execution time is at least \textcolor{red}{Y} seconds
+Output/Results: Total execution time of calculations will not exceed underlying MATLAB script's execution time by more than 10\%
 
-Output/Results: Total execution time will not exceed underlying MATLAB script's execution time by 10\%
-
-How test will be performed: on a computer with hardware similar to that of an MTO engineer's
+How test will be performed: Many different analyses will be performed and timed on a computer with hardware similar to that of an MTO engineer's.
 
 \end{enumerate}
 
@@ -909,51 +890,51 @@ How test will be performed: on a computer with hardware similar to that of an MT
 
 \item{NFR13.ST1\\}
 
-Initial State: 
-
 Type: Automatic, Static
+
+Initial State: The program code is contained in multiple files
 
 Input/Condition: Measure code file length in lines
 
 Output/Results: At least 75\% of files will contain 750 lines of code or less
 
-How test will be performed: Clang-tidy linter
+How test will be performed: The clang-tidy linter will be used to automatically measure file length
 
 \item{NFR13.ST2\\}
 
-Initial State: 
-
 Type: Automatic, Static
+
+Initial State: The program code is contained in multiple files
 
 Input/Condition: Measure method length in lines
 
 Output/Results: At least 75\% of methods will contain 75 lines of code or less
 
-How test will be performed: Clang-tidy linter
+How test will be performed: The clang-tidy linter will be used to automatically measure method length
 
 \item{NFR13.ST3\\}
 
-Initial State: 
-
 Type: Automatic, Static
 
-Input/Condition: Measure length of code lines
+Initial State: The program code is contained in multiple files
+
+Input/Condition: Measure length of code lines in characters
 
 Output/Results: At least 75\% of lines will contain 120 characters or less
 
-How test will be performed: Clang-tidy linter
+How test will be performed: The clang-tidy linter will be used to automatically measure line length
 
 \item{NFR13.ST4\\}
 
-Initial State: 
-
 Type: Automatic, Static
+
+Initial State: The program code is contained in multiple files
 
 Input/Condition: Measure nesting depth of methods
 
 Output/Results: At least 75\% of methods will have a maximum nesting depth of 5 or less
 
-How test will be performed: Clang-tidy linter
+How test will be performed: The clang-tidy linter will be used to automatically measure method nesting depth
 
 \end{enumerate}
 
@@ -1033,11 +1014,11 @@ How test will be performed: Clang-tidy linter
   \hline
   NFR9 & NFR9.ST1\\
   \hline
-  NFR10 & NFR10.ST1, NFR10.ST2\\
+  NFR10 & NFR10.ST1\\
   \hline
   NFR11 & FR3.ST1, FR7.ST1, FR10.ST1, FR11.ST1, FR12.ST1, FR13.ST1, FR13.ST2\\
   \hline
-  NFR12 & NFR9.ST1, NFR10.ST1, NFR10.ST2\\
+  NFR12 & NFR9.ST1, NFR10.ST1\\
   \hline
   NFR13 & NFR13.ST1, NFR13.ST2, NFR13.ST3, NFR13.ST4\\
   \hline
