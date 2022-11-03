@@ -255,7 +255,9 @@ Below are system tests for the functional requirements in the SRS for MTOBridge.
 Each functional requirement has at least one system test. The identifiers follow a pattern of
 functional requirement number, system test number. For example, FR1.ST2 refers to the second
 system test for functional requirement 1.
-		
+
+\subsubsection{MATLAB}
+
 \paragraph{MATLAB Communication}
 
 \begin{enumerate}
@@ -293,7 +295,9 @@ system test for functional requirement 1.
 
 \end{enumerate}
 
-\paragraph{Truck Configuration}
+\subsubsection{Truck Configuration}
+
+\paragraph{Truck Configuration Input}
 
 \begin{enumerate}
 
@@ -329,6 +333,12 @@ system test for functional requirement 1.
   How test will be performed: Input fields will filled with incorrect information, 
   and the fields should be highlighted as incorrect.
 
+\end{enumerate}
+
+\paragraph{Truck Platoon Visualization}
+
+\begin{enumerate}
+
   \item{FR3.ST1\\}
 
   Control: Automatic
@@ -362,6 +372,12 @@ system test for functional requirement 1.
   a visualization, but a message informing the user that a visualization cannot be created/shown
   until the configuration is valid.
 
+\end{enumerate}
+
+\paragraph{Save Truck Configuration}
+
+\begin{enumerate}
+
   \item{FR4.ST1\\}
 
   Control: Automatic
@@ -372,11 +388,17 @@ system test for functional requirement 1.
 
   Output: A file with the correctly saved configuration
 
-  Test Case Derivation: See FR.4.
+  Test Case Derivation: The program should be able to take the existing truck configuration and
+  save it so that it can be loaded or used later.
 
   How test will be performed: Given a truck configuration, a file will be created. Its contents
   will be compared with the expected contents.
 
+\end{enumerate}
+
+\paragraph{Load Truck Configuration}
+
+\begin{enumerate}
 
   \item{FR5.ST1\\}
 
@@ -384,18 +406,21 @@ system test for functional requirement 1.
 
   Initial State: GUI exists, a truck configuration file exists
 
-  Input: None
+  Input: Truck configuration file
 
   Output: Truck configuration input fields will be filled correctly
 
-  Test Case Derivation: See FR.5.
+  Test Case Derivation: After loading a previously saved truck configuration file, the configuration
+  should apply and fill the input fields for the truck configuration.
 
   How test will be performed: Given a truck configuration, a file will be created. Its contents
   will be compared with the expected contents.
 
 \end{enumerate}
 
-\paragraph{Bridge Configuration}
+\subsubsection{Bridge Configuration}
+
+\paragraph{Bridge Configuration Input}
 
 \begin{enumerate}
 
@@ -430,6 +455,12 @@ system test for functional requirement 1.
   
   How test will be performed: Input fields will filled with incorrect information, 
   and the fields should be highlighted as incorrect.
+
+\end{enumerate}
+
+\paragraph{Bridge Visualization}
+
+\begin{enumerate}
   
   \item{FR7.ST1\\}
   
@@ -464,6 +495,12 @@ system test for functional requirement 1.
   a visualization, but a message informing the user that a visualization cannot be created/shown
   until the configuration is valid.
   
+\end{enumerate}
+
+\paragraph{Save Bridge Configuration}
+
+\begin{enumerate}
+
   \item{FR8.ST1\\}
   
   Control: Automatic
@@ -474,11 +511,17 @@ system test for functional requirement 1.
   
   Output: A file with the correctly saved configuration
   
-  Test Case Derivation: See FR.4.
+  Test Case Derivation: The program should be able to take the existing bridge configuration and
+  save it so that it can be loaded or used later.
   
   How test will be performed: Given a bridge configuration, a file will be created. Its contents
   will be compared with the expected contents.
-  
+
+\end{enumerate}
+
+\paragraph{Load Bridge Configuration}
+
+\begin{enumerate}
   
   \item{FR9.ST1\\}
   
@@ -486,11 +529,12 @@ system test for functional requirement 1.
   
   Initial State: GUI exists, a bridge configuration file exists
   
-  Input: None
+  Input: Bridge configuration file
   
-  Output: bridge configuration input fields will be filled correctly
+  Output: Bridge configuration input fields will be filled correctly
   
-  Test Case Derivation: See FR.5.
+  Test Case Derivation: After loading a previously saved truck configuration file, the configuration
+  should apply and fill the input fields for the truck configuration.
   
   How test will be performed: Given a bridge configuration, a file will be created. Its contents
   will be compared with the expected contents.
