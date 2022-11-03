@@ -557,80 +557,53 @@ system test for functional requirement 1.
 
 \end{enumerate}
 
-\subsubsection{File Manager}
-
-\begin{enumerate}
-
-\item{UTFR-2.1\\}
-
-Control: Automatic
-					
-Initial State: None
-					
-Input: File location path
-					
-Output: New MTOBridge instance initialized with the given data instead of the default 
-
-Test Case Derivation: Config file contains data that were previously inputted by a user, so to the load the data we have to restart the process 
-					
-How test will be performed: The test involves instantiating an MTOBridge process with the saved data and then running our logic checks to validate the saved input.
-					
-\item{UTFR-2.2\\}
-
-Control: Automatic
-					
-Initial State: None
-					
-Input: File location path 
-					
-Output: Boolean variable indicating True or False 
-
-Test Case Derivation: Require a method to check for the integrity of the saved configurations as the data can be faulty or incomplete
-
-How test will be performed: The test is performed by validating the completeness and metadata of the file to make sure the file hasn't been corrupted hence preventing an instance construct call with faulty data.
-
-\end{enumerate}
-
 \subsubsection{Solver Setup}
 
+\paragraph{Solver Selection}
+
 \begin{enumerate}
 
-\item{UTFR-3.1\\}
+  \item{FR10.ST1\\}
 
-Control: Automatic
-					
-Initial State: None
-					
-Input: text input to indicate the desired solver 
-					
-Output: Calculation results based on the selected solver
+  Control: Automatic
+            
+  Initial State: None
+            
+  Input: text input to indicate the desired solver 
+            
+  Output: Calculation results based on the selected solver
 
-Test Case Derivation: The current logic allows for calculation of the demand at different areas called concerened sections. These can show the forces for both a single section as well as the entire bridge. 
+  Test Case Derivation: The current logic allows for calculation of the demand at different areas called concerened sections. These can show the forces for both a single section as well as the entire bridge. 
 
-How test will be performed: The test involves running a series of pre-determined calculation using both solvers and then comparing with the auotmaic output selecting one solver at a time. 
+  How test will be performed: The test involves running a series of pre-determined calculation using both solvers and then comparing with the auotmaic output selecting one solver at a time. 
 					
-
 \end{enumerate}
 
-\subsubsection{Bridge Config}
+\paragraph{Section of Concern}
 
 \begin{enumerate}
 
-\item{UTFR-4.1\\}
+  \item{FR11.ST1\\}
 
-Control: Automatic
-					
-Initial State: None
-					
-Input: text input to indicate the desired section 
-					
-Output: Calculation results based on the selected section
+  Control: Automatic
+            
+  Initial State: None
+            
+  Input: text input to indicate the desired section 
+            
+  Output: Calculation results based on the selected section
 
-Test Case Derivation: The current logic allows for calculation of the demand at different areas called concerened sections. These can show the forces for both a single section as well as the entire bridge. 
+  Test Case Derivation: The current logic allows for calculation of the demand at different areas called concerened sections. These can show the forces for both a single section as well as the entire bridge. 
 
-How test will be performed: Once the section is selected, the test is performed by executing different types of platoon and bridge characteristic to derive actual results. These results are validated and compared to the exepected results calculated through the engine only. 
+  How test will be performed: Once the section is selected, the test is performed by executing different types of platoon and bridge characteristic to derive actual results. These results are validated and compared to the exepected results calculated through the engine only. 
 					
-\item{UTFR-4.2\\}
+\end{enumerate}
+
+\paragraph{Discretization Length}
+
+\begin{enumerate}
+
+  \item{FR12.ST1\\}
 
 Control: Automatic
 					
@@ -646,12 +619,11 @@ How test will be performed: Using an array of discretization lengths, we can tak
 
 \end{enumerate}
 
-
-\subsubsection{Calculation Parameters}
+\paragraph{Force Type}
 
 \begin{enumerate}
 
-\item{UTFR-5.1\\}
+\item{FR13.ST1\\}
 
 Control: Automatic
 					
@@ -665,7 +637,7 @@ Test Case Derivation: The current implmentation of the engine allows for calcula
 
 How test will be performed: The test entails creating a series of bridge types with different truck platoons that can be tested for all force types such as shear, torsion and flexural. Each data test is manually fed into the engine to output an expected output. 
 					
-\item{UTFR-5.2\\}
+\item{FR13.ST2\\}
 
 Control: Automatic
 					
@@ -681,11 +653,13 @@ How test will be performed: The test will be performed by using our pool of pre-
 
 \end{enumerate}
 
-\subsubsection{Result Visualizer}
+\subsubsection{Result Visualization}
+
+\paragraph{Concerned Section Result Visualization}
 
 \begin{enumerate}
 
-\item{UTFR-6.1\\}
+\item{FR14.ST1\\}
 
 Control: Automatic
 				
@@ -698,8 +672,14 @@ Output: Animation and visualiation highlighting the resulting properties on the 
 Test Case Derivation: As one of the main purposes of the program, the visualization will be interactable to show various views
 
 How test will be performed: Relying on the pre-determined and validated data, we will graph the visulizations of each through the system as well as manually through the data produced by the engine. We can then compare the the expected and actual result across all available views. 
-					
-\item{UTFR-6.2\\}
+			
+\end{enumerate}
+
+\paragraph{Critical Section Result Visualization}
+
+\begin{enumerate}
+
+\item{FR15.ST1\\}
 
 Control: Automatic
 					
@@ -717,9 +697,11 @@ How test will be performed: Relying on the pre-determined and validated data, we
 
 \subsubsection{Exectution Flow Logging}
 
+\paragraph{Report Generation}
+
 \begin{enumerate}
 
-\item{UTFR-7.1\\}
+\item{FR16.ST1\\}
 
 Control: Automatic
 					
@@ -733,9 +715,7 @@ Test Case Derivation: With the engine built in another framework, its important 
 
 How test will be performed: While running multiple calculations, the system is asked to comprehensively log the flow in the engine. The system will be interrupted at times to test the robustness as well. The resulting logs should be clearly highlighting the steps taken including any errors or warnings.
 					
-
 \end{enumerate}
-
 
 \subsection{Tests for Nonfunctional Requirements}
 
