@@ -48,10 +48,8 @@ November 2 & Victor & Non-Functional System Tests\\
 \tableofcontents
 
 \listoftables
-\wss{Remove this section if it isn't needed}
 
 \listoffigures
-\wss{Remove this section if it isn't needed}
 
 \newpage
 
@@ -718,48 +716,6 @@ How test will be performed: While running multiple calculations, the system is a
 					
 \end{enumerate}
 
-\subsection{Traceability Between Test Cases and Requirements}
-
-\begin{longtable}{|p{0.2\textwidth} | p{0.8\textwidth}|}
-  \caption{System Test Traceability}
-  \label{TblSTTraceability}\\
-  \hline
-  \textbf{Requirement} & \textbf{System Tests}\\
-  \hline
-  FR1 & FR1.ST1, FR1.ST2\\
-  \hline
-  FR2 & FR2.ST1, FR2.ST2\\
-  \hline
-  FR3 & FR3.ST1, FR3.ST2\\
-  \hline
-  FR4 & FR4.ST1\\
-  \hline
-  FR5 & FR5.ST1\\
-  \hline
-  FR6 & FR6.ST1, FR6.ST2\\
-  \hline
-  FR7 & FR7.ST1, FR7.ST2\\
-  \hline
-  FR8 & FR8.ST1\\
-  \hline
-  FR9 & FR9.ST1, FR9.ST2\\
-  \hline
-  FR10 & FR10.ST1\\
-  \hline
-  FR11 & FR11.ST1\\
-  \hline
-  FR12 & FR6.ST1\\
-  \hline
-  FR13 & FR13.ST1, FR13.ST2\\
-  \hline
-  FR14 & FR14.ST1\\
-  \hline
-  FR15 & FR15.ST1\\
-  \hline
-  FR16 & FR16.ST1\\
-  \hline
-\end{longtable}
-
 \subsection{Tests for Nonfunctional Requirements}
 
 \wss{The nonfunctional requirements for accuracy will likely just reference the
@@ -1004,8 +960,48 @@ How test will be performed: Clang-tidy linter
 \subsection{Traceability Between Test Cases and Requirements}
 
 \begin{longtable}{|p{0.2\textwidth} | p{0.8\textwidth}|}
-  \caption{System Test Traceability}
-  \label{TblSTTraceability}\\
+  \caption{Functional System Test Traceability}
+  \label{TblFRSTTraceability}\\
+  \hline
+  \textbf{Requirement} & \textbf{System Tests}\\
+  \hline
+  FR1 & FR1.ST1, FR1.ST2\\
+  \hline
+  FR2 & FR2.ST1, FR2.ST2\\
+  \hline
+  FR3 & FR3.ST1, FR3.ST2\\
+  \hline
+  FR4 & FR4.ST1\\
+  \hline
+  FR5 & FR5.ST1\\
+  \hline
+  FR6 & FR6.ST1, FR6.ST2\\
+  \hline
+  FR7 & FR7.ST1, FR7.ST2\\
+  \hline
+  FR8 & FR8.ST1\\
+  \hline
+  FR9 & FR9.ST1, FR9.ST2\\
+  \hline
+  FR10 & FR10.ST1\\
+  \hline
+  FR11 & FR11.ST1\\
+  \hline
+  FR12 & FR6.ST1\\
+  \hline
+  FR13 & FR13.ST1, FR13.ST2\\
+  \hline
+  FR14 & FR14.ST1\\
+  \hline
+  FR15 & FR15.ST1\\
+  \hline
+  FR16 & FR16.ST1\\
+  \hline
+\end{longtable}
+
+\begin{longtable}{|p{0.2\textwidth} | p{0.8\textwidth}|}
+  \caption{Non-Functional System Test Traceability}
+  \label{TblNFRSTTraceability}\\
   \hline
   \textbf{Requirement} & \textbf{System Tests}\\
   \hline
@@ -1212,11 +1208,15 @@ slides, though. Probably slides-teammates-internet, in that order. \\
 \noindent\textbf{David}\\
 \textbf{Most Important Learning(s):} I think I need to learn a lot more about testing and test driven development.
 Also I've never used a static analysis tool other than linters, so I need to learn what rules and static analysis
-is necessary.
+is necessary.\\
 \textbf{Plan to learn what is needed:} To learn more about testing I'm going to look over some old course material,
 and refer to online resources. I think I will also need to visit the documentation for Google Test because it's
 a testing framework I've never used. To learn more about static analysis I think online resources will be the best
 bet, and also visiting the documentation for clang-tidy will help with knowing the types of static analysis that
 are available to us.\\
+
+\noindent\textbf{Victor}\\
+\textbf{Most Important Learning(s):} Something I need to learn a lot about is the Qt Test library that we will be using for UI testing. I only have cursory knowledge of the Qt library, so the testing framework made to work with it is very foreign to me. I have also never worked with a testing framework designed to test UIs, so I believe that will take some time to get used to.\\
+\textbf{Plan to learn what is needed:} I plan to take two approaches to learn about Qt Test: research and learning by doing. First, I will perform some preliminary research into how to use the library and what functions it can and can't perform. This research will give me the initial knowledge I need to start working with the library. I will then learn more about the framework through using it, especially when working with David who has used it before. I find that learning by doing is very effective when it comes to software, especially libraries, and it works even better when working with someone who has experience.\\
 
 \end{document}
