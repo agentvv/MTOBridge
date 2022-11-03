@@ -73,7 +73,7 @@ November 2 & Adham & Added Sections 3, 4.1, 4.2, 4.4, and 4.7\\
 \pagenumbering{arabic}
 
 This document serves as a plan to verify and validate the design documents and outlines a series of system and unit tests for the functional and non functional requirements
-of the program. It is intendd to be implemented as written, and for its results to be reported on in a future document.
+of the program. It is intended to be implemented as written, and for its results to be reported on in a future document.
 
 \section{General Information}
 
@@ -129,7 +129,7 @@ carried out in order to verify the documents.
   Farzad Vakili& Dev Team & Same as Adham Badawy\\
   Pedram Yazdinia& Dev Team & Same as Adham Badawy\\
   Dr Yang Cancan& Client & Primary source for requirements elicitation and software validation inquiries\\
-  Samuel Crawfod& Teaching Staff & Provides holistic verification reviews of design documents via a marking rubric\\
+  Samuel Crawford& Teaching Staff & Provides holistic verification reviews of design documents via a marking rubric\\
   
   \bottomrule
   \end{tabularx}
@@ -210,7 +210,7 @@ and the tests. For the most part, all of these reviews will be completed by assi
 and reporting their findings and recommendations for changes to the group at the nearest available meeting. The only exception to this general rule is that a more holistic 
 and comprehensive single review will be performed by the teaching staff for the capstone course, and some feedback from 1-2 other groups will be generated as well. 
 Some more detailed notes on each of the goals follows below.\\\\ As far as completeness, the main aim here is to ensure that the plans and tests as written, if executed,
-would genuinely function as a comprehensive verification and validation of the program. As well, this plan should be entirely followable by a third party with no information
+would genuinely function as a comprehensive verification and validation of the program. As well, this plan should be easy to follow by a third party with no information
 provided besides this document and a primer on how to execute the code perhaps. Similarly to the SRS verification, 100\% completeness can never be guaranteed no matter how many
 reviews we do, but an effort to strive towards that goes a long way.\\\\ For ambiguity, this connects to what was talked about at the end of the completeness section. 
 This plan is worthless if we can’t actually follow it and draw conclusions from it, so it needs to be clear what is to be done, how it is to be done, and what we should expect
@@ -573,9 +573,9 @@ system test for functional requirement 1.
             
   Output: Calculation results based on the selected solver
 
-  Test Case Derivation: The current logic allows for calculation of the demand at different areas called concerened sections. These can show the forces for both a single section as well as the entire bridge. 
+  Test Case Derivation: The current logic allows for calculation of the demand at different areas called concerned sections. These can show the forces for both a single section as well as the entire bridge. 
 
-  How test will be performed: The test involves running a series of pre-determined calculation using both solvers and then comparing with the auotmaic output selecting one solver at a time. 
+  How test will be performed: The test involves running a series of pre-determined calculation using both solvers and then comparing with the automatic output selecting one solver at a time. 
 					
 \end{enumerate}
 
@@ -593,9 +593,9 @@ system test for functional requirement 1.
             
   Output: Calculation results based on the selected section
 
-  Test Case Derivation: The current logic allows for calculation of the demand at different areas called concerened sections. These can show the forces for both a single section as well as the entire bridge. 
+  Test Case Derivation: The current logic allows for calculation of the demand at different areas called concerned sections. These can show the forces for both a single section as well as the entire bridge. 
 
-  How test will be performed: Once the section is selected, the test is performed by executing different types of platoon and bridge characteristic to derive actual results. These results are validated and compared to the exepected results calculated through the engine only. 
+  How test will be performed: Once the section is selected, the test is performed by executing different types of platoon and bridge characteristic to derive actual results. These results are validated and compared to the expected results calculated through the engine only. 
 					
 \end{enumerate}
 
@@ -633,7 +633,7 @@ Input: text input to indicate the desired force type
 					
 Output: Calculation results based on the selected parameters 
 
-Test Case Derivation: The current implmentation of the engine allows for calculation across shear, torsion and flexural resistance
+Test Case Derivation: The current implementation of the engine allows for calculation across shear, torsion and flexural resistance
 
 How test will be performed: The test entails creating a series of bridge types with different truck platoons that can be tested for all force types such as shear, torsion and flexural. Each data test is manually fed into the engine to output an expected output. 
 					
@@ -647,7 +647,7 @@ Input: text input to indicate the desired moment
 					 
 Output: Calculation results based on the selected parameters 
 
-Test Case Derivation: The current implmentation of the engine allows for calculation using postivie and negative moment 
+Test Case Derivation: The current implementation of the engine allows for calculation using positive and negative moment 
 
 How test will be performed: The test will be performed by using our pool of pre-determined bridge and truck platoon configs to test for both positive and negative moment given a certain force type. 
 
@@ -665,13 +665,13 @@ Control: Automatic
 				
 Initial State: None
 					
-Input: calculations based on the concerened section 
+Input: calculations based on the concerned section 
 					
-Output: Animation and visualiation highlighting the resulting properties on the specified bridge and load 
+Output: Animation and visualization highlighting the resulting properties on the specified bridge and load 
 
-Test Case Derivation: As one of the main purposes of the program, the visualization will be interactable to show various views
+Test Case Derivation: As one of the main purposes of the program, the visualization will be interactive to show various views
 
-How test will be performed: Relying on the pre-determined and validated data, we will graph the visulizations of each through the system as well as manually through the data produced by the engine. We can then compare the the expected and actual result across all available views. 
+How test will be performed: Relying on the pre-determined and validated data, we will graph the visualizations of each through the system as well as manually through the data produced by the engine. We can then compare the the expected and actual result across all available views. 
 			
 \end{enumerate}
 
@@ -687,11 +687,11 @@ Initial State: None
 					
 Input: calculations based on the discretization length 
 					
-Output:  Animation and visualiation highlighting the resulting properties on the specified bridge and load 
+Output:  Animation and visualization highlighting the resulting properties on the specified bridge and load 
 
-Test Case Derivation: As one of the main purposes of the program, the visualization will be interactable to show various views
+Test Case Derivation: As one of the main purposes of the program, the visualization will be interactive to show various views
 
-How test will be performed: Relying on the pre-determined and validated data, we will graph the visulizations of each through the system as well as manually through the data produced by the engine. We can then compare the the expected and actual result across all available views. 
+How test will be performed: Relying on the pre-determined and validated data, we will graph the visualizations of each through the system as well as manually through the data produced by the engine. We can then compare the the expected and actual result across all available views. 
 
 \end{enumerate}
 
