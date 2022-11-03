@@ -38,6 +38,7 @@ October 30 & Darren & Non-Functional System Tests\\
 November 1 & Pedram & Functional System Tests\\
 November 1 & Victor & Unit Tests Intro\\
 November 1 & Victor & Non-Functional System Tests\\
+November 2 & Adham & Added Sections 3, 4.1, 4.2, 4.4, and 4.7\\
 \bottomrule
 \end{tabularx}
 
@@ -71,51 +72,104 @@ November 1 & Victor & Non-Functional System Tests\\
 
 \pagenumbering{arabic}
 
-This document ... \wss{provide an introductory blurb and roadmap of the
-  Verification and Validation plan}
+This document serves as a plan to verify and validate the design documents and outlines a series of system and unit tests for the functional and non functional requirements
+of the program. It is intendd to be implemented as written, and for its results to be reported on in a future document.
 
 \section{General Information}
 
 \subsection{Summary}
 
-\wss{Say what software is being tested.  Give its name and a brief overview of
-  its general functions.}
+The software whose Verification and Validation is planned for and referred to throughout this document is the User Interface component of MTO Bridge, 
+a software developed in partnership with the Civil Engineering Department at McMaster university to assist MTO engineers in load rating bridges.
+Its primary function is to present visually, in an intuitive and digestible way, the results of a simulation written by a Civil Engineering Professor and her lab 
+in MATLAB of the forces imparted on a bridge by a platoon of trucks driving over it. There are two different solvers for two different results about the forces 
+imparted on the bridge. The program will allow users to specify details of the bridge, the truck platoon driving over it, and which of the two results they are 
+interested in knowing more about.\\ 
 
 \subsection{Objectives}
 
-\wss{State what is intended to be accomplished.  The objective will be around
-  the qualities that are most important for your project.  You might have
-  something like: ``build confidence in the software correctness,''
-  ``demonstrate adequate usability.'' etc.  You won't list all of the qualities,
-  just those that are most important.}
+There are two overarching objectives to any V\&V plan, ensuring we are actually building what we want to build correctly, or verification,
+and ensuring that we think we want to build is what the client actually wants from us, or validation. Verification is where a lot of the domain specific definitions
+of “correct” actually come in. As far as the verification plans for the design documents, the main goal is to build confidence that the design documents are complete,
+verifiable, unambiguous, and generally of high quality. The design documents inform the implementation to a huge degree, so ensuring we are building on a solid foundation
+is one of the main goals of this plan. As we are building a user interface, non functional qualities such as usability and performance/responsiveness are of 
+utmost importance, and many of the tests outlined in this document will center around building confidence that our program has those qualities, or at least 
+exposing if it doesn’t early on. As well, like any program, a number of our tests focus around ensuring that our program as written actually does what we think it does,
+in a predictable way. Ensuring our program properly executes all the functions we laid out in the design documents, and nothing more or less.\\
+
 
 \subsection{Relevant Documentation}
 
-\wss{Reference relevant documentation.  This will definitely include your SRS
-  and your other project documents (MG, MIS, etc).  You can include these even
-  before they are written, since by the time the project is done, they will be
-  written.}
-
-\citet{SRS}
+Essentially every design document written for this project will be relevant documentation here, a mostly exhaustive list of this would include:
+\href{https://github.com/agentvv/MTOBridge/blob/main/docs/ProblemStatementAndGoals/ProblemStatement.pdf}{The Problem Statement}\\
+\href{https://github.com/agentvv/MTOBridge/blob/main/docs/DevelopmentPlan/DevelopmentPlan.pdf}{The Development Plan}\\
+\href{https://github.com/agentvv/MTOBridge/blob/main/docs/SRS/SRS.pdf}{The SRS}\\
+\href{https://github.com/agentvv/MTOBridge/blob/main/docs/HazardAnalysis/HazardAnalysis.pdf}{The Hazard Analysis}\\
+The Module Guide: This document is not yet written, but will be extremely relevant for this plan, particularly for unit testing\\
+The Module Interface Spec: Same as the Module Guide.\\
 
 \section{Plan}
 
-\wss{Introduce this section.   You can provide a roadmap of the sections to
-  come.}
-
+The following section outlines a number of verification and validation plans for the design documents and the software. They are intended to act as a guide to be
+carried out in order to verify the documents.
+\\
+\pagebreak
 \subsection{Verification and Validation Team}
 
-\wss{You, your classmates and the course instructor.  Maybe your supervisor.
-  You shoud do more than list names.  You should say what each person's role is
-  for the project.  A table is a good way to summarize this information.}
+\begin{table}[hp]
+  \caption{Revision History} \label{TblRevisionHistory}
+  \begin{tabularx}{\textwidth}{llX}
+  \toprule
+  \textbf{Name} & \textbf{Group} & \textbf{Role in V\&V}\\
+  \midrule
+  Adham Badawy& Dev Team & Developer, will conduct the bulk of the verification reviews and run System and Unit Tests\\
+  David Jandric& Dev Team & Same as Adham Badawy\\
+  Victor Vezina& Dev Team & Same as Adham Badawy\\
+  Darren Chiu& Dev Team & Same as Adham Badawy\\
+  Farzad Vakili& Dev Team & Same as Adham Badawy\\
+  Pedram Yazdinia& Dev Team & Same as Adham Badawy\\
+  Dr Yang Cancan& Client & Primary source for requirements elicitation and software validation inquiries\\
+  Samuel Crawfod& Teaching Staff & Provides holistic verification reviews of design documents via a marking rubric\\
+  
+  \bottomrule
+  \end{tabularx}
+  \end{table}
 
 \subsection{SRS Verification Plan}
 
-\wss{List any approaches you intend to use for SRS verification.  This may just
-  be ad hoc feedback from reviewers, like your classmates, or you may have
-  something more rigorous/systematic in mind..}
+For the SRS Verification, we will have a number of main goals, these are, in no particular order:
+\begin{itemize}
+\item Ensuring we have quality requirements
+\item Ensuring our requirements are complete
+\item Ensuring the document is free from grammar/spelling mistakes
+\item Ensuring the document is legible/easy to understand
+\end{itemize}
+For ensuring the quality of the requirements, we will conduct a number of reviews with a number of different objectives. The primary reviews will be conducted by
+the development team ourselves. And will be split into three separate reviews that will have the same methodology, but different goals. These will be as follows
+\begin{itemize}
+\item Checking requirements for an appropriate level of abstraction
+\item Checking requirements for testability/verifiability 
+\item Checking requirements ambiguity
+\end{itemize} 
 
-\wss{Remember you have an SRS checklist}
+Two members of the team will be assigned to each of the three reviews, a compromise between giving each task more than 1 set of eyes and maintaining a feasible schedule
+for the review. There are, after all, many other parts of this plan to be implemented.  As well, these same criteria go for both the functional and non-functional requirements,
+and both will be reviewed in one pass. The subgroups will then discuss their findings at a meeting where any necessary changes to the SRS will be discussed. External, 
+more holistic reviews of quality will also be conducted by 2 other teams enrolled in the course as well as the teaching staff, and this feedback will also be discussed 
+amongst the group.\\\\ For requirements completeness, much of the same methodology of document readthroughs and reviews will occur, however the goal will be to identify any 
+missing functionality through the review. The creation of other documents, such as the Hazard Analysis, is also done with ensuring SRS completeness in mind. The process of 
+drafting these documents can illuminate new requirements previously unnoticed. This is also where the client, the Civil Eng. team we are working with, can come in handy.
+Of course, we based our requirements entirely off of discussions with them, however it is often said that people can’t tell you exactly what they want, however if you show
+them something specific, they can tell you whether or not they want that. It is not expected that the client will read the entire document, but we plan to prepare a quick 
+summary of the requirements and present it to them and get their feedback on if anything strikes them as missing/incorrect. Naturally the client will also play a huge role
+in Software validation, but this will be discussed in Section 4.7. A final note on completeness, it is impossible to prove that the SRS is truly, 100\% complete, but our team’s
+mindset is that if we do our due diligence, we should get 99\% of the way there, and the difference should be negligible.\\\\
+Once again, for grammar/spelling the same methodology applies, however this review process will be entirely internal. 1-2 group members will be assigned to 
+check the document and ensure no errors of this nature exist. This step, while simple, is still important for the understandability and disambiguation of the document.\\\\
+Finally, the last goal with regards to the SRS; legibility and ease of understanding, is a very subjective one. The main idea here is that the document should present 
+its information in as easy to digest a way as possible. Is related information located near to each other? Is there proper traceability between all parts of the document? 
+Is the document easy to navigate? These are the kinds of questions that 1 group member will be assigned to answer. Once again, they will report their findings and any 
+recommendations to the group in the nearest meeting to their completion of the review chronologically.
 
 \subsection{Design Verification Plan}
 
@@ -124,6 +178,34 @@ This document ... \wss{provide an introductory blurb and roadmap of the
 \wss{The review will include reviews by your classmates}
 
 \wss{Remember you have MG and MIS checklists}
+
+\subsection{Verification and Validation Plan Verification Plan}
+Similar to other sections, the V\&V verification plan involves a set of reviews conducted by our team and others. The goals for these reviews will be as follows:
+\begin{itemize}
+\item Ensure the plan is complete
+\item	Ensure the plan is unambiguous
+\item	Ensure the plan is feasible
+\item	Ensure the plan actually accomplishes the objectives it says it does
+\end{itemize} 
+For all of these reviews there are three major divisions for the document. Verification/Validation Plans, System Tests, and Unit Tests. These divisions exist as the definition
+of “complete, unambiguous, and feasible” is likely to be different, or at least they might be achieved differently for each of these sections, particularly between the plans
+and the tests. For the most part, all of these reviews will be completed by assigning 2 members of the group to each of the three sections, having them conduct their analysis,
+and reporting their findings and recommendations for changes to the group at the nearest available meeting. The only exception to this general rule is that a more holistic 
+and comprehensive single review will be performed by the teaching staff for the capstone course, and some feedback from 1-2 other groups will be generated as well. 
+Some more detailed notes on each of the goals follows below.\\\\ As far as completeness, the main aim here is to ensure that the plans and tests as written, if executed,
+would genuinely function as a comprehensive verification and validation of the program. As well, this plan should be entirely followable by a third party with no information
+provided besides this document and a primer on how to execute the code perhaps. Similarly to the SRS verification, 100\% completeness can never be guaranteed no matter how many
+reviews we do, but an effort to strive towards that goes a long way.\\\\ For ambiguity, this connects to what was talked about at the end of the completeness section. 
+This plan is worthless if we can’t actually follow it and draw conclusions from it, so it needs to be clear what is to be done, how it is to be done, and what we should expect
+to get out of it. Making the plan unambiguous also helps this document to serve as a reliable test of the program. That is, if there’s only one way to interpret the plans, 
+and the document is well thought out, the plan should return mostly the same results if given the same input program and documents, every time.\\\\
+Feasibility is simple, but important. There is always more testing that can be done, more through reviews that can be conducted, infinitely recursing verification plans
+and plans to verify the plans and plans to verify those plans, but at a certain point the buck must stop and considerations for the fact that this plan is written
+with the intent to actually be carried out to the tee by a group of students with time constraints and other priorities must be made. A balance must be struck between
+accomplishing the objectives set out in this document to the best of our abilities, and not overestimating what those abilities actually are.\\\\ The last goal is somewhat
+related to all three of the previous ones. It basically functions as a final review of the document following the other three to double check the entire document more
+holistically. If the document is complete, unambiguous, and feasible, this goal is likely already accomplished, but a holistic review will both not take too much time to
+complete following the information gathered from the previous three and also serve as a nice wrap up for the verification.
 
 \subsection{Implementation Verification Plan}
 
@@ -150,9 +232,20 @@ This document ... \wss{provide an introductory blurb and roadmap of the
 
 \subsection{Software Validation Plan}
 
-\wss{If there is any external data that can be used for validation, you should
-  point to it here.  If there are no plans for validation, you should state that
-  here.}
+There will be multiple steps to validating our software, however they will all have the same goal. Answering this question:  Are we building/did we build what our client wanted
+us to build, or has there been some terrible misunderstanding? Well, if there’s always only one goal, then why are there multiple steps? We plan to have the validation
+process be a continuous one throughout the development of the project. Sure, we could wait till the program was mostly done and then only check with them once we had 
+something concrete to show, but that can lead to catastrophic refactoring if it turns out we weren’t on the right track.\\\\ We already have biweekly meetings
+scheduled with the client for the lifespan of the project, every Friday at 10:00-11:00am. In the earlier stages of the project, these served as requirements elicitation
+meetings and an opportunity to deepen our understanding of the problem. Now that the project is well underway, however, these same meetings will switch to a primarily software
+validation role. As we make progress on the project, and lock in design decisions, we can run them by our primary stakeholder to ensure our vision remains aligned with theirs
+and make any relevant tweaks as necessary along the way, rather than all at once near the end. This keeps us flexible and avoids any nightmare “back to the drawing board” 
+scenarios.\\\\ It was mentioned in section 4.2 that we plan on creating a summary of the main parts of the SRS and presenting to our client for a document verification purpose,
+but this exact methodology in a slightly more general sense would work perfectly for software verification as well. Distill what we are currently doing into a presentable
+set of ideas and receive feedback from the client on how well this solves their problem and how it could be improved/what to avoid.\\\\ The implementation of this
+section of the V\&V plan may sound a little vague in comparison to others, and that’s because it is. It’s difficult to predict exactly how client meetings may affect our
+next steps or even refactor our requirements entirely, so the best way to track and report on the implementation of this section is likely in a set of meeting minutes
+from each of the biweekly meetings and subsequent team follow up meetings, cut down to include only relevant V\&V information, and stuck into the V\&V report.
 
 \section{System Test Description}
 	
