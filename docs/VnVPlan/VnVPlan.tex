@@ -173,11 +173,28 @@ recommendations to the group in the nearest meeting to their completion of the r
 
 \subsection{Design Verification Plan}
 
-\wss{Plans for design verification}
-
-\wss{The review will include reviews by your classmates}
-
-\wss{Remember you have MG and MIS checklists}
+MTO bridge is bringing value mainly through creating an accessible user-friendly platform for bridge engineers. Therefore, the associated usability verification process should be more elaborate and done with greater insistence. The second most important design aspect is anticipation of change since our development effort is limited by the number of team members as well as the duration of this course. As a result, it’s important to verify our design output accommodates for potential future alterations. In our list of design metrics anticipation of change is divided into two design metrics flexibility and maintainability.\\\\
+List of design metrics (in order of priority):
+\begin{itemize}
+\item \textbf{Usability}: How user friendly the system is. \\
+The Heuristic Evaluation checklist below will be used by some of our and Dr.Yang’s team members ( a group of 3 to 5 people) on a prototype which closely resembles the final product. Evaluators scrutinize individual elements according to the heuristics. They also examine how these fit into the overall design, clearly recording all issues encountered. In a future session Evaluators can collate results for analysis and suggest fixes.
+    \begin{itemize}
+    \item \textbf{Keep users informed about its status} appropriately and promptly. 
+    \item\textbf{Show information in ways users understand } from how the real world operates, and in the users’ language.
+    \item\textbf{Offer users control} and let them undo errors easily.
+    \item\textbf{Be consistent} so users aren’t confused over what different words, icons, etc. mean.
+    \item\textbf{Prevent errors –} a system should either avoid conditions where errors arise or warn users before they take risky actions (e.g., “Are you sure you want to do this?” messages).
+    \item\textbf{Have visible information, instructions, etc. to let users recognize options, actions, etc.} instead of forcing them to rely on memory.
+    \item\textbf{Be flexible } so experienced users find faster ways to attain goals.
+    \item\textbf{Have no clutter}, containing only relevant information for current tasks.
+    \item\textbf{Provide plain-language help} regarding errors and solutions.\\
+    \end{itemize}
+\item\textbf{Flexibility:} The ease of expanding the product with new feature sets and capabilities.\\
+We shall refer the module guide (MG) and determine based on the stretch goals section of the problem statement and goals document the feasibility of decomposition as well as design flexibility.
+For example, one of our stretch goals was the ability to draw two dimensional models of bridges and have analysis performed based on the sketches. Graphical additions of this sort which might be common for our application would require a software design that decouples the “view” component as much as possible from other components. Our second stretch goal was having a customizable UI, consequently our sub-architecture for the "view" component should accommodate for a plug-and-play behaviour. A team members and volunteer class members from a different group will be divided into two groups and each group is responsible for verification of flexibility of one stretch goal. They can provide us with feedback in separate meetings, after they were given time to examine our Module Guide, on whether our modular structure and overall architecture can facilitate for this design metric.\\
+\item\textbf{Maintainability:} The ease of coding bug repairs and adding minor features.\\
+Maintainability is greatly dependent on principles such as information hiding, code reusability and single-responsibility. The MG will be examined to particularly check for proper decomposition of modules and the “secrets” they hide through their interface. Base classes and inheritance should be utilized in cases where a general module can be decomposed into smaller sub-classes. The MIS (Module Interface Specification) shall be analyzed to ensure that every function is only responsible for doing one thing and if its other functionalities can be separated using new methods. Code inspections will be performed to identify repetitive logic and separate them using a helper function or class. The code inspections, MG and MIS analysis are going to be conducted by all team members. MG and MIS analysis will commence as soon as they are completed and code inspections begin when the first prototype is created. Each team member is going to be responsible for a component and its code inspection (same for MG and MIS assessments).
+\end{itemize}
 
 \subsection{Verification and Validation Plan Verification Plan}
 Similar to other sections, the V\&V verification plan involves a set of reviews conducted by our team and others. The goals for these reviews will be as follows:
@@ -208,27 +225,26 @@ holistically. If the document is complete, unambiguous, and feasible, this goal 
 complete following the information gathered from the previous three and also serve as a nice wrap up for the verification.
 
 \subsection{Implementation Verification Plan}
-
-\wss{You should at least point to the tests listed in this document and the unit
-  testing plan.}
-
-\wss{In this section you would also give any details of any plans for static verification of
-  the implementation.  Potential techniques include code walkthroughs, code
-  inspection, static analyzers, etc.}
+\begin{itemize}
+  \item\textbf{Development tests:} Conducted with unit and integration level testing verifying the specified behavior of the sub-assemblies on the Module Interface Specification. Refer to sections 5 and 6 of this document for a detailed plan of system and unit tests.
+  \item\textbf{Prototype testing:} Conducted with prototypes that closely resemble the final product. Each prototype created will immediately undergo exploratory testing where a potential user which in this case can be one of Dr.Yang’s civil engineering students is encouraged to try different sections of the applications and complete specific tasks while being monitored by the developers taking notes. Prototype testing can be conducted on an individual part or on the completed system under any conditions.
+  \item\textbf{Analysis:} Since much of the effort is front-end related static analyzers might not be effective. Code inspection will be done by other team members when new implementation is getting merged to the sourcecode by a developer. We are going to put in place Github’s merge validation mechanism where a developer should do a pull request so that their code can be validated by other team members before the new additions are submitted.
+  
+\end{itemize}
 
 \subsection{Automated Testing and Verification Tools}
+\textbf{Linter}\\
+The IDEs we are using (Visual Studio and Visual Studio Code) have their own code linters, which are enabled by default.
+We may consider using clang-tidy for error checking, as well as looking questionable code constructs. We will only use it if the standard IDE linting it not sufficient. This tool is fairly standard, with integration in many IDEs. We can also have it look for code that is against certain coding standards, for example Google coding conventions. In order to maintain consistent code formatting, we will use clang-format for formatting. Using this linter, we can also easily select a coding standard to follow, which will come from a file in our repo. Many IDEs also support the use of clang-format.\\\\
+\textbf{Unit Testing Framework}\\
+We will be using a combination of two testing libraries to test our code. The first is Qt Test, a testing library made specifically for the Qt GUI framework we will be using. This testing library will be used to test the GUI elements of our project.
+The second testing library we will be using is Google Test. This library will allow us to test the other parts of our code in great detail, and offers many advanced features that we can use during development (report generation, death tests, automatic test discovery, etc.).\\\\
+\textbf{Code Coverage Measuring Tools}\\
+Since we will using GCC for compilation, we will be using GCOV to test our code coverage. We will use it as
+it comes standard with GCC, and will hook in directly with our compilation.
 
-\wss{What tools are you using for automated testing.  Likely a unit testing
-  framework and maybe a profiling tool, like ValGrind.  Other possible tools
-  include a static analyzer, make, continuous integration tools, test coverage
-  tools, etc.  Explain your plans for summarizing code coverage metrics.
-  Linters are another important class of tools.  For the programming language
-  you select, you should look at the available linters.  There may also be tools
-  that verify that coding standards have been respected, like flake9 for
-  Python.}
 
-\wss{The details of this section will likely evolve as you get closer to the
-  implementation.}
+
 
 \subsection{Software Validation Plan}
 
