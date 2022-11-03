@@ -39,6 +39,7 @@ November 1 & Pedram & Functional System Tests\\
 November 1 & Victor & Unit Tests Intro\\
 November 1 & Victor & Non-Functional System Tests\\
 November 2 & Adham & Added Sections 3, 4.1, 4.2, 4.4, and 4.7\\
+November 2 & Victor & Non-Functional System Tests\\
 \bottomrule
 \end{tabularx}
 
@@ -769,8 +770,6 @@ How test will be performed: While running multiple calculations, the system is a
   survey.}
 
 \subsubsection{Look and Feel Requirements}
-		
-\paragraph{Graphics Informative Value Test}
 
 \begin{enumerate}
 
@@ -780,14 +779,16 @@ Initial State: Bridge UI mockups containing graphic elements will be prepared
 
 Type: Manual, Static
 
-How test will be performed: Civil engineers will be presented with mockups and expected to identify what the graphic elements represent with at least 90\% accuracy. Refer to Figure \ref{fig:ui-mockup} for example UI mockup.
+Input/Condition: Civil engineers are presented with a UI mockup as seen in Figure \ref{fig:ui-mockup} 
+
+Output/Results: The engineers can correctly identify what part of a bridge each UI element corresponds to in 90% of cases.
+
+How test will be performed: 
 
 \end{enumerate}
 
 \subsubsection{Usability and Humanity Requirements}
 		
-\paragraph{Intuitiveness Test}
-
 \begin{enumerate}
 
 \item{NFR2.ST1\\}
@@ -802,12 +803,6 @@ Output/Results: Bridge analysis within 5 minutes of introduction
 
 How test will be performed: Civil engineer will be asked to provide inputs
 
-\end{enumerate}
-		
-\paragraph{Display Resolution Test}
-
-\begin{enumerate}
-
 \item{NFR3.ST1\\}
 
 Initial State: Application is opened
@@ -817,6 +812,8 @@ Type: Manual, Dynamic
 Input/Condition: Application is running on a computer with 1280x720 display
 
 Output/Results: All buttons and animation window remain visible and accessible
+
+How test will be performed: 
 
 \item{NFR3.ST2\\}
 
@@ -834,12 +831,6 @@ Repeat test NFR.ST3 for 2560x1440 display
 
 Repeat test NFR.ST3 for 3840x2160 display
 
-\end{enumerate}
-
-\paragraph{Text Resizing Test}
-
-\begin{enumerate}
-
 \item{NFR4.ST1\\}
 
 Initial State: Application is opened with no past data
@@ -849,6 +840,8 @@ Type: Manual, Dynamic
 Input/Condition: Font size setting is changed to display as 8pt
 
 Output/Results: All buttons and animation window remain visible and accessible
+
+How test will be performed: 
 
 \item{NFR4.ST2\\}
 
@@ -862,12 +855,6 @@ Repeat test NFR.ST8 with font size 24pt
 
 Repeat test NFR.ST8 with font size 32pt
 
-\end{enumerate}
-
-\paragraph{Ease of Installation Test}
-
-\begin{enumerate}
-
 \item{NFR5.ST1\\}
 
 Initial State: Application is not installed
@@ -880,12 +867,6 @@ Output/Results: Application is ready to use within 30 minutes
 
 How test will be performed: By civil engineer
 
-\end{enumerate}
-
-\paragraph{Consistent UI Test}
-
-\begin{enumerate}
-
 \item{NFR6.ST1\\}
 
 Initial State: Visually similar UI elements are grouped into categories by developers
@@ -896,13 +877,49 @@ Input/Condition: Civil engineer asked to associate UI elements with their respec
 
 Output/Results: Civil engineer sorts at least 90\% of UI elements into their predefined categories
 
+How test will be performed: 
+
 \end{enumerate}
 
 \subsubsection{Performance Requirements}
 
-\paragraph{UI Speed Test}
-
 \begin{enumerate}
+
+\item{NFR7.ST1\\}
+
+Initial State: Application is opened with no past data
+
+Type: Automatic, Dynamic
+
+Input/Condition: The application is run with invalid inputs (zeroes, negative numbers, strings, etc.)
+
+Output/Results: The application does not freeze or crash
+
+How test will be performed: The application will be automatically run with many different invalid inputs, and it will be ensured that the application does not freeze or crash
+
+\item{NFR8.ST1\\}
+
+Initial State: Application is installed but the MATLAB files are not installed
+
+Type: Manual, Dynamic
+
+Input/Condition: The application is opened
+
+Output/Results: The application will display an error regarding the missing MATLAB files
+
+How test will be performed: The application will be manually installed without the required MATLAB files, and then it will be opened
+
+\item{NFR9.ST1\\}
+
+Initial State: Application is opened with no past data
+
+Type: Automatic, Dynamic
+
+Input/Condition: Various UI elements are interacted with
+
+Output/Results: The UI elements react to the interaction within 100ms
+
+How test will be performed: Various interactions with UI elements will be simulated on a computer with hardware similar to that of an MTO engineer's, and the speed of the UI response will be measured automatically
 
 \item{NFR10.ST1\\}
 
@@ -914,6 +931,8 @@ Input/Condition: Application used to generate a small bridge analysis whose tota
 
 Output/Results: Total execution time will not exceed underlying MATLAB script's execution time by 10\%
 
+How test will be performed: on a computer with hardware similar to that of an MTO engineer's
+
 \item{NFR10.ST2\\}
 
 Initial State: Application is opened with no past data
@@ -924,47 +943,17 @@ Input/Condition: Application used to generate a large bridge analysis whose tota
 
 Output/Results: Total execution time will not exceed underlying MATLAB script's execution time by 10\%
 
-\end{enumerate}
-
-\subsubsection{Operational and Environmental Requirements}
-		
-\paragraph{User Computer Test}
-
-\begin{enumerate}
-
-\item{NFR12.ST1\\}
-
-Initial State: Application is opened on expected users' computer
-
-Type: Manual, Dynamic
-
-Input/Condition: Application used to generate a small bridge analysis
-
-Output/Results: Time needed on user computer will not exceed time needed on developer computers by 10\%(?)
-
-How test will be performed: The bridge analysis configuration will be one whose total execution time is at most \textcolor{red}{X} seconds on developer computers
-
-\item{NFR12.ST2\\}
-
-Initial State: Application is opened on expected users' computer
-
-Type: Manual, Dynamic
-
-Input/Condition: Application used to generate a large bridge analysis
-
-Output/Results: Time needed on user computer will not exceed time needed on developer computers by 10\%(?)
-
-How test will be performed: The bridge analysis configuration will be one whose total execution time is at least \textcolor{red}{Y} seconds on developer computers
+How test will be performed: on a computer with hardware similar to that of an MTO engineer's
 
 \end{enumerate}
 
 \subsubsection{Maintainability and Support Requirements}
-		
-\paragraph{Ease of Maintenance Test}
 
 \begin{enumerate}
 
 \item{NFR13.ST1\\}
+
+Initial State: 
 
 Type: Automatic, Static
 
@@ -976,6 +965,8 @@ How test will be performed: Clang-tidy linter
 
 \item{NFR13.ST2\\}
 
+Initial State: 
+
 Type: Automatic, Static
 
 Input/Condition: Measure method length in lines
@@ -986,15 +977,19 @@ How test will be performed: Clang-tidy linter
 
 \item{NFR13.ST3\\}
 
+Initial State: 
+
 Type: Automatic, Static
 
 Input/Condition: Measure length of code lines
 
-Output/Results: At least 75\% of lines will contain \textcolor{red}{\bf 120} characters or less
+Output/Results: At least 75\% of lines will contain 120 characters or less
 
 How test will be performed: Clang-tidy linter
 
 \item{NFR13.ST4\\}
+
+Initial State: 
 
 Type: Automatic, Static
 
@@ -1026,23 +1021,23 @@ How test will be performed: Clang-tidy linter
   \hline
   NFR6 & NFR6.ST1\\
   \hline
-  NFR7 & \\
+  NFR7 & NFR7.ST1\\
   \hline
-  NFR8 & \\
+  NFR8 & NFR8.ST1\\
   \hline
-  NFR9 & \\
+  NFR9 & NFR9.ST1\\
   \hline
   NFR10 & NFR10.ST1, NFR10.ST2\\
   \hline
-  NFR11 & \\
+  NFR11 & FR3.ST1, FR7.ST1, FR10.ST1, FR11.ST1, FR12.ST1, FR13.ST1, FR13.ST2\\
   \hline
-  NFR12 & NFR12.ST1, NFR12.ST2\\
+  NFR12 & NFR9.ST1, NFR10.ST1, NFR10.ST2\\
   \hline
   NFR13 & NFR13.ST1, NFR13.ST2, NFR13.ST3, NFR13.ST4\\
   \hline
-  NFR14 & \\
+  NFR14 & N/A\\
   \hline
-  NFR15 & \\
+  NFR15 & N/A\\
   \hline
 \end{longtable}
 
