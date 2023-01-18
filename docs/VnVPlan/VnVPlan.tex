@@ -10,7 +10,6 @@
     linkcolor=red,
     urlcolor=blue
 }
-\usepackage[round]{natbib}
 \usepackage{graphicx}
 \usepackage{longtable}
 
@@ -21,9 +20,8 @@
 
 \begin{document}
 
-\title{Project Title: System Verification and Validation Plan for \progname{}} 
+\title{System Verification and Validation Plan\\\progname} 
 \author{\authname}
-\date{\today}
 	
 \maketitle
 
@@ -39,6 +37,7 @@ November 1 & Pedram & Functional System Tests\\
 November 1 & Victor & Unit Tests Intro\\
 November 1 & Victor & Non-Functional System Tests\\
 November 2 & Adham & Added Sections 3, 4.1, 4.2, 4.4, and 4.7\\
+November 2 & Victor & Non-Functional System Tests\\
 \bottomrule
 \end{tabularx}
 
@@ -47,33 +46,21 @@ November 2 & Adham & Added Sections 3, 4.1, 4.2, 4.4, and 4.7\\
 \tableofcontents
 
 \listoftables
-\wss{Remove this section if it isn't needed}
 
 \listoffigures
-\wss{Remove this section if it isn't needed}
 
 \newpage
 
 \section{Symbols, Abbreviations and Acronyms}
 
-\renewcommand{\arraystretch}{1.2}
-\begin{tabular}{l l} 
-  \toprule		
-  \textbf{symbol} & \textbf{description}\\
-  \midrule 
-  T & Test\\
-  \bottomrule
-\end{tabular}\\
-
-\wss{symbols, abbreviations or acronyms -- you can simply reference the SRS
-  \citep{SRS} tables, if appropriate}
+Refer to section 1.4 of \href{https://github.com/agentvv/MTOBridge/blob/main/docs/SRS/SRS.pdf}{the SRS}.
 
 \newpage
 
 \pagenumbering{arabic}
 
 This document serves as a plan to verify and validate the design documents and outlines a series of system and unit tests for the functional and non functional requirements
-of the program. It is intendd to be implemented as written, and for its results to be reported on in a future document.
+of the program. It is intended to be implemented as written, and for its results to be reported on in a future document.
 
 \section{General Information}
 
@@ -129,7 +116,7 @@ carried out in order to verify the documents.
   Farzad Vakili& Dev Team & Same as Adham Badawy\\
   Pedram Yazdinia& Dev Team & Same as Adham Badawy\\
   Dr Yang Cancan& Client & Primary source for requirements elicitation and software validation inquiries\\
-  Samuel Crawfod& Teaching Staff & Provides holistic verification reviews of design documents via a marking rubric\\
+  Samuel Crawford& Teaching Staff & Provides holistic verification reviews of design documents via a marking rubric\\
   
   \bottomrule
   \end{tabularx}
@@ -173,11 +160,28 @@ recommendations to the group in the nearest meeting to their completion of the r
 
 \subsection{Design Verification Plan}
 
-\wss{Plans for design verification}
-
-\wss{The review will include reviews by your classmates}
-
-\wss{Remember you have MG and MIS checklists}
+MTO bridge is bringing value mainly through creating an accessible user-friendly platform for bridge engineers. Therefore, the associated usability verification process should be more elaborate and done with greater insistence. The second most important design aspect is anticipation of change since our development effort is limited by the number of team members as well as the duration of this course. As a result, it’s important to verify our design output accommodates for potential future alterations. In our list of design metrics anticipation of change is divided into two design metrics flexibility and maintainability.\\\\
+List of design metrics (in order of priority):
+\begin{itemize}
+\item \textbf{Usability}: How user friendly the system is. \\
+The Heuristic Evaluation checklist below will be used by some of our and Dr.Yang’s team members ( a group of 3 to 5 people) on a prototype which closely resembles the final product. Evaluators scrutinize individual elements according to the heuristics. They also examine how these fit into the overall design, clearly recording all issues encountered. In a future session Evaluators can collate results for analysis and suggest fixes.
+    \begin{itemize}
+    \item \textbf{Keep users informed about its status} appropriately and promptly. 
+    \item\textbf{Show information in ways users understand } from how the real world operates, and in the users’ language.
+    \item\textbf{Offer users control} and let them undo errors easily.
+    \item\textbf{Be consistent} so users aren’t confused over what different words, icons, etc. mean.
+    \item\textbf{Prevent errors –} a system should either avoid conditions where errors arise or warn users before they take risky actions (e.g., “Are you sure you want to do this?” messages).
+    \item\textbf{Have visible information, instructions, etc. to let users recognize options, actions, etc.} instead of forcing them to rely on memory.
+    \item\textbf{Be flexible } so experienced users find faster ways to attain goals.
+    \item\textbf{Have no clutter}, containing only relevant information for current tasks.
+    \item\textbf{Provide plain-language help} regarding errors and solutions.\\
+    \end{itemize}
+\item\textbf{Flexibility:} The ease of expanding the product with new feature sets and capabilities.\\
+We shall refer the module guide (MG) and determine based on the stretch goals section of the problem statement and goals document the feasibility of decomposition as well as design flexibility.
+For example, one of our stretch goals was the ability to draw two dimensional models of bridges and have analysis performed based on the sketches. Graphical additions of this sort which might be common for our application would require a software design that decouples the “view” component as much as possible from other components. Our second stretch goal was having a customizable UI, consequently our sub-architecture for the "view" component should accommodate for a plug-and-play behaviour. A team members and volunteer class members from a different group will be divided into two groups and each group is responsible for verification of flexibility of one stretch goal. They can provide us with feedback in separate meetings, after they were given time to examine our Module Guide, on whether our modular structure and overall architecture can facilitate for this design metric.\\
+\item\textbf{Maintainability:} The ease of coding bug repairs and adding minor features.\\
+Maintainability is greatly dependent on principles such as information hiding, code reusability and single-responsibility. The MG will be examined to particularly check for proper decomposition of modules and the “secrets” they hide through their interface. Base classes and inheritance should be utilized in cases where a general module can be decomposed into smaller sub-classes. The MIS (Module Interface Specification) shall be analyzed to ensure that every function is only responsible for doing one thing and if its other functionalities can be separated using new methods. Code inspections will be performed to identify repetitive logic and separate them using a helper function or class. The code inspections, MG and MIS analysis are going to be conducted by all team members. MG and MIS analysis will commence as soon as they are completed and code inspections begin when the first prototype is created. Each team member is going to be responsible for a component and its code inspection (same for MG and MIS assessments).
+\end{itemize}
 
 \subsection{Verification and Validation Plan Verification Plan}
 Similar to other sections, the V\&V verification plan involves a set of reviews conducted by our team and others. The goals for these reviews will be as follows:
@@ -193,7 +197,7 @@ and the tests. For the most part, all of these reviews will be completed by assi
 and reporting their findings and recommendations for changes to the group at the nearest available meeting. The only exception to this general rule is that a more holistic 
 and comprehensive single review will be performed by the teaching staff for the capstone course, and some feedback from 1-2 other groups will be generated as well. 
 Some more detailed notes on each of the goals follows below.\\\\ As far as completeness, the main aim here is to ensure that the plans and tests as written, if executed,
-would genuinely function as a comprehensive verification and validation of the program. As well, this plan should be entirely followable by a third party with no information
+would genuinely function as a comprehensive verification and validation of the program. As well, this plan should be easy to follow by a third party with no information
 provided besides this document and a primer on how to execute the code perhaps. Similarly to the SRS verification, 100\% completeness can never be guaranteed no matter how many
 reviews we do, but an effort to strive towards that goes a long way.\\\\ For ambiguity, this connects to what was talked about at the end of the completeness section. 
 This plan is worthless if we can’t actually follow it and draw conclusions from it, so it needs to be clear what is to be done, how it is to be done, and what we should expect
@@ -208,27 +212,26 @@ holistically. If the document is complete, unambiguous, and feasible, this goal 
 complete following the information gathered from the previous three and also serve as a nice wrap up for the verification.
 
 \subsection{Implementation Verification Plan}
-
-\wss{You should at least point to the tests listed in this document and the unit
-  testing plan.}
-
-\wss{In this section you would also give any details of any plans for static verification of
-  the implementation.  Potential techniques include code walkthroughs, code
-  inspection, static analyzers, etc.}
+\begin{itemize}
+  \item\textbf{Development tests:} Conducted with unit and integration level testing verifying the specified behavior of the sub-assemblies on the Module Interface Specification. Refer to sections 5 and 6 of this document for a detailed plan of system and unit tests.
+  \item\textbf{Prototype testing:} Conducted with prototypes that closely resemble the final product. Each prototype created will immediately undergo exploratory testing where a potential user which in this case can be one of Dr.Yang’s civil engineering students is encouraged to try different sections of the applications and complete specific tasks while being monitored by the developers taking notes. Prototype testing can be conducted on an individual part or on the completed system under any conditions.
+  \item\textbf{Analysis:} Since much of the effort is front-end related static analyzers might not be effective. Code inspection will be done by other team members when new implementation is getting merged to the sourcecode by a developer. We are going to put in place Github’s merge validation mechanism where a developer should do a pull request so that their code can be validated by other team members before the new additions are submitted.
+  
+\end{itemize}
 
 \subsection{Automated Testing and Verification Tools}
+\textbf{Linter}\\
+The IDEs we are using (Visual Studio and Visual Studio Code) have their own code linters, which are enabled by default.
+We may consider using clang-tidy for error checking, as well as looking questionable code constructs. We will only use it if the standard IDE linting it not sufficient. This tool is fairly standard, with integration in many IDEs. We can also have it look for code that is against certain coding standards, for example Google coding conventions. In order to maintain consistent code formatting, we will use clang-format for formatting. Using this linter, we can also easily select a coding standard to follow, which will come from a file in our repo. Many IDEs also support the use of clang-format.\\\\
+\textbf{Unit Testing Framework}\\
+We will be using a combination of two testing libraries to test our code. The first is Qt Test, a testing library made specifically for the Qt GUI framework we will be using. This testing library will be used to test the GUI elements of our project.
+The second testing library we will be using is Google Test. This library will allow us to test the other parts of our code in great detail, and offers many advanced features that we can use during development (report generation, death tests, automatic test discovery, etc.).\\\\
+\textbf{Code Coverage Measuring Tools}\\
+Since we will using GCC for compilation, we will be using GCOV to test our code coverage. We will use it as
+it comes standard with GCC, and will hook in directly with our compilation.
 
-\wss{What tools are you using for automated testing.  Likely a unit testing
-  framework and maybe a profiling tool, like ValGrind.  Other possible tools
-  include a static analyzer, make, continuous integration tools, test coverage
-  tools, etc.  Explain your plans for summarizing code coverage metrics.
-  Linters are another important class of tools.  For the programming language
-  you select, you should look at the available linters.  There may also be tools
-  that verify that coding standards have been respected, like flake9 for
-  Python.}
 
-\wss{The details of this section will likely evolve as you get closer to the
-  implementation.}
+
 
 \subsection{Software Validation Plan}
 
@@ -255,7 +258,9 @@ Below are system tests for the functional requirements in the SRS for MTOBridge.
 Each functional requirement has at least one system test. The identifiers follow a pattern of
 functional requirement number, system test number. For example, FR1.ST2 refers to the second
 system test for functional requirement 1.
-		
+
+\subsubsection{MATLAB}
+
 \paragraph{MATLAB Communication}
 
 \begin{enumerate}
@@ -293,7 +298,9 @@ system test for functional requirement 1.
 
 \end{enumerate}
 
-\paragraph{Truck Configuration}
+\subsubsection{Truck Configuration}
+
+\paragraph{Truck Configuration Input}
 
 \begin{enumerate}
 
@@ -329,6 +336,12 @@ system test for functional requirement 1.
   How test will be performed: Input fields will filled with incorrect information, 
   and the fields should be highlighted as incorrect.
 
+\end{enumerate}
+
+\paragraph{Truck Platoon Visualization}
+
+\begin{enumerate}
+
   \item{FR3.ST1\\}
 
   Control: Automatic
@@ -362,6 +375,12 @@ system test for functional requirement 1.
   a visualization, but a message informing the user that a visualization cannot be created/shown
   until the configuration is valid.
 
+\end{enumerate}
+
+\paragraph{Save Truck Configuration}
+
+\begin{enumerate}
+
   \item{FR4.ST1\\}
 
   Control: Automatic
@@ -372,11 +391,17 @@ system test for functional requirement 1.
 
   Output: A file with the correctly saved configuration
 
-  Test Case Derivation: See FR.4.
+  Test Case Derivation: The program should be able to take the existing truck configuration and
+  save it so that it can be loaded or used later.
 
   How test will be performed: Given a truck configuration, a file will be created. Its contents
   will be compared with the expected contents.
 
+\end{enumerate}
+
+\paragraph{Load Truck Configuration}
+
+\begin{enumerate}
 
   \item{FR5.ST1\\}
 
@@ -384,18 +409,21 @@ system test for functional requirement 1.
 
   Initial State: GUI exists, a truck configuration file exists
 
-  Input: None
+  Input: Truck configuration file
 
   Output: Truck configuration input fields will be filled correctly
 
-  Test Case Derivation: See FR.5.
+  Test Case Derivation: After loading a previously saved truck configuration file, the configuration
+  should apply and fill the input fields for the truck configuration.
 
   How test will be performed: Given a truck configuration, a file will be created. Its contents
   will be compared with the expected contents.
 
 \end{enumerate}
 
-\paragraph{Bridge Configuration}
+\subsubsection{Bridge Configuration}
+
+\paragraph{Bridge Configuration Input}
 
 \begin{enumerate}
 
@@ -430,6 +458,12 @@ system test for functional requirement 1.
   
   How test will be performed: Input fields will filled with incorrect information, 
   and the fields should be highlighted as incorrect.
+
+\end{enumerate}
+
+\paragraph{Bridge Visualization}
+
+\begin{enumerate}
   
   \item{FR7.ST1\\}
   
@@ -464,6 +498,12 @@ system test for functional requirement 1.
   a visualization, but a message informing the user that a visualization cannot be created/shown
   until the configuration is valid.
   
+\end{enumerate}
+
+\paragraph{Save Bridge Configuration}
+
+\begin{enumerate}
+
   \item{FR8.ST1\\}
   
   Control: Automatic
@@ -474,11 +514,17 @@ system test for functional requirement 1.
   
   Output: A file with the correctly saved configuration
   
-  Test Case Derivation: See FR.4.
+  Test Case Derivation: The program should be able to take the existing bridge configuration and
+  save it so that it can be loaded or used later.
   
   How test will be performed: Given a bridge configuration, a file will be created. Its contents
   will be compared with the expected contents.
-  
+
+\end{enumerate}
+
+\paragraph{Load Bridge Configuration}
+
+\begin{enumerate}
   
   \item{FR9.ST1\\}
   
@@ -486,91 +532,65 @@ system test for functional requirement 1.
   
   Initial State: GUI exists, a bridge configuration file exists
   
-  Input: None
+  Input: Bridge configuration file
   
-  Output: bridge configuration input fields will be filled correctly
+  Output: Bridge configuration input fields will be filled correctly
   
-  Test Case Derivation: See FR.5.
+  Test Case Derivation: After loading a previously saved truck configuration file, the configuration
+  should apply and fill the input fields for the truck configuration.
   
   How test will be performed: Given a bridge configuration, a file will be created. Its contents
   will be compared with the expected contents.
 
 \end{enumerate}
 
-\subsubsection{File Manager}
-
-\begin{enumerate}
-
-\item{UTFR-2.1\\}
-
-Control: Automatic
-					
-Initial State: None
-					
-Input: File location path
-					
-Output: New MTOBridge instance initialized with the given data instead of the default 
-
-Test Case Derivation: Config file contains data that were previously inputted by a user, so to the load the data we have to restart the process 
-					
-How test will be performed: The test involves instantiating an MTOBridge process with the saved data and then running our logic checks to validate the saved input.
-					
-\item{UTFR-2.2\\}
-
-Control: Automatic
-					
-Initial State: None
-					
-Input: File location path 
-					
-Output: Boolean variable indicating True or False 
-
-Test Case Derivation: Require a method to check for the integrity of the saved configurations as the data can be faulty or incomplete
-
-How test will be performed: The test is performed by validating the completeness and metadata of the file to make sure the file hasn't been corrupted hence preventing an instance construct call with faulty data.
-
-\end{enumerate}
-
 \subsubsection{Solver Setup}
 
+\paragraph{Solver Selection}
+
 \begin{enumerate}
 
-\item{UTFR-3.1\\}
+  \item{FR10.ST1\\}
 
-Control: Automatic
-					
-Initial State: None
-					
-Input: text input to indicate the desired solver 
-					
-Output: Calculation results based on the selected solver
+  Control: Automatic
+            
+  Initial State: None
+            
+  Input: text input to indicate the desired solver 
+            
+  Output: Calculation results based on the selected solver
 
-Test Case Derivation: The current logic allows for calculation of the demand at different areas called concerened sections. These can show the forces for both a single section as well as the entire bridge. 
+  Test Case Derivation: The current logic allows for calculation of the demand at different areas called concerned sections. These can show the forces for both a single section as well as the entire bridge. 
 
-How test will be performed: The test involves running a series of pre-determined calculation using both solvers and then comparing with the auotmaic output selecting one solver at a time. 
+  How test will be performed: The test involves running a series of pre-determined calculation using both solvers and then comparing with the automatic output selecting one solver at a time. 
 					
-
 \end{enumerate}
 
-\subsubsection{Bridge Config}
+\paragraph{Section of Concern}
 
 \begin{enumerate}
 
-\item{UTFR-4.1\\}
+  \item{FR11.ST1\\}
 
-Control: Automatic
-					
-Initial State: None
-					
-Input: text input to indicate the desired section 
-					
-Output: Calculation results based on the selected section
+  Control: Automatic
+            
+  Initial State: None
+            
+  Input: text input to indicate the desired section 
+            
+  Output: Calculation results based on the selected section
 
-Test Case Derivation: The current logic allows for calculation of the demand at different areas called concerened sections. These can show the forces for both a single section as well as the entire bridge. 
+  Test Case Derivation: The current logic allows for calculation of the demand at different areas called concerned sections. These can show the forces for both a single section as well as the entire bridge. 
 
-How test will be performed: Once the section is selected, the test is performed by executing different types of platoon and bridge characteristic to derive actual results. These results are validated and compared to the exepected results calculated through the engine only. 
+  How test will be performed: Once the section is selected, the test is performed by executing different types of platoon and bridge characteristic to derive actual results. These results are validated and compared to the expected results calculated through the engine only. 
 					
-\item{UTFR-4.2\\}
+\end{enumerate}
+
+\paragraph{Discretization Length}
+
+\begin{enumerate}
+
+  \item{FR12.ST1\\}
 
 Control: Automatic
 					
@@ -586,12 +606,11 @@ How test will be performed: Using an array of discretization lengths, we can tak
 
 \end{enumerate}
 
-
-\subsubsection{Calculation Parameters}
+\paragraph{Force Type}
 
 \begin{enumerate}
 
-\item{UTFR-5.1\\}
+\item{FR13.ST1\\}
 
 Control: Automatic
 					
@@ -601,11 +620,11 @@ Input: text input to indicate the desired force type
 					
 Output: Calculation results based on the selected parameters 
 
-Test Case Derivation: The current implmentation of the engine allows for calculation across shear, torsion and flexural resistance
+Test Case Derivation: The current implementation of the engine allows for calculation across shear, torsion and flexural resistance
 
 How test will be performed: The test entails creating a series of bridge types with different truck platoons that can be tested for all force types such as shear, torsion and flexural. Each data test is manually fed into the engine to output an expected output. 
 					
-\item{UTFR-5.2\\}
+\item{FR13.ST2\\}
 
 Control: Automatic
 					
@@ -615,31 +634,39 @@ Input: text input to indicate the desired moment
 					 
 Output: Calculation results based on the selected parameters 
 
-Test Case Derivation: The current implmentation of the engine allows for calculation using postivie and negative moment 
+Test Case Derivation: The current implementation of the engine allows for calculation using positive and negative moment 
 
 How test will be performed: The test will be performed by using our pool of pre-determined bridge and truck platoon configs to test for both positive and negative moment given a certain force type. 
 
 \end{enumerate}
 
-\subsubsection{Result Visualizer}
+\subsubsection{Result Visualization}
+
+\paragraph{Concerned Section Result Visualization}
 
 \begin{enumerate}
 
-\item{UTFR-6.1\\}
+\item{FR14.ST1\\}
 
 Control: Automatic
 				
 Initial State: None
 					
-Input: calculations based on the concerened section 
+Input: calculations based on the concerned section 
 					
-Output: Animation and visualiation highlighting the resulting properties on the specified bridge and load 
+Output: Animation and visualization highlighting the resulting properties on the specified bridge and load 
 
-Test Case Derivation: As one of the main purposes of the program, the visualization will be interactable to show various views
+Test Case Derivation: As one of the main purposes of the program, the visualization will be interactive to show various views
 
-How test will be performed: Relying on the pre-determined and validated data, we will graph the visulizations of each through the system as well as manually through the data produced by the engine. We can then compare the the expected and actual result across all available views. 
-					
-\item{UTFR-6.2\\}
+How test will be performed: Relying on the pre-determined and validated data, we will graph the visualizations of each through the system as well as manually through the data produced by the engine. We can then compare the the expected and actual result across all available views. 
+			
+\end{enumerate}
+
+\paragraph{Critical Section Result Visualization}
+
+\begin{enumerate}
+
+\item{FR15.ST1\\}
 
 Control: Automatic
 					
@@ -647,19 +674,21 @@ Initial State: None
 					
 Input: calculations based on the discretization length 
 					
-Output:  Animation and visualiation highlighting the resulting properties on the specified bridge and load 
+Output:  Animation and visualization highlighting the resulting properties on the specified bridge and load 
 
-Test Case Derivation: As one of the main purposes of the program, the visualization will be interactable to show various views
+Test Case Derivation: As one of the main purposes of the program, the visualization will be interactive to show various views
 
-How test will be performed: Relying on the pre-determined and validated data, we will graph the visulizations of each through the system as well as manually through the data produced by the engine. We can then compare the the expected and actual result across all available views. 
+How test will be performed: Relying on the pre-determined and validated data, we will graph the visualizations of each through the system as well as manually through the data produced by the engine. We can then compare the the expected and actual result across all available views. 
 
 \end{enumerate}
 
 \subsubsection{Exectution Flow Logging}
 
+\paragraph{Report Generation}
+
 \begin{enumerate}
 
-\item{UTFR-7.1\\}
+\item{FR16.ST1\\}
 
 Control: Automatic
 					
@@ -673,68 +702,55 @@ Test Case Derivation: With the engine built in another framework, its important 
 
 How test will be performed: While running multiple calculations, the system is asked to comprehensively log the flow in the engine. The system will be interrupted at times to test the robustness as well. The resulting logs should be clearly highlighting the steps taken including any errors or warnings.
 					
-
 \end{enumerate}
-
 
 \subsection{Tests for Nonfunctional Requirements}
 
-\wss{The nonfunctional requirements for accuracy will likely just reference the
-  appropriate functional tests from above.  The test cases should mention
-  reporting the relative error for these tests.}
-
-\wss{Tests related to usability could include conducting a usability test and
-  survey.}
-
 \subsubsection{Look and Feel Requirements}
-		
-\paragraph{Graphics Informative Value Test}
 
 \begin{enumerate}
 
 \item{NFR1.ST1\\}
 
-Initial State: Bridge UI mockups containing graphic elements will be prepared
-
 Type: Manual, Static
 
-How test will be performed: Civil engineers will be presented with mockups and expected to identify what the graphic elements represent with at least 90\% accuracy. Refer to Figure \ref{fig:ui-mockup} for example UI mockup.
+Initial State: Bridge UI mockups containing graphic elements will be prepared
+
+Input/Condition: Civil engineers are presented with a UI mockup as seen in Figure \ref{fig:ui-mockup} 
+
+Output/Results: The engineers can correctly identify what part of a bridge each UI element corresponds to in 90\% of cases.
+
+How test will be performed: The developers will present a UI mockup to civil engineers and will assess how accurately the engineers can identify the UI elements.
 
 \end{enumerate}
 
 \subsubsection{Usability and Humanity Requirements}
 		
-\paragraph{Intuitiveness Test}
-
 \begin{enumerate}
 
 \item{NFR2.ST1\\}
 
-Initial State: Application is opened with no past data
-
 Type: Manual, Dynamic
 
-Input/Condition: User inputs
+Initial State: Application is opened with no past data
 
-Output/Results: Bridge analysis within 5 minutes of introduction
+Input/Condition: Civil engineers are presented with the application and a brief explanation
 
-How test will be performed: Civil engineer will be asked to provide inputs
+Output/Results: 90\% of the civil engineers are able to perform bridge analysis within 5 minutes of introduction
 
-\end{enumerate}
-		
-\paragraph{Display Resolution Test}
-
-\begin{enumerate}
+How test will be performed: Civil engineers will be presented with the application and a brief explanation by the developers, then the amount of time it takes them to complete a bridge analysis will be measured.
 
 \item{NFR3.ST1\\}
 
-Initial State: Application is opened
-
 Type: Manual, Dynamic
+
+Initial State: Application is opened
 
 Input/Condition: Application is running on a computer with 1280x720 display
 
 Output/Results: All buttons and animation window remain visible and accessible
+
+How test will be performed: The application will be manually opened on a 1280x720 display and checked to ensure that all buttons and animation windows are still visible.
 
 \item{NFR3.ST2\\}
 
@@ -752,21 +768,17 @@ Repeat test NFR.ST3 for 2560x1440 display
 
 Repeat test NFR.ST3 for 3840x2160 display
 
-\end{enumerate}
-
-\paragraph{Text Resizing Test}
-
-\begin{enumerate}
-
 \item{NFR4.ST1\\}
-
-Initial State: Application is opened with no past data
 
 Type: Manual, Dynamic
 
-Input/Condition: Font size setting is changed to display as 8pt
+Initial State: Application is opened with no past data
+
+Input/Condition: Font size setting is changed to 8pt
 
 Output/Results: All buttons and animation window remain visible and accessible
+
+How test will be performed: The application will be manually opened and set to use 8pt font, then checked to ensure that all buttons and animation windows are still visible.
 
 \item{NFR4.ST2\\}
 
@@ -780,105 +792,87 @@ Repeat test NFR.ST8 with font size 24pt
 
 Repeat test NFR.ST8 with font size 32pt
 
-\end{enumerate}
-
-\paragraph{Ease of Installation Test}
-
-\begin{enumerate}
-
 \item{NFR5.ST1\\}
 
-Initial State: Application is not installed
+Type: Manual, Dynamic
 
-Type: Manual
+Initial State: Application is not installed
 
 Input/Condition: Application is downloaded and installed
 
 Output/Results: Application is ready to use within 30 minutes
 
-How test will be performed: By civil engineer
-
-\end{enumerate}
-
-\paragraph{Consistent UI Test}
-
-\begin{enumerate}
+How test will be performed: The application will be manually downloaded (on an internet connection with at least a 10Mbps download speed), installed, and run. This process will be timed to ensure that it takes less than 30 minutes.
 
 \item{NFR6.ST1\\}
 
-Initial State: Visually similar UI elements are grouped into categories by developers
-
 Type: Manual, Static
 
-Input/Condition: Civil engineer asked to associate UI elements with their respective categories
+Initial State: Visually similar UI elements are grouped into categories by developers
+
+Input/Condition: Civil engineer are asked to associate UI elements with their respective categories
 
 Output/Results: Civil engineer sorts at least 90\% of UI elements into their predefined categories
+
+How test will be performed: The developers will present a UI mockup to civil engineers and will assess how accurately the engineers can correctly group the UI elements.
 
 \end{enumerate}
 
 \subsubsection{Performance Requirements}
 
-\paragraph{UI Speed Test}
-
 \begin{enumerate}
+
+\item{NFR7.ST1\\}
+
+Type: Automatic, Dynamic
+
+Initial State: Application is opened with no past data
+
+Input/Condition: The application is run with invalid inputs (zeroes, negative numbers, strings, etc.)
+
+Output/Results: The application does not freeze or crash
+
+How test will be performed: The application will be automatically run with many different invalid inputs, and it will be ensured that the application does not freeze or crash
+
+\item{NFR8.ST1\\}
+
+Type: Manual, Dynamic
+
+Initial State: Application is installed but the MATLAB files are not installed
+
+Input/Condition: The application is opened
+
+Output/Results: The application will display an error regarding the missing MATLAB files
+
+How test will be performed: The application will be manually installed without the required MATLAB files, and then it will be opened
+
+\item{NFR9.ST1\\}
+
+Type: Automatic, Dynamic
+
+Initial State: Application is opened with no past data
+
+Input/Condition: Various UI elements are interacted with
+
+Output/Results: The UI elements react to the interaction within 100ms
+
+How test will be performed: Various interactions with UI elements will be simulated on a computer with hardware similar to that of an MTO engineer's, and the speed of the UI response will be measured automatically
 
 \item{NFR10.ST1\\}
 
-Initial State: Application is opened with no past data
-
-Type: Manual, Dynamic
-
-Input/Condition: Application used to generate a small bridge analysis whose total execution time is at most \textcolor{red}{X} seconds
-
-Output/Results: Total execution time will not exceed underlying MATLAB script's execution time by 10\%
-
-\item{NFR10.ST2\\}
+Type: Automatic, Dynamic
 
 Initial State: Application is opened with no past data
 
-Type: Manual, Dynamic
+Input/Condition: Various valid inputs
 
-Input/Condition: Application used to generate a large bridge analysis whose total execution time is at least \textcolor{red}{Y} seconds
+Output/Results: Total execution time of calculations will not exceed underlying MATLAB script's execution time by more than 10\%
 
-Output/Results: Total execution time will not exceed underlying MATLAB script's execution time by 10\%
-
-\end{enumerate}
-
-\subsubsection{Operational and Environmental Requirements}
-		
-\paragraph{User Computer Test}
-
-\begin{enumerate}
-
-\item{NFR12.ST1\\}
-
-Initial State: Application is opened on expected users' computer
-
-Type: Manual, Dynamic
-
-Input/Condition: Application used to generate a small bridge analysis
-
-Output/Results: Time needed on user computer will not exceed time needed on developer computers by 10\%(?)
-
-How test will be performed: The bridge analysis configuration will be one whose total execution time is at most \textcolor{red}{X} seconds on developer computers
-
-\item{NFR12.ST2\\}
-
-Initial State: Application is opened on expected users' computer
-
-Type: Manual, Dynamic
-
-Input/Condition: Application used to generate a large bridge analysis
-
-Output/Results: Time needed on user computer will not exceed time needed on developer computers by 10\%(?)
-
-How test will be performed: The bridge analysis configuration will be one whose total execution time is at least \textcolor{red}{Y} seconds on developer computers
+How test will be performed: Many different analyses will be performed and timed on a computer with hardware similar to that of an MTO engineer's.
 
 \end{enumerate}
 
 \subsubsection{Maintainability and Support Requirements}
-		
-\paragraph{Ease of Maintenance Test}
 
 \begin{enumerate}
 
@@ -886,52 +880,110 @@ How test will be performed: The bridge analysis configuration will be one whose 
 
 Type: Automatic, Static
 
+Initial State: The program code is contained in multiple files
+
 Input/Condition: Measure code file length in lines
 
 Output/Results: At least 75\% of files will contain 750 lines of code or less
 
-How test will be performed: Clang-tidy linter
+How test will be performed: The clang-tidy linter will be used to automatically measure file length
 
 \item{NFR13.ST2\\}
 
 Type: Automatic, Static
 
+Initial State: The program code is contained in multiple files
+
 Input/Condition: Measure method length in lines
 
 Output/Results: At least 75\% of methods will contain 75 lines of code or less
 
-How test will be performed: Clang-tidy linter
+How test will be performed: The clang-tidy linter will be used to automatically measure method length
 
 \item{NFR13.ST3\\}
 
 Type: Automatic, Static
 
-Input/Condition: Measure length of code lines
+Initial State: The program code is contained in multiple files
 
-Output/Results: At least 75\% of lines will contain \textcolor{red}{\bf 120} characters or less
+Input/Condition: Measure length of code lines in characters
 
-How test will be performed: Clang-tidy linter
+Output/Results: At least 75\% of lines will contain 120 characters or less
+
+How test will be performed: The clang-tidy linter will be used to automatically measure line length
 
 \item{NFR13.ST4\\}
 
 Type: Automatic, Static
 
+Initial State: The program code is contained in multiple files
+
 Input/Condition: Measure nesting depth of methods
 
 Output/Results: At least 75\% of methods will have a maximum nesting depth of 5 or less
 
-How test will be performed: Clang-tidy linter
+How test will be performed: The clang-tidy linter will be used to automatically measure method nesting depth
 
 \end{enumerate}
 
 \subsection{Traceability Between Test Cases and Requirements}
 
-\begin{longtable}{|p{0.2\textwidth} | p{0.8\textwidth}|}
-  \caption{System Test Traceability}
-  \label{TblSTTraceability}\\
+\begin{longtable}[H]{|p{0.2\textwidth} | p{0.8\textwidth}|}
+  \caption{Functional System Test Traceability}
+  \label{TblFRSTTraceability}\\
   \hline
   \textbf{Requirement} & \textbf{System Tests}\\
   \hline
+  \endfirsthead
+  \hline
+  \textbf{Requirement} & \textbf{System Tests}\\
+  \hline
+  \endhead
+  FR1 & FR1.ST1, FR1.ST2\\
+  \hline
+  FR2 & FR2.ST1, FR2.ST2\\
+  \hline
+  FR3 & FR3.ST1, FR3.ST2\\
+  \hline
+  FR4 & FR4.ST1\\
+  \hline
+  FR5 & FR5.ST1\\
+  \hline
+  FR6 & FR6.ST1, FR6.ST2\\
+  \hline
+  FR7 & FR7.ST1, FR7.ST2\\
+  \hline
+  FR8 & FR8.ST1\\
+  \hline
+  FR9 & FR9.ST1, FR9.ST2\\
+  \hline
+  FR10 & FR10.ST1\\
+  \hline
+  FR11 & FR11.ST1\\
+  \hline
+  FR12 & FR6.ST1\\
+  \hline
+  FR13 & FR13.ST1, FR13.ST2\\
+  \hline
+  FR14 & FR14.ST1\\
+  \hline
+  FR15 & FR15.ST1\\
+  \hline
+  FR16 & FR16.ST1\\
+  \hline
+\end{longtable}
+
+\begin{longtable}[H]{|p{0.2\textwidth} | p{0.8\textwidth}|}
+  \caption{Non-Functional System Test Traceability}
+  \label{TblNFRSTTraceability}\\
+  \hline
+  \textbf{Requirement} & \textbf{System Tests}\\
+  \hline
+  \endfirsthead
+  \hline
+  \textbf{Requirement} & \textbf{System Tests}\\
+  \hline
+  \endhead
   NFR1 & NFR1.ST1\\
   \hline
   NFR2 & NFR2.ST1\\
@@ -944,23 +996,23 @@ How test will be performed: Clang-tidy linter
   \hline
   NFR6 & NFR6.ST1\\
   \hline
-  NFR7 & \\
+  NFR7 & NFR7.ST1\\
   \hline
-  NFR8 & \\
+  NFR8 & NFR8.ST1\\
   \hline
-  NFR9 & \\
+  NFR9 & NFR9.ST1\\
   \hline
-  NFR10 & NFR10.ST1, NFR10.ST2\\
+  NFR10 & NFR10.ST1\\
   \hline
-  NFR11 & \\
+  NFR11 & FR3.ST1, FR7.ST1, FR10.ST1, FR11.ST1, FR12.ST1, FR13.ST1, FR13.ST2\\
   \hline
-  NFR12 & NFR12.ST1, NFR12.ST2\\
+  NFR12 & NFR9.ST1, NFR10.ST1\\
   \hline
   NFR13 & NFR13.ST1, NFR13.ST2, NFR13.ST3, NFR13.ST4\\
   \hline
-  NFR14 & \\
+  NFR14 & N/A\\
   \hline
-  NFR15 & \\
+  NFR15 & N/A\\
   \hline
 \end{longtable}
 
@@ -969,118 +1021,114 @@ How test will be performed: Clang-tidy linter
 
 As outlined in our \href{https://github.com/agentvv/MTOBridge/blob/main/docs/DevelopmentPlan/DevelopmentPlan.pdf}{Development Plan}, we will be using Qt Test and Google Test to conduct our unit testing. These testing frameworks will allow us to create and run unit tests quickly and easily.
 
-\subsection{Unit Testing Scope}
+% \subsection{Unit Testing Scope}
 
-\wss{What modules are outside of the scope.  If there are modules that are
-  developed by someone else, then you would say here if you aren't planning on
-  verifying them.  There may also be modules that are part of your software, but
-  have a lower priority for verification than others.  If this is the case,
-  explain your rationale for the ranking of module importance.}
+% \wss{What modules are outside of the scope.  If there are modules that are
+%   developed by someone else, then you would say here if you aren't planning on
+%   verifying them.  There may also be modules that are part of your software, but
+%   have a lower priority for verification than others.  If this is the case,
+%   explain your rationale for the ranking of module importance.}
 
-\subsection{Tests for Functional Requirements}
+% \subsection{Tests for Functional Requirements}
 
-\wss{Most of the verification will be through automated unit testing.  If
-  appropriate specific modules can be verified by a non-testing based
-  technique.  That can also be documented in this section.}
+% \wss{Most of the verification will be through automated unit testing.  If
+%   appropriate specific modules can be verified by a non-testing based
+%   technique.  That can also be documented in this section.}
 
-\subsubsection{Module 1}
+% \subsubsection{Module 1}
 
-\wss{Include a blurb here to explain why the subsections below cover the module.
-  References to the MIS would be good.  You will want tests from a black box
-  perspective and from a white box perspective.  Explain to the reader how the
-  tests were selected.}
+% \wss{Include a blurb here to explain why the subsections below cover the module.
+%   References to the MIS would be good.  You will want tests from a black box
+%   perspective and from a white box perspective.  Explain to the reader how the
+%   tests were selected.}
 
-\begin{enumerate}
+% \begin{enumerate}
 
-\item{test-id1\\}
+% \item{test-id1\\}
 
-Type: \wss{Functional, Dynamic, Manual, Automatic, Static etc. Most will
-  be automatic}
+% Type: \wss{Functional, Dynamic, Manual, Automatic, Static etc. Most will
+%   be automatic}
 					
-Initial State: 
+% Initial State: 
 					
-Input: 
+% Input: 
 					
-Output: \wss{The expected result for the given inputs}
+% Output: \wss{The expected result for the given inputs}
 
-Test Case Derivation: \wss{Justify the expected value given in the Output field}
+% Test Case Derivation: \wss{Justify the expected value given in the Output field}
 
-How test will be performed: 
+% How test will be performed: 
 					
-\item{test-id2\\}
+% \item{test-id2\\}
 
-Type: \wss{Functional, Dynamic, Manual, Automatic, Static etc. Most will
-  be automatic}
+% Type: \wss{Functional, Dynamic, Manual, Automatic, Static etc. Most will
+%   be automatic}
 					
-Initial State: 
+% Initial State: 
 					
-Input: 
+% Input: 
 					
-Output: \wss{The expected result for the given inputs}
+% Output: \wss{The expected result for the given inputs}
 
-Test Case Derivation: \wss{Justify the expected value given in the Output field}
+% Test Case Derivation: \wss{Justify the expected value given in the Output field}
 
-How test will be performed: 
+% How test will be performed: 
 
-\item{...\\}
+% \item{...\\}
     
-\end{enumerate}
+% \end{enumerate}
 
-\subsubsection{Module 2}
+% \subsubsection{Module 2}
 
-...
+% ...
 
-\subsection{Tests for Nonfunctional Requirements}
+% \subsection{Tests for Nonfunctional Requirements}
 
-\wss{If there is a module that needs to be independently assessed for
-  performance, those test cases can go here.  In some projects, planning for
-  nonfunctional tests of units will not be that relevant.}
+% \wss{If there is a module that needs to be independently assessed for
+%   performance, those test cases can go here.  In some projects, planning for
+%   nonfunctional tests of units will not be that relevant.}
 
-\wss{These tests may involve collecting performance data from previously
-  mentioned functional tests.}
+% \wss{These tests may involve collecting performance data from previously
+%   mentioned functional tests.}
 
-\subsubsection{Module ?}
+% \subsubsection{Module ?}
 		
-\begin{enumerate}
+% \begin{enumerate}
 
-\item{test-id1\\}
+% \item{test-id1\\}
 
-Type: \wss{Functional, Dynamic, Manual, Automatic, Static etc. Most will
-  be automatic}
+% Type: \wss{Functional, Dynamic, Manual, Automatic, Static etc. Most will
+%   be automatic}
 					
-Initial State: 
+% Initial State: 
 					
-Input/Condition: 
+% Input/Condition: 
 					
-Output/Result: 
+% Output/Result: 
 					
-How test will be performed: 
+% How test will be performed: 
 					
-\item{test-id2\\}
+% \item{test-id2\\}
 
-Type: Functional, Dynamic, Manual, Static etc.
+% Type: Functional, Dynamic, Manual, Static etc.
 					
-Initial State: 
+% Initial State: 
 					
-Input: 
+% Input: 
 					
-Output: 
+% Output: 
 					
-How test will be performed: 
+% How test will be performed: 
 
-\end{enumerate}
+% \end{enumerate}
 
-\subsubsection{Module ?}
+% \subsubsection{Module ?}
 
-...
+% ...
 
-\subsection{Traceability Between Test Cases and Modules}
+% \subsection{Traceability Between Test Cases and Modules}
 
-\wss{Provide evidence that all of the modules have been considered.}
-				
-\bibliographystyle{plainnat}
-
-\bibliography{../../refs/References}
+% \wss{Provide evidence that all of the modules have been considered.}
 
 \newpage
 
@@ -1088,23 +1136,19 @@ How test will be performed:
 
 This is where you can place additional information.
 
-\begin{figure}[]
+\begin{figure}[h]
   \includegraphics[width=\linewidth]{UI.png}
   \caption{UI mockup}
   \label {fig:ui-mockup}
 \end{figure}
 
-\subsection{Symbolic Parameters}
+% \subsection{Symbolic Parameters}
 
-The definition of the test cases will call for SYMBOLIC\_CONSTANTS.
-Their values are defined in this section for easy maintenance.
-
-\subsection{Usability Survey Questions?}
-
-\wss{This is a section that would be appropriate for some projects.}
+% The definition of the test cases will call for SYMBOLIC\_CONSTANTS.
+% Their values are defined in this section for easy maintenance.
 
 \newpage{}
-\section*{Appendix --- Reflection}
+\subsection{Reflection}
 
 The information in this section will be used to evaluate the team members on the
 graduate attribute of Lifelong Learning.  Please answer the following questions:
@@ -1131,5 +1175,27 @@ with concepts such as different types of testing, coverage metrics, and what hav
 \textbf{Plan to learn what is needed:} I still have access to my 3S03(software testing) slides, so I plan to use those to brush up on the concepts and techniques. As well,
 there are a wealth of online videos and resources that I can use should i require more information than what was in my course. Primary source is definitely going to be the
 slides, though. Probably slides-teammates-internet, in that order. \\
+
+\noindent\textbf{David}\\
+\textbf{Most Important Learning(s):} I think I need to learn a lot more about testing and test driven development.
+Also I've never used a static analysis tool other than linters, so I need to learn what rules and static analysis
+is necessary.\\
+\textbf{Plan to learn what is needed:} To learn more about testing I'm going to look over some old course material,
+and refer to online resources. I think I will also need to visit the documentation for Google Test because it's
+a testing framework I've never used. To learn more about static analysis I think online resources will be the best
+bet, and also visiting the documentation for clang-tidy will help with knowing the types of static analysis that
+are available to us.\\
+
+\noindent\textbf{Victor}\\
+\textbf{Most Important Learning(s):} Something I need to learn a lot about is the Qt Test library that we will be using for UI testing. I only have cursory knowledge of the Qt library, so the testing framework made to work with it is very foreign to me. I have also never worked with a testing framework designed to test UIs, so I believe that will take some time to get used to.\\
+\textbf{Plan to learn what is needed:} I plan to take two approaches to learn about Qt Test: research and learning by doing. First, I will perform some preliminary research into how to use the library and what functions it can and can't perform. This research will give me the initial knowledge I need to start working with the library. I will then learn more about the framework through using it, especially when working with David who has used it before. I find that learning by doing is very effective when it comes to software, especially libraries, and it works even better when working with someone who has experience.\\
+
+\noindent\textbf{Farzad}\\
+\textbf{Most Important Learning(s):} I realized I need to learn much more about automated testing. Specifically tools that can perform a set of testing procedures on the UI. Redoing all of the previous test cases on by one is going to be time consuming and error prone, while not doing it can put the robustness and correctness of the program at risk. \\
+\textbf{Plan to learn what is needed:} Research different approaches that experienced front-end developers have employed to test their UI. Afterwards, understand which approach/tool is most applicable to our case and dive deep in their documentation and use cases.Finally, I have to set it up and test it myself to see if they are effective.\\
+
+\noindent\textbf{Pedram}\\
+\textbf{Most Important Learning(s):} For this part of the project, specifically the testing and verification, I need to increase my dynamic testing knowledge of C++ as well as Qt which will be the main development framework. I need to spend the time understanding testing automation at different levels including unit and integration level testing. Static Analysis tools are also very common and include diagrams meant to highlight different components of the system. 
+\textbf{Plan to learn what is needed:} In terms of the next steps and my plan to achieve what’s needed, I believe I will mostly rely on explorative testing to learn and test different components at the same time. I will also take advantage of online resources as well as documentations. Each member has also had a unique experience with C++ testing which can potentially help us enable each other in further verifying the design. 
 
 \end{document}

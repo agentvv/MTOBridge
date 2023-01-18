@@ -29,6 +29,7 @@ September 22 2022 & Victor & Technology sections\\
 September 24 2022 & Darren & Edited team roles and workflow\\
 September 24 2022 & David & Update technology sections\\
 September 26 2022 & Victor & Update technology sections\\
+November 14 2022 & Victor & Update to POC Demo Plan\\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -72,7 +73,7 @@ Critical parts of the proof of concept which aims to verify the viability of the
 \begin{itemize}
 \item Creating an integration point between the MATLAB source code prepared by the primarily stakeholder with our C++ Windows application. Failure of accomplishing this task would prove the project unfeasible. As part of the proof of concept we are at the very least planning on showing simple MATLAB scripts related to the project can be manipulated through the C++ code.
 \item The other important implementation challenge is building a robust asynchronous/concurrent program to promote useability while calling methods from MATLAB source code and waiting for the response. Since the stakeholder's emphasis is on useability making sure the UI is responsive at all times and the application is capable of performing multiple analysis is crucial. Our application would lose its value if it fails to handle multitasking. In order to mitigate this risk our plan is to run the UI, and each one of commanded analysis on a separate thread while following thread safety best practices such as minimal introduction of global variables.
-\item There was a discussion about incorporating the ability to sketch structures and cross sections, in which case thoroughly testing different possibilities of drawings might become unfeasible based on available resources and time. The team has decided that getting domain knowledge, as to what structural patterns are common in bridge design, is a good compromise and can help us prioritize testing possibilities.
+\item There was a discussion about incorporating the ability to sketch structures and cross sections, in which case thoroughly testing different possibilities of drawings might become unfeasible based on available resources and time. The team has decided that getting domain knowledge, as to what structural patterns are common in bridge design, is a good compromise and can help us prioritize testing possibilities. As this is a testing risk, it will not be included in the Proof of Concept Demonstration.
 
 \end{itemize}
 If any of the assessed risks prove to be right, in reaction to such scenario discussions regarding rescoping the project can be held. In an extreme case working with the instructor of the course to redefine our project should be considered.
