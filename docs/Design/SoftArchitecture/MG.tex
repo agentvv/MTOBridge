@@ -198,6 +198,7 @@ change.
     \item The method by which the Output Report is visualized for the user
     \item How the output report data is stored
     \item The method of visualizing the output report saving
+    \item The set of backend MATLAB calculations called by the program
 \end{enumerate}    
 
 \subsection{Unlikely Changes} \label{SecUchange}
@@ -261,6 +262,7 @@ actually be implemented. For clarity, The three top level categories as well and
     \item[|] \textbf{Software Decision Hiding}
     \begin{enumerate}
         \item[|] \textbf{Calculation Call Hiding}
+        \item[|] \textbf{MATLAB Code Hiding}
         \item[|] Data Format Hiding
         \begin{enumerate}
             \item[|] Configuration Data Format Hiding
@@ -301,7 +303,6 @@ actually be implemented. For clarity, The three top level categories as well and
                     \item[|] \textbf{Truck Platoon Configuration Load From File System Visualization Hiding}
                     \item[|] \textbf{Bridge Configuration Load From File System Visualization Hiding}
                     \item[|] \textbf{Solver Configuration Load From File System Visualization Hiding}
-                    \item[|] \textbf{Output Report Load From File System Visualization Hiding}
                 \end{itemize}
             \end{itemize}
         \end{enumerate}
@@ -416,8 +417,14 @@ to be implemented.
     \emph{{\large Calculation Call Hiding}}
     \begin{description}
         \item[Secrets:] How to call the calculations to have them provide the necessary data for the software to visualize
-        \item[Services:]Provides the outputs of the relevant calculations to the software using the backend MATLAB functions for later use
+        \item[Services:] Allows the user to call the backend calculations to provide simulation results
         \item[Implemented By:] MTOBridge\\
+    \end{description}
+    \emph{{\large MATLAB Code Hiding}}
+    \begin{description}
+        \item[Secrets:] How to calculate the demands imposed on a given bridge by a given truck platoon
+        \item[Services:] Provides the outputs of the relevant calculations to the software using the backend MATLAB functions for later use
+        \item[Implemented By:] Dr Yang's Lab\\
     \end{description}
     \emph{{\large Data Format Hiding}}
     \begin{description}
@@ -581,7 +588,7 @@ requirements and between the modules and the anticipated changes.
 \toprule
 \textbf{Req.} & \textbf{Modules}\\
 \midrule
-FR.1 & , Calculation Call Hiding, Calculation Call Visualization Hiding\\
+FR.1 & Calculation Call Hiding, Calculation Call Visualization Hiding, and MATLAB Code Hiding\\
 FR.2 & Truck Platoon Configuration Data Storage/Format Hiding and Truck Platoon Configuration Visualization Hiding\\
 FR.3 & Truck Platoon Configuration Visualization Hiding\\
 FR.4 & Save to File System Hiding and Truck Platoon Config. Save to File System Visualziation Hiding\\
@@ -629,6 +636,7 @@ AC.22 & Output Report Data Format Hiding\\
 AC.23 & Output Report Visualization Hiding\\
 AC.24 & Output Report Data Storage Hiding\\
 AC.25 & Output Report Save to File System Visualization Hiding\\
+AC.26 & MATLAB Code Hiding\\
 
 \bottomrule
 \end{tabular}
