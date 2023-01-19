@@ -279,6 +279,14 @@ Considered documenting further detail on subjects such as file I/O and graphics 
 a graphic to the screen was discussed to rigorously detail the design. We determined it was more important to focus efforts on the design of the system itself and the 
 interaction of its parts rather than these modules to avoid reinventing the wheel.\\\\
 
+\noindent\textbf{Victor}\\
+I think one of the biggest limitations of our current design is the bridge input, as it allows for very little customization. That is, with more time we could implement a 
+system that would allow the user to run calculations on more types and variations of bridges than the current design allows for.\\
+
+We had considered designing our system so that it strictly followed the Model-View-Controller architectural pattern. While MVC would ease development and improve
+maintainability, we decided that strictly following it would limit our design freedom too much. We decided to use our current design as it follows some of the same patterns,
+allowing us to take advantage of many of the pros of MVC, while also giving us more flexibility.\\\\
+
 \noindent\textbf{David}\\
 I think, as Darren mentioned, the configurability of the truck platoon and the bridge could be enhanced greatly. For 
 the bridge configurability, allowing for a larger number of bridge sections, defining bridge materials and section 
