@@ -94,7 +94,8 @@ The following is a high level system design document for the MTOBridge software,
 \href{../../HazardAnalysis/HazardAnalysis.pdf}{Link to HA}\\
 \href{../../VnVPlan/VnVPlan.pdf}{Link to V\&V}\\
 \href{../../Design/SoftArchitecture/MG.pdf}{Link to MG}\\
-\href{../../Design/SystDesign/SystDes.pdf}{Link to MIS}\\
+\href{../../Design/SystDesign/SystDes.pdf}{Link to MIS}
+
 \section{Purpose}
 This document is intended to provide a high-level view of the design decisions made with regards to the user interface component of the MTOBridge software, along with a planned timeline of implementation.
 
@@ -110,7 +111,7 @@ Note that this document, as well as all others written by this team, will focus 
 \section{Project Overview}
 
 \subsection{Normal Behaviour}
-Assuming everything goes smoothly, the most general user scenario for MTOBridge is as follows:\\
+Assuming everything goes smoothly, the most general user scenario for MTOBridge is as follows:
 \begin{enumerate}
 \item A user launches the program
 \item They set up/load a truck platoon configuration
@@ -134,10 +135,12 @@ Assuming everything goes smoothly, the most general user scenario for MTOBridge 
     \end{itemize}
 \item They exit the program
 \end{enumerate}
+
 \subsection{Undesired Event Handling}
 As this is a user interface, robustness and reliability are of the utmost importance for a good user experience. Crashes, slowdowns, or hangs as a result of unexpected events will be highly detrimental to the quality of the program. With this in mind, the plan is to attempt to foresee and catch as many different types of errors as possible, and otherwise allow the program to fail in a palatable way. For example, if during step 4 the user inputs an invalid bridge configuration (i.e choosing “swaws” as the length of their bridge), the program will be set up to prompt them to enter another length, as their current one is invalid and it needs to be a number between x and y, say.
 Another consideration is to design the program in such a manner so as to limit the possibility of undesired events occurring, by removing user freedom. For example, only allowing users to drag a slider from x to y meters to determine the length of their bridge rather than having them type it in, or some other form of input where the range of inputs can be controlled. This can make the program feel constrained, but also create a safer runtime where the user is not given enough rope to hang themselves.
 Which of these undesired event handling techniques is applied will depend on the context, something like user input is simple and its errors are able to be caught well enough that the first method seems feasible. However, the amount of interaction with the visualization/animation of the calculation results available to the user is a much less discrete design space, and therefore might have to be limited using the second method. The choice of method and its application will be refined through testing, both for robustness and quality of life.
+
 \subsection{Component Diagram}
 N/A as there are no hardware or electrical components to this project
 
