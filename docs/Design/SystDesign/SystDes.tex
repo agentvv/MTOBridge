@@ -49,6 +49,11 @@
 \midrule
 15/01/2023 & Farzad & Initial Draft\\
 17/01/2023 & Victor & Added Timeline and Protocol Design\\
+18/01/2023 & Adham & Added Reflection\\
+18/01/2023 & Darren & Added Reflection\\
+18/01/2023 & Pedram & Added Reflection\\
+18/01/2023 & David & Added Reflection\\
+18/01/2023 & Victor & Added Reflection\\
 \bottomrule
 \end{tabularx}
 
@@ -65,8 +70,7 @@ This section records information for easy reference.
   \toprule		
   \textbf{symbol} & \textbf{description}\\
   \midrule 
-  \progname & Explanation of program name\\
-  \wss{...} & \wss{...}\\
+  \progname & This is the name of the program being designed\\
   \bottomrule
 \end{tabular}\\
 
@@ -97,6 +101,7 @@ This document is intended to provide a high-level view of the design decisions m
 \section{Scope}
 Note that this document, as well as all others written by this team, will focus purely on the visualization and user interface component of MTOBridge, ignoring the backend MATLAB solvers as this component will not be designed by this team, nor does this team have any hand in that design. A simple diagram outlining the system boundaries can be found below.
 \begin{figure}[H]
+  \centering
   \includegraphics[]{../images/system-boundaries.PNG}
   \caption{System Boundaries Diagram}
   \label{fig:system-boundaries-diagram}
@@ -139,9 +144,10 @@ N/A as there are no hardware or electrical components to this project
 \newpage
 \subsection{Connection Between Requirements and Design} 
 \begin{table}[hp]
+\centering
 \caption{Connection Between Requirements and Design}
 \label{TblRequirementsDesign}
-\begin{tabular}{|l|l|}
+\begin{tabular}{|p{0.2\textwidth}|p{0.8\textwidth}|}
 \hline
 Decisions & Requirement \\
 \hline
@@ -169,24 +175,28 @@ N/A
 N/A
 \section{User Interfaces}
 \begin{figure}[H]
+  \centering
   \includegraphics[]{../images/Userinterface-Platoon.PNG}
   \caption{User interface Platoon Diagram}
   \label{fig:userinterface-platoon-diagram}
 \end{figure}
 The screen where the user inputs information related to the truck configuration including the axle load, axle spacing, number of trucks and headway. A visual feedback of the inputted information is given at the bottom of the page to the user for confirmation. The effects of the specified platoon configuration to the critical/concerned section is displayed real-time as a graph in the middle of the screen. \\\\
 \begin{figure}[H]
+  \centering
   \includegraphics[]{../images/Userinterface-Bridge.PNG}
   \caption{User interface Bridge Diagram}
   \label{fig:userinterface-bridge-diagram}
 \end{figure}
 The screen where the user inputs information related to the Bridge configuration including the bridge span, span length, section of concern and the discretization length. A visual feedback of the inputted information is given at the bottom of the page to the user for confirmation. The effects of the specified bridge configuration to the critical/concerned section is displayed real-time as a graph in the middle of the screen.\\\\
 \begin{figure}[H]
+  \centering
   \includegraphics[]{../images/Userinterface-Analysis.PNG}
   \caption{User interface Analysis Diagram}
   \label{fig:userinterface-analysis-diagram}
 \end{figure}
 The screen where the user determines the Analysis setting as well as the the section to be analyzed.\\\\
 \begin{figure}[H]
+  \centering
   \includegraphics[]{../images/Userinterface-Report.PNG}
   \caption{User interface Report Diagram}
   \label{fig:userinterface-report-diagram}
@@ -207,6 +217,7 @@ The only communication protocol used by the program is when it communicates with
 \section{Timeline}
 
 \begin{figure}[H]
+  \centering
   \includegraphics[scale=0.7]{../images/Timeline1.PNG}
   \caption{Project Timeline Section 1}
   \label{fig:timeline1}
@@ -216,12 +227,14 @@ The only communication protocol used by the program is when it communicates with
 \newpage
 
 \begin{figure}[H]
+  \centering
   \includegraphics[scale=0.65]{../images/Timeline2.PNG}
   \caption{Project Timeline Section 2}
   \label{fig:timeline2}
 \end{figure}
 
 \begin{figure}[H]
+  \centering
   \includegraphics[scale=0.65]{../images/Timeline3.PNG}
   \caption{Project Timeline Section 3}
   \label{fig:timeline3}
