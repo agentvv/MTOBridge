@@ -9,7 +9,7 @@ BUILDTEX=$(TEX) $(PROJECT).tex
 all:
 	$(BUILDTEX)
 	# $(BIBTEX) $(PROJECT)
-	# $(BUILDTEX)
+	$(BUILDTEX)
 	# $(BUILDTEX)
 
 clean-all:
