@@ -1,7 +1,6 @@
 #pragma once
 
 #include <MatlabCppSharedLib.hpp>
-#include <MatlabDataArray.hpp>
 #include <QObject>
 #include <QQueue>
 #include <QThread>
@@ -20,6 +19,7 @@ class Engine : public QObject {
 
   Engine(const Engine &) = delete;
   void operator=(const Engine &) = delete;
+  void stopEngine();
 
   struct concernedOneMomentInput {
     std::vector<double> axle_load = {53.4, 75.6, 75.6, 75.6, 75.6};
@@ -37,6 +37,7 @@ class Engine : public QObject {
     std::vector<double> moment;
     double maxMoment = -1;
     concernedOneMomentInput input;
+    std::exception stdErr;
   };
 
  signals:
@@ -44,6 +45,7 @@ class Engine : public QObject {
   void addCommand(concernedOneMomentInput);
   void finishedCommand();
   void finishedCommand(concernedOneMomentReturn);
+  void errorOccurred(QString);
 
  public slots:
   void addedCommand(concernedOneMomentInput);

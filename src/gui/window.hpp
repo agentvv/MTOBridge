@@ -11,9 +11,13 @@ class Window : public QWidget {
 
  public:
   Window(QWidget *parent = nullptr);
+  ~Window() { Engine::getInstance().stopEngine(); };
 
  signals:
   void runCommand(Engine::concernedOneMomentInput);
+
+ public slots:
+  void errorOccurred(QString);
 
  private:
   void createWindow();

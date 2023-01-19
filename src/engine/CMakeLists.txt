@@ -1,4 +1,4 @@
-add_library(engine SHARED)
+add_library(engine STATIC)
 
 target_sources(engine
     PRIVATE
@@ -14,15 +14,14 @@ target_include_directories(engine
 
 target_link_libraries(engine
     PRIVATE
-        pthread
         Qt6::Core
         Qt6::Widgets
         Qt6::Charts
-        ${Matlab_ROOT_DIR}/extern/lib/win64/libMatlabCppSharedLib.lib
-        Matlab::MatlabDataArray
 )
 
-target_include_directories(engine
+target_link_libraries(engine
     INTERFACE
-        ${Matlab_ROOT_DIR}/extern/include/
+        ${Matlab_ROOT_DIR}/extern/lib/win64/microsoft/libMatlabCppSharedLib.lib
+        ${Matlab_ROOT_DIR}/extern/lib/win64/microsoft/libMatlabDataArray.lib
 )
+

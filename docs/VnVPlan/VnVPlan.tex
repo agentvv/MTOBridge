@@ -556,13 +556,13 @@ system test for functional requirement 1.
             
   Initial State: None
             
-  Input: text input to indicate the desired solver 
+  Input: input to indicate the desired solver 
             
   Output: Calculation results based on the selected solver
 
-  Test Case Derivation: The current logic allows for calculation of the demand at different areas called concerned sections. These can show the forces for both a single section as well as the entire bridge. 
+  Test Case Derivation: The current logic allows for calculation of the demand at a concerned section, or at the critical section, and there are separate calculations for each.
 
-  How test will be performed: The test involves running a series of pre-determined calculation using both solvers and then comparing with the automatic output selecting one solver at a time. 
+  How test will be performed: The test involves running a series of pre-determined calculations using both solvers and then comparing with the expected output. 
 					
 \end{enumerate}
 
@@ -574,15 +574,15 @@ system test for functional requirement 1.
 
   Control: Automatic
             
-  Initial State: None
+  Initial State: GUI exists
             
-  Input: text input to indicate the desired section 
+  Input: location of concerned section
             
-  Output: Calculation results based on the selected section
+  Output: GUI field is filled
 
-  Test Case Derivation: The current logic allows for calculation of the demand at different areas called concerned sections. These can show the forces for both a single section as well as the entire bridge. 
+  Test Case Derivation: If the data of the input fields can be entered, then the user should also be able to fill in the fields.
 
-  How test will be performed: Once the section is selected, the test is performed by executing different types of platoon and bridge characteristic to derive actual results. These results are validated and compared to the expected results calculated through the engine only. 
+  How test will be performed: Input fields will be filled, and checked if they have the correct value. 
 					
 \end{enumerate}
 
@@ -594,15 +594,15 @@ system test for functional requirement 1.
 
 Control: Automatic
 					
-Initial State: None
+Initial State: GUI exists
 					
-Input: text input to indicate the discretization length 
+Input: discretization length 
 					
-Output: Calculation results based on the defined length
+Output: GUI field is filled
 
-Test Case Derivation: In order to use the second solver, the system requires information on the number of equally spaced parts of the bridge. 
+Test Case Derivation: If the data of the input fields can be entered, then the user should also be able to fill in the fields.
 
-How test will be performed: Using an array of discretization lengths, we can take advantage of the engine's efficiency to calculate the maximum demand force in different context and compare with our own expected results. 
+How test will be performed: Input fields will be filled, and checked if they have the correct value. 
 
 \end{enumerate}
 
@@ -614,15 +614,15 @@ How test will be performed: Using an array of discretization lengths, we can tak
 
 Control: Automatic
 					
-Initial State: None
+Initial State: GUI exists
 					
-Input: text input to indicate the desired force type  
+Input: force type  
 					
-Output: Calculation results based on the selected parameters 
+Output: GUI field is filled
 
-Test Case Derivation: The current implementation of the engine allows for calculation across shear, torsion and flexural resistance
+Test Case Derivation: The user can select the type of force to calculate for. If they select the force type it should reflect in the GUI by filling the field properly.
 
-How test will be performed: The test entails creating a series of bridge types with different truck platoons that can be tested for all force types such as shear, torsion and flexural. Each data test is manually fed into the engine to output an expected output. 
+How test will be performed: Input fields will filled, and checked if they have the correct value.
 					
 \item{FR13.ST2\\}
 

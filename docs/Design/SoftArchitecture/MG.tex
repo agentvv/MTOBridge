@@ -134,16 +134,18 @@ potential readers of this document are as follows:
 This project aims to develop an application MTOBridge that leverages novel bridge analysis methods and better visualizes their outputs while enhancing the user experience.
 This enables the refined methods of analysis to become routine for bridge design and evaluation. Moreover, A unique feature of MTOBridge which is otherwise unavailable in other
 bridge design/evaluation software, is that a direct comparison can be obtained between the results obtained from the CHBDC approximate/simplified approach and those from the
-refined analysis. This endeavor will facilitate confidence in using refined analysis for bridge evaluation and design.\\\\
+refined analysis. This endeavor will facilitate confidence in using refined analysis for bridge evaluation and design.
+
 \subsection{Document Purpose}
 The Purpose of this document is to demonstrate how the system is decomposed into modules and communicate the overall design of the system which satisfies the requirements
- mentioned in the SRS. As a result helping future project members, maintainers, and designers to easily identify the parts of the software.\\\\
+ mentioned in the SRS. As a result helping future project members, maintainers, and designers to easily identify the parts of the software.
+
 \subsection{System Scope}
-The system is meant for use in offices (including home offices) by civil engineers designing bridges.\\\\
+The system is meant for use in offices (including home offices) by civil engineers designing or retrofitting bridges.
+
 \subsection{Document Scope}
 The scope of this document includes modules created by the development team and not components provided by the stakeholder (such as the MATLAB engines) 
-or third-party libraries.\\\\ 
-
+or third-party libraries.
 
 The rest of the document is organized as follows. Section
 \ref{SecChange} lists the anticipated and unlikely changes of the software
@@ -225,11 +227,6 @@ This section provides an overview of the module design. Modules are summarized
 in a hierarchy decomposed by secrets. The modules listed
 below, which are leaves in the hierarchy tree, are the modules that will
 actually be implemented. For clarity, The three top level categories as well and all leaf nodes are bolded.
-
-\begin{description}
-\item [\refstepcounter{mnum} \mthemnum \label{mHH}:] Hardware-Hiding Module
-\item ...
-\end{description}
 
 \begin{enumerate}
     \item[|] \textbf{Hardware Hiding}
@@ -330,7 +327,7 @@ Only the leaf modules in the hierarchy have to be implemented. If a dash
 (\emph{--}) is shown, this means that the module is not a leaf and will not have
 to be implemented.
 
-\subsection{Hardware Hiding Modules (\mref{mHH})}
+\subsection{Hardware Hiding Modules}
 \emph{{\large Data Storage Hiding}}
     \begin{description}
         \item[Secrets:] How to store all program data on the machine

@@ -170,6 +170,13 @@ void Window::createWindow() {
               ->setTitleText(QString("First Axle Position (m)"));
           update();
         });
+
+    QObject::connect(&engine, &Engine::errorOccurred, this,
+                     &Window::errorOccurred);
   }
+}
+
+void Window::errorOccurred(QString error){
+    QMessageBox::critical(this, QString("Unknown Error!"), error);
 }
 };  // namespace mtobridge

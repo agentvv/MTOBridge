@@ -8,21 +8,26 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
-set(CMAKE_BUILD_TYPE Debug)
 set(CMAKE_CXX_FLAGS_DEBUG_INIT "-Wall -Wextra")
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-set(CMAKE_CXX_CLANG_TIDY 
-    clang-tidy;
-    -checks="clang-diagnostic-*,clang-analyzer-*,modernize-*,-modernize-use-trailing-return-type,readability-*,-readability-magic-numbers,concurrency-*";
-    -header-filter="./src/.*"
-)
+#set(CMAKE_CXX_CLANG_TIDY 
+#    clang-tidy;
+#    -checks="clang-diagnostic-*,clang-analyzer-*,modernize-*,-modernize-use-trailing-return-type,readability-*,-readability-magic-numbers,concurrency-*";
+#    -header-filter="./src/.*"
+#)
+set(CMAKE_PREFIX_PATH "F:/Qt/6.4.0/msvc2019_64/")
+set(CMAKE_PREFIX_PATH "F:/Qt/6.4.0/msvc2019_64/lib/cmake")
 
 find_package(Qt6 REQUIRED COMPONENTS 
     Core
     Widgets
     Charts
-) 
-find_package(Matlab REQUIRED)
+)
+
+set(Matlab_ROOT_DIR F:/Matlab/MATLAB\ Runtime/R2022b)
+include_directories(engine
+   ${Matlab_ROOT_DIR}/extern/include/
+)
 
 qt_standard_project_setup()
 

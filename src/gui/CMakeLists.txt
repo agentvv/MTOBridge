@@ -1,9 +1,11 @@
-add_library(gui SHARED "")
+add_library(gui STATIC)
 
 target_sources(gui
     PRIVATE
+        ${CMAKE_CURRENT_LIST_DIR}/mtobridge.cpp
         ${CMAKE_CURRENT_LIST_DIR}/window.cpp
     PUBLIC
+        ${CMAKE_CURRENT_LIST_DIR}/mtobridge.hpp
         ${CMAKE_CURRENT_LIST_DIR}/window.hpp
 )
 
@@ -15,12 +17,13 @@ target_include_directories(gui
 
 target_link_libraries(gui
     PRIVATE
-        pthread
         Qt6::Core
         Qt6::Widgets
         Qt6::Charts
-        ${Matlab_ROOT_DIR}/extern/lib/win64/libMatlabCppSharedLib.lib
-        Matlab::MatlabDataArray
         engine
 )
 
+target_link_libraries(gui
+    INTERFACE
+        ${Matlab_ROOT_DIR}/extern/lib/win64/microsoft/libMatlabCppSharedLib.lib
+)

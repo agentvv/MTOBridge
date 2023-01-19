@@ -7,6 +7,5 @@ target_sources(matlab
 
 target_link_libraries(matlab
     INTERFACE
-        Matlab::MatlabDataArray
-        ${Matlab_ROOT_DIR}/extern/lib/win64/libMatlabCppSharedLib.lib
+        ${Matlab_ROOT_DIR}/extern/lib/win64/microsoft/libMatlabCppSharedLib.lib
 )
