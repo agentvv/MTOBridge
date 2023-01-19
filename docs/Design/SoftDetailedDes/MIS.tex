@@ -50,11 +50,12 @@ urlcolor=cyan          % color of external links
 
 \section{Revision History}
 
-\begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
-\toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
+\begin{tabularx}{\textwidth}{p{3cm}p{7cm}X}
+\toprule {\bf Date} & {\bf  Developer(s)} & {\bf Notes}\\
 \midrule
-Date 1 & 1.0 & Notes\\
-Date 2 & 1.1 & Notes\\
+January 15, 2023 & David and Darren & Initial Draft\\
+January 17, 2023 & Adham, Farzad, Pedram, and Victor & Conversion to LaTeX\\
+January 18, 2023 & David and Victor & Formatting\\
 \bottomrule
 \end{tabularx}
 
@@ -62,9 +63,18 @@ Date 2 & 1.1 & Notes\\
 
 \section{Symbols, Abbreviations and Acronyms}
 
-See SRS Documentation at \wss{give url}
+See SRS Documentation at \url{https://github.com/agentvv/MTOBridge/blob/main/docs/SRS/SRS.pdf}.
 
-\wss{Also add any additional symbols, abbreviations or acronyms}
+\subsection{Abbreviations and Acronyms}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{l l} 
+  \toprule		
+  \textbf{symbol} & \textbf{description}\\
+  \midrule
+  MIS & Module Interface Specification \\
+  SRS & Software Requirements Specification\\
+  \bottomrule
+\end{tabular}\\
 
 \newpage
 
@@ -77,16 +87,13 @@ See SRS Documentation at \wss{give url}
 \section{Introduction}
 
 The following document details the Module Interface Specifications for
-\wss{Fill in your project name and description}
+\progname{}, 
 
 Complementary documents include the System Requirement Specifications
 and Module Guide.  The full documentation and implementation can be
-found at \url{...}.  \wss{provide the url for your repo}
+found at \url{https://github.com/agentvv/MTOBridge}.
 
 \section{Notation}
-
-\wss{You should describe your notation.  You can use what is below as
-  a starting point.}
 
 The structure of the MIS for modules comes from \citet{HoffmanAndStrooper1995},
 with the addition that template modules have been adapted from
@@ -107,14 +114,14 @@ The following table summarizes the primitive data types used by \progname.
 character & char & a single symbol or digit\\
 integer & $\mathbb{Z}$ & a number without a fractional component in (-$\infty$, $\infty$) \\
 natural number & $\mathbb{N}$ & a number without a fractional component in [1, $\infty$) \\
-real & $\mathbb{R}$ & any number in (-$\infty$, $\infty$)\\
+real number & $\mathbb{R}$ & any number in (-$\infty$, $\infty$)\\
 \bottomrule
 \end{tabular} 
 \end{center}
 
 \noindent
 The specification of \progname \ uses some derived data types: sequences, strings, and
-tuples. Sequences are lists filled with elements of the same data type. Strings
+tuples. Sequences are lists filled with elements of the same data type. strings
 are sequences of characters. Tuples contain a list of values, potentially of
 different types. In addition, \progname \ uses functions, which
 are defined by the data types of their inputs and outputs. Local functions are
@@ -122,66 +129,115 @@ described by giving their type signature followed by their specification.
 
 \section{Module Decomposition}
 
-The following table is taken directly from the Module Guide document for this project.
+The following is taken directly from the Module Guide document for this project.
 
-\begin{table}[h!]
-\centering
-\begin{tabular}{p{0.3\textwidth} p{0.6\textwidth}}
-\toprule
-\textbf{Level 1} & \textbf{Level 2}\\
-\midrule
+\begin{enumerate}
+    \item[|] \textbf{Hardware Hiding}
+    \begin{enumerate}
+        \item[|] Data Storage Hiding
+        \begin{enumerate}
+            \item[|] Input Data Storage Hiding
+            \begin{enumerate}
+                \item[|] \textbf{Truck Platoon Configuration Data Storage Hiding}
+                \item[|] \textbf{Bridge Configuration Data Storage Hiding}
+            \end{enumerate}
+            \item[|] Calculation Data Storage Hiding
+            \begin{enumerate}
+                \item[|] Calculation Variable Data Storage Hiding
+                \begin{itemize}
+                    \item[|] \textbf{Solver Choice Data Storage Hiding}
+                    \item[|] \textbf{Concerned Section Specification Data Storage Hiding}
+                    \item[|] \textbf{Critical Section Specification Data Storage Hiding}
+                \end{itemize}
+                \item[|] \textbf{Output Report Data Storage Hiding}
+            \end{enumerate}
+        \end{enumerate}
+        \item[|] File System Hiding
+        \begin{enumerate}
+            \item[|] \textbf{Save To File System Hiding}
+            \item[|] \textbf{Load From File System Hiding} 
+        \end{enumerate}
+    \end{enumerate}
+    \item[|] \textbf{Software Decision Hiding}
+    \begin{enumerate}
+        \item[|] \textbf{Calculation Call Hiding}
+        \item[|] \textbf{MATLAB Code Hiding}
+        \item[|] Data Format Hiding
+        \begin{enumerate}
+            \item[|] Configuration Data Format Hiding
+            \begin{itemize}
+                \item[|] \textbf{Truck Platoon Configuration Data Format Hiding}
+                \item[|] \textbf{Bridge Configuration Data Format Hiding}
+                \item[|] \textbf{Solver Configuration Data Format Hiding}
+            \end{itemize}
+            \item[|] \textbf{Report Data Format Hiding}
+        \end{enumerate}
+    \end{enumerate}
+    \item[|] \textbf{Behavior Hiding}
+    \begin{enumerate}
+        \item[|] Visualization Hiding
+        \begin{enumerate}
+            \item[|] Configuration Visualization Hiding
+            \begin{itemize}
+                \item[|] \textbf{Truck Platoon Configuration Visualization Hiding}
+                \item[|] \textbf{Bridge Configuration Visualization Hiding}
+            \end{itemize}
+            \item[|] Calculation Visualization Hiding
+            \begin{itemize}
+                \item[|] \textbf{Calculation Call Visualization Hiding}
+                \item[|] \textbf{Solver Configuration Visualization Hiding}
+            \end{itemize}
+            \item[|] \textbf{Output Report Visualization Hiding}
+            \item[|] File System Visualization Hiding
+            \begin{itemize}
+                \item[|] {Save To File System Visualization Hiding}
+                \begin{itemize}
+                    \item[|] \textbf{Truck Platoon Configuration Save To File System Visualization Hiding}
+                    \item[|] \textbf{Bridge Configuration Save To File System Visualization Hiding}
+                    \item[|] \textbf{Solver Configuration Save To File System Visualization Hiding}
+                    \item[|] \textbf{Output Report Save To File System Visualization Hiding}
+                \end{itemize}
+                \item[|] {Load From File System Visualization Hiding}
+                \begin{itemize}
+                    \item[|] \textbf{Truck Platoon Configuration Load From File System Visualization Hiding}
+                    \item[|] \textbf{Bridge Configuration Load From File System Visualization Hiding}
+                    \item[|] \textbf{Solver Configuration Load From File System Visualization Hiding}
+                \end{itemize}
+            \end{itemize}
+        \end{enumerate}
+    \end{enumerate}
+\end{enumerate}
 
-{Hardware-Hiding} & ~ \\
-\midrule
-
-\multirow{7}{0.3\textwidth}{Behaviour-Hiding} & Input Parameters\\
-& Output Format\\
-& Output Verification\\
-& Temperature ODEs\\
-& Energy Equations\\ 
-& Control Module\\
-& Specification Parameters Module\\
-\midrule
-
-\multirow{3}{0.3\textwidth}{Software Decision} & {Sequence Data Structure}\\
-& ODE Solver\\
-& Plotting\\
-\bottomrule
-
-\end{tabular}
-\caption{Module Hierarchy}
-\label{TblMH}
-\end{table}
-
-\newpage
 ~\newpage
 
-\section{MIS of \wss{Module Name}} \label{Module} \wss{Use labels for
-  cross-referencing}
-
-\wss{You can reference SRS labels, such as R\ref{R_Inputs}.}
-
-\wss{It is also possible to use \LaTeX for hypperlinks to external documents.}
+\section{MIS of Save to File System}\label{Saver}
 
 \subsection{Module}
 
-\wss{Short name for the module}
+Saver
 
 \subsection{Uses}
-
+\hyperref[PlatoonConfiguration]{PlatoonConfiguration}, \hyperref[BridgeConfiguration]{BridgeConfiguration}, \hyperref[SolverConfiguration]{SolverConfiguration}, \hyperref[Report]{Report}
 
 \subsection{Syntax}
 
 \subsubsection{Exported Constants}
-
+None
+\subsection{Exported Types}
+None
 \subsubsection{Exported Access Programs}
-
 \begin{center}
-\begin{tabular}{p{2cm} p{4cm} p{4cm} p{2cm}}
+\begin{tabular}{p{5cm} p{5cm} p{2cm} p{2cm}}
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-\wss{accessProg} & - & - & - \\
+savePlatoonConfiguration & PlatoonT, string & - & - \\
+\hline
+saveBridgeConfiguration & BridgeT, string & - & - \\
+\hline
+saveSolverConfiguration & SolverT, string & - & - \\
+\hline
+saveReport & ReportT, string & - & - \\
 \hline
 \end{tabular}
 \end{center}
@@ -189,53 +245,1557 @@ The following table is taken directly from the Module Guide document for this pr
 \subsection{Semantics}
 
 \subsubsection{State Variables}
-
-\wss{Not all modules will have state variables.  State variables give the module
-  a memory.}
-
+None
 \subsubsection{Environment Variables}
-
-\wss{This section is not necessary for all modules.  Its purpose is to capture
-  when the module has external interaction with the environment, such as for a
-  device driver, screen interface, keyboard, file, etc.}
-
+None
 \subsubsection{Assumptions}
-
-\wss{Try to minimize assumptions and anticipate programmer errors via
-  exceptions, but for practical purposes assumptions are sometimes appropriate.}
-
+None
 \subsubsection{Access Routine Semantics}
 
-\noindent \wss{accessProg}():
+\noindent savePlatoonConfiguration(platoon, filepath)
 \begin{itemize}
-\item transition: \wss{if appropriate} 
-\item output: \wss{if appropriate} 
-\item exception: \wss{if appropriate} 
+\item output: open outputFile at filepath for write and write each field of platoon to outputFile delineated by ", " in the following order: 
+platoon.axleLoad as a string of space separated numbers, platoon.axleSpacing as a string of space separated numbers, number of trucks, headway
+Close outputFile.
+\item exception: none
 \end{itemize}
 
-\wss{A module without environment variables or state variables is unlikely to
-  have a state transition.  In this case a state transition can only occur if
-  the module is changing the state of another module.}
+\noindent saveBridgeConfiguration(bridge, filepath)
+\begin{itemize}
+\item output: open outputFile at filepath for write and write each field of bridge to outputFile delineated by ", " in the following order: 
+bridge.numberSpans, bridge.spanLength as a string of space separated numbers, bridge.concernedSection, bridge.discretizationLength
+Close outputFile.
+\item exception: none
+\end{itemize}
 
-\wss{Modules rarely have both a transition and an output.  In most cases you
-  will have one or the other.}
+\noindent saveSolverConfiguration(solver, filepath)
+\begin{itemize}
+\item output: open outputFile at filepath for write and write each field of platoon to outputFile delineated by ", " in the following order: 
+solver.forceType, solver.solverType
+Close outputFile.
+\item exception: none
+\end{itemize}
+
+\noindent saveReport(report, filepath)
+\begin{itemize}
+\item output: open outputFile at path for write. Write a header for the truck platoon configuration in the form "[Platoon]", then write all fields of truck platoon in the form of "field.name = field.value". Do the same for bridge and solver configurations, with their respective headers and fields. Then, write a header for the analysis in the form "[Results]". If the solver was configured for critical sections, write "critical section = value". Proceed to write out the pairs of first axle position and force, separated by commas and each pair separated by new lines. Close the output file.
+\item exception: none
+\end{itemize}
+\subsubsection{Local Functions}
+None
+\newpage
+
+\section{MIS of Load From File System}
+
+\subsection{Module}\label{Loader} 
+
+Loader
+
+\subsection{Uses}
+\hyperref[PlatoonConfiguration]{PlatoonConfiguration}, \hyperref[BridgeConfiguration]{BridgeConfiguration}, \hyperref[SolverConfiguration]{SolverConfiguration}
+
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
+None
+\subsection{Exported Types}
+None
+\subsubsection{Exported Access Programs}
+\begin{center}
+\begin{tabular}{p{5cm} p{3cm} p{3cm} p{1cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+loadPlatoonConfiguration & string & PlatoonT & - \\
+\hline
+loadBridgeConfiguration & string & BridgeT & - \\
+\hline
+loadSolverConfiguration & string & SolverT & - \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+None
+\subsubsection{Environment Variables}
+None
+\subsubsection{Assumptions}
+None
+\subsubsection{Access Routine Semantics}
+
+\noindent loadPlatoonConfiguration(platoon, filepath)
+\begin{itemize}
+\item output: open outputFile at filepath for read and read each field: 
+Parse space separated $\mathbb{R}$ until comma as axleLoad, parse next set of space separated $\mathbb{R}$ until the next comma as axleSpacing, parse next $\mathbb{N}$ as numberOfTrucks, parse last $\mathbb{R}$ as headway.
+Close outputFile.\\
+out := PlatoonT constructed from the parsed values above.
+\item exception: none
+\end{itemize}
+
+\noindent loadBridgeConfiguration(bridge, filepath)
+\begin{itemize}
+\item output: open outputFile at filepath for read and read each field: 
+Parse first number as numberOfSpans, parse space separated $\mathbb{R}$ until comma as spanLength, parse next $\mathbb{R}$ as concernedSection, parse last $\mathbb{R}$ as discretization length.
+Close outputFile.\\
+out := BridgeT constructed from the parsed values above.
+\item exception: none
+\end{itemize}
+
+\noindent loadSolverConfiguration(solver, filepath)
+\begin{itemize}
+\item output: open outputFile at filepath for read and read each field: 
+Parse first string until comma as solver.forceType, parse string after comma as solver.solverType
+Close outputFile.\\
+out := SolverT constructed from the parsed values above.
+\item exception: none
+\end{itemize}
+\subsubsection{Local Functions}
+None
+\newpage
+
+
+\section{MIS of Calculation Call} \label{CalculationCaller}
+
+\subsection{Module}
+
+CalculationCaller
+
+\subsection{Uses}
+\hyperref[PlatoonConfiguration]{PlatoonConfiguration}, \hyperref[BridgeConfiguration]{BridgeConfiguration}, \hyperref[SolverConfiguration]{SolverConfiguration}, \hyperref[Report]{Report}
+
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
+None
+\subsection{Exported Types}
+\noindent \textbf{CalculationInputT} = \{\\
+    \begin{tabular}{l}
+    truckConfig: TruckT,\\
+    bridgeConfig: BridgeT,\\
+    solverConfig: SolverT
+    \end{tabular}
+\\\}
+
+\noindent \textbf{CalculationOutputT} = \{\\
+    \begin{tabular}{l}
+    \noindent allForces: sequence of sequence of $\mathbb{R}$,\\
+
+	\noindent firstAxlePosition: sequence of $\mathbb{R}$,\\
+
+	\noindent forceConcernedSection: sequence of $\mathbb{R}$,\\
+	\noindent forceCriticalSection: sequence of $\mathbb{R}$,\\
+
+	\noindent maxForce: $\mathbb{R}$,\\
+	\noindent firstAxlePositionMaxForce: $\mathbb{R}$,\\
+
+    \noindent sections: sequence of $\mathbb{R}$,\\
+    \noindent criticalSection: $\mathbb{R}$,\\
+
+	\noindent forceEnvelope: sequence of $\mathbb{R}$,\\
+	\noindent firstAxlePositionForceEnvelope: sequence of $\mathbb{R}$
+ \end{tabular}
+\\\}
+
+\subsubsection{Exported Access Programs}
+\begin{center}
+\begin{tabular}{p{3cm} p{4cm} p{4cm} p{3cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+runCalculation & CalculationInputT & CalculationOutputT & - \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+None
+\subsubsection{Environment Variables}
+engine: an instance of the matlab engine which exports functions that run the relevant matlab code.
+\subsubsection{Assumptions}
+None
+\subsubsection{Access Routine Semantics}
+
+\noindent runCalculation(in):
+\begin{itemize}
+    \item output: $out := \\
+        (in.solverConfig.solverType = CONCERNED \Rightarrow\\ concernedSection(in)\ | \\
+        in.solverConfig.solverType = CRITICAL \Rightarrow\\ criticalSection(in)) \land\\
+        report.updateReport(ReportT \{ in, out \})$
+    \item exception: none
+\end{itemize}
 
 \subsubsection{Local Functions}
+\noindent \textbf{concernedSection}: $CalculationInputT \rightarrow CalculationOutputT$:
+\begin{itemize}
+    \item output: $out :=\\
+	    (in.bridgeConfig.numberSpans = 1 \Rightarrow\\ concernedSectionOneSpan(in)\ | \\
+        in.bridgeConfig.numberSpans = 2 \Rightarrow\\ concernedSectionTwoSpan(in)\ | \\
+        in.bridgeConfig.numberSpans = 3 \Rightarrow\\ concernedSectionThreeSpan(in))$
+    \item exception: none
+\end{itemize}
 
-\wss{As appropriate} \wss{These functions are for the purpose of specification.
-  They are not necessarily something that is going to be implemented
-  explicitly.  Even if they are implemented, they are not exported; they only
-  have local scope.}
+\noindent \textbf{concernedSectionOneSpan}: $CalculationInputT \rightarrow CalculationOutputT$:
+\begin{itemize}
+    \item output: $out :=\\
+	    (in.solverConfig.forceType = POSITIVE\_MOMENT \Rightarrow\\ concernedSectionOneSpanMoment(in)\ | \\
+	    in.solverConfig.forceType = SHEAR \Rightarrow\\ concernedSectionOneSpanShear(in))$
+    \item exception: none 
+\end{itemize}
+
+\noindent \textbf{concernedSectionOneSpanMoment}: $CalculationInputT \rightarrow CalculationOutputT$:
+\begin{itemize}
+    \item output: $out := engine.Concerned\_section\_one\_span\_moment(in)$
+    \item exception: none 
+\end{itemize}
+    
+\noindent \textbf{concernedSectionOneSpanShear}: $CalculationInputT \rightarrow CalculationOutputT$
+\begin{itemize}
+    \item output: $out := engine.Concerned\_section\_one\_span\_shear(in)$
+    \item exception: none
+\end{itemize}
+
+\noindent \textbf{concernedSectionTwoSpan}: $CalculationInputT \rightarrow CalculationOutputT$
+\begin{itemize}
+    \item output: $out :=\\
+	(in.solverConfig.forceType = POSITIVE\_MOMENT \Rightarrow\\ concernedSectionTwoSpanPositiveMoment(in) \ | \\
+    in.solverConfig.forceType = NEGATIVE\_MOMENT \Rightarrow\\ concernedSectionTwoSpanNegativeMoment(in) \ | \\
+	in.solverConfig.forceType = SHEAR \Rightarrow\\ concernedSectionTwoSpanShear(in))$
+    \item exception: none
+\end{itemize}
+
+\noindent \textbf{concernedSectionTwoSpanPositiveMoment}: $CalculationInputT \rightarrow CalculationOutputT$
+\begin{itemize}
+    \item output: $out := engine.Concerned\_section\_two\_span\_moment(in)$
+    \item exception: none
+\end{itemize}
+
+\noindent \textbf{concernedSectionTwoSpanNegativeMoment}: $CalculationInputT \rightarrow CalculationOutputT$
+\begin{itemize}
+    \item output: $out := engine.Concerned\_section\_two\_span\_moment(in)$
+    \item exception: none
+\end{itemize}
+
+\noindent \textbf{concernedSectionTwoSpanShear}: $CalculationInputT \rightarrow CalculationOutputT$
+\begin{itemize}
+    \item output: $out := engine.Concerned\_section\_two\_span\_shear(in)$
+    \item exception: none
+\end{itemize}
+
+\noindent \textbf{concernedSectionThreeSpan}: $CalculationInputT \rightarrow CalculationOutputT$
+\begin{itemize}
+    \item output: $out :=\\
+        (in.solverConfig.forceType = POSITIVE\_MOMENT \Rightarrow\\ concernedSectionThreeSpanPositiveMoment(in)\ | \\
+        in.solverConfig.forceType = NEGATIVE\_MOMENT \Rightarrow\\ concernedSectionThreeSpanNegativeMoment(in)\ | \\
+        in.solverConfig.forceType = SHEAR  \Rightarrow\\ concernedSectionThreeSpanShear(in))$
+    \item exception: none
+\end{itemize}
+
+\noindent \textbf{concernedSectionThreeSpanPositiveMoment}: $CalculationInputT \rightarrow CalculationOutputT$
+\begin{itemize}
+    \item output: $out := engine.Concerned\_section\_three\_span\_moment(in)$
+    \item exception: none
+\end{itemize}
+
+\noindent \textbf{concernedSectionThreeSpanNegativeMoment}: $CalculationInputT \rightarrow CalculationOutputT$
+\begin{itemize}
+    \item output: $out := engine.Concerned\_section\_three\_span\_moment(in)$
+    \item exception: none
+\end{itemize}
+
+\noindent \textbf{concernedSectionThreeSpanShear}: $CalculationInputT \rightarrow CalculationOutputT$
+\begin{itemize}
+    \item output: $out := engine.Concerned\_section\_three\_span\_shear(in)$
+    \item exception: none
+\end{itemize}
+
+\noindent \textbf{criticalSection}: $CalculationInputT \rightarrow CalculationOutputT$
+\begin{itemize}
+    \item output: $out :=\\
+	  (in.bridgeConfig.numberSpans = 1 \Rightarrow\\ criticalSectionOneSpan(in)\ | \\
+        in.bridgeConfig.numberSpans = 2 \Rightarrow\\ criticalSectionTwoSpan(in)\ | \\
+        in.bridgeConfig.numberSpans = 3 \Rightarrow\\ criticalSectionThreeSpan(in))$
+    \item exception: none
+\end{itemize} 
+
+\noindent \textbf{criticalSectionOneSpan}: $CalculationInputT \rightarrow CalculationOutputT$
+\begin{itemize}
+    \item output: $out :=\\
+	  (in.solverConfig.forceType = POSITIVE\_MOMENT \Rightarrow\\ criticalSectionOneSpanMoment(in)\ | \\
+	  in.solverConfig.forceType = SHEAR \Rightarrow\\ criticalSectionOneSpanShear(in))$
+    \item exception: none
+\end{itemize}
+
+\noindent \textbf{criticalSectionOneSpanMoment}: $CalculationInputT \rightarrow CalculationOutputT$
+\begin{itemize}
+    \item output: $out := engine.Critical\_section\_one\_span\_moment(in)$
+    \item exception: none
+\end{itemize}
+
+\noindent \textbf{criticalSectionOneSpanShear}: $CalculationInputT \rightarrow CalculationOutputT$
+\begin{itemize}
+    \item output: $out := Critical\_section\_one\_span\_shear(in)$
+    \item exception: none
+\end{itemize}
+
+\noindent \textbf{criticalSectionTwoSpan}: $CalculationInputT \rightarrow CalculationOutputT$
+\begin{itemize}
+    \item output: $out :=\\
+	(in.solverConfig.forceType = POSITIVE\_MOMENT) \Rightarrow\\ criticalSectionTwoSpanPositiveMoment(in)\ | \\
+    in.solverConfig.forceType = NEGATIVE\_MOMENT) \Rightarrow\\ criticalSectionTwoSpanNegativeMoment(in)\ | \\
+	in.solverConfig.forceType = SHEAR \Rightarrow\\ criticalSectionTwoSpanShear(in))$
+    \item exception: none
+\end{itemize}
+
+\noindent \textbf{criticalSectionTwoSpanPositiveMoment}: $CalculationInputT \rightarrow CalculationOutputT$
+\begin{itemize}
+    \item output: $out := engine.Critical\_section\_two\_span\_positive\_moment(in)$
+    \item exception: none
+\end{itemize}
+
+\noindent \textbf{criticalSectionTwoSpanNegativeMoment}: $CalculationInputT \rightarrow CalculationOutputT$
+\begin{itemize}
+    \item output: $out := engine.Critical\_section\_two\_span\_negative\_moment(in)$
+    \item exception: none
+\end{itemize}
+
+\noindent \textbf{criticalSectionTwoSpanShear}: $CalculationInputT \rightarrow CalculationOutputT$
+\begin{itemize}
+    \item output: $out := engine.Critical\_section\_two\_span\_shear(in)$
+    \item exception: none
+\end{itemize}
+
+\noindent \textbf{criticalSectionThreeSpan}: $CalculationInputT \rightarrow CalculationOutputT$
+\begin{itemize}
+    \item output: $out := \\
+	  (in.solverConfig.forceType = POSITIVE\_MOMENT \Rightarrow\\ criticalSectionThreeSpanPositiveMoment(in)\ | \\
+        in.solverConfig.forceType = NEGATIVE\_MOMENT) \Rightarrow\\ criticalSectionThreeSpanNegativeMoment(in)\ | \\
+	  in.solverConfig.forceType = SHEAR \Rightarrow\\ criticalSectionThreeSpanShear(in))$
+    \item exception: none
+\end{itemize}
+
+\noindent \textbf{criticalSectionThreeSpanPositiveMoment}: $CalculationInputT \rightarrow CalculationOutputT$
+\begin{itemize}
+    \item output: $out := engine.Critical\_section\_three\_span\_positive\_moment(in)$
+    \item exception: none
+\end{itemize}
+
+\noindent \textbf{criticalSectionThreeSpanNegativeMoment}: $CalculationInputT \rightarrow CalculationOutputT$
+\begin{itemize}
+    \item output: $out := engine.Critical\_section\_three\_span\_negative\_moment(in)$
+    \item exception: none
+\end{itemize}
+
+\noindent \textbf{criticalSectionThreeSpanShea}: $CalculationInputT \rightarrow CalculationOutputT$
+\begin{itemize}
+    \item output: $out := engine.Critical\_section\_three\_span\_shear(in)$
+    \item exception: none
+\end{itemize}
+
+\newpage
+
+\section{MIS of Truck Platoon Configuration Data Format} \label{PlatoonConfiguration} 
+
+\subsection{Module}
+
+PlatoonConfiguration
+
+\subsection{Uses}
+None
+
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
+None
+\subsection{Exported Types}
+PlatoonT = \{\\
+    \begin{tabular}{l}
+	axleLoad: sequence of $\mathbb{R}$,\\
+	axleSpacing: sequence of $\mathbb{R}$,\\
+	numberOfTrucks: $\mathbb{N}$,\\
+    headway: $\mathbb{R}$
+    \end{tabular}
+\\\}
+\subsubsection{Exported Access Programs}
+\begin{center}
+\begin{tabular}{p{5cm} p{2cm} p{4cm} p{5cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+new PlatoonConfiguration & - & PlatoonConfiguration & - \\
+\hline
+getConfiguration & - & PlatoonT & invalidConfiguration \\
+\hline
+updateAxleLoad & string & - & invalidConfigurationValue\\
+\hline
+updateAxleSpacing & string & - & invalidConfigurationValue\\
+\hline
+updateNumberOfTrucks & string & - & invalidConfigurationValue\\
+\hline
+updateHeadway & string & - & invalidConfigurationValue\\
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+axleLoad: sequence of $\mathbb{R}$,\\
+axleSpacing: sequence of $\mathbb{R}$,\\
+numberOfTrucks: $\mathbb{N}$,\\
+headway: $\mathbb{R}$
+\subsubsection{Environment Variables}
+None
+\subsubsection{Assumptions}
+None
+\subsubsection{Access Routine Semantics}
+
+\noindent new PlatoonConfiguration():
+\begin{itemize}
+\item transition:\\
+        \begin{tabular}{p{1cm} p{8cm}}
+        & axleLoad := empty sequence\\
+		& axleSpacing := empty sequence\\
+		& numberOfTrucks := 0\\
+		& headway := 0.0\\
+        \end{tabular}
+\item output: out := self
+\item exception: none
+\end{itemize}
+
+\noindent PlatoonT getConfiguration():
+\begin{itemize}
+\item output: out := PlatoonT \{ axleLoad, axleSpacing, numberOfTrucks, headway \} 
+\item exception:\\
+    \begin{tabular}{p{1cm} p{14cm}}
+    & If axleLoad is empty sequence $\Rightarrow$ invalidConfiguration \\
+    & If axleSpacing is empty sequence $\Rightarrow$ invalidConfiguration \\
+    & If the size of axleSpacing is not size of axleLoad - 1 $\Rightarrow$ invalidConfiguration \\
+    & If number of trucks is 0 $\Rightarrow$ invalidConfiguration \\
+    & If headway is 0 $\Rightarrow$ invalidConfiguration \\
+    \end{tabular}
+\end{itemize}
+
+\noindent updateAxleLoad(newAxleLoad):
+\begin{itemize}
+\item transition: Parse newAxleLoad as either comma separated or space separated sequence of $\mathbb{R}$ greater than 0 of at least length 2. Set self.axleLoad to the parsed value of newAxleLoad.
+\item exception:\\
+  \begin{tabular}{p{1cm} p{16cm}}
+    & If newAxleLoad has commas and spaces, or any of the numbers are parsed as being negative, or if the number of parsed numbers is 1 $\Rightarrow$ invalidConfigurationValue \\
+    & If newAxleLoad has any characters other than 0-9, '.', ' ', $\Rightarrow$ invalidConfigurationValue \\
+    &If newAxleLoad has a '.' not followed by a 0-9 $\Rightarrow$ invalidConfigurationValue \\
+\end{tabular}
+
+\end{itemize}
+
+\noindent updateAxleSpacing(newAxleSpacing):
+\begin{itemize}
+\item transition: Parse newAxleSpacing as either comma separated or space separated sequence of $\mathbb{R}$ greater than 0 of at least length 1. Set self.axleSpacing to the parsed value of newAxleSpacing.
+\item exception:\\
+  \begin{tabular}{p{1cm} p{16.3cm}}
+    & If newAxleSpacing has commas and spaces, or any of the numbers are parsed as being negative $\Rightarrow$ invalidConfigurationValue \\
+    & If newAxleSpacing has any characters other than 0-9, '.', ' ' $\Rightarrow$ invalidConfigurationValue \\
+    & If newAxleSpacing has a '.' not followed by a 0-9 $\Rightarrow$ invalidConfigurationValue \\
+  \end{tabular}
+\end{itemize}
+
+\noindent updateNumberOfTrucks(newNumberOfTrucks)
+\begin{itemize}
+\item transition: Parse newNumberOfTrucks as $\mathbb{N}$. Set self.numberOfTrucks to the parsed value of newNumberOfTrucks.
+\item exception:\\
+  \begin{tabular}{p{1cm} p{16cm}}
+    & If newAxleSpacing has any characters other than 0-9 $\Rightarrow$ invalidConfigurationValue \\
+    & If newAxleSpacing has only 0's  $\Rightarrow$ invalidConfigurationValue \\
+  \end{tabular}
+\end{itemize}
+
+\noindent updateHeadway(newHeadway)
+\begin{itemize}
+\item transition: Parse newHeadway as a $\mathbb{R}$ greater than 0. Set self.headway to the parsed value of newHeadway.
+\item exception:\\
+  \begin{tabular}{p{1cm} p{16.3cm}}
+    & If newAxleSpacing has any characters other than 0-9 or '.' $\Rightarrow$ invalidConfigurationValue \\
+    & If newAxleSpacing has a '.' not followed by a 0-9 $\Rightarrow$ invalidConfigurationValue \\
+  \end{tabular}
+\end{itemize}
+\subsubsection{Local Functions}
+None
+\newpage
+
+\section{MIS of Bridge Configuration Data Format} \label{BridgeConfiguration} 
+
+\subsection{Module}
+
+BridgeConfiguration
+
+\subsection{Uses}
+None
+
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
+None
+\subsection{Exported Types}
+BridgeT = \{\\
+    \begin{tabular}{l}
+	numberSpans: \{1, 2, 3\},\\
+	spanLength: seq of $\mathbb{R}$,\\
+	concernedSection: $\mathbb{R}$,\\
+    discretizationLength: $\mathbb{R}$,\\
+    \end{tabular}
+\\\}
+\subsubsection{Exported Access Programs}
+\begin{center}
+\begin{tabular}{p{5cm} p{2cm} p{4cm} p{4cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+new BridgeConfiguration & - & BridgeConfiguration & - \\
+\hline
+getConfiguration & - & BridgeT & invalidConfiguration \\
+\hline
+updateNumberOfSpans & string & - & invalidConfigurationValue \\
+\hline
+
+\hline
+updateSpanLength & string & - & invalidConfigurationValue \\
+\hline
+
+\hline
+updateConcernedSection & string & - & invalidConfigurationValue \\
+\hline
+
+\hline
+updateDiscretizationLength & string & - & invalidConfigurationValue \\
+\hline
+
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+numberOfSpans: $\mathbb{N}$\\
+spanLength: seq of $\mathbb{R}$ \\
+concernedSection: $\mathbb{R}$\\
+discretizationLength: $\mathbb{R}$\\
+
+\subsubsection{Environment Variables}
+None
+\subsubsection{Assumptions}
+None
+\subsubsection{Access Routine Semantics}
+
+\noindent new BridgeConfiguration():
+\begin{itemize}
+\item transition:\\
+        \begin{tabular}{p{1cm} p{8cm}}
+        & numberOfSpans := 0\\
+	& spanLength := empty sequence\\
+	& concernedSection := -1.0\\
+	& discretizationLength := 0.0\\
+        \end{tabular}
+\item output: out := self
+\item exception: none
+\end{itemize}
+
+\noindent BridgeT getConfiguration():
+\begin{itemize}
+\item output: out := BridgeT \{ numberOfSpans, spanLength, concernedSection, discretizationLength \}.
+\item exception:\\
+    \begin{tabular}{p{1cm}p{15cm}}
+    & numberOfSpans = 0 or spanLength = empty sequence or concernedSection = -1.0 or discretizationLength = 0 $\Rightarrow$ invalidConfiguration\\
+    \end{tabular}
+\end{itemize}
+
+\noindent updateNumberOfSpans(newNumberOfSpans):
+\begin{itemize}
+\item transition: Parse newNumberOfSpans as $\mathbb{N}$ between 1 and 3 (inclusive). Set self.numberOfSpans to the parsed value of newNumberOfSpans.
+\item exception:\\
+    \begin{tabular}{p{1cm} p{16cm}}
+    & If newAxleSpacing has any characters other than 1-3 $\Rightarrow$ invalidConfigurationValue\\
+    & If newAxleSpacing is not a string with length less than 2 $\Rightarrow$ invalidConfigurationValue\\
+    \end{tabular}
+\end{itemize}
+
+\noindent updateSpanLength(newSpanLength):
+\begin{itemize}
+\item transition: Parse newSpanLength as either comma separated or space separated sequence of $\mathbb{R}$ greater than 0. Set self.axleLoad to the parsed value of newAxleLoad.
+\item exception:\\
+    \begin{tabular}{p{1cm} p{16cm}}
+    & If newAxleLoad has commas and spaces, or any of the numbers are parsed as being negative $\Rightarrow$ invalidConfigurationValue\\
+    & If newAxleLoad has any characters other than 0-9, '.', ' ', $\Rightarrow$ invalidConfigurationValue\\
+    & If newAxleLoad has a '.' not followed by a 0-9 $\Rightarrow$ invalidConfigurationValue\\
+    & If newAxleLoad is parsed as a sequence of greater than 3 numbers $\Rightarrow$ invalidConfigurationValue\\
+    \end{tabular}
+\end{itemize}
+
+\noindent updateConcernedSection(newConcernedSection)
+\begin{itemize}
+\item transition: Parse newConcernedSection as a $\mathbb{R}$ greater than 0.
+\item exception:\\
+    \begin{tabular}{p{1cm} p{12cm}}
+    & If newConcernedSection has any characters other than 0-9 or '.'$\Rightarrow$ invalidConfigurationValue \\
+    & If newConcernedSection has a '.' not followed by a 0-9 $\Rightarrow$ invalidConfigurationValue \\
+    \end{tabular}
+\end{itemize}
+
+\noindent updateDiscretizationLength(newDiscretizationLength)
+\begin{itemize}
+\item transition: Parse newDiscretizationLength as a $\mathbb{R}$ greater than 0.
+\item exception:\\
+    \begin{tabular}{p{1cm} p{12cm}}
+ & If newDiscretizationLength has any characters other than 0-9 or '.' $\Rightarrow$ invalidConfigurationValue\\
+& If newDiscretizationLength has a '.' not followed by a 0-9 $\Rightarrow$ invalidConfigurationValue\\
+ \\
+    \end{tabular}
+\end{itemize}
+
+\subsubsection{Local Functions}
+None
+\newpage
+
+\section{MIS of Solver Configuration Data Format} \label{SolverConfiguration} 
+
+\subsection{Module}
+
+SolverConfiguration
+
+\subsection{Uses}
+None
+
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
+None
+\subsection{Exported Types}
+SolverT = \{\\
+    \begin{tabular}{l}
+	forceType: \{POSITIVE\_MOMENT, NEGATIVE\_MOMENT,
+		SHEAR\},\\
+    solverType: \{CONCERNED,
+		CRITICAL\}\\
+    \end{tabular}
+\\\}
+\subsubsection{Exported Access Programs}
+\begin{center}
+\begin{tabular}{p{5cm} p{2cm} p{4cm} p{4cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+new SolverConfiguration & - & SolverConfiguration & - \\
+\hline
+getConfiguration & - & SolverT & - \\
+\hline
+updateForceType & string & - & invalidConfigurationValue \\
+\hline
+
+\hline
+updateSolverType & string & - & invalidConfigurationValue \\
+\hline
+
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+forceType: SolverT.forceType\\
+solverType: SolverT.solverType
+
+\subsubsection{Environment Variables}
+None
+\subsubsection{Assumptions}
+None
+\subsubsection{Access Routine Semantics}
+
+\noindent new SolverConfiguration():
+\begin{itemize}
+\item transition:\\
+        \begin{tabular}{p{1cm} p{8cm}}
+        & forceType := POSITIVE\_MOMENT\\
+	& solverType := CONCERNED
+        \end{tabular}
+\item output: out := self
+\item exception: none
+\end{itemize}
+
+\noindent getConfiguration():
+\begin{itemize}
+\item transition: none
+\item output: out := SolverT \{ self.forceType, self.solverType\}
+\item exception:none
+\end{itemize}
+
+\noindent updateForceType(newForceType):
+\begin{itemize}
+\item transition: \\
+\begin{tabular}{p{1cm}p{16cm}}
+& (newForceType = "Positive Moment" $\Rightarrow$ forceType := POSITIVE\_MOMENT $|$ \\
+& newForceType = "Negative Moment" $\Rightarrow$ forceType := NEGATIVE\_MOMENT $|$\\
+& newForceType = "Shear" $\Rightarrow$ forceType := SHEAR)\\
+\end{tabular}
+\item exception: if newForceType is not one of the above strings $\Rightarrow$ invalidConfigurationValue
+\end{itemize}
+
+\noindent updateSolverType(newSolverType):
+\begin{itemize}
+\item transition:\\
+\begin{tabular}{p{1cm} p{16cm}}
+& (newSolverType = "Concerned Section" $\Rightarrow$ solverType := CONCERNED $|$\\
+& newSolverType = "Negative Moment" $\Rightarrow$ solverType := CRITICAL)\\
+\end{tabular}
+
+\item exception: if newSolverType is not one of the above strings $\Rightarrow$ invalidConfigurationValue
+\end{itemize}
+
+\subsubsection{Local Functions}
+None
+\newpage
+
+\section{MIS of Report Data Format} \label{Report} 
+
+\subsection{Module}
+
+Report
+
+\subsection{Uses}
+None
+
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
+None
+\subsection{Exported Types}
+ReportT = \{\\
+    \begin{tabular}{l}
+	input: CalculationInputT\\
+    results: CalculationOutputT\\
+    \end{tabular}
+\\\}
+\subsubsection{Exported Access Programs}
+\begin{center}
+\begin{tabular}{p{5cm} p{2cm} p{4cm} p{4cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+new Report & - & Report & - \\
+\hline
+getReport & - & ReportT & invalidReport \\
+\hline
+updateReport & ReportT & - & - \\
+\hline
+
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+report: ReportT
+
+\subsubsection{Environment Variables}
+None
+\subsubsection{Assumptions}
+None
+\subsubsection{Access Routine Semantics}
+
+\noindent new Report():
+\begin{itemize}
+\item transition: report := NULL
+\item output: out := self
+\item exception: none
+\end{itemize}
+
+\noindent getReport():
+\begin{itemize}
+\item output: out := report
+\item exception: report = NULL $\Rightarrow$ invalidReport
+\end{itemize}
+
+\noindent updateReport(ReportT newReport):
+\begin{itemize}
+\item transition: report := newReport
+\item exception: none
+\end{itemize}
+
+\subsubsection{Local Functions}
+None
+\newpage
+
+\section{MIS of Truck Platoon Configuration Save To File System Visualization} \label{TruckSaver}
+
+\subsection{Module}
+
+TruckSaver
+
+\subsection{Uses}
+\hyperref[Saver]{Saver}, \hyperref[PlatoonConfiguration]{PlatoonConfiguration}
+
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
+None
+\subsection{Exported Types}
+None
+
+\subsubsection{Exported Access Programs}
+\begin{center}
+\begin{tabular}{p{5cm} p{2cm} p{4cm} p{5.5cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+new TruckSaver & - & TruckSaver & - \\
+\hline
+buttonPressed & - & - & - \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+None
+\subsubsection{Environment Variables}
+None
+\subsubsection{Assumptions}
+None
+\subsubsection{Access Routine Semantics}
+
+\noindent {new TruckSaver}()
+\begin{itemize}
+\item output: out := TruckSaver
+\item exception: none
+\end{itemize}
+
+\noindent  {buttonPressed}()
+\begin{itemize}
+\item output: When the button is clicked, open a windows file dialog to select where to save the file. After the user selects a valid location and clicks save, the method shall call PlatoonConfiguration().getConfiguration() to get the current truck configuration. Then, the method shall call savePlatoonConfiguration with the parsed configuration and the filepath the user specified.
+\item exception: none
+\end{itemize}
+
+\subsubsection{Local Functions}
+None
+\newpage
+\section{MIS of Bridge Configuration Save To File System Visualization} \label{BridgeSaver}
+
+\subsection{Module}
+
+BridgeSaver
+
+\subsection{Uses}
+\hyperref[Saver]{Saver}, \hyperref[BridgeConfiguration]{BridgeConfiguration}
+
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
+None
+\subsection{Exported Types}
+None
+
+\subsubsection{Exported Access Programs}
+\begin{center}
+\begin{tabular}{p{5cm} p{2cm} p{4cm} p{5.5cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+new BridgeSaver & - & BridgeSaver & - \\
+\hline
+buttonPressed & - & - & - \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+None
+\subsubsection{Environment Variables}
+None
+\subsubsection{Assumptions}
+None
+\subsubsection{Access Routine Semantics}
+
+\noindent {new BridgeSaver}()
+\begin{itemize}
+\item output: out :=  BridgeSaver
+\item exception: none
+\end{itemize}
+
+\noindent  {buttonPressed}()
+\begin{itemize} 
+\item output: When the button is clicked, open a windows file dialog to select where to save the file. After the user selects a valid location and clicks save, the method shall call BridgeConfiguration().getConfiguration() to get the current bridge configuration. Then, the method shall call saveBridgeConfiguration with the parsed configuration and the filepath the user specified.
+\item exception: none
+\end{itemize}
+
+\subsubsection{Local Functions}
+None
+\newpage
+\section{MIS of Solver Configuration Save To File System Visualization} \label{SolverSaver}
+
+\subsection{Module}
+
+SolverSaver
+
+\subsection{Uses}
+\hyperref[Saver]{Saver}, \hyperref[SolverConfiguration]{SolverConfiguration}
+
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
+None
+\subsection{Exported Types}
+None
+
+\subsubsection{Exported Access Programs}
+\begin{center}
+\begin{tabular}{p{5cm} p{2cm} p{4cm} p{5.5cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+new SolverSaver & - & SolverSaver & - \\
+\hline
+buttonPressed & - & - & - \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+None
+\subsubsection{Environment Variables}
+None
+\subsubsection{Assumptions}
+None
+\subsubsection{Access Routine Semantics}
+
+\noindent {new SolverSaver}()
+\begin{itemize}  
+\item output: out :=  SolverSaver
+\item exception: none
+\end{itemize}
+
+\noindent  {buttonPressed}()
+\begin{itemize}
+\item output: When the button is clicked, open a windows file dialog to select where to save the file. After the user selects a valid location and clicks save, the method shall call SolverConfiguration().getConfiguration() to get the current solver configuration. Then, the method shall call saveSolverConfiguration with the parsed configuration and the filepath the user specified.
+\item exception: none
+\end{itemize}
+
+\subsubsection{Local Functions}
+None
+\newpage
+\section{MIS of Output Report Save To File System Visualization} \label{ReportSaver}
+
+\subsection{Module}
+
+ReportSaver
+
+\subsection{Uses}
+\hyperref[Saver]{Saver}, \hyperref[Report]{Report}
+
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
+None
+\subsection{Exported Types}
+None
+
+\subsubsection{Exported Access Programs}
+\begin{center}
+\begin{tabular}{p{5cm} p{2cm} p{4cm} p{5.5cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+new ReportSaver & - & ReportSaver & - \\
+\hline
+buttonPressed & - & - & - \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+None
+\subsubsection{Environment Variables}
+None
+\subsubsection{Assumptions}
+None
+\subsubsection{Access Routine Semantics}
+
+\noindent {new ReportSaver}()
+\begin{itemize}
+\item output: out :=  ReportSaver
+\item exception: none
+\end{itemize}
+
+\noindent  {buttonPressed}()
+\begin{itemize}
+\item output: When the button is clicked, open a windows file dialog to select where to save the file. After the user selects a valid location and clicks save, the method shall get the most recently generated output report with Report().getReport(). Then, the method shall call saveReport with the parsed report and the filepath the user specified.
+\item exception: none
+\end{itemize}
+
+\subsubsection{Local Functions}
+None
+
+\newpage
+\section{MIS of Truck Platoon Configuration Load From File System Visualization} \label{TruckLoader}
+
+\subsection{Module}
+
+TruckLoader
+
+\subsection{Uses}
+\hyperref[Loader]{Loader}, \hyperref[PlatoonConfiguration]{PlatoonConfiguration}
+
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
+None
+\subsection{Exported Types}
+None
+
+\subsubsection{Exported Access Programs}
+\begin{center}
+\begin{tabular}{p{5cm} p{2cm} p{4cm} p{5.5cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+new TruckLoader & - & TruckLoader & - \\
+\hline
+buttonPressed & - & - & - \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+None
+\subsubsection{Environment Variables}
+None
+\subsubsection{Assumptions}
+None
+\subsubsection{Access Routine Semantics}
+
+\noindent {new ReportSaver}()
+\begin{itemize}
+\item output: out :=  TruckLoader
+\item exception: none
+\end{itemize}
+
+\noindent  {buttonPressed}()
+\begin{itemize} 
+\item output: When the button is clicked, open a windows file dialog to select the file containing the platoon configuration. After the user selects a file and clicks load, the method shall call loadPlatoonConfiguration() with the file specified by the user. Then, the method shall set the values of TruckConfiguration() with the respective values.
+\item exception: none
+\end{itemize}
+
+\subsubsection{Local Functions}
+None
+\newpage
+\section{MIS of Bridge Configuration Load From File System Visualization} \label{BridgeLoader}
+
+\subsection{Module}
+
+BridgeLoader
+
+\subsection{Uses}
+\hyperref[Loader]{Loader}, \hyperref[BridgeConfiguration]{BridgeConfiguration}
+
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
+None
+\subsection{Exported Types}
+None
+
+\subsubsection{Exported Access Programs}
+\begin{center}
+\begin{tabular}{p{5cm} p{2cm} p{4cm} p{5.5cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+new BridgeLoader & - & BridgeLoader & - \\
+\hline
+buttonPressed & - & - & - \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+None
+\subsubsection{Environment Variables}
+None
+\subsubsection{Assumptions}
+None
+\subsubsection{Access Routine Semantics}
+
+\noindent {new BridgeLoader}()
+\begin{itemize}
+\item output: out :=  BridgeLoader
+\item exception: none
+\end{itemize}
+
+\noindent  {buttonPressed}()
+\begin{itemize}
+\item output: When the button is clicked, open a windows file dialog to select the file containing the bridge configuration. After the user selects a file and clicks load, the method shall call loadBridgeConfiguration() with the file specified by the user. Then, the method shall set the values of BridgeConfiguration() with the respective values.
+\item exception: none
+\end{itemize}
+
+\subsubsection{Local Functions}
+None
+\newpage
+\section{MIS of Solver Configuration Load From File System Visualization} \label{SolverLoader}
+
+\subsection{Module}
+
+SolverLoader
+
+\subsection{Uses}
+\hyperref[Loader]{Loader}, \hyperref[SolverConfiguration]{SolverConfiguration}
+
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
+None
+\subsection{Exported Types}
+None
+
+\subsubsection{Exported Access Programs}
+\begin{center}
+\begin{tabular}{p{5cm} p{2cm} p{4cm} p{5.5cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+new SolverLoader & - & SolverLoader & - \\
+\hline
+buttonPressed & - & - & - \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+None
+\subsubsection{Environment Variables}
+None
+\subsubsection{Assumptions}
+None
+\subsubsection{Access Routine Semantics}
+
+\noindent {new SolverLoader}()
+\begin{itemize}
+\item output: out :=  SolverLoader
+\item exception: none
+\end{itemize}
+
+\noindent  {buttonPressed}()
+\begin{itemize}
+\item output: When the button is clicked, open a windows file dialog to select the file containing the solver configuration. After the user selects a file and clicks load, the method shall call loadSolverConfiguration() with the file specified by the user. Then, the method shall set the values of SolverConfiguration() with the respective values.
+\item exception: none
+\end{itemize}
+
+\subsubsection{Local Functions}
+None
+%*************************************************
+%*************************************************
+%*************************************************
+%*************************************************
+%*************************************************
+\newpage
+
+\newpage
+\section{MIS of Truck Platoon Configuration Visualization} \label{PlatoonVisualizer}
+
+\subsection{Module}
+
+PlatoonVisualizer
+
+\subsection{Uses}
+\hyperref[PlatoonConfiguration]{PlatoonConfiguration}
+
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
+None
+\subsection{Exported Types}
+None
+
+\subsubsection{Exported Access Programs}
+\begin{center}
+\begin{tabular}{p{5cm} p{2cm} p{4cm} p{5.5cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+new PlatoonVisualizer & - & PlatoonVisualizer & - \\
+\hline
+setAxleLoad & - & - & invalidConfigurationValue \\
+\hline
+setAxleSpacing & - & - & invalidConfigurationValue\\
+\hline
+setNumberOfTrucks & - & - & invalidConfigurationValue \\
+\hline
+setHeadway & - & - & invalidConfigurationValue \\
+\hline
+visualize & - & - & invalidConfiguration \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+axleLoad: string\\
+axleSpacing: string\\
+numberOfTrucks: string\\
+headway: string
+\subsubsection{Environment Variables}
+None
+\subsubsection{Assumptions}
+None
+\subsubsection{Access Routine Semantics}
+
+\noindent \textbf{new PlatoonVisualizer}()
+\begin{itemize}
+\item transition: \\
+        axleLoad := ""\\
+		axleSpacing := ""\\
+		numberOfTrucks := ""\\
+		headway := ""
+\item output: out := self
+\item exception: none
+\end{itemize}
+
+\noindent \textbf{setAxleLoad}()
+\begin{itemize}
+\item transition: Whenever the user updates the axleLoad line edit, set the axleLoad string to the value of the line edit. If the user presses enter, then call TruckConfiguration.updateAxleLoad(axleLoad).
+\item exception: TruckConfiguration.updateAxleLoad(axleLoad) could not parse axleLoad $\Rightarrow$ invalidConfigurationValue
+\end{itemize}
+
+\noindent \textbf{setAxleSpacing}()
+\begin{itemize}
+\item transition: Whenever the user updates the axleSpacing line edit, set the axleSpacing string to the value of the line edit. If the user presses enter, then call TruckConfiguration.updateAxleSpacing(axleSpacing).
+\item exception: TruckConfiguration.updateAxleSpacing(axleSpacing) could not parse axleSpacing $\Rightarrow$ invalidConfigurationValue
+\end{itemize}
+
+\noindent \textbf{setNumberOfTrucks}()
+\begin{itemize}
+\item transition: Whenever the user updates the numberOfTrucks line edit, set the numberOfTrucks string to the value of the line edit. If the user presses enter, then call TruckConfiguration.updateNumberOfTrucks(numberOfTrucks).
+\item exception: TruckConfiguration.updateNumberOfTrucks(numberOfTrucks) could not parse numberOfTrucks $\Rightarrow$ invalidConfigurationValue
+\end{itemize}
+
+\noindent \textbf{setHeadway}()
+\begin{itemize}
+\item transition: Whenever the user updates the headway line edit, set the headway string to the value of the line edit. If the user presses enter, then call TruckConfiguration.updateHeadway(headway).
+\item exception: TruckConfiguration.updateHeadway(headway) could not parse headway $\Rightarrow$ invalidConfigurationValue
+\end{itemize}
+
+\noindent \textbf{visualize}()
+\begin{itemize}
+\item output: Call TruckConfiguration.getConfig(), and do the following with the result:
+\begin{itemize}
+\item Draw truck based on truck.axleSpacing.
+\item Then add an offset of truck.headway.	
+\item Do this truck.numberOfTrucks times.
+\end{itemize}
+Draw the fields for axleLoad, axleSpacing, numberOfTrucks, headway using the respective state variables as their values.
+\item exception: Calling TruckConfiguration.getConfig() yields invalidConfiguration exception $\Rightarrow$ invalidConfiguration
+\end{itemize}
+\subsubsection{Local Functions}
+None
+
+\newpage
+\section{MIS of Bridge Configuration Visualization} \label{BridgeVisualizer}
+
+\subsection{Module}
+
+BridgeVisualizer
+
+\subsection{Uses}
+\hyperref[BridgeConfiguration]{BridgeConfiguration}
+
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
+None
+\subsection{Exported Types}
+None
+
+\subsubsection{Exported Access Programs}
+\begin{center}
+\begin{tabular}{p{5cm} p{2cm} p{4cm} p{5.5cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+new BridgeVisualizer & - & BridgeVisualizer & - \\
+\hline
+setNumberOfSpans & - & - & invalidConfigurationValue \\
+\hline
+setSpanLength & - & - & invalidConfigurationValue\\
+\hline
+setConcernedSection & - & - & invalidConfigurationValue \\
+\hline
+setDiscretizationLength & - & - & invalidConfigurationValue \\
+\hline
+visualize & - & - & invalidConfiguration \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+numberOfSpans: string\\
+spanLength: string\\
+concernedSection: string\\
+discretizationLength: string
+\subsubsection{Environment Variables}
+None
+\subsubsection{Assumptions}
+None
+\subsubsection{Access Routine Semantics}
+
+\noindent \textbf{new BridgeVisualizer}()
+\begin{itemize}
+\item transition: \\
+        numberOfSpans := ""\\
+		spanLength := ""\\
+		concernedSection := ""\\
+		discretizationLength := ""
+\item output: out := self
+\item exception: none
+\end{itemize}
+
+\noindent \textbf{setNumberOfSpans}()
+\begin{itemize}
+\item transition: Whenever the user updates the numberOfSpans field, set the numberOfFields string to the value of the field and call BridgeConfiguration.updateNumberOfSpans(numberOfSpans).
+\item exception: BridgeConfiguration.updateNumberOfSpans(numberOfSpans) could not parse numberOfSpans $\Rightarrow$ invalidConfigurationValue
+\end{itemize}
+
+\noindent \textbf{setSpanLength}()
+\begin{itemize}
+\item transition: Whenever the user updates the spanLength line edit, set the spanLength string to the value of the line edit. If the user presses enter, then call BridgeConfiguration.updateSpanLength(spanLength).
+\item exception: BridgeConfiguration.updateSpanLength(spanLength) could not parse spanLength $\Rightarrow$ invalidConfigurationValue
+\end{itemize}
+
+\noindent \textbf{setConcernedSection}()
+\begin{itemize}
+\item transition: Whenever the user updates the concernedSection line edit, set the concernedSection string to the value of the line edit. If the user presses enter, then call BridgeConfiguration.updateConcernedSection(concernedSection).
+\item exception: BridgeConfiguration.updateConcernedSection(concernedSection) could not parse concernedSection $\Rightarrow$ invalidConfigurationValue
+\end{itemize}
+
+\noindent \textbf{setDiscretizationLength}()
+\begin{itemize}
+\item transition: Whenever the user updates the discretizationLength line edit, set the discretizationLength string to the value of the line edit. If the user presses enter, then call BridgeConfiguration.updateDiscretizationLength(discretizationLength).
+\item exception: BridgeConfiguration.updateDiscretizationLength(discretizationLength) could not parse discretizationLength $\Rightarrow$ invalidConfigurationValue
+\end{itemize}
+
+\noindent \textbf{visualize}()
+\begin{itemize}
+\item output: Call BridgeConfiguration.getConfig(), and do the following with the result:
+\begin{itemize}
+\item Draw bridge using bridge.numberOfSpans and bridge.spanLength.
+\item If bridge.discretizationLength is defined, then draw the separate bridge sections of size bridge.discretizationLength.	
+\item If bridge.sectionOfConcern is defined, then show a vertical line at the position of bridge.sectionOfConcern.
+\end{itemize}
+Draw the input fields for numberOfSpans, spanLength, concernedSection, discretizationLength using the respective state variables as their values.
+\item exception: Calling BridgeConfiguration.getConfig() yields invalidConfiguration exception $\Rightarrow$ invalidConfiguration
+\end{itemize}
+\subsubsection{Local Functions}
+None
+
+\newpage
+\section{MIS of Solver Configuration Visualization} \label{SolverVisualizer}
+
+\subsection{Module}
+
+SolverVisualizer
+
+\subsection{Uses}
+\hyperref[SolverConfiguration]{SolverConfiguration}
+
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
+None
+\subsection{Exported Types}
+None
+
+\subsubsection{Exported Access Programs}
+\begin{center}
+\begin{tabular}{p{5cm} p{2cm} p{4cm} p{5.5cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+new SolverVisualizer & - & SolverVisualizer & - \\
+\hline
+setForceType & - & - & invalidConfigurationValue \\
+\hline
+setSolverType & - & - & invalidConfigurationValue\\
+\hline
+visualize & - & - & - \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+forceType: string\\
+solverType: string
+\subsubsection{Environment Variables}
+None
+\subsubsection{Assumptions}
+None
+\subsubsection{Access Routine Semantics}
+
+\noindent \textbf{new SolverVisualizer}()
+\begin{itemize}
+\item transition: \\
+        forceType := ""\\
+		solverType := ""
+\item output: out := self
+\item exception: none
+\end{itemize}
+
+\noindent \textbf{setForceType}()
+\begin{itemize}
+\item transition: Whenever the user updates the forceType field, set the forceType string to the value of the field, and call SolverConfiguration.updateForceType(forceType).
+\item exception: SolverConfiguration.updateForceType(forceType) could not parse forceType $\Rightarrow$ invalidConfigurationValue
+\end{itemize}
+
+\noindent \textbf{setSolverType}()
+\begin{itemize}
+\item transition: Whenever the user updates the solverType field, set the solverType string to the value of the field, and call SolverConfiguration.updateSolverType(solverType).
+\item exception: SolverConfiguration.updateSolverType(solverType) could not parse solverType $\Rightarrow$ invalidConfigurationValue
+\end{itemize}
+
+\noindent \textbf{visualize}()
+\begin{itemize}
+\item output: Draw the input fields for forceType, solverType using the respective state variables as their values.
+\item exception: none
+\end{itemize}
+\subsubsection{Local Functions}
+None
+
+\newpage
+\section{MIS of Calculation Call Visualization} \label{CalculationCallVisualizer}
+
+\subsection{Module}
+
+CalculationCallVisualizer
+
+\subsection{Uses}
+\hyperref[CalculationCall]{CalculationCall} 
+
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
+None
+\subsection{Exported Types}
+None
+
+\subsubsection{Exported Access Programs}
+\begin{center}
+\begin{tabular}{p{6cm} p{1cm} p{5cm} p{4.5cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+new CalculationCallVisualizer & - & CalculationCallVisualizer & - \\
+\hline
+buttonPressed & - & - & invalidConfiguration \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+None
+\subsubsection{Environment Variables}
+None
+\subsubsection{Assumptions}
+None
+\subsubsection{Access Routine Semantics}
+
+\noindent \textbf{new CalculationCallVisualizer}()
+\begin{itemize}
+\item transition: none
+\item output: out := self
+\item exception: none
+\end{itemize}
+
+\noindent \textbf{buttonPressed}()
+\begin{itemize}
+\item output: When the button to calculate is pressed, call CalculationCaller().runCalculation(CalculationInputT { TruckConfiguration.getConfig(), BridgeConfiguration.getConfig(), SolverConfiguration.getConfig() }).
+\item exception: if TruckConfiguration(), BridgeConfiguration() are invalid configurations $\Rightarrow$ invalidConfiguration
+\end{itemize}
+\subsubsection{Local Functions}
+None
+
+\newpage
+\section{MIS of Output Report Visualization} \label{ReportVisualizer}
+
+\subsection{Module}
+
+ReportVisualizer
+
+\subsection{Uses}
+\hyperref[Report]{Report}
+
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
+None
+\subsection{Exported Types}
+None
+
+\subsubsection{Exported Access Programs}
+\begin{center}
+\begin{tabular}{p{5cm} p{2cm} p{4cm} p{5.5cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+new ReportVisualizer & - & ReportVisualizer & - \\
+\hline
+visualize & - & - & invalidReport \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+None
+\subsubsection{Environment Variables}
+None
+\subsubsection{Assumptions}
+None
+\subsubsection{Access Routine Semantics}
+
+\noindent \textbf{new ReportVisualizer}()
+\begin{itemize}
+\item output: out := self
+\item exception: none
+\end{itemize}
+
+\noindent \textbf{visualize}()
+\begin{itemize}
+\item output: Call Report.getReport(). To visualize the ReportT, show each field of the input alongside its output. Then, to visualize the results, show a depiction of the truck platoon and bridge above a graph. The graph should have an x-axis of the first axle positions, and the y-axis should be the force at each fist axle position. Also, there should be a vertical line where the critical/concerned section is on the bridge. 
+\item exception: There is no report $\Rightarrow$ invalidReport
+\end{itemize}
+\subsubsection{Local Functions}
+None
 
 \newpage
 
 \bibliographystyle {plainnat}
 \bibliography {../../../refs/References}
-
-\newpage
-
-\section{Appendix} \label{Appendix}
-
-\wss{Extra information if required}
 
 \end{document}
