@@ -25,4 +25,4 @@ add_custom_command(
 
 add_custom_command(
         TARGET MTOBridge POST_BUILD
-        COMMAND "F:/Qt/6.4.0/msvc2019_64/bin/windeployqt.exe" ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+        COMMAND "${QT_PATH}bin/windeployqt.exe" ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})

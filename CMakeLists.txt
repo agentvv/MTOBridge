@@ -15,8 +15,9 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 #    -checks="clang-diagnostic-*,clang-analyzer-*,modernize-*,-modernize-use-trailing-return-type,readability-*,-readability-magic-numbers,concurrency-*";
 #    -header-filter="./src/.*"
 #)
-set(CMAKE_PREFIX_PATH "F:/Qt/6.4.0/msvc2019_64/")
-set(CMAKE_PREFIX_PATH "F:/Qt/6.4.0/msvc2019_64/lib/cmake")
+set(QT_PATH "F:/Qt/6.4.0/msvc2019_64/")
+set(CMAKE_PREFIX_PATH ${QT_PATH})
+set(CMAKE_PREFIX_PATH "${QT_PATH}lib/cmake")
 
 find_package(Qt6 REQUIRED COMPONENTS 
     Core
