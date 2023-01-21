@@ -2,10 +2,8 @@ add_library(gui STATIC)
 
 target_sources(gui
     PRIVATE
-        ${CMAKE_CURRENT_LIST_DIR}/mtobridge.cpp
         ${CMAKE_CURRENT_LIST_DIR}/window.cpp
     PUBLIC
-        ${CMAKE_CURRENT_LIST_DIR}/mtobridge.hpp
         ${CMAKE_CURRENT_LIST_DIR}/window.hpp
 )
 

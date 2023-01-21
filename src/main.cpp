@@ -4,11 +4,10 @@
 #include <string>
 #include <sstream>
 
-#include "mtobridge.hpp"
 #include "window.hpp"
 
   int main(int argc, char* argv[]) {
-    mtobridge::MTOBridgeApp app(argc, argv);
+    QApplication app(argc, argv);
     
     mtobridge::Window window;
     window.show();
