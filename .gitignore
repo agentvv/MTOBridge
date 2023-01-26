@@ -284,3 +284,7 @@ build/
 # Exclude IDE folders
 .vscode/
 .vs/*
+src/.vs/*
+CMakeLists.txt
+CMakeSettings.json
+
