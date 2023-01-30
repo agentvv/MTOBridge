@@ -1,5 +1,3 @@
-// Copyright (C) 2016 The Qt Company Ltd.
-// SPDX-License-Identifier: LicenseRef-Qt-Commercial OR BSD-3-Clause
 
 #include <QtWidgets>
 #include "addressbook.h"
@@ -88,6 +86,24 @@ void AddressBook::addContact()
             tr("Sorry, \"%1\" is already in your address book.").arg(name));
     }
 
+    if (contacts.isEmpty()) {
+        nameLine->clear();
+        addressText->clear();
+    }
+
+
+
+    addButton->setEnabled(true);
+
+    int number = contacts.size();
+
+    nextButton->setEnabled(number > 1);
+    previousButton->setEnabled(number > 1);
+
+
+
+    loadButton->setEnabled(true);
+    saveButton->setEnabled(number >= 1);
 
 }
 
