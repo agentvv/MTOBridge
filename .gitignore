@@ -285,6 +285,4 @@ build/
 .vscode/
 .vs/*
 src/.vs/*
-CMakeLists.txt
-CMakeSettings.json
 
