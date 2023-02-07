@@ -12,6 +12,10 @@ ReportPage::~ReportPage() {
   
 }
 
+Report ReportPage::getReport() { return report; }
+
+void ReportPage::updateReport(Report newReport) { report = newReport; }
+
 void ReportPage::errorOccurred(QString error) {
   QMessageBox::critical(this, QString("Unknown Error!"), error);
 }
