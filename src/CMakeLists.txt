@@ -5,6 +5,7 @@ qt_add_executable(MTOBridge "main.cpp")
 add_subdirectory("engine")
 add_subdirectory("gui")
 add_subdirectory("matlab")
+add_subdirectory("report")
 
 target_link_libraries(MTOBridge
         PUBLIC
@@ -15,6 +16,7 @@ target_link_libraries(MTOBridge
         engine
         gui
         matlab
+        report
 )
 
 add_custom_command(
