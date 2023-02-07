@@ -132,8 +132,9 @@ void saver::saveSolverConfiguration(MockSolverT SolverT)
 //! [saveToFile() function part3]
 
 //! [loadFromFile() function part1]
-void saver::loadFromFile()
+saver::MockTruckT saver::loadFromFile()
 {
+    MockTruckT temptruck;
     QString fileName = QFileDialog::getOpenFileName(this,
         tr("Load Truck Configuration"), "",
         tr("MTOBridge (*.trk);;All Files (*)"));
@@ -141,7 +142,7 @@ void saver::loadFromFile()
 
 //! [loadFromFile() function part2]
     if (fileName.isEmpty())
-        return;
+        return temptruck;
     else {
 
         QFile file(fileName);
@@ -149,27 +150,47 @@ void saver::loadFromFile()
         if (!file.open(QIODevice::ReadOnly)) {
             QMessageBox::information(this, tr("Unable to open file"),
                 file.errorString());
-            return;
+            return temptruck;
         }
+
         QString temp;
         QDataStream in(&file);
         in.setVersion(QDataStream::Qt_4_5);
 
-        in >> temp;
-        qDebug() << temp;
-
-
-//! [loadFromFile() function part2]
-
 //! [loadFromFile() function part3]
+
+        in >> temp;
+        QList<QString> strList = temp.split("\n", Qt::SkipEmptyParts);
+
+
         if (temp.isEmpty()) {
             QMessageBox::information(this, tr("Nothing in file"),
                 tr("The file you are attempting to open contains nothing."));
         }
 
-        ui->labelName->setText("hello");
+        QList<QString> axleLoadList = strList[0].split(" ", Qt::SkipEmptyParts);
+        QList<QString> axleSpaceList = strList[1].split(" ", Qt::SkipEmptyParts);
+
+
+
+        for ( const auto& i : axleLoadList)
+        {
+            temptruck.axleLoad.push_back(i.toDouble());
+        }
+
+        for ( const auto& i : axleSpaceList)
+        {
+            temptruck.axleSpacing.push_back(i.toDouble());
+        }
+
+        temptruck.numberOfTrucks = strList[2].toDouble();
+        temptruck.headway = strList[3].toDouble();
+
     }
+    return temptruck;
 }
+
+
 saver::~saver()
 {
     delete ui;

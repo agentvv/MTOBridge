@@ -50,7 +50,7 @@ public slots:
     void saveBridgeConfiguration(saver::MockBridgeT BridgeT);
     void saveSolverConfiguration(saver::MockSolverT SolverT);
 
-    void loadFromFile();
+    saver::MockTruckT loadFromFile();
 
 private slots:
     void on_saveTruck_clicked();
