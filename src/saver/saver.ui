@@ -52,6 +52,71 @@
     <string>TextLabel</string>
    </property>
   </widget>
+  <widget class="QPushButton" name="loadBridge">
+   <property name="geometry">
+    <rect>
+     <x>660</x>
+     <y>190</y>
+     <width>80</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Load Bridge</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="saveBridge">
+   <property name="geometry">
+    <rect>
+     <x>660</x>
+     <y>230</y>
+     <width>80</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Save Bridge</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="loadSolver">
+   <property name="geometry">
+    <rect>
+     <x>660</x>
+     <y>270</y>
+     <width>80</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Load Solver</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="saveSolver">
+   <property name="geometry">
+    <rect>
+     <x>660</x>
+     <y>310</y>
+     <width>80</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Save Solver</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="saveReport">
+   <property name="geometry">
+    <rect>
+     <x>660</x>
+     <y>350</y>
+     <width>80</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Save Report</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

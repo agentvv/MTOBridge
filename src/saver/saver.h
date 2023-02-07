@@ -47,13 +47,19 @@ public:
 public slots:
 //! [save and load functions declaration]
     void savePlatoonConfiguration(saver::MockTruckT PlatoonT);
+    void saveBridgeConfiguration(saver::MockBridgeT BridgeT);
+    void saveSolverConfiguration(saver::MockSolverT SolverT);
+
     void loadFromFile();
 
 private slots:
     void on_saveTruck_clicked();
     void on_loadTruck_clicked();
-
-
+    void on_loadBridge_clicked();
+    void on_saveBridge_clicked();
+    void on_loadSolver_clicked();
+    void on_saveSolver_clicked();
+    void on_saveReport_clicked();
 
 private:
     Ui::saver *ui;

@@ -14,8 +14,8 @@ saver::saver(QWidget *parent)
 void saver::savePlatoonConfiguration(MockTruckT PlatoonT)
 {
     QString fileName = QFileDialog::getSaveFileName(this,
-        tr("Save Truck Data Format"), "",
-        tr("Address Book (*.trk);;All Files (*)"));
+        tr("Save Truck Configuration"), "",
+        tr("MTOBridge (*.trk);;All Files (*)"));
 
 
     if (fileName.isEmpty())
@@ -49,14 +49,94 @@ void saver::savePlatoonConfiguration(MockTruckT PlatoonT)
     out << output;
     }
 }
+
+void saver::saveBridgeConfiguration(MockBridgeT BridgeT)
+{
+    QString fileName = QFileDialog::getSaveFileName(this,
+        tr("Save Bridge Configuration"), "",
+        tr("MTOBridge (*.brg);;All Files (*)"));
+
+
+    if (fileName.isEmpty())
+        return;
+    else {
+        QFile file(fileName);
+        if (!file.open(QIODevice::WriteOnly)) {
+            QMessageBox::information(this, tr("Unable to open file"),
+                file.errorString());
+            return;
+        }
+
+    QString strspanLength;
+    for(auto it = BridgeT.spanLength.begin();it!=BridgeT.spanLength.end();it++){
+        strspanLength = strspanLength + QString::number(*it);
+        strspanLength.append(" ");
+    }
+
+
+    QString output = QString::number(BridgeT.numberSpans) + "\n" + strspanLength + "\n" + QString::number(BridgeT.concernedSection)+ "\n" + QString::number(BridgeT.discretizationLength);
+
+
+    QDataStream out(&file);
+    out.setVersion(QDataStream::Qt_4_5);
+    out << output;
+    }
+}
+
+void saver::saveSolverConfiguration(MockSolverT SolverT)
+{
+    QString fileName = QFileDialog::getSaveFileName(this,
+        tr("Save Solver Configuration"), "",
+        tr("MTOBridge (*.slv);;All Files (*)"));
+
+
+    if (fileName.isEmpty())
+        return;
+    else {
+        QFile file(fileName);
+        if (!file.open(QIODevice::WriteOnly)) {
+            QMessageBox::information(this, tr("Unable to open file"),
+                file.errorString());
+            return;
+        }
+
+    QString strForce;
+    switch (SolverT.forceType)
+        {
+            case MockSolverT::POSITIVE_MOMENT:   strForce = "Positive Moment";
+            case MockSolverT::NEGATIVE_MOMENT:   strForce = "Negative Moment";
+            case MockSolverT::SHEAR:    strForce = "Shear";
+            default:      strForce = "No data";
+        }
+
+
+    QString strSolver;
+    switch (SolverT.solverType)
+        {
+            case MockSolverT::CONCERNED:   strSolver = "Concerned";
+            case MockSolverT::CRITICAL:    strSolver = "Critical";
+            default:      strSolver = "No data";
+        }
+
+
+
+    QString output = strForce + "\n" + strSolver;
+
+    QDataStream out(&file);
+    out.setVersion(QDataStream::Qt_4_5);
+    out << output;
+    }
+}
+
+
 //! [saveToFile() function part3]
 
 //! [loadFromFile() function part1]
 void saver::loadFromFile()
 {
     QString fileName = QFileDialog::getOpenFileName(this,
-        tr("Open Address Book"), "",
-        tr("Address Book (*.trk);;All Files (*)"));
+        tr("Load Truck Configuration"), "",
+        tr("MTOBridge (*.trk);;All Files (*)"));
 //! [loadFromFile() function part1]
 
 //! [loadFromFile() function part2]
@@ -83,8 +163,8 @@ void saver::loadFromFile()
 
 //! [loadFromFile() function part3]
         if (temp.isEmpty()) {
-            QMessageBox::information(this, tr("No contacts in file"),
-                tr("The file you are attempting to open contains no contacts."));
+            QMessageBox::information(this, tr("Nothing in file"),
+                tr("The file you are attempting to open contains nothing."));
         }
 
         ui->labelName->setText("hello");
@@ -115,4 +195,46 @@ void saver::on_loadTruck_clicked()
 
 
 
+
+
+void saver::on_loadBridge_clicked()
+{
+
+}
+
+
+void saver::on_saveBridge_clicked()
+{
+    MockBridgeT temp;
+    temp.numberSpans=2;
+    temp.spanLength={1,2};
+    temp.concernedSection=4;
+    temp.discretizationLength=2;
+
+    saveBridgeConfiguration(temp);
+
+}
+
+
+void saver::on_loadSolver_clicked()
+{
+
+}
+
+
+void saver::on_saveSolver_clicked()
+{
+    MockSolverT temp;
+    temp.forceType=MockSolverT::POSITIVE_MOMENT;
+    temp.solverType=MockSolverT::CONCERNED;
+
+    saveSolverConfiguration(temp);
+}
+
+
+void saver::on_saveReport_clicked()
+{
+
+
+}
 

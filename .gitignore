@@ -287,3 +287,4 @@ build/
 src/.vs/*
 
 src/fileio/CMakeLists.txt.user
+src/fileio/CMakeLists.txt
