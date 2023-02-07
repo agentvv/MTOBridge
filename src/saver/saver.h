@@ -50,7 +50,9 @@ public slots:
     void saveBridgeConfiguration(saver::MockBridgeT BridgeT);
     void saveSolverConfiguration(saver::MockSolverT SolverT);
 
-    saver::MockTruckT loadFromFile();
+    saver::MockTruckT loadPlatoonConfiguration();
+    saver::MockBridgeT loadBridgeConfiguration();
+    saver::MockSolverT loadSolverConfiguration();
 
 private slots:
     void on_saveTruck_clicked();

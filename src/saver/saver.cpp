@@ -132,7 +132,7 @@ void saver::saveSolverConfiguration(MockSolverT SolverT)
 //! [saveToFile() function part3]
 
 //! [loadFromFile() function part1]
-saver::MockTruckT saver::loadFromFile()
+saver::MockTruckT saver::loadPlatoonConfiguration()
 {
     MockTruckT temptruck;
     QString fileName = QFileDialog::getOpenFileName(this,
@@ -183,11 +183,113 @@ saver::MockTruckT saver::loadFromFile()
             temptruck.axleSpacing.push_back(i.toDouble());
         }
 
-        temptruck.numberOfTrucks = strList[2].toDouble();
+        temptruck.numberOfTrucks = strList[2].toUInt();
         temptruck.headway = strList[3].toDouble();
 
     }
     return temptruck;
+}
+
+saver::MockBridgeT saver::loadBridgeConfiguration()
+{
+    MockBridgeT tempbridge;
+
+    QString fileName = QFileDialog::getOpenFileName(this,
+        tr("Load Bridge Configuration"), "",
+        tr("MTOBridge (*.brg);;All Files (*)"));
+//! [loadFromFile() function part1]
+
+//! [loadFromFile() function part2]
+    if (fileName.isEmpty())
+        return tempbridge;
+    else {
+
+        QFile file(fileName);
+
+        if (!file.open(QIODevice::ReadOnly)) {
+            QMessageBox::information(this, tr("Unable to open file"),
+                file.errorString());
+            return tempbridge;
+        }
+
+        QString temp;
+        QDataStream in(&file);
+        in.setVersion(QDataStream::Qt_4_5);
+
+//! [loadFromFile() function part3]
+
+        in >> temp;
+        QList<QString> strList = temp.split("\n", Qt::SkipEmptyParts);
+
+
+        if (temp.isEmpty()) {
+            QMessageBox::information(this, tr("Nothing in file"),
+                tr("The file you are attempting to open contains nothing."));
+        }
+
+        QList<QString> spanLengthList = strList[1].split(" ", Qt::SkipEmptyParts);
+
+        for ( const auto& i : spanLengthList)
+        {
+            tempbridge.spanLength.push_back(i.toDouble());
+        }
+
+
+        tempbridge.numberSpans = strList[0].toUInt();
+        tempbridge.concernedSection = strList[2].toDouble();
+        tempbridge.discretizationLength = strList[3].toDouble();
+
+    }
+    return tempbridge;
+}
+
+saver::MockSolverT saver::loadSolverConfiguration()
+{
+    MockSolverT tempsolver;
+
+    QString fileName = QFileDialog::getOpenFileName(this,
+        tr("Load Bridge Configuration"), "",
+        tr("MTOBridge (*.slv);;All Files (*)"));
+//! [loadFromFile() function part1]
+
+//! [loadFromFile() function part2]
+    if (fileName.isEmpty())
+        return tempsolver;
+    else {
+
+        QFile file(fileName);
+
+        if (!file.open(QIODevice::ReadOnly)) {
+            QMessageBox::information(this, tr("Unable to open file"),
+                file.errorString());
+            return tempsolver;
+        }
+
+        QString temp;
+        QDataStream in(&file);
+        in.setVersion(QDataStream::Qt_4_5);
+
+//! [loadFromFile() function part3]
+
+        in >> temp;
+        QList<QString> strList = temp.split("\n", Qt::SkipEmptyParts);
+
+
+        if (temp.isEmpty()) {
+            QMessageBox::information(this, tr("Nothing in file"),
+                tr("The file you are attempting to open contains nothing."));
+        }
+
+
+        if (strList[0] ==  "Positive Moment") tempsolver.forceType = MockSolverT::POSITIVE_MOMENT;
+        else if (strList[0] ==  "Negative Moment") tempsolver.forceType = MockSolverT::NEGATIVE_MOMENT;
+        else tempsolver.forceType = MockSolverT::SHEAR;
+
+        if (strList[1] ==  "Concerned") tempsolver.solverType = MockSolverT::CONCERNED;
+        else tempsolver.solverType = MockSolverT::CRITICAL;
+
+    }
+    return tempsolver;
 }
 
 
@@ -211,16 +313,14 @@ void saver::on_saveTruck_clicked()
 
 void saver::on_loadTruck_clicked()
 {
-    loadFromFile();
+    loadPlatoonConfiguration();
 }
-
-
 
 
 
 void saver::on_loadBridge_clicked()
 {
-
+    loadBridgeConfiguration();
 }
 
 
@@ -239,7 +339,7 @@ void saver::on_saveBridge_clicked()
 
 void saver::on_loadSolver_clicked()
 {
-
+    loadSolverConfiguration();
 }
 
 
