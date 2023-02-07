@@ -16,9 +16,6 @@ class ReportPage : public QWidget {
   Report getReport();
   void updateReport(Report newReport);
 
-// signals:
-//  void runCommand(Engine::concernedOneMomentInput);
-
  public slots:
   void errorOccurred(QString);
 
@@ -26,5 +23,7 @@ class ReportPage : public QWidget {
   void createPage();
 
   Report report;
+
+  QPushButton *saveButton;
 };
 };  // namespace mtobridge

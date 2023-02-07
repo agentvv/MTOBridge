@@ -14,7 +14,12 @@ ReportPage::~ReportPage() {
 
 Report ReportPage::getReport() { return report; }
 
-void ReportPage::updateReport(Report newReport) { report = newReport; }
+void ReportPage::updateReport(Report newReport) {
+  report = newReport;
+
+  //validate report has all data, enable/disable save button as appropriate
+  //saveButton->setDisabled(false);
+}
 
 void ReportPage::errorOccurred(QString error) {
   QMessageBox::critical(this, QString("Unknown Error!"), error);
@@ -25,5 +30,20 @@ void ReportPage::createPage() {
                             QSizePolicy::Policy::Expanding));
   auto* pageLayout = new QHBoxLayout();
   setLayout(pageLayout);
+
+  //button
+  {
+    saveButton = new QPushButton("Save", this);
+    saveButton->setFixedWidth(64);
+    //saveButton->setDisabled(true);
+    pageLayout->addWidget(saveButton);
+
+    QObject::connect(saveButton, &QPushButton::clicked, this, [&]() {
+      //replace this whole lambda with saver method call?
+      //open save prompt (windows file explorer, choose folder & name)
+      //default suffix? .txt?
+      //make/open file there and save data from report
+    });
+  }
 }
 };  // namespace mtobridge
