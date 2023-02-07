@@ -288,3 +288,4 @@ src/.vs/*
 CMakeLists.txt
 CMakeSettings.json
 
+src/fileio/CMakeLists.txt.user
