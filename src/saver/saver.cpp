@@ -1,4 +1,5 @@
 #include "saver.h"
+#include "loader.h"
 #include "./ui_saver.h"
 #include <QDebug>
 
@@ -11,7 +12,7 @@ saver::saver(QWidget *parent)
 }
 
 
-void saver::savePlatoonConfiguration(MockTruckT PlatoonT)
+void saver::savePlatoonConfiguration(mtobridge::MockTruckT PlatoonT)
 {
     QString fileName = QFileDialog::getSaveFileName(this,
         tr("Save Truck Configuration"), "",
@@ -50,7 +51,7 @@ void saver::savePlatoonConfiguration(MockTruckT PlatoonT)
     }
 }
 
-void saver::saveBridgeConfiguration(MockBridgeT BridgeT)
+void saver::saveBridgeConfiguration(mtobridge::MockBridgeT BridgeT)
 {
     QString fileName = QFileDialog::getSaveFileName(this,
         tr("Save Bridge Configuration"), "",
@@ -83,7 +84,7 @@ void saver::saveBridgeConfiguration(MockBridgeT BridgeT)
     }
 }
 
-void saver::saveSolverConfiguration(MockSolverT SolverT)
+void saver::saveSolverConfiguration(mtobridge::MockSolverT SolverT)
 {
     QString fileName = QFileDialog::getSaveFileName(this,
         tr("Save Solver Configuration"), "",
@@ -103,9 +104,9 @@ void saver::saveSolverConfiguration(MockSolverT SolverT)
     QString strForce;
     switch (SolverT.forceType)
         {
-            case MockSolverT::POSITIVE_MOMENT:   strForce = "Positive Moment";
-            case MockSolverT::NEGATIVE_MOMENT:   strForce = "Negative Moment";
-            case MockSolverT::SHEAR:    strForce = "Shear";
+            case mtobridge::MockSolverT::POSITIVE_MOMENT:   strForce = "Positive Moment";
+            case mtobridge::MockSolverT::NEGATIVE_MOMENT:   strForce = "Negative Moment";
+            case mtobridge::MockSolverT::SHEAR:    strForce = "Shear";
             default:      strForce = "No data";
         }
 
@@ -113,8 +114,8 @@ void saver::saveSolverConfiguration(MockSolverT SolverT)
     QString strSolver;
     switch (SolverT.solverType)
         {
-            case MockSolverT::CONCERNED:   strSolver = "Concerned";
-            case MockSolverT::CRITICAL:    strSolver = "Critical";
+            case mtobridge::MockSolverT::CONCERNED:   strSolver = "Concerned";
+            case mtobridge::MockSolverT::CRITICAL:    strSolver = "Critical";
             default:      strSolver = "No data";
         }
 
@@ -129,170 +130,6 @@ void saver::saveSolverConfiguration(MockSolverT SolverT)
 }
 
 
-//! [saveToFile() function part3]
-
-//! [loadFromFile() function part1]
-saver::MockTruckT saver::loadPlatoonConfiguration()
-{
-    MockTruckT temptruck;
-    QString fileName = QFileDialog::getOpenFileName(this,
-        tr("Load Truck Configuration"), "",
-        tr("MTOBridge (*.trk);;All Files (*)"));
-//! [loadFromFile() function part1]
-
-//! [loadFromFile() function part2]
-    if (fileName.isEmpty())
-        return temptruck;
-    else {
-
-        QFile file(fileName);
-
-        if (!file.open(QIODevice::ReadOnly)) {
-            QMessageBox::information(this, tr("Unable to open file"),
-                file.errorString());
-            return temptruck;
-        }
-
-        QString temp;
-        QDataStream in(&file);
-        in.setVersion(QDataStream::Qt_4_5);
-
-//! [loadFromFile() function part3]
-
-        in >> temp;
-        QList<QString> strList = temp.split("\n", Qt::SkipEmptyParts);
-
-
-        if (temp.isEmpty()) {
-            QMessageBox::information(this, tr("Nothing in file"),
-                tr("The file you are attempting to open contains nothing."));
-        }
-
-        QList<QString> axleLoadList = strList[0].split(" ", Qt::SkipEmptyParts);
-        QList<QString> axleSpaceList = strList[1].split(" ", Qt::SkipEmptyParts);
-
-
-
-        for ( const auto& i : axleLoadList)
-        {
-            temptruck.axleLoad.push_back(i.toDouble());
-        }
-
-        for ( const auto& i : axleSpaceList)
-        {
-            temptruck.axleSpacing.push_back(i.toDouble());
-        }
-
-        temptruck.numberOfTrucks = strList[2].toUInt();
-        temptruck.headway = strList[3].toDouble();
-
-    }
-    return temptruck;
-}
-
-saver::MockBridgeT saver::loadBridgeConfiguration()
-{
-    MockBridgeT tempbridge;
-
-    QString fileName = QFileDialog::getOpenFileName(this,
-        tr("Load Bridge Configuration"), "",
-        tr("MTOBridge (*.brg);;All Files (*)"));
-//! [loadFromFile() function part1]
-
-//! [loadFromFile() function part2]
-    if (fileName.isEmpty())
-        return tempbridge;
-    else {
-
-        QFile file(fileName);
-
-        if (!file.open(QIODevice::ReadOnly)) {
-            QMessageBox::information(this, tr("Unable to open file"),
-                file.errorString());
-            return tempbridge;
-        }
-
-        QString temp;
-        QDataStream in(&file);
-        in.setVersion(QDataStream::Qt_4_5);
-
-//! [loadFromFile() function part3]
-
-        in >> temp;
-        QList<QString> strList = temp.split("\n", Qt::SkipEmptyParts);
-
-
-        if (temp.isEmpty()) {
-            QMessageBox::information(this, tr("Nothing in file"),
-                tr("The file you are attempting to open contains nothing."));
-        }
-
-        QList<QString> spanLengthList = strList[1].split(" ", Qt::SkipEmptyParts);
-
-        for ( const auto& i : spanLengthList)
-        {
-            tempbridge.spanLength.push_back(i.toDouble());
-        }
-
-
-        tempbridge.numberSpans = strList[0].toUInt();
-        tempbridge.concernedSection = strList[2].toDouble();
-        tempbridge.discretizationLength = strList[3].toDouble();
-
-    }
-    return tempbridge;
-}
-
-saver::MockSolverT saver::loadSolverConfiguration()
-{
-    MockSolverT tempsolver;
-
-    QString fileName = QFileDialog::getOpenFileName(this,
-        tr("Load Bridge Configuration"), "",
-        tr("MTOBridge (*.slv);;All Files (*)"));
-//! [loadFromFile() function part1]
-
-//! [loadFromFile() function part2]
-    if (fileName.isEmpty())
-        return tempsolver;
-    else {
-
-        QFile file(fileName);
-
-        if (!file.open(QIODevice::ReadOnly)) {
-            QMessageBox::information(this, tr("Unable to open file"),
-                file.errorString());
-            return tempsolver;
-        }
-
-        QString temp;
-        QDataStream in(&file);
-        in.setVersion(QDataStream::Qt_4_5);
-
-//! [loadFromFile() function part3]
-
-        in >> temp;
-        QList<QString> strList = temp.split("\n", Qt::SkipEmptyParts);
-
-
-        if (temp.isEmpty()) {
-            QMessageBox::information(this, tr("Nothing in file"),
-                tr("The file you are attempting to open contains nothing."));
-        }
-
-
-        if (strList[0] ==  "Positive Moment") tempsolver.forceType = MockSolverT::POSITIVE_MOMENT;
-        else if (strList[0] ==  "Negative Moment") tempsolver.forceType = MockSolverT::NEGATIVE_MOMENT;
-        else tempsolver.forceType = MockSolverT::SHEAR;
-
-        if (strList[1] ==  "Concerned") tempsolver.solverType = MockSolverT::CONCERNED;
-        else tempsolver.solverType = MockSolverT::CRITICAL;
-
-    }
-    return tempsolver;
-}
-
-
 saver::~saver()
 {
     delete ui;
@@ -301,7 +138,7 @@ saver::~saver()
 
 void saver::on_saveTruck_clicked()
 {
-    MockTruckT temp;
+    mtobridge::MockTruckT temp;
     temp.axleLoad={1,2};
     temp.axleSpacing={1,2};
     temp.headway=4;
@@ -313,20 +150,23 @@ void saver::on_saveTruck_clicked()
 
 void saver::on_loadTruck_clicked()
 {
-    loadPlatoonConfiguration();
+    loader l;
+    mtobridge::MockTruckT temptruck = l.loadPlatoonConfiguration();
+
 }
 
 
 
 void saver::on_loadBridge_clicked()
 {
-    loadBridgeConfiguration();
+    loader l;
+    mtobridge::MockBridgeT tempbridge = l.loadBridgeConfiguration();
 }
 
 
 void saver::on_saveBridge_clicked()
 {
-    MockBridgeT temp;
+    mtobridge::MockBridgeT temp;
     temp.numberSpans=2;
     temp.spanLength={1,2};
     temp.concernedSection=4;
@@ -339,15 +179,16 @@ void saver::on_saveBridge_clicked()
 
 void saver::on_loadSolver_clicked()
 {
-    loadSolverConfiguration();
+    loader l;
+    mtobridge::MockSolverT tempsolver = l.loadSolverConfiguration();
 }
 
 
 void saver::on_saveSolver_clicked()
 {
-    MockSolverT temp;
-    temp.forceType=MockSolverT::POSITIVE_MOMENT;
-    temp.solverType=MockSolverT::CONCERNED;
+    mtobridge::MockSolverT temp;
+    temp.forceType=mtobridge::MockSolverT::POSITIVE_MOMENT;
+    temp.solverType=mtobridge::MockSolverT::CONCERNED;
 
     saveSolverConfiguration(temp);
 }
