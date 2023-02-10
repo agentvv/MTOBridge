@@ -286,5 +286,8 @@ build/
 .vs/*
 src/.vs/*
 
+# Exclude matlab files
+*.ctf
+
 src/fileio/CMakeLists.txt.user
 src/fileio/CMakeLists.txt
