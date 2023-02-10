@@ -26,6 +26,7 @@ public slots:
     void savePlatoonConfiguration(mtobridge::MockTruckT PlatoonT);
     void saveBridgeConfiguration(mtobridge::MockBridgeT BridgeT);
     void saveSolverConfiguration(mtobridge::MockSolverT SolverT);
+    void saveReport(mtobridge::MockReportT ReportT);
 
 
 private slots:

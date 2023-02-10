@@ -42,4 +42,9 @@ struct MockCalculationOutputT {
   std::vector<double> forceEnvelope{};
   std::vector<double> firstAxlePositionForceEnvelope{};
 };
+
+struct MockReportT{
+    MockCalculationInputT input;
+    MockCalculationOutputT results;
+};
 };  // namespace mtobridge
