@@ -12,6 +12,7 @@ class Window : public QWidget {
  public:
   Window(QWidget *parent = nullptr);
   ~Window() { Engine::getInstance().stopEngine(); };
+  QTabWidget *getTabWidget();
 
  signals:
   void runCommand(Engine::concernedOneMomentInput);

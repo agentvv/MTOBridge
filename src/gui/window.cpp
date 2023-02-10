@@ -176,6 +176,8 @@ void Window::createWindow() {
   }
 }
 
+QTabWidget *Window::getTabWidget() { return mTabWidget; }
+
 void Window::errorOccurred(QString error){
     QMessageBox::critical(this, QString("Unknown Error!"), error);
 }
