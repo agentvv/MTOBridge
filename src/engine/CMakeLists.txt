@@ -3,8 +3,10 @@ add_library(engine STATIC)
 target_sources(engine
     PRIVATE
         ${CMAKE_CURRENT_LIST_DIR}/engine.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/calculationcaller.cpp
     PUBLIC
         ${CMAKE_CURRENT_LIST_DIR}/engine.hpp
+        ${CMAKE_CURRENT_LIST_DIR}/calculationcaller.hpp
 )
 
 target_include_directories(engine
