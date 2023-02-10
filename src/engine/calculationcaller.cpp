@@ -50,9 +50,9 @@ void destroyMatlab() {
  * @param matlabOut matlab output to be converted
  * @return converted matlab output
  */
-CalculationOutputT concernedSectionOut(
+MockCalculationOutputT concernedSectionOut(
     std::vector<matlab::data::Array> matlabOut) {
-  CalculationOutputT out;
+  MockCalculationOutputT out;
   matlab::data::TypedArray<double> firstAxlePosition = matlabOut[0];
   out.firstAxlePosition =
       std::vector<double>(firstAxlePosition.begin(), firstAxlePosition.end());
@@ -78,9 +78,9 @@ CalculationOutputT concernedSectionOut(
  * @param matlabOut matlab output to be converted
  * @return converted matlab output
  */
-CalculationOutputT concernedSectionNegativeOut(
+MockCalculationOutputT concernedSectionNegativeOut(
     std::vector<matlab::data::Array> matlabOut) {
-  CalculationOutputT out;
+  MockCalculationOutputT out;
   const auto& firstAxlePosition =
       matlab::data::TypedArray<double>(matlabOut[0]);
   out.firstAxlePosition =
@@ -107,9 +107,9 @@ CalculationOutputT concernedSectionNegativeOut(
  * @param matlabOut matlab output to be converted
  * @return converted matlab output
  */
-CalculationOutputT criticalSectionOut(
+MockCalculationOutputT criticalSectionOut(
     std::vector<matlab::data::Array> matlabOut) {
-  CalculationOutputT out;
+  MockCalculationOutputT out;
   const auto& sections = matlab::data::TypedArray<double>(matlabOut[0]);
   out.sections = std::vector<double>(sections.begin(), sections.end());
 
@@ -152,7 +152,7 @@ CalculationOutputT criticalSectionOut(
  * @param in calculation input
  * @return calulation output
  */
-CalculationOutputT concernedSection(CalculationInputT& in) {
+MockCalculationOutputT concernedSection(MockCalculationInputT& in) {
   const auto& result =
       matlabFunctions[in.solverConfig.solverType][in.bridgeConfig.numberSpans -
                                                   1][in.solverConfig.forceType](
@@ -180,7 +180,7 @@ CalculationOutputT concernedSection(CalculationInputT& in) {
  * @param in calculation input
  * @return calulation output
  */
-CalculationOutputT concernedNegativeSection(CalculationInputT& in) {
+MockCalculationOutputT concernedNegativeSection(MockCalculationInputT& in) {
   const auto& result =
       matlabFunctions[in.solverConfig.solverType][in.bridgeConfig.numberSpans -
                                                   1][in.solverConfig.forceType](
@@ -208,7 +208,7 @@ CalculationOutputT concernedNegativeSection(CalculationInputT& in) {
  * @param in calculation input
  * @return calulation output
  */
-CalculationOutputT criticalSection(CalculationInputT& in) {
+MockCalculationOutputT criticalSection(MockCalculationInputT& in) {
   const auto& result =
       matlabFunctions[in.solverConfig.solverType][in.bridgeConfig.numberSpans -
                                                   1][in.solverConfig.forceType](
@@ -261,7 +261,7 @@ void setupCalculations() {
  * @param in calculation input
  * @return calculation output
  */
-CalculationOutputT runCalculation(CalculationInputT in) {
+MockCalculationOutputT runCalculation(MockCalculationInputT in) {
   static bool setup = false;
   if (!setup) {
     setupCalculations();

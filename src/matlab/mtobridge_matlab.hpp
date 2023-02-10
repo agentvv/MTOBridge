@@ -1,3 +1,5 @@
+#pragma once
+
 #include "MatlabTypesInterface.hpp"
 #include <map>
 

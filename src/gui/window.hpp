@@ -15,7 +15,7 @@ class Window : public QWidget {
   QTabWidget *getTabWidget();
 
  signals:
-  void runCommand(Engine::concernedOneMomentInput);
+  void runCommand(MockCalculationInputT);
 
  public slots:
   void errorOccurred(QString);
@@ -33,15 +33,21 @@ class Window : public QWidget {
   QLineEdit *mAxleSpacing;
   QLabel *mNumberOfTrucksLabel;
   QLineEdit *mNumberOfTrucks;
-  QLabel *mTruckPositionIncrementLabel;
-  QLineEdit *mTruckPositionIncrement;
   QLabel *mHeadwayLabel;
   QLineEdit *mHeadway;
   QLabel *mSpanLengthLabel;
   QLineEdit *mSpanLength;
   QLabel *mConcernedSectionLabel;
   QLineEdit *mConcernedSection;
-
+  QLabel* mNumberSpansLabel;
+  QLineEdit* mNumberSpans;
+  QLabel* mDiscretizationLengthLabel;
+  QLineEdit* mDiscretizationLength;
+  QLabel* mForceTypeLabel;
+  QLineEdit* mForceType;
+  QLabel* mSolverTypeLabel;
+  QLineEdit* mSolverType;
+  
   QLineSeries *mSeries;
   QChart *mChart;
   QWidget *mChartWidget;

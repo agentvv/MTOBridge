@@ -1,6 +1,8 @@
 #include "window.hpp"
 
+#include <chrono>
 #include <sstream>
+#include <thread>
 
 #include "../engine/engine.hpp"
 
@@ -37,42 +39,59 @@ void Window::createWindow() {
                                             QSizePolicy::Policy::Expanding));
     mInputWidget->setLayout(inputLayout);
 
-    mNumberOfTrucks = new QLineEdit("3", mInputWidget);
-    mNumberOfTrucksLabel = new QLabel("Number of Trucks", mInputWidget);
-
-    mTruckPositionIncrement = new QLineEdit("0.1", mInputWidget);
-    mTruckPositionIncrementLabel =
-        new QLabel("Truck Position Increment", mTruckPositionIncrement);
-
-    mHeadway = new QLineEdit("5", mInputWidget);
-    mHeadwayLabel = new QLabel("Truck Headway", mInputWidget);
-
     mAxleLoad = new QLineEdit("53.4 75.6 75.6 75.6 75.6", mInputWidget);
     mAxleLoadLabel = new QLabel("Axle Load", mInputWidget);
 
     mAxleSpacing = new QLineEdit("3.6576 1.2192 9.4488 1.2192", mInputWidget);
     mAxleSpacingLabel = new QLabel("Axle Spacing", mInputWidget);
 
-    mSpanLength = new QLineEdit("20", mInputWidget);
+    mNumberOfTrucks = new QLineEdit("3", mInputWidget);
+    mNumberOfTrucksLabel = new QLabel("Number of Trucks", mInputWidget);
+
+    mHeadway = new QLineEdit("5", mInputWidget);
+    mHeadwayLabel = new QLabel("Truck Headway", mInputWidget);
+
+    mNumberSpans = new QLineEdit("2", mInputWidget);
+    mNumberSpansLabel = new QLabel("Number of Spans", mInputWidget);
+
+    mSpanLength = new QLineEdit("20 20", mInputWidget);
     mSpanLengthLabel = new QLabel("Span Length", mInputWidget);
 
     mConcernedSection = new QLineEdit("10", mInputWidget);
     mConcernedSectionLabel = new QLabel("Concerned Section", mInputWidget);
 
-    inputLayout->addWidget(mNumberOfTrucksLabel, 0, 0);
-    inputLayout->addWidget(mNumberOfTrucks, 0, 1);
-    inputLayout->addWidget(mTruckPositionIncrementLabel, 1, 0);
-    inputLayout->addWidget(mTruckPositionIncrement, 1, 1);
-    inputLayout->addWidget(mHeadwayLabel, 2, 0);
-    inputLayout->addWidget(mHeadway, 2, 1);
-    inputLayout->addWidget(mAxleLoadLabel, 3, 0);
-    inputLayout->addWidget(mAxleLoad, 3, 1);
-    inputLayout->addWidget(mAxleSpacingLabel, 4, 0);
-    inputLayout->addWidget(mAxleSpacing, 4, 1);
+    mDiscretizationLength = new QLineEdit("0.1", mInputWidget);
+    mDiscretizationLengthLabel =
+        new QLabel("Discretization Length", mInputWidget);
+
+    mForceType = new QLineEdit("positive", mInputWidget);
+    mForceTypeLabel = new QLabel("Force Type", mInputWidget);
+
+    mSolverType = new QLineEdit("concerned", mInputWidget);
+    mSolverTypeLabel = new QLabel("Solver Type", mInputWidget);
+
+    inputLayout->addWidget(mAxleLoadLabel, 0, 0);
+    inputLayout->addWidget(mAxleLoad, 0, 1);
+    inputLayout->addWidget(mAxleSpacingLabel, 1, 0);
+    inputLayout->addWidget(mAxleSpacing, 1, 1);
+    inputLayout->addWidget(mNumberOfTrucksLabel, 2, 0);
+    inputLayout->addWidget(mNumberOfTrucks, 2, 1);
+    inputLayout->addWidget(mHeadwayLabel, 3, 0);
+    inputLayout->addWidget(mHeadway, 3, 1);
+
+    inputLayout->addWidget(mNumberSpansLabel, 4, 0);
+    inputLayout->addWidget(mNumberSpans, 4, 1);
     inputLayout->addWidget(mSpanLengthLabel, 5, 0);
     inputLayout->addWidget(mSpanLength, 5, 1);
     inputLayout->addWidget(mConcernedSectionLabel, 6, 0);
     inputLayout->addWidget(mConcernedSection, 6, 1);
+    inputLayout->addWidget(mDiscretizationLengthLabel, 7, 0);
+    inputLayout->addWidget(mDiscretizationLength, 7, 1);
+
+    inputLayout->addWidget(mForceTypeLabel, 8, 0);
+    inputLayout->addWidget(mForceType, 8, 1);
+    inputLayout->addWidget(mSolverTypeLabel, 9, 0);
+    inputLayout->addWidget(mSolverType, 9, 1);
   }
   pageLayout->addWidget(mInputWidget);
 
@@ -107,15 +126,10 @@ void Window::createWindow() {
     auto &engine = Engine::getInstance();
 
     // add command for engine to run
-    QObject::connect(this, &Window::runCommand, &engine, &Engine::addCommand);
-
+    QObject::connect(this, &Window::runCommand, &engine, &Engine::runCommand);
     // collect inputs to run matlab
     QObject::connect(mButton, &QPushButton::clicked, this, [&]() {
-      Engine::concernedOneMomentInput in;
-
-      in.number_of_trucks = mNumberOfTrucks->text().toInt();
-      in.truck_position_increment = mTruckPositionIncrement->text().toDouble();
-      in.headway = mHeadway->text().toInt();
+      MockCalculationInputT in;
 
       double temp;
       std::vector<double> tempVec;
@@ -123,19 +137,43 @@ void Window::createWindow() {
       while (tempStream >> temp) {
         tempVec.push_back(temp);
       }
-      in.axle_load = tempVec;
-
+      in.truckConfig.axleLoad = tempVec;
       tempVec.clear();
       tempStream = std::stringstream(mAxleSpacing->text().toStdString());
       while (tempStream >> temp) {
         tempVec.push_back(temp);
       }
-      in.axle_spacing = tempVec;
+      in.truckConfig.axleSpacing = tempVec;
+      in.truckConfig.numberOfTrucks = mNumberOfTrucks->text().toInt();
+      in.truckConfig.headway = mHeadway->text().toDouble();
 
-      in.span_length = mSpanLength->text().toInt();
-      in.concerned_section = mConcernedSection->text().toInt();
+      in.bridgeConfig.numberSpans = mNumberSpans->text().toInt();
+      tempVec.clear();
+      tempStream = std::stringstream(mSpanLength->text().toStdString());
+      while (tempStream >> temp) {
+        tempVec.push_back(temp);
+      }
+      in.bridgeConfig.spanLength = tempVec;
+      in.bridgeConfig.concernedSection = mConcernedSection->text().toDouble();
+      in.bridgeConfig.discretizationLength =
+          mDiscretizationLength->text().toDouble();
 
-      emit runCommand(in);
+      if (mForceType->text() == "positive") {
+        in.solverConfig.forceType = MockSolverT::POSITIVE_MOMENT;
+      } else if (mForceType->text() == "negative") {
+        in.solverConfig.forceType = MockSolverT::NEGATIVE_MOMENT;
+      } else if (mForceType->text() == "shear") {
+        in.solverConfig.forceType = MockSolverT::SHEAR;
+      }
+
+      if (mSolverType->text() == "concerned") {
+        in.solverConfig.solverType = MockSolverT::CONCERNED;
+      } else if (mSolverType->text() == "critical") {
+        in.solverConfig.solverType = MockSolverT::CRITICAL;
+      }
+
+      mButton->setDisabled(true);
+      emit Window::runCommand(in);
     });
 
     // enable calculate button as soon as matlab is ready to go
@@ -144,31 +182,71 @@ void Window::createWindow() {
 
     // draw chart after command finished
     QObject::connect(
-        &engine,
-        qOverload<Engine::concernedOneMomentReturn>(&Engine::finishedCommand),
-        this, [&](Engine::concernedOneMomentReturn ret) {
-          std::vector<double> x_vals;
-          for (int i = 0; i < ret.moment.size(); i++) {
-            x_vals.push_back(i * ret.input.truck_position_increment);
+        &engine, &Engine::finishedCommand, this,
+        [&](MockCalculationInputT in, MockCalculationOutputT out) {
+          std::vector<double> x_vals = std::move(out.firstAxlePosition);
+          std::vector<double> y_vals;
+          if (in.solverConfig.solverType == MockSolverT::CONCERNED) {
+            y_vals = std::move(out.forceConcernedSection);
+          } else {
+            y_vals = std::move(out.forceCriticalSection);
           }
-          std::vector<double> y_vals = ret.moment;
+
           mSeries = new QLineSeries(mChart);
-          for (int i = 0; i < x_vals.size(); i++) {
-            mSeries->append(x_vals[i], y_vals[i]);
+          for (int i = 0; i < x_vals.size(); i++)
+          {
+            mSeries->append(QPointF(x_vals[i], y_vals[i]));
           }
+
           mChart->removeAllSeries();
+          for (auto &axis : mChart->axes()) {
+            mChart->removeAxis(axis);
+          }
           mChart->addSeries(mSeries);
-          mChart->setTitle(QString("Concerned section moment at %1 meters")
-                               .arg(ret.input.concerned_section));
+          QString force;
+          if (in.solverConfig.forceType == MockSolverT::POSITIVE_MOMENT) {
+            force = "Positive Moment";
+          } else if (in.solverConfig.forceType ==
+                     MockSolverT::NEGATIVE_MOMENT) {
+            force = "Negative Moment";
+          } else {
+            force = "Shear";
+          }
+
+          double position;
+          if (in.solverConfig.solverType == MockSolverT::CONCERNED) {
+            position = in.bridgeConfig.concernedSection;
+          } else {
+            position = out.criticalSection;
+          }
+
+          mChart->setTitle(QString("%1 at %2 meters").arg(force).arg(position));
           mChart->createDefaultAxes();
-          mChart->axes(Qt::Vertical).first()->setReverse(true);
           mChart->axes(Qt::Vertical)
               .first()
-              ->setTitleText(QString("Moment at Concerned Section (kNm)"));
+              ->setTitleText(
+                  QString("%1 at %2 Section (kNm)")
+                      .arg(force)
+                      .arg(in.solverConfig.solverType == MockSolverT::CONCERNED
+                               ? "Concerned"
+                               : "Critical"));
           mChart->axes(Qt::Horizontal)
               .first()
               ->setTitleText(QString("First Axle Position (m)"));
-          update();
+
+          mChart->axes(Qt::Horizontal).first()->setMin(x_vals.front());
+          mChart->axes(Qt::Horizontal).first()->setMax(x_vals.back());
+
+          mChart->axes(Qt::Vertical)
+              .first()
+              ->setMin(*std::min_element(y_vals.begin(), y_vals.end()));
+          mChart->axes(Qt::Vertical)
+              .first()
+              ->setMax(*std::max_element(y_vals.begin(), y_vals.end()));
+
+          mChartView->setChart(mChart);
+
+          mButton->setDisabled(false);
         });
 
     QObject::connect(&engine, &Engine::errorOccurred, this,
