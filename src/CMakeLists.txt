@@ -6,6 +6,7 @@ add_subdirectory("engine")
 add_subdirectory("gui")
 add_subdirectory("matlab")
 add_subdirectory("report")
+add_subdirectory("solver")
 
 target_link_libraries(MTOBridge
         PUBLIC
@@ -17,6 +18,8 @@ target_link_libraries(MTOBridge
         gui
         matlab
         report
+        solver
+        solverVisual
 )
 
 add_custom_command(
