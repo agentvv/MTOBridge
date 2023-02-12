@@ -2,19 +2,11 @@
 #include "loader.h"
 #include "./ui_saver.h"
 #include <QDebug>
-
-saver::saver(QWidget *parent)
-    : QWidget(parent)
-    , ui(new Ui::saver)
-{
-    ui->setupUi(this);
-
-}
-
+namespace mtobridge{
 
 void saver::savePlatoonConfiguration(mtobridge::MockTruckT PlatoonT)
 {
-    QString fileName = QFileDialog::getSaveFileName(this,
+    QString fileName = QFileDialog::getSaveFileName(nullptr,
         tr("Save Truck Configuration"), "",
         tr("MTOBridge (*.trk);;All Files (*)"));
 
@@ -24,7 +16,7 @@ void saver::savePlatoonConfiguration(mtobridge::MockTruckT PlatoonT)
     else {
         QFile file(fileName);
         if (!file.open(QIODevice::WriteOnly)) {
-            QMessageBox::information(this, tr("Unable to open file"),
+            QMessageBox::information(nullptr, tr("Unable to open file"),
                 file.errorString());
             return;
         }
@@ -53,7 +45,7 @@ void saver::savePlatoonConfiguration(mtobridge::MockTruckT PlatoonT)
 
 void saver::saveBridgeConfiguration(mtobridge::MockBridgeT BridgeT)
 {
-    QString fileName = QFileDialog::getSaveFileName(this,
+    QString fileName = QFileDialog::getSaveFileName(nullptr,
         tr("Save Bridge Configuration"), "",
         tr("MTOBridge (*.brg);;All Files (*)"));
 
@@ -63,7 +55,7 @@ void saver::saveBridgeConfiguration(mtobridge::MockBridgeT BridgeT)
     else {
         QFile file(fileName);
         if (!file.open(QIODevice::WriteOnly)) {
-            QMessageBox::information(this, tr("Unable to open file"),
+            QMessageBox::information(nullptr, tr("Unable to open file"),
                 file.errorString());
             return;
         }
@@ -86,7 +78,7 @@ void saver::saveBridgeConfiguration(mtobridge::MockBridgeT BridgeT)
 
 void saver::saveSolverConfiguration(mtobridge::MockSolverT SolverT)
 {
-    QString fileName = QFileDialog::getSaveFileName(this,
+    QString fileName = QFileDialog::getSaveFileName(nullptr,
         tr("Save Solver Configuration"), "",
         tr("MTOBridge (*.slv);;All Files (*)"));
 
@@ -96,7 +88,7 @@ void saver::saveSolverConfiguration(mtobridge::MockSolverT SolverT)
     else {
         QFile file(fileName);
         if (!file.open(QIODevice::WriteOnly)) {
-            QMessageBox::information(this, tr("Unable to open file"),
+            QMessageBox::information(nullptr, tr("Unable to open file"),
                 file.errorString());
             return;
         }
@@ -131,7 +123,7 @@ void saver::saveSolverConfiguration(mtobridge::MockSolverT SolverT)
 
 void saver::saveReport(mtobridge::MockReportT ReportT)
 {
-    QString fileName = QFileDialog::getSaveFileName(this,
+    QString fileName = QFileDialog::getSaveFileName(nullptr,
         tr("Save Solver Configuration"), "",
         tr("MTOBridge (*.txt);;All Files (*)"));
 
@@ -141,7 +133,7 @@ void saver::saveReport(mtobridge::MockReportT ReportT)
     else {
         QFile file(fileName);
         if (!file.open(QIODevice::WriteOnly)) {
-            QMessageBox::information(this, tr("Unable to open file"),
+            QMessageBox::information(nullptr, tr("Unable to open file"),
                 file.errorString());
             return;
         }
@@ -242,74 +234,4 @@ void saver::saveReport(mtobridge::MockReportT ReportT)
     }
 }
 
-
-saver::~saver()
-{
-    delete ui;
 }
-
-
-void saver::on_saveTruck_clicked()
-{
-    mtobridge::MockTruckT temp;
-    temp.axleLoad={1,2};
-    temp.axleSpacing={1,2};
-    temp.headway=4;
-    temp.numberOfTrucks=2;
-
-    savePlatoonConfiguration(temp);
-}
-
-
-void saver::on_loadTruck_clicked()
-{
-    loader l;
-    mtobridge::MockTruckT temptruck = l.loadPlatoonConfiguration();
-
-}
-
-
-
-void saver::on_loadBridge_clicked()
-{
-    loader l;
-    mtobridge::MockBridgeT tempbridge = l.loadBridgeConfiguration();
-}
-
-
-void saver::on_saveBridge_clicked()
-{
-    mtobridge::MockBridgeT temp;
-    temp.numberSpans=2;
-    temp.spanLength={1,2};
-    temp.concernedSection=4;
-    temp.discretizationLength=2;
-
-    saveBridgeConfiguration(temp);
-
-}
-
-
-void saver::on_loadSolver_clicked()
-{
-    loader l;
-    mtobridge::MockSolverT tempsolver = l.loadSolverConfiguration();
-}
-
-
-void saver::on_saveSolver_clicked()
-{
-    mtobridge::MockSolverT temp;
-    temp.forceType=mtobridge::MockSolverT::POSITIVE_MOMENT;
-    temp.solverType=mtobridge::MockSolverT::CONCERNED;
-
-    saveSolverConfiguration(temp);
-}
-
-
-void saver::on_saveReport_clicked()
-{
-
-
-}
-

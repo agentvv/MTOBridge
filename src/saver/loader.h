@@ -8,12 +8,12 @@
 #include <QFileDialog>
 #include "report_mocks.hpp"
 
-
+namespace mtobridge{
 class loader : public QWidget
 {
     Q_OBJECT
 public:
-    explicit loader(QWidget *parent = nullptr);
+
 
     mtobridge::MockTruckT loadPlatoonConfiguration();
     mtobridge::MockBridgeT loadBridgeConfiguration();
@@ -26,5 +26,5 @@ public slots:
 signals:
 
 };
-
+}
 #endif // LOADER_H

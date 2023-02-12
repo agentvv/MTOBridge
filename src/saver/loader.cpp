@@ -1,16 +1,11 @@
 #include "loader.h"
-#include "saver.h"
 
-loader::loader(QWidget *parent)
-    : QWidget{parent}
-{
-
-}
+namespace mtobridge{
 
 mtobridge::MockTruckT loader::loadPlatoonConfiguration()
 {
     mtobridge::MockTruckT temptruck;
-    QString fileName = QFileDialog::getOpenFileName(this,
+    QString fileName = QFileDialog::getOpenFileName(nullptr,
         tr("Load Truck Configuration"), "",
         tr("MTOBridge (*.trk);;All Files (*)"));
 //! [loadFromFile() function part1]
@@ -23,7 +18,7 @@ mtobridge::MockTruckT loader::loadPlatoonConfiguration()
         QFile file(fileName);
 
         if (!file.open(QIODevice::ReadOnly)) {
-            QMessageBox::information(this, tr("Unable to open file"),
+            QMessageBox::information(nullptr, tr("Unable to open file"),
                 file.errorString());
             return temptruck;
         }
@@ -39,7 +34,7 @@ mtobridge::MockTruckT loader::loadPlatoonConfiguration()
 
 
         if (temp.isEmpty()) {
-            QMessageBox::information(this, tr("Nothing in file"),
+            QMessageBox::information(nullptr, tr("Nothing in file"),
                 tr("The file you are attempting to open contains nothing."));
         }
 
@@ -69,7 +64,7 @@ mtobridge::MockBridgeT loader::loadBridgeConfiguration()
 {
     mtobridge::MockBridgeT tempbridge;
 
-    QString fileName = QFileDialog::getOpenFileName(this,
+    QString fileName = QFileDialog::getOpenFileName(nullptr,
         tr("Load Bridge Configuration"), "",
         tr("MTOBridge (*.brg);;All Files (*)"));
 //! [loadFromFile() function part1]
@@ -82,7 +77,7 @@ mtobridge::MockBridgeT loader::loadBridgeConfiguration()
         QFile file(fileName);
 
         if (!file.open(QIODevice::ReadOnly)) {
-            QMessageBox::information(this, tr("Unable to open file"),
+            QMessageBox::information(nullptr, tr("Unable to open file"),
                 file.errorString());
             return tempbridge;
         }
@@ -98,7 +93,7 @@ mtobridge::MockBridgeT loader::loadBridgeConfiguration()
 
 
         if (temp.isEmpty()) {
-            QMessageBox::information(this, tr("Nothing in file"),
+            QMessageBox::information(nullptr, tr("Nothing in file"),
                 tr("The file you are attempting to open contains nothing."));
         }
 
@@ -122,7 +117,7 @@ mtobridge::MockSolverT loader::loadSolverConfiguration()
 {
     mtobridge::MockSolverT tempsolver;
 
-    QString fileName = QFileDialog::getOpenFileName(this,
+    QString fileName = QFileDialog::getOpenFileName(nullptr,
         tr("Load Bridge Configuration"), "",
         tr("MTOBridge (*.slv);;All Files (*)"));
 //! [loadFromFile() function part1]
@@ -135,7 +130,7 @@ mtobridge::MockSolverT loader::loadSolverConfiguration()
         QFile file(fileName);
 
         if (!file.open(QIODevice::ReadOnly)) {
-            QMessageBox::information(this, tr("Unable to open file"),
+            QMessageBox::information(nullptr, tr("Unable to open file"),
                 file.errorString());
             return tempsolver;
         }
@@ -165,4 +160,5 @@ mtobridge::MockSolverT loader::loadSolverConfiguration()
 
     }
     return tempsolver;
+}
 }
