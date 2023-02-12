@@ -7,6 +7,7 @@ add_subdirectory("gui")
 add_subdirectory("matlab")
 add_subdirectory("report")
 add_subdirectory("solver")
+add_subdirectory("saver")
 
 target_link_libraries(MTOBridge
         PUBLIC
@@ -20,6 +21,7 @@ target_link_libraries(MTOBridge
         report
         solver
         solverVisual
+        saver
 )
 
 add_custom_command(

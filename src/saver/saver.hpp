@@ -9,21 +9,15 @@
 #include "report_mocks.hpp"
 
 namespace mtobridge{
-class saver : public QWidget
+class saver 
 {
-    Q_OBJECT
-
 public:
-    saver(QWidget *parent = nullptr);
-    ~saver();
 
     static void savePlatoonConfiguration(mtobridge::MockTruckT PlatoonT);
     static void saveBridgeConfiguration(mtobridge::MockBridgeT BridgeT);
     static void saveSolverConfiguration(mtobridge::MockSolverT SolverT);
     static void saveReport(mtobridge::MockReportT ReportT);
 
-
-private slots:
 
 };
 }

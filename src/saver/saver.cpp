@@ -1,14 +1,13 @@
-#include "saver.h"
-#include "loader.h"
-#include "./ui_saver.h"
-#include <QDebug>
+#include "saver.hpp"
+
+
 namespace mtobridge{
 
 void saver::savePlatoonConfiguration(mtobridge::MockTruckT PlatoonT)
 {
     QString fileName = QFileDialog::getSaveFileName(nullptr,
-        tr("Save Truck Configuration"), "",
-        tr("MTOBridge (*.trk);;All Files (*)"));
+        "Save Truck Configuration", "",
+        "MTOBridge (*.trk);;All Files (*)");
 
 
     if (fileName.isEmpty())
@@ -16,7 +15,7 @@ void saver::savePlatoonConfiguration(mtobridge::MockTruckT PlatoonT)
     else {
         QFile file(fileName);
         if (!file.open(QIODevice::WriteOnly)) {
-            QMessageBox::information(nullptr, tr("Unable to open file"),
+            QMessageBox::information(nullptr, "Unable to open file",
                 file.errorString());
             return;
         }
@@ -46,8 +45,8 @@ void saver::savePlatoonConfiguration(mtobridge::MockTruckT PlatoonT)
 void saver::saveBridgeConfiguration(mtobridge::MockBridgeT BridgeT)
 {
     QString fileName = QFileDialog::getSaveFileName(nullptr,
-        tr("Save Bridge Configuration"), "",
-        tr("MTOBridge (*.brg);;All Files (*)"));
+        "Save Bridge Configuration", "",
+        "MTOBridge (*.brg);;All Files (*)");
 
 
     if (fileName.isEmpty())
@@ -55,7 +54,7 @@ void saver::saveBridgeConfiguration(mtobridge::MockBridgeT BridgeT)
     else {
         QFile file(fileName);
         if (!file.open(QIODevice::WriteOnly)) {
-            QMessageBox::information(nullptr, tr("Unable to open file"),
+            QMessageBox::information(nullptr, "Unable to open file",
                 file.errorString());
             return;
         }
@@ -79,8 +78,8 @@ void saver::saveBridgeConfiguration(mtobridge::MockBridgeT BridgeT)
 void saver::saveSolverConfiguration(mtobridge::MockSolverT SolverT)
 {
     QString fileName = QFileDialog::getSaveFileName(nullptr,
-        tr("Save Solver Configuration"), "",
-        tr("MTOBridge (*.slv);;All Files (*)"));
+        "Save Solver Configuration", "",
+        "MTOBridge (*.slv);;All Files (*)");
 
 
     if (fileName.isEmpty())
@@ -88,7 +87,7 @@ void saver::saveSolverConfiguration(mtobridge::MockSolverT SolverT)
     else {
         QFile file(fileName);
         if (!file.open(QIODevice::WriteOnly)) {
-            QMessageBox::information(nullptr, tr("Unable to open file"),
+            QMessageBox::information(nullptr, "Unable to open file",
                 file.errorString());
             return;
         }
@@ -124,8 +123,8 @@ void saver::saveSolverConfiguration(mtobridge::MockSolverT SolverT)
 void saver::saveReport(mtobridge::MockReportT ReportT)
 {
     QString fileName = QFileDialog::getSaveFileName(nullptr,
-        tr("Save Solver Configuration"), "",
-        tr("MTOBridge (*.txt);;All Files (*)"));
+        "Save Solver Configuration", "",
+        "MTOBridge (*.txt);;All Files (*)");
 
 
     if (fileName.isEmpty())
@@ -133,7 +132,7 @@ void saver::saveReport(mtobridge::MockReportT ReportT)
     else {
         QFile file(fileName);
         if (!file.open(QIODevice::WriteOnly)) {
-            QMessageBox::information(nullptr, tr("Unable to open file"),
+            QMessageBox::information(nullptr, "Unable to open file",
                 file.errorString());
             return;
         }
