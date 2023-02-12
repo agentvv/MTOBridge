@@ -4,6 +4,8 @@
 #include <QtCharts>
 #include <QtWidgets>
 
+#include "../report/report_mocks.hpp"
+
 
 namespace mtobridge {
 class SolverVisual : public QWidget {
@@ -14,6 +16,10 @@ class SolverVisual : public QWidget {
 		~SolverVisual();
 
 		void visualize();
+
+	signals:
+		void runCommand(MockCalculationInputT);
+		//void saveConfig(MockSolverT);
 
 	public slots:
 		void errorOccurred(QString);
@@ -28,6 +34,9 @@ class SolverVisual : public QWidget {
 		//QPushButton* saveButton;
 		//QPushButton* loadButton;
 		//Truck + bridge window
+
+		QChart* mChart;
+		QChartView* mChartView;
 
 		void createPage();
 };

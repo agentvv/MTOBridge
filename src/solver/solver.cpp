@@ -14,7 +14,7 @@ namespace mtobridge {
 		else if (Solver::force == ForceType(SHEAR)) {
 			return("Shear");
 		}
-		return NULL;
+		return "";
 	}
 
 	std::string Solver::getSolverType() {
@@ -24,7 +24,7 @@ namespace mtobridge {
 		else if (Solver::solver == SolverType(CRITICAL)) {
 			return("Critical Section");
 		}
-		return NULL;
+		return "";
 	}
 
 	void Solver::updateForceType(std::string forceStr) {
