@@ -1,24 +1,20 @@
-#ifndef LOADER_H
-#define LOADER_H
+#pragma once
 
 #include <QWidget>
 #include <QObject>
 #include <QFile>
 #include <QMessageBox>
 #include <QFileDialog>
-#include "report_mocks.hpp"
+#include "../report/report_mocks.hpp"
 
 namespace mtobridge{
 class loader
 {
     
 public:
-
-
-    mtobridge::MockTruckT loadPlatoonConfiguration();
-    mtobridge::MockBridgeT loadBridgeConfiguration();
-    mtobridge::MockSolverT loadSolverConfiguration();
-
+    static mtobridge::MockTruckT loadPlatoonConfiguration();
+    static mtobridge::MockBridgeT loadBridgeConfiguration();
+    static mtobridge::MockSolverT loadSolverConfiguration();
 };
 }
-#endif // LOADER_H
+

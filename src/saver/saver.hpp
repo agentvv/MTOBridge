@@ -1,5 +1,4 @@
-#ifndef SAVER_H
-#define SAVER_H
+#pragma once
 
 #include <QWidget>
 #include <QObject>
@@ -21,4 +20,3 @@ public:
 
 };
 }
-#endif // SAVER_H
