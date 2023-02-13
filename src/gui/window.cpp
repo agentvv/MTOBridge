@@ -6,6 +6,10 @@
 
 #include "../engine/engine.hpp"
 
+//Integrate 
+#include "../bridge/bridgeconfig.hpp"
+#include <QMessageBox>
+
 namespace mtobridge {
 Window::Window(QWidget *parent) : QWidget(parent) {
   setWindowTitle("MTOBridge");
@@ -94,7 +98,7 @@ void Window::createWindow() {
     inputLayout->addWidget(mSolverType, 9, 1);
   }
   pageLayout->addWidget(mInputWidget);
-
+  
   // set up chart and calculate button
   {
     auto *chartLayout = new QGridLayout();
@@ -121,12 +125,88 @@ void Window::createWindow() {
   pageLayout->addWidget(mChartWidget);
   mTabWidget->addTab(mPage, "Main");
 
+  // Integration
+  //// bridge tab
+  bridgePage = new QWidget(mTabWidget);
+  bridgePage->setSizePolicy(QSizePolicy(QSizePolicy::Policy::Expanding,
+                                   QSizePolicy::Policy::Expanding));
+  auto *bridgePageLayout = new QVBoxLayout();
+  bridgePage->setLayout(bridgePageLayout);
+
+  // bridge input section
+  {
+    auto *bridgeInputLayout = new QGridLayout();
+    bridgeInputWidget = new QWidget(bridgePage);
+    bridgeInputWidget->setSizePolicy(QSizePolicy(
+        QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Expanding));
+    bridgeInputWidget->setLayout(bridgeInputLayout);
+
+    bridgeInputLayout->addWidget(mNumberSpansLabel, 4, 0);
+    bridgeInputLayout->addWidget(mNumberSpans, 4, 1);
+    bridgeInputLayout->addWidget(mSpanLengthLabel, 5, 0);
+    bridgeInputLayout->addWidget(mSpanLength, 5, 1);
+    bridgeInputLayout->addWidget(mConcernedSectionLabel, 6, 0);
+    bridgeInputLayout->addWidget(mConcernedSection, 6, 1);
+    bridgeInputLayout->addWidget(mDiscretizationLengthLabel, 7, 0);
+    bridgeInputLayout->addWidget(mDiscretizationLength, 7, 1);
+  }
+  bridgePageLayout->addWidget(bridgeInputWidget);
+
+  // bridge visualizer
+  auto *visualizerLayout = new QGridLayout();
+  mVisualizerWidget = new QWidget(bridgePage);
+  mVisualizerWidget->setSizePolicy(QSizePolicy(QSizePolicy::Policy::Expanding,
+                                               QSizePolicy::Policy::Expanding));
+
+  mVisualizerWidget->setLayout(visualizerLayout);
+
+  mVisualizerView = new QGraphicsView(mVisualizerWidget);
+  scene = new QGraphicsScene(bridgePage);
+  mVisualizerView->setScene(scene);
+  visualizerLayout->addWidget(mVisualizerView, 0, 0);
+
+  previewButton = new QPushButton("Preview", bridgePage);
+  visualizerLayout->addWidget(previewButton, 1, 0);
+
+  bridgePageLayout->addWidget(mVisualizerWidget);
+  mTabWidget->addTab(bridgePage, "Bridge");
   // connect window to engine for running commands and drawing chart
   {
     auto &engine = Engine::getInstance();
 
     // add command for engine to run
     QObject::connect(this, &Window::runCommand, &engine, &Engine::runCommand);
+
+    //Integrate
+    QObject::connect(previewButton, &QPushButton::clicked, this, [&]() {
+      // QMessageBox::about(this, "Title", "Button Clicked");
+      scene->clear();
+      BridgeConfiguration configBridgeObject = BridgeConfiguration(mNumberSpans->text(), mConcernedSection->text(),
+                                                             mSpanLength->text(), mDiscretizationLength->text());
+      BridgeT configBridge = configBridgeObject.getConfiguration();
+
+      QBrush grayBrush(Qt::gray);
+      QPen blackpen(Qt::black);
+      blackpen.setWidthF(1);
+      QPen redpen(Qt::red);
+      redpen.setWidthF(0.1);
+
+      double bridgeLength = 0;
+      int scale = 10;
+      for (int i=0; i < configBridge.numberSpans; i++){
+        if (bridgeLength != 0) {
+          scene->addRect(bridgeLength * scale, 20, 5, 30, blackpen, grayBrush);  // Indicating the spans
+        }
+        bridgeLength += configBridge.spanLength[i];
+      }
+      bridgeRect = scene->addRect(0, 0, bridgeLength * scale, 20, blackpen, grayBrush);
+      for (double i = configBridge.discretizationLength * scale;
+           i < bridgeLength * scale;
+           i = i + configBridge.discretizationLength * scale) {
+        scene->addLine(i, 0, i, 20, redpen);
+      }
+    });
+
     // collect inputs to run matlab
     QObject::connect(mButton, &QPushButton::clicked, this, [&]() {
       MockCalculationInputT in;

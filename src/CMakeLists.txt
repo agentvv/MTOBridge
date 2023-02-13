@@ -9,6 +9,7 @@ add_subdirectory("report")
 add_subdirectory("solver")
 add_subdirectory("saver")
 add_subdirectory("PlatoonConfiguration")
+add_subdirectory("bridge")
 
 target_link_libraries(MTOBridge
         PUBLIC
@@ -24,6 +25,7 @@ target_link_libraries(MTOBridge
         solverVisual
         saver
         PlatoonConfiguration
+	  bridge
 )
 
 add_custom_command(
