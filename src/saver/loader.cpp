@@ -136,12 +136,11 @@ mtobridge::MockSolverT loader::loadSolverConfiguration()
         }
 
         QString temp;
-        QDataStream in(&file);
-        in.setVersion(QDataStream::Qt_4_5);
+        QTextStream in(&file);
 
 //! [loadFromFile() function part3]
 
-        in >> temp;
+        temp = in.readAll();
         QList<QString> strList = temp.split("\n", Qt::SkipEmptyParts);
 
 

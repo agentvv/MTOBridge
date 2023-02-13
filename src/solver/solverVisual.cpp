@@ -2,6 +2,7 @@
 #include "solverVisual.hpp"
 #include "../engine/engine.hpp"
 #include "../saver/saver.hpp"
+#include "../saver/loader.hpp"
 
 namespace mtobridge {
 SolverVisual::SolverVisual(QTabWidget* parent) : QWidget(parent) {
@@ -66,7 +67,6 @@ void SolverVisual::createPage() {
     QVBoxLayout* saveLoadBox = new QVBoxLayout;
     this->saveLoadGroup->setLayout(saveLoadBox);
     QPushButton* saveButton = new QPushButton("Save Solver Configuration", this);
-
     QObject::connect(saveButton, &QPushButton::clicked, this, [&]() {
         MockSolverT config;
         if (Solver::getForceType() == "Positive Moment") {
@@ -91,9 +91,28 @@ void SolverVisual::createPage() {
 
     saveLoadBox->addWidget(saveButton);
     QPushButton* loadButton = new QPushButton("Load Solver Configuration", this);
+    
     QObject::connect(loadButton, &QPushButton::clicked, this, [&]() {
-        //load from file
+        MockSolverT config = loader::loadSolverConfiguration();
+        if (config.forceType == MockSolverT::POSITIVE_MOMENT) {
+            Solver::updateForceType("Positive Moment");
+        }
+        else if (config.forceType == MockSolverT::NEGATIVE_MOMENT) {
+            Solver::updateForceType("Negative Moment");
+        }
+        else if (config.forceType == MockSolverT::SHEAR) {
+            Solver::updateForceType("Shear");
+        }
+
+        if (config.solverType == MockSolverT::CONCERNED) {
+            Solver::updateSolverType("Concerned Section");
+        }
+        else if (config.solverType == MockSolverT::CRITICAL) {
+            Solver::updateSolverType("Critical Section");
+        }
+        updatePage();
         });
+        
     saveLoadBox->addWidget(loadButton);
     saveLoadBox->addStretch(1);
     this->saveLoadGroup->setFixedHeight(100);
@@ -102,18 +121,18 @@ void SolverVisual::createPage() {
     inputLayout->addWidget(this->forceSettingGroup);
     QVBoxLayout* forceBox = new QVBoxLayout;
     this->forceSettingGroup->setLayout(forceBox);
-    QRadioButton* positiveMomentButton = new QRadioButton("Positive Moment");
+    positiveMomentButton = new QRadioButton("Positive Moment");
     positiveMomentButton->setChecked(true);
     QObject::connect(positiveMomentButton, &QPushButton::clicked, this, [&]() {
         Solver::updateForceType("Positive Moment");
         });
     forceBox->addWidget(positiveMomentButton);
-    QRadioButton* negativeMomentButton = new QRadioButton("Negative Moment");
+    negativeMomentButton = new QRadioButton("Negative Moment");
     QObject::connect(negativeMomentButton, &QPushButton::clicked, this, [&]() {
         Solver::updateForceType("Negative Moment");
         });
     forceBox->addWidget(negativeMomentButton);
-    QRadioButton* shearButton = new QRadioButton("Shear");
+    shearButton = new QRadioButton("Shear");
     QObject::connect(shearButton, &QPushButton::clicked, this, [&]() {
         Solver::updateForceType("Shear");
         });
@@ -125,13 +144,13 @@ void SolverVisual::createPage() {
     inputLayout->addWidget(this->solverSettingGroup);
     QVBoxLayout* solverBox = new QVBoxLayout;
     this->solverSettingGroup->setLayout(solverBox);
-    QRadioButton* concernedButton = new QRadioButton("Concerned Section");
+    concernedButton = new QRadioButton("Concerned Section");
     concernedButton->setChecked(true);
     QObject::connect(concernedButton, &QPushButton::clicked, this, [&]() {
         Solver::updateSolverType("Concerned Section");
         });
     solverBox->addWidget(concernedButton);
-    QRadioButton* criticalButton = new QRadioButton("Critical Section");
+    criticalButton = new QRadioButton("Critical Section");
     QObject::connect(criticalButton, &QPushButton::clicked, this, [&]() {
         Solver::updateSolverType("Critical Section");
         });
@@ -268,5 +287,31 @@ void SolverVisual::createPage() {
         this->calculateButton->setText("Run Analysis");
         this->calculateButton->setDisabled(false);
         });
+}
+
+
+void SolverVisual::updatePage() {
+    positiveMomentButton->setChecked(false);
+    negativeMomentButton->setChecked(false);
+    shearButton->setChecked(false);
+    concernedButton->setChecked(false);
+    criticalButton->setChecked(false);
+
+    if (Solver::getForceType() == "Positive Moment") {
+        positiveMomentButton->setChecked(true);
+    }
+    else if (Solver::getForceType() == "Negative Moment") {
+        negativeMomentButton->setChecked(true);
+    }
+    else if (Solver::getForceType() == "Shear") {
+        shearButton->setChecked(true);
+    }
+
+    if (Solver::getSolverType() == "Concerned Section") {
+        concernedButton->setChecked(true);
+    }
+    else if (Solver::getSolverType() == "Critical Section") {
+        criticalButton->setChecked(true);
+    }
 }
 };  // namespace mtobridge

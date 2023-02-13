@@ -34,9 +34,16 @@ class SolverVisual : public QWidget {
 		//QPushButton* loadButton;
 		//Truck + bridge window
 
+		QRadioButton* positiveMomentButton;
+		QRadioButton* negativeMomentButton;
+		QRadioButton* shearButton;
+		QRadioButton* concernedButton;
+		QRadioButton* criticalButton;
+
 		QChart* mChart;
 		QChartView* mChartView;
 
 		void createPage();
+		void updatePage();
 };
 };  // namespace mtobridge
