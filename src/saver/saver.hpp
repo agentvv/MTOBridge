@@ -6,6 +6,7 @@
 #include <QMessageBox>
 #include <QFileDialog>
 #include "../report/report.hpp"
+#include "../bridge/bridgeconfig.hpp"
 
 namespace mtobridge{
 class saver 
