@@ -4,6 +4,7 @@
 #include <QtWidgets>
 #include <QtGui>
 #include "../engine/engine.hpp"
+#include "../bridge/bridgeconfig.hpp"
 
 namespace mtobridge {
 class Window : public QWidget {
@@ -67,5 +68,6 @@ class Window : public QWidget {
   QWidget *bridgeIOWidget;
   QPushButton *saveButton;
   QPushButton *loadButton;
+  BridgeConfiguration *bridgeConfiguration;
 };
 };  // namespace mtobridge

@@ -3,16 +3,24 @@
 using namespace std;
 
 namespace mtobridge {
-BridgeConfiguration::BridgeConfiguration() {}
-BridgeConfiguration::BridgeConfiguration(QString NumberOfSpans,
-                                         QString ConcernedSection,
-                                         QString SpanLength,
-                                         QString DiscretizationLength) {
-  this->config.numberSpans = NumberOfSpans.toInt();
-  this->config.spanLength = convertQstringToDoubleVector(SpanLength);
-  this->config.concernedSection = ConcernedSection.toDouble();
-  this->config.discretizationLength = DiscretizationLength.toDouble();
-}
+//BridgeConfiguration::BridgeConfiguration() {}
+//BridgeConfiguration::BridgeConfiguration(QString NumberOfSpans,
+//                                         QString ConcernedSection,
+//                                         QString SpanLength,
+//                                         QString DiscretizationLength) {
+//  this->config.numberSpans = NumberOfSpans.toInt();
+//  this->config.spanLength = convertQstringToDoubleVector(SpanLength);
+//  this->config.concernedSection = ConcernedSection.toDouble();
+//  this->config.discretizationLength = DiscretizationLength.toDouble();
+//}
+int defaultSpanNumber = 2;
+std::vector<double> defaultSpanLength{20, 20};
+double defualtConcernedSection = 10;
+double defualtDiscretizationLength = 0.1;
+BridgeT BridgeConfiguration::config = {defaultSpanNumber, defaultSpanLength,
+                                       defualtConcernedSection,defualtDiscretizationLength}; 
+
+
 vector<double> BridgeConfiguration::convertQstringToDoubleVector(QString qstring) {
    vector<double> numbers{};
    istringstream f(qstring.toStdString());
@@ -24,18 +32,22 @@ vector<double> BridgeConfiguration::convertQstringToDoubleVector(QString qstring
    return numbers;
 }
 BridgeT BridgeConfiguration::getConfiguration() {
-  return this->config;
+   return BridgeConfiguration::config;
 }
 
 void BridgeConfiguration::updateNumberOfSpans(QString newNumberOfSpans) {
-  this->config.numberSpans = newNumberOfSpans.toInt();
+   BridgeConfiguration::config.numberSpans = newNumberOfSpans.toInt();
+}
+
+void BridgeConfiguration::updateSpanLength(QString SpanLength) {
+  BridgeConfiguration::config.spanLength = convertQstringToDoubleVector(SpanLength);
 }
 
 void BridgeConfiguration::updateConcernedSection(QString newConcernedSection) {
-  this->config.concernedSection = newConcernedSection.toDouble();
+  BridgeConfiguration::config.concernedSection = newConcernedSection.toDouble();
 }
 
 void BridgeConfiguration::updateDiscretizationLength(QString newDiscretizationLength) {
-  this->config.discretizationLength = newDiscretizationLength.toDouble();
+  BridgeConfiguration::config.discretizationLength = newDiscretizationLength.toDouble();
 }
 }  // namespace mtobridge

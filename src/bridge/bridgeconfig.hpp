@@ -11,18 +11,19 @@ struct BridgeT {
 };
 class BridgeConfiguration {
  private:
-    BridgeT config;
+    static BridgeT config;
 
  public:
-    BridgeConfiguration();
+    /*BridgeConfiguration();
     BridgeConfiguration(QString NumberOfSpans, QString ConcernedSection,
-                        QString SpanLength, QString DiscretizationLength);
-    BridgeT getConfiguration();
-    void updateNumberOfSpans(QString newNumberOfSpans);
-    void updateConcernedSection(QString newConcernedSection);
-    void updateDiscretizationLength(QString newDiscretizationLength);
+                        QString SpanLength, QString DiscretizationLength);*/
+    static BridgeT getConfiguration();
+    static void updateNumberOfSpans(QString newNumberOfSpans);
+    static void updateSpanLength(QString SpanLength);
+    static void updateConcernedSection(QString newConcernedSection);
+    static void updateDiscretizationLength(QString newDiscretizationLength);
 
  private:
-    std::vector<double> convertQstringToDoubleVector(QString qstring);
+    static std::vector<double> convertQstringToDoubleVector(QString qstring);
 };
 }  // namespace mtobridge

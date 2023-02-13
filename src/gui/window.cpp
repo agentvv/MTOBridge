@@ -5,9 +5,7 @@
 #include <thread>
 
 #include "../engine/engine.hpp"
-
 #include "../bridge/bridgeconfig.hpp"
-#include <QMessageBox>
 #include "../saver/saver.hpp"
 #include "../saver/loader.hpp"
 
@@ -196,9 +194,11 @@ void Window::createWindow() {
     QObject::connect(previewButton, &QPushButton::clicked, this, [&]() {
       // QMessageBox::about(this, "Title", "Button Clicked");
       scene->clear();
-      BridgeConfiguration configBridgeObject = BridgeConfiguration(mNumberSpans->text(), mConcernedSection->text(),
-                                                             mSpanLength->text(), mDiscretizationLength->text());
-      BridgeT configBridge = configBridgeObject.getConfiguration();
+      BridgeConfiguration::updateNumberOfSpans(mNumberSpans->text());
+      BridgeConfiguration::updateConcernedSection(mConcernedSection->text());
+      BridgeConfiguration::updateSpanLength(mSpanLength->text());
+      BridgeConfiguration::updateDiscretizationLength(mDiscretizationLength->text());
+      BridgeT configBridge = BridgeConfiguration::getConfiguration();
 
       QBrush grayBrush(Qt::gray);
       QPen blackpen(Qt::black);
@@ -223,9 +223,13 @@ void Window::createWindow() {
     });
 
     QObject::connect(saveButton, &QPushButton::clicked, this,[&]() { 
-        BridgeConfiguration configBridgeObject = BridgeConfiguration(mNumberSpans->text(), mConcernedSection->text(), 
-                                                                     mSpanLength->text(), mDiscretizationLength->text());
-        saver::saveBridgeConfiguration(configBridgeObject.getConfiguration());
+        /*BridgeConfiguration configBridgeObject = BridgeConfiguration(mNumberSpans->text(), mConcernedSection->text(), 
+                                                                     mSpanLength->text(), mDiscretizationLength->text());*/
+        BridgeConfiguration::updateNumberOfSpans(mNumberSpans->text());
+        BridgeConfiguration::updateConcernedSection(mConcernedSection->text());
+        BridgeConfiguration::updateSpanLength(mSpanLength->text());
+        BridgeConfiguration::updateDiscretizationLength(mDiscretizationLength->text());
+        saver::saveBridgeConfiguration(BridgeConfiguration::getConfiguration());
     });
 
     QObject::connect(loadButton, &QPushButton::clicked, this, [&]() {
