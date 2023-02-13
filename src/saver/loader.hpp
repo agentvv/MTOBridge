@@ -6,6 +6,7 @@
 #include <QMessageBox>
 #include <QFileDialog>
 #include "../report/report_mocks.hpp"
+#include "../bridge/bridgeconfig.hpp"
 
 namespace mtobridge{
 class loader
@@ -13,7 +14,7 @@ class loader
     
 public:
     static mtobridge::MockTruckT loadPlatoonConfiguration();
-    static mtobridge::MockBridgeT loadBridgeConfiguration();
+    static mtobridge::BridgeT loadBridgeConfiguration();
     static mtobridge::MockSolverT loadSolverConfiguration();
 };
 }

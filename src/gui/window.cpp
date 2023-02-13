@@ -9,6 +9,7 @@
 #include "../bridge/bridgeconfig.hpp"
 #include <QMessageBox>
 #include "../saver/saver.hpp"
+#include "../saver/loader.hpp"
 
 namespace mtobridge {
 Window::Window(QWidget *parent) : QWidget(parent) {
@@ -171,7 +172,7 @@ void Window::createWindow() {
   bridgePageLayout->addWidget(mVisualizerWidget);
   mTabWidget->addTab(bridgePage, "Bridge");
 
-  //bridge saver and loader section
+  //bridge IO section
   auto *bridgeIOLayout = new QGridLayout();
   bridgeIOWidget = new QWidget(bridgePage);
   bridgeIOWidget->setSizePolicy(QSizePolicy(QSizePolicy::Policy::Expanding,
@@ -180,6 +181,10 @@ void Window::createWindow() {
 
   saveButton = new QPushButton("Save Config", bridgePage);
   bridgePageLayout->addWidget(saveButton);
+
+  loadButton = new QPushButton("Load Config", bridgePage);
+  bridgePageLayout->addWidget(loadButton);
+
 
   // connect window to engine for running commands and drawing chart
   {
@@ -221,6 +226,18 @@ void Window::createWindow() {
         BridgeConfiguration configBridgeObject = BridgeConfiguration(mNumberSpans->text(), mConcernedSection->text(), 
                                                                      mSpanLength->text(), mDiscretizationLength->text());
         saver::saveBridgeConfiguration(configBridgeObject.getConfiguration());
+    });
+
+    QObject::connect(loadButton, &QPushButton::clicked, this, [&]() {
+      BridgeT config = loader::loadBridgeConfiguration();
+      mNumberSpans->setText(QString::number(config.numberSpans));
+      QString temp = "";
+      for (double i : config.spanLength) {
+        temp += QString::number(i) + " ";
+      }
+      mSpanLength->setText(temp);
+      mDiscretizationLength->setText(QString::number(config.discretizationLength));
+      mConcernedSection->setText(QString::number(config.concernedSection));
     });
 
     // collect inputs to run matlab

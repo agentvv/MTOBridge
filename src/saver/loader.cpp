@@ -1,4 +1,5 @@
 #include "loader.hpp"
+#include "../bridge/bridgeconfig.hpp"
 
 namespace mtobridge{
 
@@ -61,9 +62,9 @@ mtobridge::MockTruckT loader::loadPlatoonConfiguration()
     return temptruck;
 }
 
-mtobridge::MockBridgeT loader::loadBridgeConfiguration()
+mtobridge::BridgeT loader::loadBridgeConfiguration()
 {
-    mtobridge::MockBridgeT tempbridge;
+    mtobridge::BridgeT tempbridge;
 
     QString fileName = QFileDialog::getOpenFileName(nullptr,
         "Load Bridge Configuration", "",
@@ -106,7 +107,7 @@ mtobridge::MockBridgeT loader::loadBridgeConfiguration()
         }
 
 
-        tempbridge.numberSpans = strList[0].toUInt();
+        tempbridge.numberSpans = strList[0].toInt();
         tempbridge.concernedSection = strList[2].toDouble();
         tempbridge.discretizationLength = strList[3].toDouble();
 

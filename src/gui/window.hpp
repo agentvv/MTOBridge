@@ -2,7 +2,7 @@
 
 #include <QtCharts>
 #include <QtWidgets>
-#include <QtGui> //integrate
+#include <QtGui>
 #include "../engine/engine.hpp"
 
 namespace mtobridge {
@@ -66,5 +66,6 @@ class Window : public QWidget {
   QPushButton *previewButton;
   QWidget *bridgeIOWidget;
   QPushButton *saveButton;
+  QPushButton *loadButton;
 };
 };  // namespace mtobridge
