@@ -14,6 +14,8 @@ class Window : public QWidget {
   ~Window() { Engine::getInstance().stopEngine(); };
   QTabWidget *getTabWidget();
 
+  QGraphicsScene* scene;
+
  signals:
   void runCommand(MockCalculationInputT);
 
@@ -59,7 +61,7 @@ class Window : public QWidget {
   QWidget *bridgeInputWidget;
   QWidget *mVisualizerWidget;
   QGraphicsView *mVisualizerView;
-  QGraphicsScene *scene;
+  //QGraphicsScene *scene;
   QGraphicsRectItem *bridgeRect;
   QPushButton *previewButton;
   QWidget *bridgeIOWidget;

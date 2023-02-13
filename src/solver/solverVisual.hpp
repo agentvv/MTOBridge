@@ -5,6 +5,8 @@
 #include <QtWidgets>
 
 #include "../report/report_mocks.hpp"
+#include "../PlatoonConfiguration/PlatoonVisual.hpp"
+#include "../gui/window.hpp"
 
 
 namespace mtobridge {
@@ -12,7 +14,7 @@ class SolverVisual : public QWidget {
 	Q_OBJECT
 
 	public:
-		SolverVisual(QTabWidget *parent);
+		SolverVisual(QTabWidget *parent, PlatoonVisual* platoonVisualIn, Window* windowIn);
 		~SolverVisual();
 
 		void visualize();
@@ -33,6 +35,8 @@ class SolverVisual : public QWidget {
 		//QPushButton* saveButton;
 		//QPushButton* loadButton;
 		//Truck + bridge window
+		QChart* mChart;
+		QChartView* mChartView;
 
 		QRadioButton* positiveMomentButton;
 		QRadioButton* negativeMomentButton;
@@ -40,8 +44,11 @@ class SolverVisual : public QWidget {
 		QRadioButton* concernedButton;
 		QRadioButton* criticalButton;
 
-		QChart* mChart;
-		QChartView* mChartView;
+		QGraphicsView* truckVisual;
+		QGraphicsView* bridgeVisual;
+
+		PlatoonVisual* platoonVisual;
+		Window* window;
 
 		void createPage();
 		void updatePage();

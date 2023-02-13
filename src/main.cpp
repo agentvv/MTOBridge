@@ -13,10 +13,10 @@
     QApplication app(argc, argv);
     
     mtobridge::Window window;
-    mtobridge::PlatoonVisual* PlatoonVisual =
+    mtobridge::PlatoonVisual* platoonVisual =
         new mtobridge::PlatoonVisual(window.getTabWidget());
     mtobridge::SolverVisual* solverVisual =
-        new mtobridge::SolverVisual(window.getTabWidget());
+        new mtobridge::SolverVisual(window.getTabWidget(), platoonVisual, &window);
     mtobridge::ReportPage* reportPage =
         new mtobridge::ReportPage(window.getTabWidget());
     window.show();

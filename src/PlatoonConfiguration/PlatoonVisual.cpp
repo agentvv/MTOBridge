@@ -5,8 +5,6 @@
 #include "PlatoonVisual.hpp"
 
 namespace mtobridge {
-QGraphicsView *mViewWidget;
-QGraphicsScene *mSceneWidget;
 PlatoonVisual::PlatoonVisual(QTabWidget *parent) : QWidget(parent) {
   createPage();
   parent->addTab(this, "Platoon");

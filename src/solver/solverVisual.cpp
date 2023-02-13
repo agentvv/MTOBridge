@@ -5,7 +5,9 @@
 #include "../saver/loader.hpp"
 
 namespace mtobridge {
-SolverVisual::SolverVisual(QTabWidget* parent) : QWidget(parent) {
+SolverVisual::SolverVisual(QTabWidget* parent, mtobridge::PlatoonVisual* platoonVisualIn, mtobridge::Window* windowIn) : QWidget(parent) {
+    platoonVisual = platoonVisualIn;
+    window = windowIn;
     createPage();
     parent->addTab(this, "Solver");
 }
@@ -202,7 +204,17 @@ void SolverVisual::createPage() {
     pageLayout->addWidget(topHalf);
 
     QWidget* bottomHalf = new QWidget(this);
-    bottomHalf->setFixedHeight(100);
+    QVBoxLayout* truckBridgeLayout = new QVBoxLayout;
+    bottomHalf->setLayout(truckBridgeLayout);
+    bottomHalf->setFixedHeight(160);
+    truckVisual = new QGraphicsView(this);
+    truckVisual->setScene(platoonVisual->mSceneWidget);
+    truckVisual->setFixedHeight(80);
+    bridgeVisual = new QGraphicsView(this);
+    bridgeVisual->setScene(window->scene);
+    bridgeVisual->setFixedHeight(65);
+    truckBridgeLayout->addWidget(truckVisual);
+    truckBridgeLayout->addWidget(bridgeVisual);
     pageLayout->addWidget(bottomHalf);
 
     auto& engine = Engine::getInstance();
