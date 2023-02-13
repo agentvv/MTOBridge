@@ -62,5 +62,7 @@ class Window : public QWidget {
   QGraphicsScene *scene;
   QGraphicsRectItem *bridgeRect;
   QPushButton *previewButton;
+  QWidget *bridgeIOWidget;
+  QPushButton *saveButton;
 };
 };  // namespace mtobridge

@@ -6,7 +6,6 @@
 
 #include "../engine/engine.hpp"
 
-//Integrate 
 #include "../bridge/bridgeconfig.hpp"
 #include <QMessageBox>
 #include "../saver/saver.hpp"
@@ -171,6 +170,17 @@ void Window::createWindow() {
 
   bridgePageLayout->addWidget(mVisualizerWidget);
   mTabWidget->addTab(bridgePage, "Bridge");
+
+  //bridge saver and loader section
+  auto *bridgeIOLayout = new QGridLayout();
+  bridgeIOWidget = new QWidget(bridgePage);
+  bridgeIOWidget->setSizePolicy(QSizePolicy(QSizePolicy::Policy::Expanding,
+                                               QSizePolicy::Policy::Expanding));
+  bridgeIOWidget->setLayout(bridgeIOLayout);
+
+  saveButton = new QPushButton("Save Config", bridgePage);
+  bridgePageLayout->addWidget(saveButton);
+
   // connect window to engine for running commands and drawing chart
   {
     auto &engine = Engine::getInstance();
@@ -178,7 +188,6 @@ void Window::createWindow() {
     // add command for engine to run
     QObject::connect(this, &Window::runCommand, &engine, &Engine::runCommand);
 
-    //Integrate
     QObject::connect(previewButton, &QPushButton::clicked, this, [&]() {
       // QMessageBox::about(this, "Title", "Button Clicked");
       scene->clear();
@@ -206,6 +215,12 @@ void Window::createWindow() {
            i = i + configBridge.discretizationLength * scale) {
         scene->addLine(i, 0, i, 20, redpen);
       }
+    });
+
+    QObject::connect(saveButton, &QPushButton::clicked, this,[&]() { 
+        BridgeConfiguration configBridgeObject = BridgeConfiguration(mNumberSpans->text(), mConcernedSection->text(), 
+                                                                     mSpanLength->text(), mDiscretizationLength->text());
+        saver::saveBridgeConfiguration(configBridgeObject.getConfiguration());
     });
 
     // collect inputs to run matlab
