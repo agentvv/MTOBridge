@@ -176,11 +176,11 @@ void SolverVisual::createPage() {
         in.truckConfig.numberOfTrucks = PlatoonConfiguration::getNumTrucks();
         in.truckConfig.headway = PlatoonConfiguration::getHeadway();
 
-        in.bridgeConfig.numberSpans = 2;
-        std::vector<double> tempVec = { 20,20 };
-        in.bridgeConfig.spanLength = tempVec;
-        in.bridgeConfig.concernedSection = 10;
-        in.bridgeConfig.discretizationLength = 0.1;
+        BridgeT bridgeConfig = BridgeConfiguration::getConfiguration();
+        in.bridgeConfig.numberSpans = bridgeConfig.numberSpans;
+        in.bridgeConfig.spanLength = bridgeConfig.spanLength;
+        in.bridgeConfig.concernedSection = bridgeConfig.concernedSection;
+        in.bridgeConfig.discretizationLength = bridgeConfig.discretizationLength;
 
         if (Solver::getForceType() == "Positive Moment") {
             in.solverConfig.forceType = MockSolverT::POSITIVE_MOMENT;
