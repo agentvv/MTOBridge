@@ -24,12 +24,13 @@ mtobridge::MockTruckT loader::loadPlatoonConfiguration()
         }
 
         QString temp;
-        QDataStream in(&file);
-        in.setVersion(QDataStream::Qt_4_5);
+        QTextStream in(&file);
+        temp = in.readAll();
+        file.close();
 
 //! [loadFromFile() function part3]
 
-        in >> temp;
+        
         QList<QString> strList = temp.split("\n", Qt::SkipEmptyParts);
 
 
@@ -83,12 +84,12 @@ mtobridge::MockBridgeT loader::loadBridgeConfiguration()
         }
 
         QString temp;
-        QDataStream in(&file);
-        in.setVersion(QDataStream::Qt_4_5);
-
+        QTextStream in(&file);
+        temp = in.readAll();
+        file.close();
 //! [loadFromFile() function part3]
 
-        in >> temp;
+      
         QList<QString> strList = temp.split("\n", Qt::SkipEmptyParts);
 
 
@@ -137,10 +138,12 @@ mtobridge::MockSolverT loader::loadSolverConfiguration()
 
         QString temp;
         QTextStream in(&file);
+        temp = in.readAll();
+        file.close();
 
 //! [loadFromFile() function part3]
 
-        temp = in.readAll();
+       
         QList<QString> strList = temp.split("\n", Qt::SkipEmptyParts);
 
 
