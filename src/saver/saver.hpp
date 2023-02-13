@@ -6,7 +6,7 @@
 #include <QFile>
 #include <QMessageBox>
 #include <QFileDialog>
-#include "report_mocks.hpp"
+#include "../report/report.hpp"
 
 namespace mtobridge{
 class saver 
@@ -16,7 +16,7 @@ public:
     static void savePlatoonConfiguration(mtobridge::MockTruckT PlatoonT);
     static void saveBridgeConfiguration(mtobridge::MockBridgeT BridgeT);
     static void saveSolverConfiguration(mtobridge::MockSolverT SolverT);
-    static void saveReport(mtobridge::MockReportT ReportT);
+    static void saveReport(mtobridge::Report ReportT);
 
 
 };

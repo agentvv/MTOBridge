@@ -1,4 +1,5 @@
 #include "reportpage.hpp"
+#include "../saver/saver.hpp"
 
 #include <sstream>
 
@@ -39,10 +40,7 @@ void ReportPage::createPage() {
     pageLayout->addWidget(saveButton);
 
     QObject::connect(saveButton, &QPushButton::clicked, this, [&]() {
-      //replace this whole lambda with saver method call?
-      //open save prompt (windows file explorer, choose folder & name)
-      //default suffix? .txt?
-      //make/open file there and save data from report
+      mtobridge::saver::saveReport(report);
     });
   }
 }

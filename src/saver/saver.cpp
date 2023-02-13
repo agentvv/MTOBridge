@@ -120,7 +120,7 @@ void saver::saveSolverConfiguration(mtobridge::MockSolverT SolverT)
     }
 }
 
-void saver::saveReport(mtobridge::MockReportT ReportT)
+void saver::saveReport(mtobridge::Report ReportT)
 {
     QString fileName = QFileDialog::getSaveFileName(nullptr,
         "Save Solver Configuration", "",

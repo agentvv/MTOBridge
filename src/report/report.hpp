@@ -7,6 +7,6 @@
 namespace mtobridge {
 struct Report {
   MockCalculationInputT input;
-  MockCalculationOutputT output;
+  MockCalculationOutputT results;
 };
 };  // namespace mtobridge
