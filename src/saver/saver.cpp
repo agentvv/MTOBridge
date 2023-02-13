@@ -1,5 +1,6 @@
 #include "saver.hpp"
 #include "../report/report_mocks.hpp"
+#include "../bridge/bridgeconfig.hpp"
 
 namespace mtobridge{
 
@@ -42,8 +43,7 @@ void saver::savePlatoonConfiguration(mtobridge::MockTruckT PlatoonT)
     }
 }
 
-void saver::saveBridgeConfiguration(mtobridge::MockBridgeT BridgeT)
-{
+void saver::saveBridgeConfiguration(mtobridge::BridgeT BridgeT) {
     QString fileName = QFileDialog::getSaveFileName(nullptr,
         "Save Bridge Configuration", "",
         "MTOBridge (*.brg);;All Files (*)");

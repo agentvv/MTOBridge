@@ -9,6 +9,7 @@
 //Integrate 
 #include "../bridge/bridgeconfig.hpp"
 #include <QMessageBox>
+#include "../saver/saver.hpp"
 
 namespace mtobridge {
 Window::Window(QWidget *parent) : QWidget(parent) {
