@@ -1,7 +1,7 @@
 #include "solver.hpp"
 #include "solverVisual.hpp"
 #include "../engine/engine.hpp"
-//#include "../saver/saver.h"
+#include "../saver/saver.hpp"
 
 namespace mtobridge {
 SolverVisual::SolverVisual(QTabWidget* parent) : QWidget(parent) {
@@ -67,9 +67,6 @@ void SolverVisual::createPage() {
     this->saveLoadGroup->setLayout(saveLoadBox);
     QPushButton* saveButton = new QPushButton("Save Solver Configuration", this);
 
-    /*
-    saver* svr = new saver;
-    QObject::connect(this, &SolverVisual::saveConfig, svr, &saver::saveSolverConfiguration);
     QObject::connect(saveButton, &QPushButton::clicked, this, [&]() {
         MockSolverT config;
         if (Solver::getForceType() == "Positive Moment") {
@@ -89,9 +86,8 @@ void SolverVisual::createPage() {
             config.solverType = MockSolverT::CRITICAL;
         }
 
-        emit SolverVisual::saveConfig(config);
+        saver::saveSolverConfiguration(config);
         });
-    */
 
     saveLoadBox->addWidget(saveButton);
     QPushButton* loadButton = new QPushButton("Load Solver Configuration", this);

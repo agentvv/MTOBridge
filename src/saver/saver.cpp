@@ -92,31 +92,42 @@ void saver::saveSolverConfiguration(mtobridge::MockSolverT SolverT)
             return;
         }
 
-    QString strForce;
-    switch (SolverT.forceType)
+        QString strForce;
+        switch (SolverT.forceType)
         {
-            case mtobridge::MockSolverT::POSITIVE_MOMENT:   strForce = "Positive Moment";
-            case mtobridge::MockSolverT::NEGATIVE_MOMENT:   strForce = "Negative Moment";
-            case mtobridge::MockSolverT::SHEAR:    strForce = "Shear";
-            default:      strForce = "No data";
+            case mtobridge::MockSolverT::POSITIVE_MOMENT:
+                strForce = "Positive Moment";
+                break;
+            case mtobridge::MockSolverT::NEGATIVE_MOMENT:
+                strForce = "Negative Moment";
+                break;
+            case mtobridge::MockSolverT::SHEAR:
+                strForce = "Shear";
+                break;
+            default:
+                strForce = "No data";
         }
 
 
-    QString strSolver;
-    switch (SolverT.solverType)
+        QString strSolver;
+        switch (SolverT.solverType)
         {
-            case mtobridge::MockSolverT::CONCERNED:   strSolver = "Concerned";
-            case mtobridge::MockSolverT::CRITICAL:    strSolver = "Critical";
-            default:      strSolver = "No data";
+            case mtobridge::MockSolverT::CONCERNED:
+                strSolver = "Concerned";
+                break;
+            case mtobridge::MockSolverT::CRITICAL:
+                strSolver = "Critical";
+                break;
+            default:
+                strSolver = "No data";
         }
 
 
+        QString output = strForce + "\n" + strSolver;
 
-    QString output = strForce + "\n" + strSolver;
-
-    QTextStream out(&file);
-    out << output;
-    file.close();
+        QTextStream out(&file);
+        out << output;
+        file.close();
     }
 }
 
@@ -183,19 +194,31 @@ void saver::saveReport(mtobridge::Report ReportT)
     QString strForce;
     switch (ReportT.input.solverConfig.forceType)
         {
-            case mtobridge::MockSolverT::POSITIVE_MOMENT:   strForce = "Positive Moment";
-            case mtobridge::MockSolverT::NEGATIVE_MOMENT:   strForce = "Negative Moment";
-            case mtobridge::MockSolverT::SHEAR:    strForce = "Shear";
-            default:      strForce = "No data";
+            case mtobridge::MockSolverT::POSITIVE_MOMENT:
+                strForce = "Positive Moment";
+                break;
+            case mtobridge::MockSolverT::NEGATIVE_MOMENT:
+                strForce = "Negative Moment";
+                break;
+            case mtobridge::MockSolverT::SHEAR:
+                strForce = "Shear";
+                break;
+            default:
+                strForce = "No data";
         }
 
 
     QString strSolver;
     switch (ReportT.input.solverConfig.solverType)
         {
-            case mtobridge::MockSolverT::CONCERNED:   strSolver = "Concerned";
-            case mtobridge::MockSolverT::CRITICAL:    strSolver = "Critical";
-            default:      strSolver = "No data";
+            case mtobridge::MockSolverT::CONCERNED:
+                strSolver = "Concerned";
+                break;
+            case mtobridge::MockSolverT::CRITICAL:
+                strSolver = "Critical";
+                break;
+            default:
+                strSolver = "No data";
         }
 
     QString forcetypestr = "forceType = " + strForce + "\n";

@@ -19,7 +19,6 @@ class SolverVisual : public QWidget {
 
 	signals:
 		void runCommand(MockCalculationInputT);
-		//void saveConfig(MockSolverT);
 
 	public slots:
 		void errorOccurred(QString);
