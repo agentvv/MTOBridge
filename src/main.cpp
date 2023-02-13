@@ -7,11 +7,14 @@
 #include "window.hpp"
 #include "report/reportpage.hpp"
 #include "solver/solverVisual.hpp"
+#include "PlatoonConfiguration/PlatoonVisual.hpp"
 
   int main(int argc, char* argv[]) {
     QApplication app(argc, argv);
     
     mtobridge::Window window;
+    mtobridge::PlatoonVisual* PlatoonVisual =
+        new mtobridge::PlatoonVisual(window.getTabWidget());
     mtobridge::SolverVisual* solverVisual =
         new mtobridge::SolverVisual(window.getTabWidget());
     mtobridge::ReportPage* reportPage =

@@ -8,6 +8,7 @@ add_subdirectory("matlab")
 add_subdirectory("report")
 add_subdirectory("solver")
 add_subdirectory("saver")
+add_subdirectory("PlatoonConfiguration")
 
 target_link_libraries(MTOBridge
         PUBLIC
@@ -22,6 +23,7 @@ target_link_libraries(MTOBridge
         solver
         solverVisual
         saver
+        PlatoonConfiguration
 )
 
 add_custom_command(
