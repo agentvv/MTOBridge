@@ -36,9 +36,9 @@ void saver::savePlatoonConfiguration(mtobridge::MockTruckT PlatoonT)
     QString output = straxleLoad + "\n" + straxleSpacing + "\n" + QString::number(PlatoonT.headway)+ "\n" + QString::number(PlatoonT.numberOfTrucks);
 
 
-    QDataStream out(&file);
-    out.setVersion(QDataStream::Qt_4_5);
+    QTextStream out(&file);
     out << output;
+    file.close();
     }
 }
 
@@ -69,9 +69,9 @@ void saver::saveBridgeConfiguration(mtobridge::MockBridgeT BridgeT)
     QString output = QString::number(BridgeT.numberSpans) + "\n" + strspanLength + "\n" + QString::number(BridgeT.concernedSection)+ "\n" + QString::number(BridgeT.discretizationLength);
 
 
-    QDataStream out(&file);
-    out.setVersion(QDataStream::Qt_4_5);
+    QTextStream out(&file);
     out << output;
+    file.close();
     }
 }
 
@@ -114,9 +114,9 @@ void saver::saveSolverConfiguration(mtobridge::MockSolverT SolverT)
 
     QString output = strForce + "\n" + strSolver;
 
-    QDataStream out(&file);
-    out.setVersion(QDataStream::Qt_4_5);
+    QTextStream out(&file);
     out << output;
+    file.close();
     }
 }
 
@@ -227,9 +227,9 @@ void saver::saveReport(mtobridge::Report ReportT)
 
     QString output = inputheader + truckstr + breakLine1 + bridgestr + breakLine2 + solverstr + resulstheader + criticalstr + strfirstaxlepositionforce; + "\n" + strfirstaxlepositionforce;
 
-    QDataStream out(&file);
-    out.setVersion(QDataStream::Qt_4_5);
+    QTextStream out(&file);
     out << output;
+    file.close();
     }
 }
 
