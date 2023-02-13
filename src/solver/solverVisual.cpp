@@ -3,6 +3,7 @@
 #include "../engine/engine.hpp"
 #include "../saver/saver.hpp"
 #include "../saver/loader.hpp"
+#include "../PlatoonConfiguration/PlatoonConfiguration.hpp"
 
 namespace mtobridge {
 SolverVisual::SolverVisual(QTabWidget* parent, mtobridge::PlatoonVisual* platoonVisualIn, mtobridge::Window* windowIn) : QWidget(parent) {
@@ -168,15 +169,15 @@ void SolverVisual::createPage() {
         this->calculateButton->setText("Analysing...");
         MockCalculationInputT in;
 
-        std::vector<double> tempVec = { 53.4,75.6,75.6,75.6,75.6,75.6 };
-        in.truckConfig.axleLoad = tempVec;
-        tempVec = { 3.6576,1.2192,9.4488,1.2192 };
-        in.truckConfig.axleSpacing = tempVec;
-        in.truckConfig.numberOfTrucks = 3;
-        in.truckConfig.headway = 5;
+        std::list<double> tempList = PlatoonConfiguration::getAxleLoads();
+        in.truckConfig.axleLoad = { std::begin(tempList), std::end(tempList) };
+        tempList = PlatoonConfiguration::getAxleSpacings();
+        in.truckConfig.axleSpacing = { std::begin(tempList), std::end(tempList) };
+        in.truckConfig.numberOfTrucks = PlatoonConfiguration::getNumTrucks();
+        in.truckConfig.headway = PlatoonConfiguration::getHeadway();
 
         in.bridgeConfig.numberSpans = 2;
-        tempVec = { 20,20 };
+        std::vector<double> tempVec = { 20,20 };
         in.bridgeConfig.spanLength = tempVec;
         in.bridgeConfig.concernedSection = 10;
         in.bridgeConfig.discretizationLength = 0.1;
