@@ -5,7 +5,7 @@ namespace mtobridge{
 
 mtobridge::MockTruckT loader::loadPlatoonConfiguration()
 {
-    mtobridge::MockTruckT temptruck;
+  mtobridge::MockTruckT temptruck { .axleLoad = { 53.4, 75.6, 75.6, 75.6, 75.6 }, .axleSpacing = {3.6576, 1.2192, 9.4488, 1.2192}, .numberOfTrucks = 3, .headway = 5};
     QString fileName = QFileDialog::getOpenFileName(nullptr,
         "Load Truck Configuration", "",
         "MTOBridge (*.trk);;All Files (*)");
@@ -64,7 +64,7 @@ mtobridge::MockTruckT loader::loadPlatoonConfiguration()
 
 mtobridge::BridgeT loader::loadBridgeConfiguration()
 {
-    mtobridge::BridgeT tempbridge;
+  mtobridge::BridgeT tempbridge { .numberSpans = 2, .spanLength = { 20, 20 }, .concernedSection = 10, .discretizationLength = 0.1 };
 
     QString fileName = QFileDialog::getOpenFileName(nullptr,
         "Load Bridge Configuration", "",
@@ -117,7 +117,7 @@ mtobridge::BridgeT loader::loadBridgeConfiguration()
 
 mtobridge::MockSolverT loader::loadSolverConfiguration()
 {
-    mtobridge::MockSolverT tempsolver;
+  mtobridge::MockSolverT tempsolver{ .forceType = MockSolverT::POSITIVE_MOMENT, .solverType = MockSolverT::CONCERNED };
 
     QString fileName = QFileDialog::getOpenFileName(nullptr,
         "Load Bridge Configuration", "",
