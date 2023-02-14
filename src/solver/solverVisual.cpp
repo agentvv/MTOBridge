@@ -2,6 +2,7 @@
 #include "solverVisual.hpp"
 #include "../engine/engine.hpp"
 #include "../saver/saver.hpp"
+#include "../report/reportpage.hpp"
 #include "../saver/loader.hpp"
 #include "../PlatoonConfiguration/PlatoonConfiguration.hpp"
 
@@ -299,6 +300,9 @@ void SolverVisual::createPage() {
 
         this->calculateButton->setText("Run Analysis");
         this->calculateButton->setDisabled(false);
+
+        ReportPage* reportPage = static_cast<ReportPage*>(window->getTabWidget()->widget(3));
+        reportPage->updateReport(Report{.input = in, .results = out});
         });
 }
 
