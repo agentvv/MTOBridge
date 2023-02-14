@@ -5,7 +5,7 @@ namespace mtobridge{
 
 mtobridge::MockTruckT loader::loadPlatoonConfiguration()
 {
-  mtobridge::MockTruckT temptruck { .axleLoad = { 53.4, 75.6, 75.6, 75.6, 75.6 }, .axleSpacing = {3.6576, 1.2192, 9.4488, 1.2192}, .numberOfTrucks = 3, .headway = 5};
+  mtobridge::MockTruckT temptruck;
     QString fileName = QFileDialog::getOpenFileName(nullptr,
         "Load Truck Configuration", "",
         "MTOBridge (*.trk);;All Files (*)");
@@ -13,7 +13,7 @@ mtobridge::MockTruckT loader::loadPlatoonConfiguration()
 
 //! [loadFromFile() function part2]
     if (fileName.isEmpty())
-        return temptruck;
+        return temptruck = { .axleLoad = { 53.4, 75.6, 75.6, 75.6, 75.6 }, .axleSpacing = { 3.6576, 1.2192, 9.4488, 1.2192 }, .numberOfTrucks = 3, .headway = 5 };
     else {
 
         QFile file(fileName);
@@ -64,7 +64,7 @@ mtobridge::MockTruckT loader::loadPlatoonConfiguration()
 
 mtobridge::BridgeT loader::loadBridgeConfiguration()
 {
-  mtobridge::BridgeT tempbridge { .numberSpans = 2, .spanLength = { 20, 20 }, .concernedSection = 10, .discretizationLength = 0.1 };
+  mtobridge::BridgeT tempbridge;
 
     QString fileName = QFileDialog::getOpenFileName(nullptr,
         "Load Bridge Configuration", "",
@@ -73,7 +73,7 @@ mtobridge::BridgeT loader::loadBridgeConfiguration()
 
 //! [loadFromFile() function part2]
     if (fileName.isEmpty())
-        return tempbridge;
+        return tempbridge = { .numberSpans = 2, .spanLength = { 20, 20 }, .concernedSection = 10, .discretizationLength = 0.1 };
     else {
 
         QFile file(fileName);
@@ -117,7 +117,7 @@ mtobridge::BridgeT loader::loadBridgeConfiguration()
 
 mtobridge::MockSolverT loader::loadSolverConfiguration()
 {
-  mtobridge::MockSolverT tempsolver{ .forceType = MockSolverT::POSITIVE_MOMENT, .solverType = MockSolverT::CONCERNED };
+  mtobridge::MockSolverT tempsolver;
 
     QString fileName = QFileDialog::getOpenFileName(nullptr,
         "Load Bridge Configuration", "",
@@ -126,7 +126,7 @@ mtobridge::MockSolverT loader::loadSolverConfiguration()
 
 //! [loadFromFile() function part2]
     if (fileName.isEmpty())
-        return tempsolver;
+        return tempsolver = { .forceType = MockSolverT::POSITIVE_MOMENT, .solverType = MockSolverT::CONCERNED };
     else {
 
         QFile file(fileName);
