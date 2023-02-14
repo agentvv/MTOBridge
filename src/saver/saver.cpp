@@ -226,7 +226,7 @@ void saver::saveReport(mtobridge::Report ReportT)
 
     QString solverstr = forcetypestr + solvertypestr;
 
-    QString resulstheader = "\n*******\n*******\nResults\n*******\n*******\n*******\n[Platoon]\n";
+    QString resulstheader = "\n*******\n*******\nResults\n*******\n*******\n*******\n";
 
 
     QString criticalstr;
@@ -235,20 +235,17 @@ void saver::saveReport(mtobridge::Report ReportT)
     }
 
 
-    QString strfirstaxleposition;
-    for(auto it = ReportT.results.firstAxlePosition.begin();it!=ReportT.results.firstAxlePosition.end();it++){
-        strfirstaxleposition = strfirstaxleposition + QString::number(*it);
-        strfirstaxleposition.append(" ");
+    QString strfirstaxleposition = "First Axle Position, Force\n";
+    for (int i = 0; i < ReportT.results.firstAxlePosition.size(); i++)
+    {
+      strfirstaxleposition += QString("%1, %2\n")
+        .arg(ReportT.results.firstAxlePosition[i])
+        .arg(ReportT.input.solverConfig.solverType == MockSolverT::CONCERNED ? 
+          ReportT.results.forceConcernedSection[i] : 
+          ReportT.results.forceCriticalSection[i]);
     }
 
-    QString strfirstaxlepositionforce;
-    for(auto it = ReportT.results.firstAxlePositionForceEnvelope.begin();it!=ReportT.results.firstAxlePositionForceEnvelope.end();it++){
-        strfirstaxlepositionforce = strfirstaxlepositionforce + QString::number(*it);
-        strfirstaxlepositionforce.append(" ");
-    }
-
-
-    QString output = inputheader + truckstr + breakLine1 + bridgestr + breakLine2 + solverstr + resulstheader + criticalstr + strfirstaxlepositionforce; + "\n" + strfirstaxlepositionforce;
+    QString output = inputheader + truckstr + breakLine1 + bridgestr + breakLine2 + solverstr + resulstheader + criticalstr + strfirstaxleposition + "\n";
 
     QTextStream out(&file);
     out << output;
