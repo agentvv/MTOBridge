@@ -110,7 +110,7 @@ void PlatoonVisual::loadButtonClicked() {
 void PlatoonVisual::createPage() {
   this->setSizePolicy(QSizePolicy(QSizePolicy::Policy::Expanding,
                                    QSizePolicy::Policy::Expanding));
-  auto *pageLayout = new QHBoxLayout();
+  auto *pageLayout = new QVBoxLayout();
   this->setLayout(pageLayout);
 
   // set up all inputs and layout
@@ -154,8 +154,8 @@ void PlatoonVisual::createPage() {
     mSceneWidget = new QGraphicsScene(this);
 
     mViewWidget->setScene(mSceneWidget);
-    pageLayout->addWidget(mViewWidget);
     pageLayout->addWidget(mInputWidget);
+    pageLayout->addWidget(mViewWidget);
 
     QObject::connect(mButton, &QPushButton::clicked, this,
                      &PlatoonVisual::buttonClicked);
