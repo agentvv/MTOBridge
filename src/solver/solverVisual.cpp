@@ -232,6 +232,8 @@ void SolverVisual::createPage() {
 
     // draw chart after command finished
     QObject::connect(&engine, &Engine::finishedCommand, this, [&](MockCalculationInputT in, MockCalculationOutputT out) {
+      ReportPage* reportPage = static_cast<ReportPage*>(window->getTabWidget()->widget(3));
+      reportPage->updateReport(Report{ .input = in, .results = out });
         std::vector<double> x_vals = std::move(out.firstAxlePosition);
         std::vector<double> y_vals;
         if (in.solverConfig.solverType == MockSolverT::CONCERNED) {
@@ -300,9 +302,6 @@ void SolverVisual::createPage() {
 
         this->calculateButton->setText("Run Analysis");
         this->calculateButton->setDisabled(false);
-
-        ReportPage* reportPage = static_cast<ReportPage*>(window->getTabWidget()->widget(3));
-        reportPage->updateReport(Report{.input = in, .results = out});
         });
 }
 
