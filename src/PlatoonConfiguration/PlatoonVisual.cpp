@@ -3,6 +3,8 @@
 
 #include "PlatoonConfiguration.hpp"
 #include "PlatoonVisual.hpp"
+#include "../saver/saver.hpp"
+#include "../saver/loader.hpp"
 
 namespace mtobridge {
 PlatoonVisual::PlatoonVisual(QTabWidget *parent) : QWidget(parent) {
@@ -66,6 +68,44 @@ void PlatoonVisual::buttonClicked() {
     }
   }
 }
+void PlatoonVisual::saveButtonClicked() { 
+    MockTruckT config;
+  std::list<double> axleLoadTemp = PlatoonConfiguration::getAxleLoads();
+  std::list<double> axleSpacingTemp = PlatoonConfiguration::getAxleSpacings();
+  config.axleLoad = std::vector<double>{axleLoadTemp.begin(), axleLoadTemp.end()};
+  config.axleSpacing = std::vector<double>{axleSpacingTemp.begin(), axleSpacingTemp.end()};
+  config.headway = PlatoonConfiguration::getHeadway();
+  config.numberOfTrucks = PlatoonConfiguration::getNumTrucks();
+  saver::savePlatoonConfiguration(config);
+}
+void PlatoonVisual::loadButtonClicked() {
+  MockTruckT config = loader::loadPlatoonConfiguration();
+
+  QString spacings;
+  std::vector<double>::iterator it = config.axleSpacing.begin();
+  while (it != config.axleSpacing.end()) {
+    spacings += QString::number(*it) + " ";
+    it++;
+  }
+  PlatoonConfiguration::updateAxleSpacing(spacings);
+  QString spacings2;
+  std::vector<double>::iterator it2 = config.axleLoad.begin();
+  while (it2 != config.axleLoad.end()) {
+    spacings2 += QString::number(*it2) + " ";
+    it2++;
+  }
+
+  PlatoonConfiguration::updateAxleLoad(spacings2);
+  PlatoonConfiguration::updateHeadway(QString::number(config.headway));
+  PlatoonConfiguration::updateNumberOfTrucks(QString::number(config.numberOfTrucks));
+
+  mAxleSpacing->setText(spacings);
+  mAxleLoad->setText(spacings2);
+  mNumberOfTrucks->setText(QString::number(config.numberOfTrucks));
+  mHeadway->setText(QString::number(config.headway));
+
+  buttonClicked();
+}
 
 void PlatoonVisual::createPage() {
   this->setSizePolicy(QSizePolicy(QSizePolicy::Policy::Expanding,
@@ -94,7 +134,8 @@ void PlatoonVisual::createPage() {
     mAxleSpacingLabel = new QLabel("Axle Spacing", mInputWidget);
 
     mButton = new QPushButton("Lock-In", this);
-    mButton->setDisabled(false);
+    mSaveButton = new QPushButton("Save Truck Configuration", this);
+    mLoadButton = new QPushButton("Load Truck Configuration", this);
 
     inputLayout->addWidget(mNumberOfTrucksLabel, 0, 0);
     inputLayout->addWidget(mNumberOfTrucks, 0, 1);
@@ -105,6 +146,9 @@ void PlatoonVisual::createPage() {
     inputLayout->addWidget(mAxleSpacingLabel, 3, 0);
     inputLayout->addWidget(mAxleSpacing, 3, 1);
     inputLayout->addWidget(mButton, 4, 0);
+    inputLayout->addWidget(mSaveButton, 5, 0);
+    inputLayout->addWidget(mLoadButton, 6, 0);
+
 
     mViewWidget = new QGraphicsView(this);
     mSceneWidget = new QGraphicsScene(this);
@@ -115,6 +159,10 @@ void PlatoonVisual::createPage() {
 
     QObject::connect(mButton, &QPushButton::clicked, this,
                      &PlatoonVisual::buttonClicked);
+    QObject::connect(mSaveButton, &QPushButton::clicked, this,
+                     &PlatoonVisual::saveButtonClicked);
+    QObject::connect(mLoadButton, &QPushButton::clicked, this,
+                     &PlatoonVisual::loadButtonClicked);
   }
 }
 };  // namespace mtobridge

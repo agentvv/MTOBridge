@@ -10,6 +10,8 @@ class PlatoonVisual : public QWidget {
   QGraphicsScene* mSceneWidget;
  public slots:
   void buttonClicked();
+  void saveButtonClicked();
+  void loadButtonClicked();
 
  private:
   void createPage();
@@ -28,6 +30,8 @@ class PlatoonVisual : public QWidget {
   QLineEdit *mHeadway;
 
   QPushButton *mButton;
+  QPushButton *mSaveButton;
+  QPushButton *mLoadButton;
 
   QGraphicsView* mViewWidget;
 };

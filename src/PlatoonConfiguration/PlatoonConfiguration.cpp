@@ -1,5 +1,6 @@
 #include "PlatoonConfiguration.hpp"
 #include <iostream>
+#include <sstream>
 #include <string>
 #include <list>
 using namespace std;
@@ -16,33 +17,23 @@ namespace mtobridge {
 void PlatoonConfiguration::updateAxleLoad(QString newLoad) {
 
   TruckConfig.axleLoad.clear();
-  string s = newLoad.toStdString();
-  string delimiter = " ";
-  int start = 0;
-  int end = s.find(delimiter);
-  while (end != -1) {
-    TruckConfig.axleLoad.push_back(std::stod(s.substr(start, end - start)));
-    start = end + delimiter.size();
-    end = s.find(delimiter, start);
+  double temp;
+  std::stringstream tempStream(newLoad.toStdString());
+  while (tempStream >> temp) {
+    TruckConfig.axleLoad.push_back(temp);
   }
-  TruckConfig.axleLoad.push_back(std::stod(s.substr(start, end - start)));
 
 }
 void PlatoonConfiguration::updateAxleSpacing(QString newSpacing) {
 
   TruckConfig.axleSpacing.clear();
-  string s = newSpacing.toStdString();
-  string delimiter = " ";
-  int count = 0;
-  int start = 0;
-  int end = s.find(delimiter);
-  while (end != -1) {
-    TruckConfig.axleSpacing.push_back(std::stod(s.substr(start, end - start)));
-    start = end + delimiter.size();
-    end = s.find(delimiter, start);
+  double temp;
+  std::stringstream tempStream(newSpacing.toStdString());
+  while (tempStream >> temp) {
+    TruckConfig.axleSpacing.push_back(temp);
   }
-  TruckConfig.axleSpacing.push_back(std::stod(s.substr(start, end - start)));
-}
+
+ }
 void PlatoonConfiguration::updateNumberOfTrucks(QString newNum) {
 
   string s = newNum.toStdString();

@@ -55,8 +55,8 @@ mtobridge::MockTruckT loader::loadPlatoonConfiguration()
             temptruck.axleSpacing.push_back(i.toDouble());
         }
 
-        temptruck.numberOfTrucks = strList[2].toUInt();
-        temptruck.headway = strList[3].toDouble();
+        temptruck.numberOfTrucks = strList[3].toUInt();
+        temptruck.headway = strList[2].toDouble();
 
     }
     return temptruck;

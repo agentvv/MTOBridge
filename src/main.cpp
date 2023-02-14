@@ -21,7 +21,7 @@
         new mtobridge::ReportPage(window.getTabWidget());
     window.show();
     
-    int ret;
+    int ret = 0;
     try {
       ret = app.exec();
     } catch (std::exception& e) {
