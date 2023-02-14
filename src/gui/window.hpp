@@ -5,6 +5,7 @@
 #include <QtGui>
 #include "../engine/engine.hpp"
 #include "../bridge/bridgeconfig.hpp"
+#include "../bridge/bridgevisual.hpp"
 
 namespace mtobridge {
 class Window : public QWidget {
@@ -27,17 +28,7 @@ class Window : public QWidget {
   void createWindow();
 
   QTabWidget *mTabWidget;
-  QWidget *mPage;
 
-  QWidget *mInputWidget;
-  QLabel *mAxleLoadLabel;
-  QLineEdit *mAxleLoad;
-  QLabel *mAxleSpacingLabel;
-  QLineEdit *mAxleSpacing;
-  QLabel *mNumberOfTrucksLabel;
-  QLineEdit *mNumberOfTrucks;
-  QLabel *mHeadwayLabel;
-  QLineEdit *mHeadway;
   QLabel *mSpanLengthLabel;
   QLineEdit *mSpanLength;
   QLabel *mConcernedSectionLabel;
@@ -46,16 +37,6 @@ class Window : public QWidget {
   QLineEdit* mNumberSpans;
   QLabel* mDiscretizationLengthLabel;
   QLineEdit* mDiscretizationLength;
-  QLabel* mForceTypeLabel;
-  QLineEdit* mForceType;
-  QLabel* mSolverTypeLabel;
-  QLineEdit* mSolverType;
-  
-  QLineSeries *mSeries;
-  QChart *mChart;
-  QWidget *mChartWidget;
-  QChartView *mChartView;
-  QPushButton *mButton;
 
   //Bridge UI Elements
   QWidget *bridgePage;
