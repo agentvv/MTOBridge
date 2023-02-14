@@ -31,14 +31,14 @@ void Window::createWindow() {
     mNumberSpansLabel = new QLabel("Number of Spans", this);
 
     mSpanLength = new QLineEdit("20 20", this);
-    mSpanLengthLabel = new QLabel("Span Length", this);
+    mSpanLengthLabel = new QLabel("Span Length(m)", this);
 
     mConcernedSection = new QLineEdit("10", this);
-    mConcernedSectionLabel = new QLabel("Concerned Section", this);
+    mConcernedSectionLabel = new QLabel("Concerned Section(m)", this);
 
     mDiscretizationLength = new QLineEdit("0.1", this);
     mDiscretizationLengthLabel =
-        new QLabel("Discretization Length", this);
+        new QLabel("Discretization Length(m)", this);
 
   // Integration
   //// bridge tab
