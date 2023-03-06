@@ -1,6 +1,6 @@
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+
 qt_add_executable(MTOBridge "main.cpp")
-
-
 
 add_subdirectory("engine")
 add_subdirectory("gui")
@@ -16,6 +16,7 @@ target_link_libraries(MTOBridge
         Qt6::Core
         Qt6::Widgets
         Qt6::Charts
+        Qt6::Test
         ${Matlab_ROOT_DIR}/extern/lib/win64/libMatlabCppSharedLib.lib
         engine
         gui
