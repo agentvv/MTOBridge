@@ -15,7 +15,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 #    -checks="clang-diagnostic-*,clang-analyzer-*,modernize-*,-modernize-use-trailing-return-type,readability-*,-readability-magic-numbers,concurrency-*";
 #    -header-filter="./src/.*"
 #)
-set(QT_PATH "F:/Qt/6.4.0/msvc2019_64/")
+set(QT_PATH "C:/Qt/6.4.2/msvc2019_64/")
 set(CMAKE_PREFIX_PATH ${QT_PATH})
 set(CMAKE_PREFIX_PATH "${QT_PATH}lib/cmake")
 
@@ -26,7 +26,7 @@ find_package(Qt6 REQUIRED COMPONENTS
     Test
 )
 
-set(Matlab_ROOT_DIR "F:/Matlab/MATLAB Runtime/R2022b")
+set(Matlab_ROOT_DIR "C:/Program Files/Matlab/R2022b")
 include_directories(engine
    ${Matlab_ROOT_DIR}/extern/include/
 )
