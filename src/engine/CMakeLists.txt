@@ -19,6 +19,7 @@ target_link_libraries(engine
         Qt6::Core
         Qt6::Widgets
         Qt6::Charts
+        report
 )
 
 target_link_libraries(engine

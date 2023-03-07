@@ -19,6 +19,7 @@ target_link_libraries(test_engine
         Qt::Charts
         Qt::Test
         engine
+        ${Matlab_ROOT_DIR}/extern/lib/win64/libMatlabCppSharedLib.lib
 )
 
 add_custom_command(
