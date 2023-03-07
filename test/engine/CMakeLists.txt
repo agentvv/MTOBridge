@@ -10,7 +10,6 @@ target_link_libraries(test_calculationcaller
         Qt::Charts
         Qt::Test
         engine
-        report
 )
 
 target_link_libraries(test_engine
@@ -20,7 +19,6 @@ target_link_libraries(test_engine
         Qt::Charts
         Qt::Test
         engine
-        report
 )
 
 add_custom_command(
