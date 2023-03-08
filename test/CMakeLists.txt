@@ -27,3 +27,5 @@ add_subdirectory(engine)
 
 add_subdirectory(saverLoader)
 
+add_subdirectory(solver)
+
