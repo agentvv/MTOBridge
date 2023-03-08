@@ -62,7 +62,41 @@ Date 2 & 1.1 & Notes\\
 
 \pagenumbering{arabic}
 
-This document ...
+This document serves as a plan to verify and validate the design documents and outlines a series of system and unit tests for the functional and non functional requirements
+of the program. It is intended to be implemented as written, and for its results to be reported on in a future document.
+
+\section{General Information}
+
+\subsection{Summary}
+
+The software whose Verification and Validation is planned for and referred to throughout this document is the User Interface component of MTO Bridge, 
+a software developed in partnership with the Civil Engineering Department at McMaster university to assist MTO engineers in load rating bridges.
+Its primary function is to present visually, in an intuitive and digestible way, the results of a simulation written by a Civil Engineering Professor and her lab 
+in MATLAB of the forces imparted on a bridge by a platoon of trucks driving over it. There are two different solvers for two different results about the forces 
+imparted on the bridge. The program will allow users to specify details of the bridge, the truck platoon driving over it, and which of the two results they are 
+interested in knowing more about.\\
+
+\subsection{Objectives}
+
+There are two overarching objectives to any V\&V plan, ensuring we are actually building what we want to build correctly, or verification,
+and ensuring that we think we want to build is what the client actually wants from us, or validation. Verification is where a lot of the domain specific definitions
+of "correct" actually come in. As far as the verification plans for the design documents, the main goal is to build confidence that the design documents are complete,
+verifiable, unambiguous, and generally of high quality. The design documents inform the implementation to a huge degree, so ensuring we are building on a solid foundation
+is one of the main goals of this plan. As we are building a user interface, non functional qualities such as usability and performance/responsiveness are of 
+utmost importance, and many of the tests outlined in this document will center around building confidence that our program has those qualities, or at least 
+exposing if it doesn't early on. As well, like any program, a number of our tests focus around ensuring that our program as written actually does what we think it does,
+in a predictable way. Ensuring our program properly executes all the functions we laid out in the design documents, and nothing more or less.\\
+
+
+\subsection{Relevant Documentation}
+
+Essentially every design document written for this project will be relevant documentation here, a mostly exhaustive list of this would include:
+\href{https://github.com/agentvv/MTOBridge/blob/main/docs/ProblemStatementAndGoals/ProblemStatement.pdf}{The Problem Statement}\\
+\href{https://github.com/agentvv/MTOBridge/blob/main/docs/DevelopmentPlan/DevelopmentPlan.pdf}{The Development Plan}\\
+\href{https://github.com/agentvv/MTOBridge/blob/main/docs/SRS/SRS.pdf}{The SRS}\\
+\href{https://github.com/agentvv/MTOBridge/blob/main/docs/HazardAnalysis/HazardAnalysis.pdf}{The Hazard Analysis}\\
+The Module Guide: This document is not yet written, but will be extremely relevant for this plan, particularly for unit testing\\
+The Module Interface Spec: Same as the Module Guide.\\
 
 \section{Document Evaluation}
 
