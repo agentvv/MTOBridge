@@ -1,6 +1,7 @@
 #include <QTest>
 
 #include "../../src/solver/solver.hpp"
+#include "../../src/report/report_mocks.hpp"
 
 class TestSolver : public QObject {
     Q_OBJECT
@@ -8,15 +9,19 @@ class TestSolver : public QObject {
 private:
 
 private slots:
-    void testSolverDefault() {
-        std::string forceType, solverType;
+    void testSolverGetForceType() {
+        std::string forceType;
         QVERIFY_THROWS_NO_EXCEPTION(forceType = mtobridge::Solver::getForceType());
-        QVERIFY_THROWS_NO_EXCEPTION(solverType = mtobridge::Solver::getSolverType());
         QCOMPARE(forceType, "Positive Moment");
+    }
+
+    void testSolverGetSolverType() {
+        std::string solverType;
+        QVERIFY_THROWS_NO_EXCEPTION(solverType = mtobridge::Solver::getSolverType());
         QCOMPARE(solverType, "Concerned Section");
     }
 
-    void testSolverUpdateForceValid() {
+    void testSolverUpdateForceValid1() {
         std::string forceType;
         QVERIFY_THROWS_NO_EXCEPTION(forceType = mtobridge::Solver::getForceType());
         QCOMPARE(forceType, "Positive Moment");
@@ -24,8 +29,20 @@ private slots:
         QVERIFY_THROWS_NO_EXCEPTION(mtobridge::Solver::updateForceType("Negative Moment"));
         QVERIFY_THROWS_NO_EXCEPTION(forceType = mtobridge::Solver::getForceType());
         QCOMPARE(forceType, "Negative Moment");
+    }
+
+    void testSolverUpdateForceValid2() {
+        std::string forceType;
+        QVERIFY_THROWS_NO_EXCEPTION(forceType = mtobridge::Solver::getForceType());
+        QCOMPARE(forceType, "Negative Moment");
 
         QVERIFY_THROWS_NO_EXCEPTION(mtobridge::Solver::updateForceType("Shear"));
+        QVERIFY_THROWS_NO_EXCEPTION(forceType = mtobridge::Solver::getForceType());
+        QCOMPARE(forceType, "Shear");
+    }
+
+    void testSolverUpdateForceValid3() {
+        std::string forceType;
         QVERIFY_THROWS_NO_EXCEPTION(forceType = mtobridge::Solver::getForceType());
         QCOMPARE(forceType, "Shear");
 
@@ -34,26 +51,38 @@ private slots:
         QCOMPARE(forceType, "Positive Moment");
     }
 
-    void testSolverUpdateForceInvalid() {
+    void testSolverUpdateForceInvalid1() {
         std::string forceType;
         QVERIFY_THROWS_NO_EXCEPTION(forceType = mtobridge::Solver::getForceType());
         QCOMPARE(forceType, "Positive Moment");
 
-        QVERIFY_THROWS_NO_EXCEPTION(mtobridge::Solver::updateForceType("Garbage"));/////////////////////////////////////////////////////////////////////////////////////////////////////////
-        QVERIFY_THROWS_NO_EXCEPTION(forceType = mtobridge::Solver::getForceType());
-        QCOMPARE(forceType, "Positive Moment");
-
-        QVERIFY_THROWS_NO_EXCEPTION(mtobridge::Solver::updateForceType(""));/////////////////////////////////////////////////////////////////////////////////////////////////////////
+        QVERIFY_EXCEPTION_THROWN(mtobridge::Solver::updateForceType("Negative"), mtobridge::invalidConfigurationValue);
         QVERIFY_THROWS_NO_EXCEPTION(forceType = mtobridge::Solver::getForceType());
         QCOMPARE(forceType, "Positive Moment");
     }
 
-    void testSolverUpdateTypeValid() {
+    void testSolverUpdateForceInvalid2() {
+        std::string forceType;
+        QVERIFY_THROWS_NO_EXCEPTION(forceType = mtobridge::Solver::getForceType());
+        QCOMPARE(forceType, "Positive Moment");
+
+        QVERIFY_EXCEPTION_THROWN(mtobridge::Solver::updateForceType(""), mtobridge::invalidConfigurationValue);
+        QVERIFY_THROWS_NO_EXCEPTION(forceType = mtobridge::Solver::getForceType());
+        QCOMPARE(forceType, "Positive Moment");
+    }
+    
+    void testSolverUpdateTypeValid1() {
         std::string solverType;
         QVERIFY_THROWS_NO_EXCEPTION(solverType = mtobridge::Solver::getSolverType());
         QCOMPARE(solverType, "Concerned Section");
 
         QVERIFY_THROWS_NO_EXCEPTION(mtobridge::Solver::updateSolverType("Critical Section"));
+        QVERIFY_THROWS_NO_EXCEPTION(solverType = mtobridge::Solver::getSolverType());
+        QCOMPARE(solverType, "Critical Section");
+    }
+
+    void testSolverUpdateTypeValid2() {
+        std::string solverType;
         QVERIFY_THROWS_NO_EXCEPTION(solverType = mtobridge::Solver::getSolverType());
         QCOMPARE(solverType, "Critical Section");
 
@@ -62,16 +91,22 @@ private slots:
         QCOMPARE(solverType, "Concerned Section");
     }
 
-    void testSolverUpdateTypeInvalid() {
+    void testSolverUpdateTypeInvalid1() {
         std::string solverType;
         QVERIFY_THROWS_NO_EXCEPTION(solverType = mtobridge::Solver::getSolverType());
         QCOMPARE(solverType, "Concerned Section");
 
-        QVERIFY_THROWS_NO_EXCEPTION(mtobridge::Solver::updateSolverType("Garbage"));/////////////////////////////////////////////////////////////////////////////////////////////////////////
+        QVERIFY_EXCEPTION_THROWN(mtobridge::Solver::updateSolverType("Critical"), mtobridge::invalidConfigurationValue);
+        QVERIFY_THROWS_NO_EXCEPTION(solverType = mtobridge::Solver::getSolverType());
+        QCOMPARE(solverType, "Concerned Section");
+    }
+
+    void testSolverUpdateTypeInvalid2() {
+        std::string solverType;
         QVERIFY_THROWS_NO_EXCEPTION(solverType = mtobridge::Solver::getSolverType());
         QCOMPARE(solverType, "Concerned Section");
 
-        QVERIFY_THROWS_NO_EXCEPTION(mtobridge::Solver::updateSolverType(""));/////////////////////////////////////////////////////////////////////////////////////////////////////////
+        QVERIFY_EXCEPTION_THROWN(mtobridge::Solver::updateSolverType(""), mtobridge::invalidConfigurationValue);
         QVERIFY_THROWS_NO_EXCEPTION(solverType = mtobridge::Solver::getSolverType());
         QCOMPARE(solverType, "Concerned Section");
     }
