@@ -551,17 +551,17 @@ How test will be performed: Relying on the pre-determined and validated data, we
 
 \item{FR16.ST1\\}
 
-Control: Automatic
+Control: Manual
 					
-Initial State: None
+Initial State: Application has been opened with configurations set and able to run analysis
 					
-Input: text input to indicate logging flags 
+Input: Save button pressed and name of file to be saved given as "report.txt" in local directory
 					
-Output: text output, "logs"
+Expected Output: "report.txt" generated containing configurations and analysis results
 
-Test Case Derivation: With the engine built in another framework, its important to log every state change throughout the calculations as triggered by the system
+Actual Output: "report.txt" generated containing configurations and analysis results
 
-How test will be performed: While running multiple calculations, the system is asked to comprehensively log the flow in the engine. The system will be interrupted at times to test the robustness as well. The resulting logs should be clearly highlighting the steps taken including any errors or warnings.
+Results Summary: Pass
 					
 \end{enumerate}
 
