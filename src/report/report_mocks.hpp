@@ -37,4 +37,11 @@ struct MockCalculationOutputT {
   std::vector<double> forceEnvelope{};
   std::vector<double> firstAxlePositionForceEnvelope{};
 };
+
+class invalidConfigurationValue : public std::exception {
+public:
+    char* what() {
+        return (char *)"Invalid configuration value given";
+    }
+};
 };  // namespace mtobridge

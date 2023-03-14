@@ -1,4 +1,5 @@
 #include "solver.hpp"
+#include "../../src/report/report_mocks.hpp"
 
 namespace mtobridge {
 	ForceType Solver::force = ForceType(POSITIVE_MOMENT);
@@ -14,7 +15,7 @@ namespace mtobridge {
 		else if (Solver::force == ForceType(SHEAR)) {
 			return("Shear");
 		}
-		return "";
+		return NULL;
 	}
 
 	std::string Solver::getSolverType() {
@@ -24,7 +25,7 @@ namespace mtobridge {
 		else if (Solver::solver == SolverType(CRITICAL)) {
 			return("Critical Section");
 		}
-		return "";
+		return NULL;
 	}
 
 	void Solver::updateForceType(std::string forceStr) {
@@ -38,7 +39,7 @@ namespace mtobridge {
 			Solver::force = ForceType(SHEAR);
 		}
 		else {
-			//Invalid config
+			throw invalidConfigurationValue();
 		}
 	}
 
@@ -50,7 +51,7 @@ namespace mtobridge {
 			Solver::solver = SolverType(CRITICAL);
 		}
 		else {
-			//Invalid config
+			throw invalidConfigurationValue();
 		}
 	}
 };  // namespace mtobridge
