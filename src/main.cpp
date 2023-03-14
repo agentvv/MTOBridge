@@ -13,12 +13,6 @@
     QApplication app(argc, argv);
     
     mtobridge::Window window;
-    mtobridge::PlatoonVisual* platoonVisual =
-        new mtobridge::PlatoonVisual(window.getTabWidget());
-    mtobridge::SolverVisual* solverVisual =
-        new mtobridge::SolverVisual(window.getTabWidget(), platoonVisual, &window);
-    mtobridge::ReportPage* reportPage =
-        new mtobridge::ReportPage(window.getTabWidget());
     window.show();
     
     int ret = 0;
@@ -33,7 +27,5 @@
           nullptr, QString("Unknown Error!"),
           QString("A MATLAB exception has occurred! {%1}").arg(e.what()));
     }
-    delete solverVisual;
-    delete reportPage;
     return ret;
   }

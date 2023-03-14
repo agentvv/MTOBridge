@@ -29,6 +29,8 @@ void Engine::startEngine() {
 }
 
 void Engine::runCommand(MockCalculationInputT in) {
+#include <chrono>
+  auto start = std::chrono::high_resolution_clock::now();
   MockCalculationOutputT out;
   try {
     // // running custom matlab script!!
@@ -42,6 +44,9 @@ void Engine::runCommand(MockCalculationInputT in) {
         QString("An exception has occurred!\nError: %1").arg(e.what()));
     return;
   }
+  auto end = std::chrono::high_resolution_clock::now();
+  auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+  QTextStream(stdout) << "Engine: " << duration.count();
   emit finishedCommand(in, out);
 }
 }  // namespace mtobridge

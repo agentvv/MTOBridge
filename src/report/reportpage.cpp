@@ -4,9 +4,8 @@
 #include <sstream>
 
 namespace mtobridge {
-ReportPage::ReportPage(QTabWidget* parent) : QWidget(parent) {
+ReportPage::ReportPage(QWidget* parent) : QWidget(parent) {
   createPage();
-  parent->addTab(this, "Report");
 }
 
 ReportPage::~ReportPage() {

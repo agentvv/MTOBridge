@@ -1,15 +1,15 @@
+#include "PlatoonVisual.hpp"
+
 #include <iostream>
 #include <sstream>
 
-#include "PlatoonConfiguration.hpp"
-#include "PlatoonVisual.hpp"
-#include "../saver/saver.hpp"
 #include "../saver/loader.hpp"
+#include "../saver/saver.hpp"
+#include "PlatoonConfiguration.hpp"
 
 namespace mtobridge {
-PlatoonVisual::PlatoonVisual(QTabWidget *parent) : QWidget(parent) {
+PlatoonVisual::PlatoonVisual(QWidget *parent) : QWidget(parent) {
   createPage();
-  parent->addTab(this, "Platoon");
 }
 PlatoonVisual::~PlatoonVisual() {}
 void PlatoonVisual::buttonClicked() {
@@ -26,7 +26,6 @@ void PlatoonVisual::buttonClicked() {
   QString axleSpacings = mAxleSpacing->text();
   QString numTrucks = mNumberOfTrucks->text();
   QString headway = mHeadway->text();
-
 
   PlatoonConfiguration::updateAxleLoad(axleLoads);
   PlatoonConfiguration::updateAxleSpacing(axleSpacings);
@@ -50,14 +49,12 @@ void PlatoonVisual::buttonClicked() {
   }
   for (int i = 1; i < PlatoonConfiguration::getNumTrucks(); i++) {
     mSceneWidget->addRect(90 + ((120 + PlatoonConfiguration::getHeadway()) * i),
-                          0, 30,
-                          60, blackPen, redBrush);
+                          0, 30, 60, blackPen, redBrush);
     mSceneWidget->addRect(
-        100 + ((120 + PlatoonConfiguration::getHeadway()) * i), 3, 15,
-                          20, blackPen, whiteBrush);
+        100 + ((120 + PlatoonConfiguration::getHeadway()) * i), 3, 15, 20,
+        blackPen, whiteBrush);
     mSceneWidget->addRect(0 + ((120 + PlatoonConfiguration::getHeadway()) * i),
-                          0, 90, 60,
-                          blackPen, grayBrush);
+                          0, 90, 60, blackPen, grayBrush);
     it = spacings.begin();
     int x = (105 + ((120 + PlatoonConfiguration::getHeadway()) * i));
     mSceneWidget->addEllipse(x, 57, 5, 10, blackPen, blackBrush);
@@ -68,12 +65,14 @@ void PlatoonVisual::buttonClicked() {
     }
   }
 }
-void PlatoonVisual::saveButtonClicked() { 
-    MockTruckT config;
+void PlatoonVisual::saveButtonClicked() {
+  MockTruckT config;
   std::list<double> axleLoadTemp = PlatoonConfiguration::getAxleLoads();
   std::list<double> axleSpacingTemp = PlatoonConfiguration::getAxleSpacings();
-  config.axleLoad = std::vector<double>{axleLoadTemp.begin(), axleLoadTemp.end()};
-  config.axleSpacing = std::vector<double>{axleSpacingTemp.begin(), axleSpacingTemp.end()};
+  config.axleLoad =
+      std::vector<double>{axleLoadTemp.begin(), axleLoadTemp.end()};
+  config.axleSpacing =
+      std::vector<double>{axleSpacingTemp.begin(), axleSpacingTemp.end()};
   config.headway = PlatoonConfiguration::getHeadway();
   config.numberOfTrucks = PlatoonConfiguration::getNumTrucks();
   saver::savePlatoonConfiguration(config);
@@ -97,7 +96,8 @@ void PlatoonVisual::loadButtonClicked() {
 
   PlatoonConfiguration::updateAxleLoad(spacings2);
   PlatoonConfiguration::updateHeadway(QString::number(config.headway));
-  PlatoonConfiguration::updateNumberOfTrucks(QString::number(config.numberOfTrucks));
+  PlatoonConfiguration::updateNumberOfTrucks(
+      QString::number(config.numberOfTrucks));
 
   mAxleSpacing->setText(spacings);
   mAxleLoad->setText(spacings2);
@@ -109,7 +109,7 @@ void PlatoonVisual::loadButtonClicked() {
 
 void PlatoonVisual::createPage() {
   this->setSizePolicy(QSizePolicy(QSizePolicy::Policy::Expanding,
-                                   QSizePolicy::Policy::Expanding));
+                                  QSizePolicy::Policy::Expanding));
   auto *pageLayout = new QVBoxLayout();
   this->setLayout(pageLayout);
 
@@ -148,7 +148,6 @@ void PlatoonVisual::createPage() {
     inputLayout->addWidget(mButton, 4, 0);
     inputLayout->addWidget(mSaveButton, 5, 0);
     inputLayout->addWidget(mLoadButton, 6, 0);
-
 
     mViewWidget = new QGraphicsView(this);
     mSceneWidget = new QGraphicsScene(this);

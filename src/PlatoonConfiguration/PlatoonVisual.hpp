@@ -5,9 +5,11 @@ class PlatoonVisual : public QWidget {
   Q_OBJECT
 
  public:
-  PlatoonVisual(QTabWidget *parent = nullptr);
+  PlatoonVisual(QWidget *parent = nullptr);
   ~PlatoonVisual();
-  QGraphicsScene* mSceneWidget;
+
+  QGraphicsScene *getScene() { return mSceneWidget; }
+
  public slots:
   void buttonClicked();
   void saveButtonClicked();
@@ -33,6 +35,7 @@ class PlatoonVisual : public QWidget {
   QPushButton *mSaveButton;
   QPushButton *mLoadButton;
 
-  QGraphicsView* mViewWidget;
+  QGraphicsScene *mSceneWidget;
+  QGraphicsView *mViewWidget;
 };
 }  // namespace mtobridge

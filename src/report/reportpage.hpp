@@ -10,7 +10,7 @@ class ReportPage : public QWidget {
   Q_OBJECT
 
  public:
-  ReportPage(QTabWidget *parent = nullptr);
+  ReportPage(QWidget *parent = nullptr);
   ~ReportPage();
 
   Report getReport();
