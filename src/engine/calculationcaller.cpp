@@ -262,6 +262,7 @@ bool validateTruckConfig(MockTruckT platoon) {
       platoon.headway <= 0 || platoon.numberOfTrucks <= 0) {
     return false;
   }
+  return true;
 }
 
 bool validateBridgeConfig(MockBridgeT bridge) {
@@ -273,6 +274,7 @@ bool validateBridgeConfig(MockBridgeT bridge) {
       bridge.discretizationLength <= 0) {
     return false;
   }
+  return true;
 }
 
 bool validateInput(MockCalculationInputT in) {

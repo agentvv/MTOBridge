@@ -2,7 +2,7 @@
 
 #include <QList>
 #include <MatlabCppSharedLib.hpp>
-#include "../report/report_mocks.hpp"
+#include "util/data_types.hpp"
 
 namespace mtobridge {
 MockCalculationOutputT runCalculation(MockCalculationInputT in);
