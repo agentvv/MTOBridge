@@ -100,10 +100,6 @@ class TestCalculationCaller : public QObject {
   }
 
   void testInvalidCommandHeadway() {
-    QSKIP(
-        "Headway of -1 causes failure with debug assertion, skip to run other "
-        "tests.");
-    return;
     mtobridge::MockCalculationInputT in = {
         .truckConfig = {.axleLoad = {53.4, 75.6, 75.6, 75.6, 75.6},
                         .axleSpacing = {3.6576, 1.2192, 9.4488, 1.2192},
@@ -119,10 +115,6 @@ class TestCalculationCaller : public QObject {
   }
 
   void testInvalidCommandNumberOfSpans1() {
-    QSKIP(
-        "0 spans causes failure with debug assertion, skip to run other "
-        "tests.");
-    return;
     mtobridge::MockCalculationInputT in = {
         .truckConfig = {.axleLoad = {53.4, 75.6, 75.6, 75.6, 75.6},
                         .axleSpacing = {3.6576, 1.2192, 9.4488, 1.2192},
@@ -138,8 +130,6 @@ class TestCalculationCaller : public QObject {
   }
 
   void testInvalidCommandNumberOfSpans2() {
-    QSKIP("10 spans causes segfault, skip to run other tests.");
-    return;
     mtobridge::MockCalculationInputT in = {
         .truckConfig = {.axleLoad = {53.4, 75.6, 75.6, 75.6, 75.6},
                         .axleSpacing = {3.6576, 1.2192, 9.4488, 1.2192},

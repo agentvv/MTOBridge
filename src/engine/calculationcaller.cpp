@@ -256,6 +256,32 @@ void setupCalculations() {
   matlabFunctions[1][2][2] = &Critical_section_three_span_shear;
 }
 
+bool validateTruckConfig(MockTruckT platoon) {
+  if (platoon.axleLoad.size() < 1 ||
+      platoon.axleLoad.size() != platoon.axleSpacing.size() + 1 ||
+      platoon.headway <= 0 || platoon.numberOfTrucks <= 0) {
+    return false;
+  }
+}
+
+bool validateBridgeConfig(MockBridgeT bridge) {
+  double bridgeLength =
+      std::reduce(bridge.spanLength.begin(), bridge.spanLength.end());
+  if (bridge.numberSpans <= 0 || bridge.numberSpans > 3 ||
+      bridge.spanLength.size() != bridge.numberSpans ||
+      bridge.concernedSection < 0 || bridge.concernedSection > bridgeLength ||
+      bridge.discretizationLength <= 0) {
+    return false;
+  }
+}
+
+bool validateInput(MockCalculationInputT in) {
+  return validateTruckConfig(in.truckConfig) &&
+         validateBridgeConfig(in.bridgeConfig) &&
+         !(in.solverConfig.forceType == MockSolverT::NEGATIVE_MOMENT &&
+           in.bridgeConfig.numberSpans == 1);
+}
+
 /**
  * @brief runs appropriate calculation depending on the calculation input
  * @param in calculation input
@@ -267,6 +293,11 @@ MockCalculationOutputT runCalculation(MockCalculationInputT in) {
     setupCalculations();
     setup = true;
   }
+
+  if (!validateInput(in)) {
+    return MockCalculationOutputT();
+  }
+
   if (in.solverConfig.solverType == MockSolverT::CONCERNED) {
     if (in.solverConfig.forceType == MockSolverT::NEGATIVE_MOMENT) {
       return concernedNegativeSection(in);
