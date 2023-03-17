@@ -12,18 +12,13 @@ target_sources(saver
 target_include_directories(saver
     PUBLIC
         ${CMAKE_CURRENT_LIST_DIR}
-      
 )
 
 target_link_libraries(saver
-    PRIVATE
+    PUBLIC
+        util
+        bridge
         Qt6::Core
         Qt6::Widgets
         Qt6::Charts
-        
-)
-
-target_link_libraries(saver
-    INTERFACE
-        ${Matlab_ROOT_DIR}/extern/lib/win64/microsoft/libMatlabCppSharedLib.lib
 )

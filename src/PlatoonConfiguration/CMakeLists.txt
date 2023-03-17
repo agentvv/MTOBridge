@@ -19,5 +19,7 @@ target_link_libraries(PlatoonConfiguration
         Qt6::Core
         Qt6::Widgets
         Qt6::Charts
+        util
+        saver
 )
 

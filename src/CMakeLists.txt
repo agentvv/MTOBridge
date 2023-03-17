@@ -2,6 +2,7 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 qt_add_executable(MTOBridge "main.cpp")
 
+add_subdirectory("util")
 add_subdirectory("engine")
 add_subdirectory("gui")
 add_subdirectory("matlab")
@@ -18,15 +19,15 @@ target_link_libraries(MTOBridge
         Qt6::Charts
         Qt6::Test
         ${Matlab_ROOT_DIR}/extern/lib/win64/libMatlabCppSharedLib.lib
+        util
         engine
         gui
         matlab
         report
         solver
-        solverVisual
         saver
         PlatoonConfiguration
-	  bridge
+	    bridge
 )
 
 add_custom_command(

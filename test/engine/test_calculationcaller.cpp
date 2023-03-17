@@ -1,7 +1,7 @@
 #include <QTest>
 
 #include "../../src/engine/calculationcaller.hpp"
-#include "../../src/report/report_mocks.hpp"
+#include "util/data_types.hpp"
 #include "MatlabDataArray.hpp"
 
 class TestCalculationCaller : public QObject {

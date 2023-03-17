@@ -5,7 +5,7 @@
 #include <QFile>
 #include <QMessageBox>
 #include <QFileDialog>
-#include "../report/report_mocks.hpp"
+#include "util/data_types.hpp"
 #include "../bridge/bridgeconfig.hpp"
 
 namespace mtobridge{

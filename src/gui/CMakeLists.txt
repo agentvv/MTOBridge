@@ -10,7 +10,6 @@ target_sources(gui
 target_include_directories(gui
     PUBLIC
         ${CMAKE_CURRENT_LIST_DIR}
-        ${PROJECT_SOURCE_DIR}/src/engine/
 )
 
 target_link_libraries(gui
@@ -18,7 +17,11 @@ target_link_libraries(gui
         Qt6::Core
         Qt6::Widgets
         Qt6::Charts
+        bridge
+        PlatoonConfiguration
+        solver
         engine
+        util
 )
 
 target_link_libraries(gui

@@ -1,8 +1,5 @@
 #pragma once
-
-//#include "../calculation/CalculationInput.hpp"
-//#include "../calculation/CalculationOutput.hpp"
-#include "report_mocks.hpp"
+#include "util/data_types.hpp"
 
 namespace mtobridge {
 struct Report {

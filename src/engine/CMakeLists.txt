@@ -15,11 +15,11 @@ target_include_directories(engine
 )
 
 target_link_libraries(engine
-    PRIVATE
+    PUBLIC
         Qt6::Core
         Qt6::Widgets
         Qt6::Charts
-        report
+        util
 )
 
 target_link_libraries(engine

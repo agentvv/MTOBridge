@@ -1,7 +1,7 @@
 #include <QTest>
 
 #include "../../src/solver/solver.hpp"
-#include "../../src/report/report_mocks.hpp"
+#include "util/data_types.hpp"
 
 class TestSolver : public QObject {
     Q_OBJECT

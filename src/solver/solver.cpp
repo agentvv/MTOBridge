@@ -1,5 +1,5 @@
 #include "solver.hpp"
-#include "../../src/report/report_mocks.hpp"
+#include "util/data_types.hpp"
 
 namespace mtobridge {
 	ForceType Solver::force = ForceType(POSITIVE_MOMENT);

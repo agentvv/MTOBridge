@@ -4,7 +4,7 @@
 #include <QtWidgets>
 
 #include "../report/report.hpp"
-#include "../report/report_mocks.hpp"
+#include "util/data_types.hpp"
 
 namespace mtobridge {
 class SolverVisual : public QWidget {

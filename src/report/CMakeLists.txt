@@ -3,7 +3,6 @@ add_library(report STATIC)
 target_sources(report
     PRIVATE
         ${CMAKE_CURRENT_LIST_DIR}/reportpage.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/report_mocks.hpp
     PUBLIC
         ${CMAKE_CURRENT_LIST_DIR}/reportpage.hpp
         ${CMAKE_CURRENT_LIST_DIR}/report.hpp
@@ -11,7 +10,7 @@ target_sources(report
 
 target_include_directories(report
     PUBLIC
-        ${CMAKE_CURRENT_LIST_DIR}
+        ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
 target_link_libraries(report
@@ -19,11 +18,5 @@ target_link_libraries(report
         Qt6::Core
         Qt6::Widgets
         Qt6::Charts
+        util
 )
-
-target_link_libraries(report
-    INTERFACE
-        ${Matlab_ROOT_DIR}/extern/lib/win64/microsoft/libMatlabCppSharedLib.lib
-        ${Matlab_ROOT_DIR}/extern/lib/win64/microsoft/libMatlabDataArray.lib
-)
-
