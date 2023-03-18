@@ -44,6 +44,17 @@ void SolverVisual::createPage() {
     mChartView->resize(300, 300);
     mChartView->setSizePolicy(QSizePolicy(QSizePolicy::Policy::Expanding,
                                           QSizePolicy::Policy::Expanding));
+
+    mEnvelopeChart = new QChart();
+    mEnvelopeChart->legend()->hide();
+    mEnvelopeChart->createDefaultAxes();
+
+    mEnvelopeChartView = new QChartView(mEnvelopeChart, nullptr);
+    mEnvelopeChartView->setRenderHint(QPainter::Antialiasing);
+    mEnvelopeChartView->resize(300, 300);
+    mEnvelopeChartView->setSizePolicy(QSizePolicy(
+        QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Expanding));
+
     chartLayout->addWidget(mChartView, 0, 0);
     topHalfLayout->addWidget(mChartWidget);
   }
@@ -232,7 +243,6 @@ void SolverVisual::updatePage() {
 
 void SolverVisual::updateChart(MockCalculationInputT in,
                                MockCalculationOutputT out) {
-
   this->mReport.input = in;
   this->mReport.results = out;
   std::vector<double> x_vals = std::move(out.firstAxlePosition);
@@ -294,6 +304,35 @@ void SolverVisual::updateChart(MockCalculationInputT in,
       ->setMax(*std::max_element(y_vals.begin(), y_vals.end()));
 
   mChartView->setChart(mChart);
+
+  if (in.solverConfig.solverType == CRITICAL) {
+    x_vals = std::move(out.sections);
+    y_vals = std::move(out.forceEnvelope);
+
+    QLineSeries* series = new QLineSeries(mEnvelopeChart);
+    for (int i = 0; i < x_vals.size(); i++) {
+      series->append(QPointF(x_vals[i], y_vals[i]));
+    }
+
+    mEnvelopeChart->removeAllSeries();
+    for (auto& axis : mEnvelopeChart->axes()) {
+      mEnvelopeChart->removeAxis(axis);
+    }
+    mEnvelopeChart->addSeries(series);
+
+    mEnvelopeChart->createDefaultAxes();
+    mEnvelopeChart->axes(Qt::Horizontal).first()->setMin(x_vals.front());
+    mEnvelopeChart->axes(Qt::Horizontal).first()->setMax(x_vals.back());
+
+    mEnvelopeChart->axes(Qt::Vertical)
+        .first()
+        ->setMin(*std::min_element(y_vals.begin(), y_vals.end()));
+    mEnvelopeChart->axes(Qt::Vertical)
+        .first()
+        ->setMax(*std::max_element(y_vals.begin(), y_vals.end()));
+
+    mEnvelopeChartView->setChart(mEnvelopeChart);
+  }
 
   this->calculateButton->setText("Run Analysis");
   this->calculateButton->setDisabled(false);

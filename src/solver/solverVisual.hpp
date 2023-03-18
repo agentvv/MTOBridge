@@ -38,6 +38,10 @@ class SolverVisual : public QWidget {
   QChart* mChart;
   QChartView* mChartView;
 
+  // Force Envelope Chart
+  QChart* mEnvelopeChart;
+  QChartView* mEnvelopeChartView;
+
   QRadioButton* positiveMomentButton;
   QRadioButton* negativeMomentButton;
   QRadioButton* shearButton;
