@@ -4,20 +4,20 @@ namespace mtobridge {
   struct MockTruckT {
     std::vector<double> axleLoad{};
     std::vector<double> axleSpacing{};
-    quint8 numberOfTrucks;
-    double headway;
+    int numberOfTrucks = -1;
+    double headway = -1;
   };
 
   struct MockBridgeT {
-    quint8 numberSpans;
+    int numberSpans = -1;
     std::vector<double> spanLength{};
-    double concernedSection;
-    double discretizationLength;
+    double concernedSection = -1;
+    double discretizationLength = -1;
   };
 
   struct MockSolverT {
-    enum ForceE { POSITIVE_MOMENT, NEGATIVE_MOMENT, SHEAR } forceType;
-    enum SolverE { CONCERNED, CRITICAL } solverType;
+    enum ForceE { POSITIVE_MOMENT, NEGATIVE_MOMENT, SHEAR } forceType = POSITIVE_MOMENT;
+    enum SolverE { CONCERNED, CRITICAL } solverType = CONCERNED;
   };
 
   struct MockCalculationInputT {
@@ -31,10 +31,10 @@ namespace mtobridge {
     std::vector<double> firstAxlePosition{};
     std::vector<double> forceConcernedSection{};
     std::vector<double> forceCriticalSection{};
-    double maxForce;
-    double firstAxlePositionMaxForce;
+    double maxForce = -1;
+    double firstAxlePositionMaxForce = -1;
     std::vector<double> sections{};
-    double criticalSection;
+    double criticalSection = -1;
     std::vector<double> forceEnvelope{};
     std::vector<double> firstAxlePositionForceEnvelope{};
   };
