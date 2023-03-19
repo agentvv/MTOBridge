@@ -1,67 +1,110 @@
 #include "loader.hpp"
 #include "../bridge/bridgeconfig.hpp"
 
+
+//! This is the loader module. The following code is responsible for loading data from a text file.
+//! The module takes the entire string and splits it into separate lines. 
+//! Each line is then prcoessed and analyzed for specific requirments. 
+
+
 namespace mtobridge{
 
+//! loadPlatoonConfiguration is responsbile for loading the truck data which include axleLoad, axleSapcing, # of trucks and headway. 
 mtobridge::MockTruckT loader::loadPlatoonConfiguration()
 {
   mtobridge::MockTruckT temptruck;
     QString fileName = QFileDialog::getOpenFileName(nullptr,
         "Load Truck Configuration", "",
         "MTOBridge (*.trk);;All Files (*)");
-//! [loadFromFile() function part1]
 
-//! [loadFromFile() function part2]
+
+//! If the file is empty, we prepopulate it with some data. If the file is unable to open we send a warning.  
     if (fileName.isEmpty())
         return temptruck = { .axleLoad = { 53.4, 75.6, 75.6, 75.6, 75.6 }, .axleSpacing = { 3.6576, 1.2192, 9.4488, 1.2192 }, .numberOfTrucks = 3, .headway = 5 };
     else {
+      QFile file(fileName);
 
-        QFile file(fileName);
+      if (!file.open(QIODevice::ReadOnly)) {
+        QMessageBox::information(nullptr, "Unable to open file",
+                                 file.errorString());
+        return temptruck;
+      }
 
-        if (!file.open(QIODevice::ReadOnly)) {
-            QMessageBox::information(nullptr, "Unable to open file",
-                file.errorString());
-            return temptruck;
+      QString temp;
+      QTextStream in(&file);
+      temp = in.readAll();
+      file.close();
+
+  
+
+      QList<QString> strList = temp.split("\n", Qt::SkipEmptyParts);
+
+      if (temp.isEmpty()) {
+        QMessageBox::information(
+            nullptr, "Nothing in file",
+            "The file you are attempting to open contains nothing.");
+      }
+
+//! Once we check the strings arent empty, we split each using space character. 
+//! We then setup a regex for double and floating point numbers which we can use to check against our list of values. 
+
+      QList<QString> axleLoadList = strList[0].split(" ", Qt::SkipEmptyParts);
+      QList<QString> axleSpaceList = strList[1].split(" ", Qt::SkipEmptyParts);
+
+      QRegularExpression regexDouble(QStringLiteral(R"([-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?)"));
+
+      for (const auto& i : axleLoadList) {
+        QRegularExpressionMatch match = regexDouble.match(i);
+        if (match.hasMatch() && match.capturedStart() == 0 &&
+            match.capturedLength() == i.length()) {
+          temptruck.axleLoad.push_back(i.toDouble());
+        } else {
+          QMessageBox::information(nullptr, "Invalid Type",
+                                   "The file you are attempting to load "
+                                   "contains non-numbers for the axleLoad.");
         }
+      }
 
-        QString temp;
-        QTextStream in(&file);
-        temp = in.readAll();
-        file.close();
-
-//! [loadFromFile() function part3]
-
-        
-        QList<QString> strList = temp.split("\n", Qt::SkipEmptyParts);
-
-
-        if (temp.isEmpty()) {
-            QMessageBox::information(nullptr, "Nothing in file",
-                "The file you are attempting to open contains nothing.");
+      for (const auto& i : axleSpaceList) {
+        QRegularExpressionMatch match = regexDouble.match(i);
+        if (match.hasMatch() && match.capturedStart() == 0 &&
+            match.capturedLength() == i.length()) {
+          temptruck.axleSpacing.push_back(i.toDouble());
+        } else {
+          QMessageBox::information(
+              nullptr, "Invalid Type",
+              "The file you are attempting to load contains non-numbers "
+              "for the axleSpacing.");
         }
-
-        QList<QString> axleLoadList = strList[0].split(" ", Qt::SkipEmptyParts);
-        QList<QString> axleSpaceList = strList[1].split(" ", Qt::SkipEmptyParts);
-
-
-
-        for ( const auto& i : axleLoadList)
-        {
-            temptruck.axleLoad.push_back(i.toDouble());
-        }
-
-        for ( const auto& i : axleSpaceList)
-        {
-            temptruck.axleSpacing.push_back(i.toDouble());
-        }
-
+      }
+//! Here we setup an int regex to check for integers only. 
+      QRegularExpression regexInt(QStringLiteral(R"([-+]?[0-9]+)"));
+      QRegularExpressionMatch matchInt = regexInt.match(strList[3]);
+      if (matchInt.hasMatch() && matchInt.capturedStart() == 0 &&
+          matchInt.capturedLength() == strList[3].length()) {
         temptruck.numberOfTrucks = strList[3].toUInt();
+      } else {
+        QMessageBox::information(
+            nullptr, "Invalid Type",
+            "The file you are attempting to load contains non-integer value"
+            "for the number of Trucks.");
+      }
+// Check if the input matches the regular expression pattern
+      QRegularExpressionMatch matchDouble = regexDouble.match(strList[2]);
+      if (matchDouble.hasMatch() && matchDouble.capturedStart() == 0 &&
+          matchDouble.capturedLength() == strList[2].length()) {
         temptruck.headway = strList[2].toDouble();
+      } else {
+        QMessageBox::information(
+            nullptr, "Invalid Type",
+            "The file you are attempting to load contains non-double value"
+            "for the truck headway.");
+      }
 
+      return temptruck;
     }
-    return temptruck;
 }
-
+//! loadBridgeConfiguration is responsbile for loading the bridge data which include numberofSpans, spanLength, concernedSection and discretizationLength. 
 mtobridge::BridgeT loader::loadBridgeConfiguration()
 {
   mtobridge::BridgeT tempbridge;
@@ -69,9 +112,8 @@ mtobridge::BridgeT loader::loadBridgeConfiguration()
     QString fileName = QFileDialog::getOpenFileName(nullptr,
         "Load Bridge Configuration", "",
         "MTOBridge (*.brg);;All Files (*)");
-//! [loadFromFile() function part1]
 
-//! [loadFromFile() function part2]
+//! If the file is empty, we prepopulate it with some data. If the file is unable to open we send a warning. 
     if (fileName.isEmpty())
         return tempbridge = { .numberSpans = 2, .spanLength = { 20, 20 }, .concernedSection = 10, .discretizationLength = 0.1 };
     else {
@@ -88,7 +130,8 @@ mtobridge::BridgeT loader::loadBridgeConfiguration()
         QTextStream in(&file);
         temp = in.readAll();
         file.close();
-//! [loadFromFile() function part3]
+
+//! We start by splitting the entire string into different lines. 
 
       
         QList<QString> strList = temp.split("\n", Qt::SkipEmptyParts);
@@ -101,16 +144,63 @@ mtobridge::BridgeT loader::loadBridgeConfiguration()
 
         QList<QString> spanLengthList = strList[1].split(" ", Qt::SkipEmptyParts);
 
+//! We then setup a regex for double and integer point numbers which we can use to check against our list of values.
+
+        QRegularExpression regexDouble(QStringLiteral(R"([-+]?[0-9]*\.[0-9]+([eE][-+]?[0-9]+)?)"));
+        QRegularExpression regexInt(QStringLiteral(R"([-+]?[0-9]+)"));
+
         for ( const auto& i : spanLengthList)
         {
-            tempbridge.spanLength.push_back(i.toDouble());
+            QRegularExpressionMatch matchDouble = regexDouble.match(i);
+            
+            if (matchDouble.hasMatch() && matchDouble.capturedStart() == 0 &&
+                matchDouble.capturedLength() == i.length()) {
+                tempbridge.spanLength.push_back(i.toDouble());
+            } else {
+                QMessageBox::information(
+              nullptr, "Invalid Type",
+              "The file you are attempting to load contains non-double value "
+              "for the spanLength.");
+            }
         }
 
+//! Define a regular expression pattern to match doubles only (excluding integers)
+        QRegularExpressionMatch matchDouble = regexDouble.match(strList[2]);
 
-        tempbridge.numberSpans = strList[0].toInt();
-        tempbridge.concernedSection = strList[2].toDouble();
-        tempbridge.discretizationLength = strList[3].toDouble();
+//! Check if the input matches the regular expression pattern
+        if (matchDouble.hasMatch() && matchDouble.capturedStart() == 0 &&
+            matchDouble.capturedLength() == strList[2].length()) {
+            tempbridge.concernedSection = strList[2].toDouble();
+        } else {
+            QMessageBox::information(
+                nullptr, "Invalid Type",
+                "The file you are attempting to load contains non-double value "
+                "for the concernedSection.");
+        }
 
+        matchDouble = regexDouble.match(strList[3]);
+        if (matchDouble.hasMatch() && matchDouble.capturedStart() == 0 &&
+            matchDouble.capturedLength() == strList[3].length()) {
+            tempbridge.discretizationLength = strList[3].toDouble();
+        } else {
+            QMessageBox::information(
+                nullptr, "Invalid Type",
+                "The file you are attempting to load contains non-double value "
+                "for the discretizationLength.");
+        }
+
+        QRegularExpressionMatch matchInt = regexInt.match(strList[0]);
+//! Return true if the input matches the pattern and the whole input is matched, otherwise return false
+        if (matchInt.hasMatch() && matchInt.capturedStart() == 0 &&
+            matchInt.capturedLength() == strList[0].length()) {
+            tempbridge.numberSpans = strList[0].toInt();
+        } else {
+            QMessageBox::information(
+                nullptr, "Invalid Type",
+                "The file you are attempting to load contains non-int value "
+                "for the numberSpans.");
+        }
+        
     }
     return tempbridge;
 }
@@ -122,7 +212,7 @@ mtobridge::MockSolverT loader::loadSolverConfiguration()
     QString fileName = QFileDialog::getOpenFileName(nullptr,
         "Load Bridge Configuration", "",
         "MTOBridge (*.slv);;All Files (*)");
-//! [loadFromFile() function part1]
+
 
 //! [loadFromFile() function part2]
     if (fileName.isEmpty())
