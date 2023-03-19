@@ -7,7 +7,6 @@
 #include "../bridge/bridgevisual.hpp"
 #include "../PlatoonConfiguration/PlatoonVisual.hpp"
 #include "../solver/solverVisual.hpp"
-#include "../report/reportpage.hpp" 
 
 namespace mtobridge {
 class Window : public QWidget {
@@ -30,6 +29,5 @@ class Window : public QWidget {
   PlatoonVisual* mPlatoon;
   BridgeVisual* mBridge;
   SolverVisual* mSolver;
-  ReportPage* mReport;
 };
 };  // namespace mtobridge

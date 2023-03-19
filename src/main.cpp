@@ -5,9 +5,6 @@
 #include <sstream>
 
 #include "window.hpp"
-#include "report/reportpage.hpp"
-#include "solver/solverVisual.hpp"
-#include "PlatoonConfiguration/PlatoonVisual.hpp"
 
   int main(int argc, char* argv[]) {
     QApplication app(argc, argv);

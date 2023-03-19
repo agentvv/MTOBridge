@@ -31,6 +31,7 @@ class SolverVisual : public QWidget {
   // Force setting window
   // Solver setting window
   QPushButton* calculateButton;
+  QPushButton* saveButton;
   QGroupBox* saveLoadGroup;
   // QPushButton* saveButton;
   // QPushButton* loadButton;

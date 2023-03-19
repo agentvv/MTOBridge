@@ -1,10 +1,7 @@
 add_library(report STATIC)
 
 target_sources(report
-    PRIVATE
-        ${CMAKE_CURRENT_LIST_DIR}/reportpage.cpp
     PUBLIC
-        ${CMAKE_CURRENT_LIST_DIR}/reportpage.hpp
         ${CMAKE_CURRENT_LIST_DIR}/report.hpp
 )
 

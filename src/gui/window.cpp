@@ -31,12 +31,10 @@ void Window::createWindow() {
   mSolver = new SolverVisual(this);
   mSolver->setPlatoon(mPlatoon->getScene());
   mSolver->setBridge(mBridge->getScene());
-  mReport = new ReportPage(this);
 
   mTabWidget->addTab(mPlatoon, "Platoon");
   mTabWidget->addTab(mBridge, "Bridge");
   mTabWidget->addTab(mSolver, "Solver");
-  mTabWidget->addTab(mReport, "Report");
 
   auto &engine = Engine::getInstance();
 

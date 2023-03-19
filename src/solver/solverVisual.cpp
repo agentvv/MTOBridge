@@ -2,7 +2,6 @@
 
 #include "../PlatoonConfiguration/PlatoonConfiguration.hpp"
 #include "../engine/engine.hpp"
-#include "../report/reportpage.hpp"
 #include "../saver/loader.hpp"
 #include "../saver/saver.hpp"
 #include "solver.hpp"
@@ -190,6 +189,15 @@ void SolverVisual::createPage() {
   topHalfLayout->addWidget(mInputWidget);
   pageLayout->addWidget(topHalf);
 
+  this->saveButton = new QPushButton("Generate Report", this);
+  this->saveButton->setDisabled(true);
+  QObject::connect(this->saveButton, &QPushButton::clicked, this, [&]() {
+    this->saveButton->setDisabled(true);
+    mtobridge::saver::saveReport(mReport);
+    this->saveButton->setDisabled(false);
+  });
+  inputLayout->addWidget(this->saveButton);
+
   QWidget* bottomHalf = new QWidget(this);
   QVBoxLayout* truckBridgeLayout = new QVBoxLayout;
   bottomHalf->setLayout(truckBridgeLayout);
@@ -208,10 +216,11 @@ void SolverVisual::createPage() {
   QObject::connect(this, &SolverVisual::runCommand, &engine,
                    &Engine::runCommand);
 
-  // enable calculate button as soon as matlab is ready to go
+  // enable buttons as soon as matlab is ready to go
   QObject::connect(&engine, &Engine::engineStarted, this, [&]() {
     this->calculateButton->setText("Run Analysis");
     this->calculateButton->setDisabled(false);
+    this->saveButton->setDisabled(false);
   });
 
   // draw chart after command finished
