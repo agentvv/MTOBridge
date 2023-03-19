@@ -180,6 +180,7 @@ void SolverVisual::createPage() {
   QObject::connect(this->calculateButton, &QPushButton::clicked, this, [&]() {
     this->calculateButton->setDisabled(true);
     this->calculateButton->setText("Analysing...");
+    this->saveButton->setDisabled(true);
     MockCalculationInputT in;
 
     std::list<double> tempList = PlatoonConfiguration::getAxleLoads();
@@ -215,7 +216,7 @@ void SolverVisual::createPage() {
   pageLayout->addWidget(topHalf);
 
   {
-    this->saveButton = new QPushButton("Generate Report", this);
+    this->saveButton = new QPushButton("Save Results", this);
     this->saveButton->setDisabled(true);
     QObject::connect(this->saveButton, &QPushButton::clicked, this, [&]() {
       this->saveButton->setDisabled(true);
@@ -372,6 +373,7 @@ void SolverVisual::updateChart(MockCalculationInputT in,
 
   this->calculateButton->setText("Run Analysis");
   this->calculateButton->setDisabled(false);
+  this->saveButton->setDisabled(false);
 }
 
 void SolverVisual::setPlatoon(QGraphicsScene* platoon) {

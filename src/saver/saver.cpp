@@ -245,7 +245,19 @@ void saver::saveReport(mtobridge::Report ReportT)
           ReportT.results.forceCriticalSection[i]);
     }
 
-    QString output = inputheader + truckstr + breakLine1 + bridgestr + breakLine2 + solverstr + resulstheader + criticalstr + strfirstaxleposition + "\n";
+    QString envelope;
+    if (strSolver == "Critical") {
+      envelope = "Envelope (section, force)\n";
+      for (int i = 0; i < ReportT.results.sections.size(); i++)
+      {
+          envelope += QString("%1, %2\n")
+              .arg(ReportT.results.sections[i])
+              .arg(ReportT.results.forceEnvelope[i]);
+      }
+    }
+
+    QString output = inputheader + truckstr + breakLine1 + bridgestr + breakLine2 + solverstr 
+        + resulstheader + criticalstr + strfirstaxleposition + envelope + "\n";
 
     QTextStream out(&file);
     out << output;
