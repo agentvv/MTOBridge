@@ -162,6 +162,9 @@ void PlatoonVisual::createPage() {
                      &PlatoonVisual::saveButtonClicked);
     QObject::connect(mLoadButton, &QPushButton::clicked, this,
                      &PlatoonVisual::loadButtonClicked);
+
+    //to render the trucks and lock-in the values so that they are stored in memory
+    buttonClicked();
   }
 }
 };  // namespace mtobridge
