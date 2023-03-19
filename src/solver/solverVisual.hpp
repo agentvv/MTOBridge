@@ -15,6 +15,7 @@ class SolverVisual : public QWidget {
   ~SolverVisual(){};
 
   void setBridge(QGraphicsScene*);
+  void showEvent(QShowEvent* showEvent);
   void setPlatoon(QGraphicsScene*);
   void visualize();
 
@@ -51,6 +52,11 @@ class SolverVisual : public QWidget {
 
   QGraphicsView* truckVisual;
   QGraphicsView* bridgeVisual;
+
+  QLabel* concernedSectionLabel;
+  QLineEdit* concernedSectionReminder;
+  QLabel* discretizationLengthLabel;
+  QLineEdit* discretizationLengthReminder;
 
   Report mReport;
 
