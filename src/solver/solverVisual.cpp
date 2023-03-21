@@ -183,8 +183,10 @@ void SolverVisual::createPage() {
     this->calculateButton->setDisabled(true);
     this->calculateButton->setText("Analysing...");
     this->saveButton->setDisabled(true);
-    this->lastFrameButton->setDisabled(true);
+    this->backFrameButton->setDisabled(true);
+    this->firstFrameButton->setDisabled(true);
     this->nextFrameButton->setDisabled(true);
+    this->lastFrameButton->setDisabled(true);
     this->animationButton->setDisabled(true);
 
     MockCalculationInputT in;
@@ -224,34 +226,56 @@ void SolverVisual::createPage() {
 
   QWidget* animationWidget = new QWidget(this);
   QHBoxLayout* animationLayout = new QHBoxLayout();
+  animationLayout->setSpacing(0);
   animationWidget->setSizePolicy(QSizePolicy(QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Expanding));
   animationWidget->setLayout(animationLayout);
-  this->lastFrameButton = new QPushButton("<", this);
-  this->lastFrameButton->setDisabled(true);
-  this->lastFrameButton->setFixedWidth(25);
-  QObject::connect(this->lastFrameButton, &QPushButton::clicked, this, [&]() {
+  this->firstFrameButton = new QPushButton("<<", this);
+  this->firstFrameButton->setDisabled(true);
+  this->firstFrameButton->setFixedWidth(25);
+  QObject::connect(this->firstFrameButton, &QPushButton::clicked, this, [&]() {
+    int j = 0;
+    foreach(QGraphicsItemGroup * group, *(this->groups)) {
+      group->setPos((120 + PlatoonConfiguration::getHeadway() * 5) * j++ + this->animationMin, 0);
+    }
+    this->mChart->removeAllSeries();
+    this->animationStatus = AtBeginning;
+    this->backFrameButton->setDisabled(true);
+    this->firstFrameButton->setDisabled(true);
+    this->nextFrameButton->setDisabled(false);
+    this->lastFrameButton->setDisabled(false);
+    this->animationButton->setText("Play");
+    });
+  this->backFrameButton = new QPushButton("<", this);
+  this->backFrameButton->setDisabled(true);
+  this->backFrameButton->setFixedWidth(25);
+  QObject::connect(this->backFrameButton, &QPushButton::clicked, this, [&]() {
     //Have to add hold checking for manual animation
     if (lastFrame()) {
       if (this->animationStatus == AtEnd) {
         this->animationStatus = Paused;
         this->nextFrameButton->setDisabled(false);
+        this->lastFrameButton->setDisabled(false);
         this->animationButton->setText("Play");
       }
     }
     else {
       this->animationStatus = AtBeginning;
-      this->lastFrameButton->setDisabled(true);
+      this->backFrameButton->setDisabled(true);
+      this->firstFrameButton->setDisabled(true);
     }
     });
   this->animationButton = new QPushButton("Play", this);
   this->animationButton->setDisabled(true);
+  this->animationButton->setFixedWidth(60);
   QObject::connect(this->animationButton, &QPushButton::clicked, this, [&]() {
     switch (this->animationStatus) {
     case RunningBackward:
     case RunningForward:
       this->animationStatus = Paused;
-      this->lastFrameButton->setDisabled(false);
+      this->backFrameButton->setDisabled(false);
+      this->firstFrameButton->setDisabled(false);
       this->nextFrameButton->setDisabled(false);
+      this->lastFrameButton->setDisabled(false);
       this->animationButton->setText("Play");
       this->calculateButton->setText("Run Analysis");
       this->calculateButton->setDisabled(false);
@@ -267,8 +291,10 @@ void SolverVisual::createPage() {
     case Paused:
     case AtBeginning:
       this->animationStatus = RunningForward;
-      this->lastFrameButton->setDisabled(true);
+      this->backFrameButton->setDisabled(true);
+      this->firstFrameButton->setDisabled(true);
       this->nextFrameButton->setDisabled(true);
+      this->lastFrameButton->setDisabled(true);
       this->animationButton->setText("Pause");
       this->calculateButton->setText("Animating");
       this->calculateButton->setDisabled(true);
@@ -284,18 +310,54 @@ void SolverVisual::createPage() {
     if (nextFrame()) {
       if (this->animationStatus == AtBeginning) {
         this->animationStatus = Paused;
-        this->lastFrameButton->setDisabled(false);
+        this->backFrameButton->setDisabled(false);
+        this->firstFrameButton->setDisabled(false);
       }
     }
     else {
       this->animationStatus = AtEnd;
       this->nextFrameButton->setDisabled(true);
+      this->lastFrameButton->setDisabled(true);
       this->animationButton->setText("Restart");
     }
     });
-  animationLayout->addWidget(this->lastFrameButton);
+  this->lastFrameButton = new QPushButton(">>", this);
+  this->lastFrameButton->setDisabled(true);
+  this->lastFrameButton->setFixedWidth(25);
+  QObject::connect(this->lastFrameButton, &QPushButton::clicked, this, [&]() {
+    int j = 0;
+    foreach(QGraphicsItemGroup * group, *(this->groups)) {
+      group->setPos((120 + PlatoonConfiguration::getHeadway() * 5) * j++ + this->animationMax, 0);
+    }
+    std::vector<double> x_vals = this->mReport.results.firstAxlePosition;
+    std::vector<double> y_vals;
+    if (this->mReport.input.solverConfig.solverType == MockSolverT::CONCERNED) {
+      y_vals = this->mReport.results.forceConcernedSection;
+    }
+    else {
+      y_vals = this->mReport.results.forceCriticalSection;
+    }
+    QLineSeries* series = new QLineSeries(this->mChart);
+    for (int i = 0; i < x_vals.size(); i++) {
+      series->append(QPointF(x_vals[i], y_vals[i]));
+    }
+    this->mChart->removeAllSeries();
+    this->mChart->addSeries(series);
+    foreach(QAbstractAxis * axis, this->mChart->axes()) {
+      series->attachAxis(axis);
+    }
+    this->animationStatus = AtEnd;
+    this->nextFrameButton->setDisabled(true);
+    this->lastFrameButton->setDisabled(true);
+    this->backFrameButton->setDisabled(false);
+    this->firstFrameButton->setDisabled(false);
+    this->animationButton->setText("Restart");
+    });
+  animationLayout->addWidget(this->firstFrameButton);
+  animationLayout->addWidget(this->backFrameButton);
   animationLayout->addWidget(this->animationButton);
   animationLayout->addWidget(this->nextFrameButton);
+  animationLayout->addWidget(this->lastFrameButton);
   inputLayout->addWidget(animationWidget);
   topHalfLayout->addWidget(mInputWidget);
   pageLayout->addWidget(topHalf);
@@ -405,7 +467,8 @@ void SolverVisual::animateForward() {
   else {
     this->animationStatus = AtEnd;
     this->animationButton->setText("Restart");
-    this->lastFrameButton->setDisabled(false);
+    this->backFrameButton->setDisabled(false);
+    this->firstFrameButton->setDisabled(false);
     this->calculateButton->setText("Run Analysis");
     this->calculateButton->setDisabled(false);
   }
@@ -454,6 +517,7 @@ void SolverVisual::animateBackward() {
     this->animationStatus = AtBeginning;
     this->animationButton->setText("Play");
     this->nextFrameButton->setDisabled(false);
+    this->lastFrameButton->setDisabled(false);
     this->calculateButton->setText("Run Analysis");
     this->calculateButton->setDisabled(false);
   }
@@ -473,8 +537,10 @@ void SolverVisual::setUpAnimation() {
   }
 
   this->animationStatus = RunningForward;
-  this->lastFrameButton->setDisabled(true);
+  this->backFrameButton->setDisabled(true);
+  this->firstFrameButton->setDisabled(true);
   this->nextFrameButton->setDisabled(true);
+  this->lastFrameButton->setDisabled(true);
   this->animationButton->setText("Pause");
   this->animationButton->setDisabled(false);
   this->calculateButton->setText("Animating");
@@ -516,28 +582,21 @@ void SolverVisual::updateChart(MockCalculationInputT in,
   }
 
   this->mChart->setTitle(QString("%1 at %2 meters").arg(force).arg(position));
-  mChart->createDefaultAxes();
-  mChart->axes(Qt::Vertical)
-      .first()
-      ->setTitleText(
-          QString("%1 at %2 Section (kNm)")
-              .arg(force)
-              .arg(in.solverConfig.solverType == MockSolverT::CONCERNED
-                       ? "Concerned"
-                       : "Critical"));
-  mChart->axes(Qt::Horizontal)
-      .first()
-      ->setTitleText(QString("First Axle Position (m)"));
-
-  mChart->axes(Qt::Horizontal).first()->setMin(x_vals.front());
-  mChart->axes(Qt::Horizontal).first()->setMax(x_vals.back());
-
-  mChart->axes(Qt::Vertical)
-      .first()
-      ->setMin(*std::min_element(y_vals.begin(), y_vals.end()));
-  mChart->axes(Qt::Vertical)
-      .first()
-      ->setMax(*std::max_element(y_vals.begin(), y_vals.end()));
+  QValueAxis* xAxis = new QValueAxis();
+  xAxis->setTitleText(
+    QString("%1 at %2 Section (kNm)")
+    .arg(force)
+    .arg(in.solverConfig.solverType == MockSolverT::CONCERNED
+      ? "Concerned"
+      : "Critical"));
+  xAxis->setMin(x_vals.front());
+  xAxis->setMax(x_vals.back());
+  this->mChart->addAxis(xAxis, Qt::AlignBottom);
+  QValueAxis* yAxis = new QValueAxis();
+  yAxis->setTitleText(QString("First Axle Position (m)"));
+  yAxis->setMin(*std::min_element(y_vals.begin(), y_vals.end()));
+  yAxis->setMax(*std::max_element(y_vals.begin(), y_vals.end()));
+  this->mChart->addAxis(yAxis, Qt::AlignLeft);
 
   this->mChartView->setChart(this->mChart);
 
