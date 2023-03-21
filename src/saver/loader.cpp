@@ -290,9 +290,9 @@ mtobridge::Report loader::loadReportConfiguration() {
     QString line;
     while (!in.atEnd()) {
       line = in.readLine().trimmed();
+      if (line.isEmpty() || line.startsWith("*")) continue;
       if (line == "[Platoon]") {
-        while (!(line = in.readLine().trimmed()).startsWith("*******") &&
-               !line.isEmpty()) {
+        while (!line.isEmpty()) {
           if (line.startsWith("axleLoad")) {
             QStringList axleLoads =
                 line.mid(10).split(' ', Qt::SkipEmptyParts);
@@ -313,8 +313,7 @@ mtobridge::Report loader::loadReportConfiguration() {
           }
         }
       } else if (line == "[Bridge]") {
-        while (!(line = in.readLine().trimmed()).startsWith("*******") &&
-               !line.isEmpty()) {
+        while (!line.isEmpty()) {
           if (line.startsWith("numberSpans")) {
             tempReport.input.bridgeConfig.numberSpans = line.mid(12).toInt();
           } else if (line.startsWith("spanLength")) {
@@ -326,8 +325,7 @@ mtobridge::Report loader::loadReportConfiguration() {
           }
         }
       } else if (line == "[Solver]") {
-        while (!(line = in.readLine().trimmed()).startsWith("*******") &&
-               !line.isEmpty()) {
+        while (!line.isEmpty()) {
           if (line.startsWith("forceType")) {
             QString forceTypeStr = line.mid(10).trimmed();
             if (forceTypeStr == "Positive Moment") {
