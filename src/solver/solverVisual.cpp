@@ -6,7 +6,7 @@
 #include "../saver/loader.hpp"
 #include "../saver/saver.hpp"
 #include "solver.hpp"
-
+#include <math.h>
 namespace mtobridge {
 void SolverVisual::visualize() {}
 
@@ -183,6 +183,10 @@ void SolverVisual::createPage() {
     this->calculateButton->setDisabled(true);
     this->calculateButton->setText("Analysing...");
     this->saveButton->setDisabled(true);
+    this->lastFrameButton->setDisabled(true);
+    this->nextFrameButton->setDisabled(true);
+    this->animationButton->setDisabled(true);
+
     MockCalculationInputT in;
 
     std::list<double> tempList = PlatoonConfiguration::getAxleLoads();
@@ -239,7 +243,7 @@ void SolverVisual::createPage() {
       this->lastFrameButton->setDisabled(true);
     }
     });
-  this->animationButton = new QPushButton("Initialising...", this);
+  this->animationButton = new QPushButton("Play", this);
   this->animationButton->setDisabled(true);
   QObject::connect(this->animationButton, &QPushButton::clicked, this, [&]() {
     switch (this->animationStatus) {
@@ -249,6 +253,8 @@ void SolverVisual::createPage() {
       this->lastFrameButton->setDisabled(false);
       this->nextFrameButton->setDisabled(false);
       this->animationButton->setText("Play");
+      this->calculateButton->setText("Run Analysis");
+      this->calculateButton->setDisabled(false);
       break;
     case AtEnd:
       {
@@ -264,6 +270,8 @@ void SolverVisual::createPage() {
       this->lastFrameButton->setDisabled(true);
       this->nextFrameButton->setDisabled(true);
       this->animationButton->setText("Pause");
+      this->calculateButton->setText("Animating");
+      this->calculateButton->setDisabled(true);
       this->animateForward();
       break;
     }
@@ -365,6 +373,26 @@ bool SolverVisual::nextFrame() {
     group->setPos(group->pos().x() + this->animationInc, 0);
   }
 
+  int numDataPoints = ((this->groups->at(0)->pos().x() - this->animationMin) / this->animationInc) * this->animationPointsPerFrame;
+  //std::vector<double> x_vals = std::move(this->mReport.results.firstAxlePosition);
+  std::vector<double> x_vals = this->mReport.results.firstAxlePosition;
+  std::vector<double> y_vals;
+  if (this->mReport.input.solverConfig.solverType == MockSolverT::CONCERNED) {
+    //y_vals = std::move(this->mReport.results.forceConcernedSection);
+    y_vals = this->mReport.results.forceConcernedSection;
+  }
+  else {
+    //y_vals = std::move(this->mReport.results.forceCriticalSection);
+    y_vals = this->mReport.results.forceCriticalSection;
+  }
+  if (numDataPoints > x_vals.size()) numDataPoints = x_vals.size();
+  QLineSeries* mSeries = new QLineSeries(mChart);
+  for (int i = 0; i < numDataPoints; i++) {
+    mSeries->append(QPointF(x_vals[i], y_vals[i]));
+  }
+  mChart->removeAllSeries();
+  mChart->addSeries(mSeries);
+
   if (this->groups->at(0)->pos().x() >= this->animationMax) return false;
   else return true;
 }
@@ -378,6 +406,8 @@ void SolverVisual::animateForward() {
     this->animationStatus = AtEnd;
     this->animationButton->setText("Restart");
     this->lastFrameButton->setDisabled(false);
+    this->calculateButton->setText("Run Analysis");
+    this->calculateButton->setDisabled(false);
   }
 }
 
@@ -390,6 +420,26 @@ bool SolverVisual::lastFrame() {
   foreach(QGraphicsItemGroup * group, *(this->groups)) {
     group->setPos(group->pos().x() - this->animationInc, 0);
   }
+
+  int numDataPoints = ((this->groups->at(0)->pos().x() - this->animationMin) / this->animationInc) * this->animationPointsPerFrame;
+  //std::vector<double> x_vals = std::move(this->mReport.results.firstAxlePosition);
+  std::vector<double> x_vals = this->mReport.results.firstAxlePosition;
+  std::vector<double> y_vals;
+  if (this->mReport.input.solverConfig.solverType == MockSolverT::CONCERNED) {
+    //y_vals = std::move(this->mReport.results.forceConcernedSection);
+    y_vals = this->mReport.results.forceConcernedSection;
+  }
+  else {
+    //y_vals = std::move(this->mReport.results.forceCriticalSection);
+    y_vals = this->mReport.results.forceCriticalSection;
+  }
+  if (numDataPoints > x_vals.size()) numDataPoints = x_vals.size();
+  QLineSeries* mSeries = new QLineSeries(mChart);
+  for (int i = 0; i < numDataPoints; i++) {
+    mSeries->append(QPointF(x_vals[i], y_vals[i]));
+  }
+  mChart->removeAllSeries();
+  mChart->addSeries(mSeries);
 
   if (this->groups->at(0)->pos().x() <= this->animationMin) return false;
   else return true;
@@ -404,6 +454,8 @@ void SolverVisual::animateBackward() {
     this->animationStatus = AtBeginning;
     this->animationButton->setText("Play");
     this->nextFrameButton->setDisabled(false);
+    this->calculateButton->setText("Run Analysis");
+    this->calculateButton->setDisabled(false);
   }
 }
 
@@ -411,7 +463,8 @@ void SolverVisual::setUpAnimation() {
   //Have to actually calculate these
   this->animationMax = 575;         //Based on bridge size
   this->animationMin = -250;        //Based on bridge and platoon size
-  this->animationInc = 10;          //Based on discretization length?
+  this->animationInc = (int)ceil(PIXELS_PER_METER * TRUCK_POSITION_INCREMENT);          
+  this->animationPointsPerFrame = (int)(this->animationInc/(PIXELS_PER_METER * TRUCK_POSITION_INCREMENT));
   this->animationSpeed = ANIMATION_TIME / ((this->animationMax - this->animationMin) / this->animationInc);
 
   int j = 0;
@@ -420,8 +473,12 @@ void SolverVisual::setUpAnimation() {
   }
 
   this->animationStatus = RunningForward;
+  this->lastFrameButton->setDisabled(true);
+  this->nextFrameButton->setDisabled(true);
   this->animationButton->setText("Pause");
   this->animationButton->setDisabled(false);
+  this->calculateButton->setText("Animating");
+  this->calculateButton->setDisabled(true);
   this->animateForward();
 }
 
@@ -432,6 +489,7 @@ void SolverVisual::updateChart(MockCalculationInputT in,
   //Have to move all the data point adding into the frame functions
   this->mReport.input = in;
   this->mReport.results = out;
+  
   std::vector<double> x_vals = std::move(out.firstAxlePosition);
   std::vector<double> y_vals;
   if (in.solverConfig.solverType == MockSolverT::CONCERNED) {
@@ -439,17 +497,18 @@ void SolverVisual::updateChart(MockCalculationInputT in,
   } else {
     y_vals = std::move(out.forceCriticalSection);
   }
-
+  /*
   QLineSeries* mSeries = new QLineSeries(mChart);
   for (int i = 0; i < x_vals.size(); i++) {
     mSeries->append(QPointF(x_vals[i], y_vals[i]));
   }
 
   mChart->removeAllSeries();
+  mChart->addSeries(mSeries);
+  */
   for (auto& axis : mChart->axes()) {
     mChart->removeAxis(axis);
   }
-  mChart->addSeries(mSeries);
   QString force;
   if (in.solverConfig.forceType == MockSolverT::POSITIVE_MOMENT) {
     force = "Positive Moment";
@@ -521,8 +580,6 @@ void SolverVisual::updateChart(MockCalculationInputT in,
     mEnvelopeChartView->setChart(mEnvelopeChart);
   }
 
-  this->calculateButton->setText("Run Analysis");
-  this->calculateButton->setDisabled(false);
   this->saveButton->setDisabled(false);
 }
 

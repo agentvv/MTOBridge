@@ -6,7 +6,9 @@
 #include "../report/report.hpp"
 #include "util/data_types.hpp"
 
-#define ANIMATION_TIME 15000    //Total time the animation should take in miliseconds
+#define ANIMATION_TIME 15000          //Total time the animation should take in miliseconds
+#define PIXELS_PER_METER 5            //Pixels per meter in truck and bridge visualisations
+#define TRUCK_POSITION_INCREMENT 0.1  //Amount the truck moves forward per data point (in meters)
 
 namespace mtobridge {
 class SolverVisual : public QWidget {
@@ -32,6 +34,7 @@ class SolverVisual : public QWidget {
    int animationMin;
    int animationMax;
    int animationInc;
+   int animationPointsPerFrame;
    int animationSpeed;
    enum {NotLoaded, AtBeginning, AtEnd, Paused, RunningForward, RunningBackward} animationStatus;
 
