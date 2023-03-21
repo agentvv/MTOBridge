@@ -115,7 +115,7 @@ void SolverVisual::createPage() {
   saveLoadBox->addStretch(1);
   this->saveLoadGroup->setFixedHeight(100);
 
-  this->forceSettingGroup = new QGroupBox("Force Type", this);
+  this->forceSettingGroup = new QGroupBox("Force Response", this);
   inputLayout->addWidget(this->forceSettingGroup);
   QVBoxLayout* forceBox = new QVBoxLayout;
   this->forceSettingGroup->setLayout(forceBox);
@@ -151,6 +151,7 @@ void SolverVisual::createPage() {
   solverBox->addStretch(1);
   this->solverSettingGroup->setFixedHeight(75);
 
+  /*
   //create reminders for concerned sec and discret length
   {
     auto* reminderLayout = new QGridLayout();
@@ -174,6 +175,7 @@ void SolverVisual::createPage() {
 
     inputLayout->addWidget(reminderWidget);
   }
+  */
 
   this->calculateButton = new QPushButton("Initialising...", this);
   this->calculateButton->setDisabled(true);
@@ -184,9 +186,9 @@ void SolverVisual::createPage() {
     MockCalculationInputT in;
 
     std::list<double> tempList = PlatoonConfiguration::getAxleLoads();
-    in.truckConfig.axleLoad = {std::begin(tempList), std::end(tempList)};
+    in.truckConfig.axleLoad = { std::begin(tempList), std::end(tempList) };
     tempList = PlatoonConfiguration::getAxleSpacings();
-    in.truckConfig.axleSpacing = {std::begin(tempList), std::end(tempList)};
+    in.truckConfig.axleSpacing = { std::begin(tempList), std::end(tempList) };
     in.truckConfig.numberOfTrucks = PlatoonConfiguration::getNumTrucks();
     in.truckConfig.headway = PlatoonConfiguration::getHeadway();
 
@@ -198,20 +200,95 @@ void SolverVisual::createPage() {
 
     if (Solver::getForceType() == "Positive Moment") {
       in.solverConfig.forceType = MockSolverT::POSITIVE_MOMENT;
-    } else if (Solver::getForceType() == "Negative Moment") {
+    }
+    else if (Solver::getForceType() == "Negative Moment") {
       in.solverConfig.forceType = MockSolverT::NEGATIVE_MOMENT;
-    } else if (Solver::getForceType() == "Shear") {
+    }
+    else if (Solver::getForceType() == "Shear") {
       in.solverConfig.forceType = MockSolverT::SHEAR;
     }
 
     if (Solver::getSolverType() == "Concerned Section") {
       in.solverConfig.solverType = MockSolverT::CONCERNED;
-    } else if (Solver::getSolverType() == "Critical Section") {
+    }
+    else if (Solver::getSolverType() == "Critical Section") {
       in.solverConfig.solverType = MockSolverT::CRITICAL;
     }
     emit SolverVisual::runCommand(in);
-  });
-  inputLayout->addWidget(this->calculateButton);
+    });
+  inputLayout->addWidget(calculateButton);
+
+  QWidget* animationWidget = new QWidget(this);
+  QHBoxLayout* animationLayout = new QHBoxLayout();
+  animationWidget->setSizePolicy(QSizePolicy(QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Expanding));
+  animationWidget->setLayout(animationLayout);
+  this->lastFrameButton = new QPushButton("<", this);
+  this->lastFrameButton->setDisabled(true);
+  this->lastFrameButton->setFixedWidth(25);
+  QObject::connect(this->lastFrameButton, &QPushButton::clicked, this, [&]() {
+    //Have to add hold checking for manual animation
+    if (lastFrame()) {
+      if (this->animationStatus == AtEnd) {
+        this->animationStatus = Paused;
+        this->nextFrameButton->setDisabled(false);
+        this->animationButton->setText("Play");
+      }
+    }
+    else {
+      this->animationStatus = AtBeginning;
+      this->lastFrameButton->setDisabled(true);
+    }
+    });
+  this->animationButton = new QPushButton("Initialising...", this);
+  this->animationButton->setDisabled(true);
+  QObject::connect(this->animationButton, &QPushButton::clicked, this, [&]() {
+    switch (this->animationStatus) {
+    case RunningBackward:
+    case RunningForward:
+      this->animationStatus = Paused;
+      this->lastFrameButton->setDisabled(false);
+      this->nextFrameButton->setDisabled(false);
+      this->animationButton->setText("Play");
+      break;
+    case AtEnd:
+      {
+        int j = 0;
+        foreach(QGraphicsItemGroup * group, *(this->groups)) {
+          group->setPos((120 + PlatoonConfiguration::getHeadway() * 5) * j++ + this->animationMin, 0);
+        }
+      }
+      //This is intended to roll over into the next case statements
+    case Paused:
+    case AtBeginning:
+      this->animationStatus = RunningForward;
+      this->lastFrameButton->setDisabled(true);
+      this->nextFrameButton->setDisabled(true);
+      this->animationButton->setText("Pause");
+      this->animateForward();
+      break;
+    }
+    });
+  this->nextFrameButton = new QPushButton(">", this);
+  this->nextFrameButton->setDisabled(true);
+  this->nextFrameButton->setFixedWidth(25);
+  QObject::connect(this->nextFrameButton, &QPushButton::clicked, this, [&]() {
+    //Have to add hold checking for manual animation
+    if (nextFrame()) {
+      if (this->animationStatus == AtBeginning) {
+        this->animationStatus = Paused;
+        this->lastFrameButton->setDisabled(false);
+      }
+    }
+    else {
+      this->animationStatus = AtEnd;
+      this->nextFrameButton->setDisabled(true);
+      this->animationButton->setText("Restart");
+    }
+    });
+  animationLayout->addWidget(this->lastFrameButton);
+  animationLayout->addWidget(this->animationButton);
+  animationLayout->addWidget(this->nextFrameButton);
+  inputLayout->addWidget(animationWidget);
   topHalfLayout->addWidget(mInputWidget);
   pageLayout->addWidget(topHalf);
 
@@ -278,8 +355,81 @@ void SolverVisual::updatePage() {
   }
 }
 
+bool SolverVisual::nextFrame() {
+  if (this->groups->at(0)->pos().x() >= this->animationMax) {
+    return false;
+  }
+
+  int j = 0;
+  foreach(QGraphicsItemGroup * group, *(this->groups)) {
+    group->setPos(group->pos().x() + this->animationInc, 0);
+  }
+
+  if (this->groups->at(0)->pos().x() >= this->animationMax) return false;
+  else return true;
+}
+
+void SolverVisual::animateForward() {
+  if (this->animationStatus != RunningForward) return;
+  if (nextFrame()) {
+    QTimer::singleShot(this->animationSpeed, this, &SolverVisual::animateForward);
+  }
+  else {
+    this->animationStatus = AtEnd;
+    this->animationButton->setText("Restart");
+    this->lastFrameButton->setDisabled(false);
+  }
+}
+
+bool SolverVisual::lastFrame() {
+  if (this->groups->at(0)->pos().x() <= this->animationMin) {
+    return false;
+  }
+
+  int j = 0;
+  foreach(QGraphicsItemGroup * group, *(this->groups)) {
+    group->setPos(group->pos().x() - this->animationInc, 0);
+  }
+
+  if (this->groups->at(0)->pos().x() <= this->animationMin) return false;
+  else return true;
+}
+
+void SolverVisual::animateBackward() {
+  if (this->animationStatus != RunningBackward) return;
+  if (lastFrame()) {
+    QTimer::singleShot(this->animationSpeed, this, &SolverVisual::animateBackward);
+  }
+  else {
+    this->animationStatus = AtBeginning;
+    this->animationButton->setText("Play");
+    this->nextFrameButton->setDisabled(false);
+  }
+}
+
+void SolverVisual::setUpAnimation() {
+  //Have to actually calculate these
+  this->animationMax = 575;         //Based on bridge size
+  this->animationMin = -250;        //Based on bridge and platoon size
+  this->animationInc = 10;          //Based on discretization length?
+  this->animationSpeed = ANIMATION_TIME / ((this->animationMax - this->animationMin) / this->animationInc);
+
+  int j = 0;
+  foreach(QGraphicsItemGroup* group, *(this->groups)) {
+    group->setPos((120 + PlatoonConfiguration::getHeadway() * 5) * j++ + this->animationMin, 0);
+  }
+
+  this->animationStatus = RunningForward;
+  this->animationButton->setText("Pause");
+  this->animationButton->setDisabled(false);
+  this->animateForward();
+}
+
 void SolverVisual::updateChart(MockCalculationInputT in,
                                MockCalculationOutputT out) {
+  this->setUpAnimation();
+
+  //Have to move all the data point adding into the frame functions
   this->mReport.input = in;
   this->mReport.results = out;
   std::vector<double> x_vals = std::move(out.firstAxlePosition);
@@ -377,14 +527,32 @@ void SolverVisual::updateChart(MockCalculationInputT in,
 }
 
 void SolverVisual::setPlatoon(QGraphicsScene* platoon) {
-  truckVisual->setScene(platoon);
+  //this->truckVisual->setScene(platoon);
+  
+  QList<QGraphicsItem*> items = platoon->items();
+  if (items.size() == 0) return;
+  QGraphicsScene* truckScene = new QGraphicsScene();
+  int j = 0;
+  this->groups = new QList<QGraphicsItemGroup*>;
+  QGraphicsItemGroup* lastGroup = nullptr;
+  foreach(QGraphicsItem* item, items) {
+    QGraphicsItemGroup* group = item->group();
+    if (group != nullptr && (this->groups->isEmpty() || group != this->groups->back())) {
+      this->groups->append(group);
+      truckScene->addItem(group);
+      group->setPos((120 + PlatoonConfiguration::getHeadway() * 5) * j++, 0);
+    }
+  }
+  this->truckVisual->setScene(truckScene);
+  this->truckVisual->setSceneRect(0, 0, 750, 75);
 }
 
 void SolverVisual::setBridge(QGraphicsScene* bridge) {
-  bridgeVisual->setScene(bridge);
+  this->bridgeVisual->setScene(bridge);
 }
 
 void SolverVisual::showEvent(QShowEvent* showEvent) {
+  /*
   BridgeT bridgeConfig = BridgeConfiguration::getConfiguration();
   this->concernedSectionReminder->setText(
       QString::number(bridgeConfig.concernedSection));
@@ -392,5 +560,6 @@ void SolverVisual::showEvent(QShowEvent* showEvent) {
       QString::number(bridgeConfig.discretizationLength));
 
   QWidget::showEvent(showEvent);
+  */
 }
 };  // namespace mtobridge
