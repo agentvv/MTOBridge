@@ -11,12 +11,14 @@ class PlatoonVisual : public QWidget {
   QGraphicsScene *getScene() { return mSceneWidget; }
 
  public slots:
-  void buttonClicked();
+  void platoonConfigured();
   void saveButtonClicked();
   void loadButtonClicked();
 
  private:
   void createPage();
+
+  QGraphicsItemGroup *makeTruck();
 
   QTabWidget *mTabWidget;
   QWidget *mPage;
@@ -31,11 +33,15 @@ class PlatoonVisual : public QWidget {
   QLabel *mHeadwayLabel;
   QLineEdit *mHeadway;
 
-  QPushButton *mButton;
   QPushButton *mSaveButton;
   QPushButton *mLoadButton;
 
   QGraphicsScene *mSceneWidget;
   QGraphicsView *mViewWidget;
+  QGraphicsRectItem *truckHead;
+  QGraphicsRectItem *truckWindow;
+  QGraphicsRectItem *truckBody;
+  QGraphicsEllipseItem *truckWheel;
+  QGraphicsItemGroup *truck;
 };
 }  // namespace mtobridge

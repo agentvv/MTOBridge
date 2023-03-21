@@ -1,5 +1,6 @@
 #include "PlatoonVisual.hpp"
 
+#include <cctype>
 #include <iostream>
 #include <sstream>
 
@@ -12,14 +13,46 @@ PlatoonVisual::PlatoonVisual(QWidget *parent) : QWidget(parent) {
   createPage();
 }
 PlatoonVisual::~PlatoonVisual() {}
-void PlatoonVisual::buttonClicked() {
-  mSceneWidget->clear();
+QBrush redBrush(Qt::red);
+QBrush grayBrush(Qt::lightGray);
+QBrush blackBrush(Qt::black);
+QBrush whiteBrush(Qt::white);
+QPen blackPen(Qt::black);
 
-  QBrush redBrush(Qt::red);
-  QBrush grayBrush(Qt::lightGray);
-  QBrush blackBrush(Qt::black);
-  QBrush whiteBrush(Qt::white);
-  QPen blackPen(Qt::black);
+QGraphicsItemGroup *PlatoonVisual::makeTruck() {
+  std::list<double> spacings = PlatoonConfiguration::getAxleSpacings();
+  std::list<double>::iterator it = spacings.begin();
+  blackPen.setWidth(2);
+  truck = new QGraphicsItemGroup();
+  truckHead = mSceneWidget->addRect(90, 0, 30, 60, blackPen, redBrush);
+  truckWindow = mSceneWidget->addRect(100, 3, 15, 20, blackPen, whiteBrush);
+  truckBody = mSceneWidget->addRect(0, 0, 90, 60, blackPen, grayBrush);
+  truck->addToGroup(truckHead);
+  truck->addToGroup(truckWindow);
+  truck->addToGroup(truckBody);
+  int x = 105;
+  truckWheel = mSceneWidget->addEllipse(x, 57, 5, 10, blackPen, blackBrush);
+  truck->addToGroup(truckWheel);
+  while (it != spacings.end()) {
+    x = x - (*it * 5);
+    truckWheel = mSceneWidget->addEllipse(x, 57, 5, 10, blackPen, blackBrush);
+    truck->addToGroup(truckWheel);
+    it++;
+  }
+  return truck;
+  
+}
+void PlatoonVisual::platoonConfigured() {
+  if (mAxleSpacing->text() == "" || mAxleLoad->text() == "" ||
+      mHeadway->text() == "" || mNumberOfTrucks->text() == "") {
+       return;
+  }
+  if (!isdigit(mNumberOfTrucks->text().toStdString()[0]) ||!isdigit(mHeadway->text().toStdString()[0]) 
+      || !isdigit(mAxleLoad->text().toStdString()[0]) || !isdigit(mAxleSpacing->text().toStdString()[0])) {
+       return;
+  }
+  mSceneWidget->clear();
+  
   blackPen.setWidth(2);
 
   QString axleLoads = mAxleLoad->text();
@@ -34,35 +67,18 @@ void PlatoonVisual::buttonClicked() {
 
   std::list<double> spacings = PlatoonConfiguration::getAxleSpacings();
   std::list<double>::iterator it = spacings.begin();
-
   if (PlatoonConfiguration::getNumTrucks() > 0) {
-    mSceneWidget->addRect(90, 0, 30, 60, blackPen, redBrush);
-    mSceneWidget->addRect(100, 3, 15, 20, blackPen, whiteBrush);
-    mSceneWidget->addRect(0, 0, 90, 60, blackPen, grayBrush);
-    int x = 105;
-    mSceneWidget->addEllipse(x, 57, 5, 10, blackPen, blackBrush);
-    while (it != spacings.end()) {
-      x = x - (*it * 5);
-      mSceneWidget->addEllipse(x, 57, 5, 10, blackPen, blackBrush);
-      it++;
-    }
+       truck = makeTruck();
+       mSceneWidget->clear();
+       mSceneWidget->addItem(truck);
+       truck->setPos(0, 0);
   }
+  
+
   for (int i = 1; i < PlatoonConfiguration::getNumTrucks(); i++) {
-    mSceneWidget->addRect(90 + ((120 + PlatoonConfiguration::getHeadway()) * i),
-                          0, 30, 60, blackPen, redBrush);
-    mSceneWidget->addRect(
-        100 + ((120 + PlatoonConfiguration::getHeadway()) * i), 3, 15, 20,
-        blackPen, whiteBrush);
-    mSceneWidget->addRect(0 + ((120 + PlatoonConfiguration::getHeadway()) * i),
-                          0, 90, 60, blackPen, grayBrush);
-    it = spacings.begin();
-    int x = (105 + ((120 + PlatoonConfiguration::getHeadway()) * i));
-    mSceneWidget->addEllipse(x, 57, 5, 10, blackPen, blackBrush);
-    while (it != spacings.end()) {
-      x = x - (*it * 5);
-      mSceneWidget->addEllipse(x, 57, 5, 10, blackPen, blackBrush);
-      it++;
-    }
+        QGraphicsItemGroup *truck2 = makeTruck();
+        mSceneWidget->addItem(truck2);
+        truck2->setPos((120 + PlatoonConfiguration::getHeadway()*5) * i, 0);
   }
 }
 void PlatoonVisual::saveButtonClicked() {
@@ -104,7 +120,7 @@ void PlatoonVisual::loadButtonClicked() {
   mNumberOfTrucks->setText(QString::number(config.numberOfTrucks));
   mHeadway->setText(QString::number(config.headway));
 
-  buttonClicked();
+  platoonConfigured();
 }
 
 void PlatoonVisual::createPage() {
@@ -121,19 +137,18 @@ void PlatoonVisual::createPage() {
                                             QSizePolicy::Policy::Expanding));
     mInputWidget->setLayout(inputLayout);
 
-    mNumberOfTrucks = new QLineEdit("3", mInputWidget);
+    mNumberOfTrucks = new QLineEdit("", mInputWidget);
     mNumberOfTrucksLabel = new QLabel("Number of Trucks", mInputWidget);
 
-    mHeadway = new QLineEdit("5", mInputWidget);
+    mHeadway = new QLineEdit("", mInputWidget);
     mHeadwayLabel = new QLabel("Truck Headway", mInputWidget);
 
-    mAxleLoad = new QLineEdit("53.4 75.6 75.6 75.6 75.6", mInputWidget);
+    mAxleLoad = new QLineEdit("", mInputWidget);
     mAxleLoadLabel = new QLabel("Axle Load", mInputWidget);
 
-    mAxleSpacing = new QLineEdit("3.6576 1.2192 9.4488 1.2192", mInputWidget);
+    mAxleSpacing = new QLineEdit("", mInputWidget);
     mAxleSpacingLabel = new QLabel("Axle Spacing", mInputWidget);
 
-    mButton = new QPushButton("Lock-In", this);
     mSaveButton = new QPushButton("Save Truck Configuration", this);
     mLoadButton = new QPushButton("Load Truck Configuration", this);
 
@@ -145,19 +160,23 @@ void PlatoonVisual::createPage() {
     inputLayout->addWidget(mAxleLoad, 2, 1);
     inputLayout->addWidget(mAxleSpacingLabel, 3, 0);
     inputLayout->addWidget(mAxleSpacing, 3, 1);
-    inputLayout->addWidget(mButton, 4, 0);
-    inputLayout->addWidget(mSaveButton, 5, 0);
-    inputLayout->addWidget(mLoadButton, 6, 0);
+    inputLayout->addWidget(mSaveButton, 4, 0);
+    inputLayout->addWidget(mLoadButton, 5, 0);
 
     mViewWidget = new QGraphicsView(this);
     mSceneWidget = new QGraphicsScene(this);
-
     mViewWidget->setScene(mSceneWidget);
     pageLayout->addWidget(mInputWidget);
     pageLayout->addWidget(mViewWidget);
 
-    QObject::connect(mButton, &QPushButton::clicked, this,
-                     &PlatoonVisual::buttonClicked);
+    QObject::connect(mNumberOfTrucks, &QLineEdit::editingFinished, this,
+                     &PlatoonVisual::platoonConfigured);
+    QObject::connect(mHeadway, &QLineEdit::editingFinished, this,
+                     &PlatoonVisual::platoonConfigured);
+    QObject::connect(mAxleLoad, &QLineEdit::editingFinished, this,
+                     &PlatoonVisual::platoonConfigured);
+    QObject::connect(mAxleSpacing, &QLineEdit::editingFinished, this,
+                     &PlatoonVisual::platoonConfigured);
     QObject::connect(mSaveButton, &QPushButton::clicked, this,
                      &PlatoonVisual::saveButtonClicked);
     QObject::connect(mLoadButton, &QPushButton::clicked, this,
