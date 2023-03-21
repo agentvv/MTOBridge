@@ -374,24 +374,24 @@ bool SolverVisual::nextFrame() {
   }
 
   int numDataPoints = ((this->groups->at(0)->pos().x() - this->animationMin) / this->animationInc) * this->animationPointsPerFrame;
-  //std::vector<double> x_vals = std::move(this->mReport.results.firstAxlePosition);
   std::vector<double> x_vals = this->mReport.results.firstAxlePosition;
   std::vector<double> y_vals;
   if (this->mReport.input.solverConfig.solverType == MockSolverT::CONCERNED) {
-    //y_vals = std::move(this->mReport.results.forceConcernedSection);
     y_vals = this->mReport.results.forceConcernedSection;
   }
   else {
-    //y_vals = std::move(this->mReport.results.forceCriticalSection);
     y_vals = this->mReport.results.forceCriticalSection;
   }
   if (numDataPoints > x_vals.size()) numDataPoints = x_vals.size();
-  QLineSeries* mSeries = new QLineSeries(mChart);
+  QLineSeries* series = new QLineSeries(this->mChart);
   for (int i = 0; i < numDataPoints; i++) {
-    mSeries->append(QPointF(x_vals[i], y_vals[i]));
+    series->append(QPointF(x_vals[i], y_vals[i]));
   }
-  mChart->removeAllSeries();
-  mChart->addSeries(mSeries);
+  this->mChart->removeAllSeries();
+  this->mChart->addSeries(series);
+  foreach(QAbstractAxis* axis, this->mChart->axes()) {
+    series->attachAxis(axis);
+  }
 
   if (this->groups->at(0)->pos().x() >= this->animationMax) return false;
   else return true;
@@ -422,24 +422,24 @@ bool SolverVisual::lastFrame() {
   }
 
   int numDataPoints = ((this->groups->at(0)->pos().x() - this->animationMin) / this->animationInc) * this->animationPointsPerFrame;
-  //std::vector<double> x_vals = std::move(this->mReport.results.firstAxlePosition);
   std::vector<double> x_vals = this->mReport.results.firstAxlePosition;
   std::vector<double> y_vals;
   if (this->mReport.input.solverConfig.solverType == MockSolverT::CONCERNED) {
-    //y_vals = std::move(this->mReport.results.forceConcernedSection);
     y_vals = this->mReport.results.forceConcernedSection;
   }
   else {
-    //y_vals = std::move(this->mReport.results.forceCriticalSection);
     y_vals = this->mReport.results.forceCriticalSection;
   }
   if (numDataPoints > x_vals.size()) numDataPoints = x_vals.size();
-  QLineSeries* mSeries = new QLineSeries(mChart);
+  QLineSeries* series = new QLineSeries(this->mChart);
   for (int i = 0; i < numDataPoints; i++) {
-    mSeries->append(QPointF(x_vals[i], y_vals[i]));
+    series->append(QPointF(x_vals[i], y_vals[i]));
   }
-  mChart->removeAllSeries();
-  mChart->addSeries(mSeries);
+  this->mChart->removeAllSeries();
+  this->mChart->addSeries(series);
+  foreach(QAbstractAxis* axis, this->mChart->axes()) {
+    series->attachAxis(axis);
+  }
 
   if (this->groups->at(0)->pos().x() <= this->animationMin) return false;
   else return true;
@@ -484,8 +484,6 @@ void SolverVisual::setUpAnimation() {
 
 void SolverVisual::updateChart(MockCalculationInputT in,
                                MockCalculationOutputT out) {
-  this->setUpAnimation();
-
   //Have to move all the data point adding into the frame functions
   this->mReport.input = in;
   this->mReport.results = out;
@@ -497,17 +495,9 @@ void SolverVisual::updateChart(MockCalculationInputT in,
   } else {
     y_vals = std::move(out.forceCriticalSection);
   }
-  /*
-  QLineSeries* mSeries = new QLineSeries(mChart);
-  for (int i = 0; i < x_vals.size(); i++) {
-    mSeries->append(QPointF(x_vals[i], y_vals[i]));
-  }
 
-  mChart->removeAllSeries();
-  mChart->addSeries(mSeries);
-  */
-  for (auto& axis : mChart->axes()) {
-    mChart->removeAxis(axis);
+  for (auto& axis : this->mChart->axes()) {
+    this->mChart->removeAxis(axis);
   }
   QString force;
   if (in.solverConfig.forceType == MockSolverT::POSITIVE_MOMENT) {
@@ -525,7 +515,7 @@ void SolverVisual::updateChart(MockCalculationInputT in,
     position = out.criticalSection;
   }
 
-  mChart->setTitle(QString("%1 at %2 meters").arg(force).arg(position));
+  this->mChart->setTitle(QString("%1 at %2 meters").arg(force).arg(position));
   mChart->createDefaultAxes();
   mChart->axes(Qt::Vertical)
       .first()
@@ -549,7 +539,7 @@ void SolverVisual::updateChart(MockCalculationInputT in,
       .first()
       ->setMax(*std::max_element(y_vals.begin(), y_vals.end()));
 
-  mChartView->setChart(mChart);
+  this->mChartView->setChart(this->mChart);
 
   if (in.solverConfig.solverType == CRITICAL) {
     x_vals = std::move(out.sections);
@@ -581,6 +571,7 @@ void SolverVisual::updateChart(MockCalculationInputT in,
   }
 
   this->saveButton->setDisabled(false);
+  this->setUpAnimation();
 }
 
 void SolverVisual::setPlatoon(QGraphicsScene* platoon) {
