@@ -196,10 +196,17 @@ void saver::saveReport(mtobridge::Report ReportT)
 
     QString numberspansstr = "numberSpans = " + QString::number(ReportT.input.bridgeConfig.numberSpans) + "\n";
     QString spanlengthstr = "spanLength = " + strspanLength + "\n";
-    QString concernedsectionstr = "concernedSection = " +  QString::number(ReportT.input.bridgeConfig.concernedSection) + "\n";
+    QString concernedSectionStr =
+        QString::number(ReportT.input.bridgeConfig.concernedSection);
+    if (!concernedSectionStr.isEmpty()) {
+        concernedSectionStr =
+            "concernedSection = " +
+            QString::number(ReportT.input.bridgeConfig.concernedSection) + "\n";
+    }
+    
     QString discretizationlengthstr = "discretizationLength = " +  QString::number(ReportT.input.bridgeConfig.discretizationLength) + "\n";
 
-    QString bridgestr = numberspansstr + spanlengthstr + concernedsectionstr + discretizationlengthstr;
+    QString bridgestr = numberspansstr + spanlengthstr + concernedSectionStr + discretizationlengthstr;
 
     QString breakLine2 = "\n*******\n[Solver]\n";
 
@@ -242,16 +249,26 @@ void saver::saveReport(mtobridge::Report ReportT)
 
 //! The code then outputs the data for the actual result. 
 
-    QString resulstheader = "\n*******\n*******\nResults\n*******\n*******\n*******\n";
+    QString resulstheader = "\n*******\n[Results]\n";
 
 
     QString criticalstr;
-    if (strSolver == "Critical"){
-        criticalstr = "critical section = " + QString::number(ReportT.results.criticalSection) + "\n";
+    if (strSolver == "Critical") {
+            criticalstr = "critical section of " + strForce + " = " +
+                          QString::number(ReportT.results.criticalSection) +
+                          "\n";
+    } else {
+            criticalstr = "concerned section = " +
+                          QString::number(ReportT.results.criticalSection) +
+                          "\n";
     }
 
+    QString maxForce = "Maximum " + strForce + " at " + strSolver +
+               "section = " + QString::number(ReportT.results.maxForce) + "\n";
 
-    QString strfirstaxleposition = "First Axle Position, Force\n";
+    QString stroutputheader = strForce + " at " + strSolver + "\n";
+
+    QString strfirstaxleposition = "First Axle Position, Response\n";
     for (int i = 0; i < ReportT.results.firstAxlePosition.size(); i++)
     {
       strfirstaxleposition += QString("%1, %2\n")
@@ -261,9 +278,12 @@ void saver::saveReport(mtobridge::Report ReportT)
           ReportT.results.forceCriticalSection[i]);
     }
 
+
     QString envelope;
     if (strSolver == "Critical") {
-      envelope = "Envelope (section, force)\n";
+      QString envelopeheader =
+          "\n*******\n[Results]\n" + strForce + "envelope\n";
+      envelope = envelopeheader + "Envelope (Section, Response)\n";
       for (int i = 0; i < ReportT.results.sections.size(); i++)
       {
           envelope += QString("%1, %2\n")
@@ -273,7 +293,9 @@ void saver::saveReport(mtobridge::Report ReportT)
     }
 
     QString output = inputheader + truckstr + breakLine1 + bridgestr + breakLine2 + solverstr 
-        + resulstheader + criticalstr + strfirstaxleposition + envelope + "\n";
+        + resulstheader + criticalstr +
+                     maxForce + resulstheader +
+                     stroutputheader +  strfirstaxleposition + envelope + "\n";
 
     QTextStream out(&file);
     out << output;
