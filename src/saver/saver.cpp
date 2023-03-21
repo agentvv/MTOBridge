@@ -84,61 +84,92 @@ void saver::saveBridgeConfiguration(mtobridge::BridgeT BridgeT) {
     }
 }
 
-//! saveSolverConfiguration takes in an input of a solver object and saves the data to a text file in a specific format 
-void saver::saveSolverConfiguration(mtobridge::MockSolverT SolverT)
-{
-//! Used custom extensions which would allow easier navigation as well as loading
-    QString fileName = QFileDialog::getSaveFileName(nullptr,
-        "Save Solver Configuration", "",
-        "MTOBridge (*.slv);;All Files (*)");
 
-//! Check to see if the file is empty and it can be opened
+//! saveSolverConfiguration takes in an input of a solver object and saves the
+//! data to a text file in a specific format
+void saver::saveSolverConfiguration(mtobridge::MockSolverT SolverT) {
+    //! Used custom extensions which would allow easier navigation as well as
+    //! loading
+    QString fileName =
+        QFileDialog::getSaveFileName(nullptr, "Save Solver Configuration", "",
+                                     "MTOBridge (*.slv);;All Files (*)");
+
+    //! Check to see if the file is empty and it can be opened
     if (fileName.isEmpty())
-        return;
+    return;
     else {
-        QFile file(fileName);
-        if (!file.open(QIODevice::WriteOnly)) {
-            QMessageBox::information(nullptr, "Unable to open file",
-                file.errorString());
-            return;
-        }
-//! The solver object has two feilds which include forceType and solverType both of which are enums.
-        QString strForce;
-        switch (SolverT.forceType)
-        {
-            case mtobridge::MockSolverT::POSITIVE_MOMENT:
-                strForce = "Positive Moment";
-                break;
-            case mtobridge::MockSolverT::NEGATIVE_MOMENT:
-                strForce = "Negative Moment";
-                break;
-            case mtobridge::MockSolverT::SHEAR:
-                strForce = "Shear";
-                break;
-            default:
-                strForce = "No data";
-        }
+    QFile file(fileName);
+    if (!file.open(QIODevice::WriteOnly)) {
+        QMessageBox::information(nullptr, "Unable to open file",
+                                 file.errorString());
+        return;
+    }
+    //! The solver object has two feilds which include forceType and solverType
+    //! both of which are enums.
+    QString strForce;
+    switch (SolverT.forceType) {
+        case mtobridge::MockSolverT::POSITIVE_MOMENT:
+          strForce = "Positive Moment";
+          break;
+        case mtobridge::MockSolverT::NEGATIVE_MOMENT:
+          strForce = "Negative Moment";
+          break;
+        case mtobridge::MockSolverT::SHEAR:
+          strForce = "Shear";
+          break;
+        default:
+          strForce = "No data";
+    }
 
+    QString strSolver;
+    switch (SolverT.solverType) {
+        case mtobridge::MockSolverT::CONCERNED:
+          strSolver = "Concerned";
+          break;
+        case mtobridge::MockSolverT::CRITICAL:
+          strSolver = "Critical";
+          break;
+        default:
+          strSolver = "No data";
+    }
 
-        QString strSolver;
-        switch (SolverT.solverType)
-        {
-            case mtobridge::MockSolverT::CONCERNED:
-                strSolver = "Concerned";
-                break;
-            case mtobridge::MockSolverT::CRITICAL:
-                strSolver = "Critical";
-                break;
-            default:
-                strSolver = "No data";
-        }
+    QString output = strForce + "\n" + strSolver;
 
+    QTextStream out(&file);
+    out << output;
+    file.close();
+    }
+}
 
-        QString output = strForce + "\n" + strSolver;
+void saver::saveSolverFigure(QGraphicsScene &scene) {
+    QString filePath = QFileDialog::getSaveFileName(
+        nullptr, "Save File As", "", "PNG Files (*.png);;All Files (*)");
 
-        QTextStream out(&file);
-        out << output;
-        file.close();
+    if (filePath.isEmpty()) {
+        qDebug() << "No file selected.";
+        return;
+    }
+
+    // Get the scene's bounding rect
+    QRectF boundingRect = scene.itemsBoundingRect();
+
+    // Create a QImage object based on the bounding rect's dimensions
+    QImage image(boundingRect.width(), boundingRect.height(),
+                    QImage::Format_ARGB32);
+    image.fill(Qt::white);
+
+    // Create a QPainter and render the scene onto the QImage
+    QPainter painter(&image);
+    painter.setRenderHint(QPainter::Antialiasing);
+    scene.render(&painter);
+
+    // Save the QImage as a PNG file
+    bool saveSuccess = image.save(filePath, "PNG");
+
+    if (saveSuccess) {
+        qDebug() << "Image saved successfully!";
+    } else {
+        qDebug() << "Failed to save image.";
     }
 }
 

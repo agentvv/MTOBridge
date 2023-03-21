@@ -3,6 +3,9 @@
 #include <QWidget>
 #include <QObject>
 #include <QFile>
+#include <QGraphicsScene>
+#include <QImage>
+#include <QPainter>
 #include <QMessageBox>
 #include <QFileDialog>
 #include "../report/report.hpp"
@@ -16,6 +19,7 @@ public:
     static void savePlatoonConfiguration(mtobridge::MockTruckT PlatoonT);
     static void saveBridgeConfiguration(mtobridge::BridgeT BridgeT);
     static void saveSolverConfiguration(mtobridge::MockSolverT SolverT);
+    static void saveSolverFigure(QGraphicsScene &scene);
     static void saveReport(mtobridge::Report ReportT);
 
 
