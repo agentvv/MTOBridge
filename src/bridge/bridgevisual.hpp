@@ -13,8 +13,12 @@ class BridgeVisual : public QWidget {
 
   QGraphicsScene* getScene() { return mScene; }
 
+ public slots:
+  void buttonClicked();
+
  private:
   void createPage();
+
   QLabel* mSpanLengthLabel;
   QLineEdit* mSpanLength;
   QLabel* mConcernedSectionLabel;

@@ -7,6 +7,10 @@
 #include <QFileDialog>
 #include "util/data_types.hpp"
 #include "../bridge/bridgeconfig.hpp"
+#include <QCoreApplication>
+#include <QString>
+#include <QRegularExpression>
+#include <QRegularExpressionMatch>
 
 namespace mtobridge{
 class loader

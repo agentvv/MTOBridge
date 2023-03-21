@@ -74,39 +74,8 @@ void BridgeVisual::createPage() {
 
   // connect window to engine for running commands and drawing chart
   {
-    QObject::connect(previewButton, &QPushButton::clicked, this, [&]() {
-      // QMessageBox::about(this, "Title", "Button Clicked");
-      mScene->clear();
-      BridgeConfiguration::updateNumberOfSpans(mNumberSpans->text());
-      BridgeConfiguration::updateConcernedSection(mConcernedSection->text());
-      BridgeConfiguration::updateSpanLength(mSpanLength->text());
-      BridgeConfiguration::updateDiscretizationLength(
-          mDiscretizationLength->text());
-      BridgeT configBridge = BridgeConfiguration::getConfiguration();
-
-      QBrush grayBrush(Qt::gray);
-      QPen blackpen(Qt::black);
-      blackpen.setWidthF(1);
-      QPen redpen(Qt::red);
-      redpen.setWidthF(0.1);
-
-      double bridgeLength = 0;
-      int scale = 10;
-      for (int i = 0; i < configBridge.numberSpans; i++) {
-        if (bridgeLength != 0) {
-          mScene->addRect(bridgeLength * scale, 20, 5, 30, blackpen,
-                          grayBrush);  // Indicating the spans
-        }
-        bridgeLength += configBridge.spanLength[i];
-      }
-      bridgeRect =
-          mScene->addRect(0, 0, bridgeLength * scale, 20, blackpen, grayBrush);
-      for (double i = configBridge.discretizationLength * scale;
-           i < bridgeLength * scale;
-           i = i + configBridge.discretizationLength * scale) {
-        mScene->addLine(i, 0, i, 20, redpen);
-      }
-    });
+    QObject::connect(previewButton, &QPushButton::clicked, this,
+        &BridgeVisual::buttonClicked);
 
     QObject::connect(saveButton, &QPushButton::clicked, this, [&]() {
       BridgeConfiguration::updateNumberOfSpans(mNumberSpans->text());
@@ -129,6 +98,42 @@ void BridgeVisual::createPage() {
           QString::number(config.discretizationLength));
       mConcernedSection->setText(QString::number(config.concernedSection));
     });
+  }
+
+  buttonClicked();
+}
+
+void BridgeVisual::buttonClicked() {
+  // QMessageBox::about(this, "Title", "Button Clicked");
+  mScene->clear();
+  BridgeConfiguration::updateNumberOfSpans(mNumberSpans->text());
+  BridgeConfiguration::updateConcernedSection(mConcernedSection->text());
+  BridgeConfiguration::updateSpanLength(mSpanLength->text());
+  BridgeConfiguration::updateDiscretizationLength(
+      mDiscretizationLength->text());
+  BridgeT configBridge = BridgeConfiguration::getConfiguration();
+
+  QBrush grayBrush(Qt::gray);
+  QPen blackpen(Qt::black);
+  blackpen.setWidthF(1);
+  QPen redpen(Qt::red);
+  redpen.setWidthF(0.1);
+
+  double bridgeLength = 0;
+  int scale = 10;
+  for (int i = 0; i < configBridge.numberSpans; i++) {
+    if (bridgeLength != 0) {
+      mScene->addRect(bridgeLength * scale, 20, 5, 30, blackpen,
+                      grayBrush);  // Indicating the spans
+    }
+    bridgeLength += configBridge.spanLength[i];
+  }
+  bridgeRect =
+      mScene->addRect(0, 0, bridgeLength * scale, 20, blackpen, grayBrush);
+  for (double i = configBridge.discretizationLength * scale;
+       i < bridgeLength * scale;
+       i = i + configBridge.discretizationLength * scale) {
+    mScene->addLine(i, 0, i, 20, redpen);
   }
 }
 

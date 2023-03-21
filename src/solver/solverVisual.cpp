@@ -1,8 +1,8 @@
 #include "solverVisual.hpp"
+#include "solverVisual.hpp"
 
 #include "../PlatoonConfiguration/PlatoonConfiguration.hpp"
 #include "../engine/engine.hpp"
-#include "../report/reportpage.hpp"
 #include "../saver/loader.hpp"
 #include "../saver/saver.hpp"
 #include "solver.hpp"
@@ -151,11 +151,36 @@ void SolverVisual::createPage() {
   solverBox->addStretch(1);
   this->solverSettingGroup->setFixedHeight(75);
 
+  //create reminders for concerned sec and discret length
+  {
+    auto* reminderLayout = new QGridLayout();
+    QWidget* reminderWidget = new QWidget(this);
+    reminderWidget->setSizePolicy(QSizePolicy(QSizePolicy::Policy::Expanding,
+                                              QSizePolicy::Policy::Expanding));
+    reminderWidget->setLayout(reminderLayout);
+
+    this->concernedSectionLabel = new QLabel("Concerned Section(m)", this);
+    this->concernedSectionReminder = new QLineEdit("10", this);
+    this->concernedSectionReminder->setDisabled(true);
+    reminderLayout->addWidget(this->concernedSectionLabel, 1, 0);
+    reminderLayout->addWidget(this->concernedSectionReminder, 1, 1);
+
+    this->discretizationLengthLabel =
+        new QLabel("Discretization Length(m)", this);
+    this->discretizationLengthReminder = new QLineEdit("0.1", this);
+    this->discretizationLengthReminder->setDisabled(true);
+    reminderLayout->addWidget(this->discretizationLengthLabel, 2, 0);
+    reminderLayout->addWidget(this->discretizationLengthReminder, 2, 1);
+
+    inputLayout->addWidget(reminderWidget);
+  }
+
   this->calculateButton = new QPushButton("Initialising...", this);
   this->calculateButton->setDisabled(true);
   QObject::connect(this->calculateButton, &QPushButton::clicked, this, [&]() {
     this->calculateButton->setDisabled(true);
     this->calculateButton->setText("Analysing...");
+    this->saveButton->setDisabled(true);
     MockCalculationInputT in;
 
     std::list<double> tempList = PlatoonConfiguration::getAxleLoads();
@@ -190,6 +215,17 @@ void SolverVisual::createPage() {
   topHalfLayout->addWidget(mInputWidget);
   pageLayout->addWidget(topHalf);
 
+  {
+    this->saveButton = new QPushButton("Save Results", this);
+    this->saveButton->setDisabled(true);
+    QObject::connect(this->saveButton, &QPushButton::clicked, this, [&]() {
+      this->saveButton->setDisabled(true);
+      mtobridge::saver::saveReport(mReport);
+      this->saveButton->setDisabled(false);
+    });
+    inputLayout->addWidget(this->saveButton);
+  }
+
   QWidget* bottomHalf = new QWidget(this);
   QVBoxLayout* truckBridgeLayout = new QVBoxLayout;
   bottomHalf->setLayout(truckBridgeLayout);
@@ -208,10 +244,11 @@ void SolverVisual::createPage() {
   QObject::connect(this, &SolverVisual::runCommand, &engine,
                    &Engine::runCommand);
 
-  // enable calculate button as soon as matlab is ready to go
+  // enable buttons as soon as matlab is ready to go
   QObject::connect(&engine, &Engine::engineStarted, this, [&]() {
     this->calculateButton->setText("Run Analysis");
     this->calculateButton->setDisabled(false);
+    this->saveButton->setDisabled(false);
   });
 
   // draw chart after command finished
@@ -336,6 +373,7 @@ void SolverVisual::updateChart(MockCalculationInputT in,
 
   this->calculateButton->setText("Run Analysis");
   this->calculateButton->setDisabled(false);
+  this->saveButton->setDisabled(false);
 }
 
 void SolverVisual::setPlatoon(QGraphicsScene* platoon) {
@@ -344,5 +382,15 @@ void SolverVisual::setPlatoon(QGraphicsScene* platoon) {
 
 void SolverVisual::setBridge(QGraphicsScene* bridge) {
   bridgeVisual->setScene(bridge);
+}
+
+void SolverVisual::showEvent(QShowEvent* showEvent) {
+  BridgeT bridgeConfig = BridgeConfiguration::getConfiguration();
+  this->concernedSectionReminder->setText(
+      QString::number(bridgeConfig.concernedSection));
+  this->discretizationLengthReminder->setText(
+      QString::number(bridgeConfig.discretizationLength));
+
+  QWidget::showEvent(showEvent);
 }
 };  // namespace mtobridge

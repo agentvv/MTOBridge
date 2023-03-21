@@ -2,15 +2,20 @@
 #include "util/data_types.hpp"
 #include "../bridge/bridgeconfig.hpp"
 
+//! The following code is responsible for saving the different data types in MTOBridge.
+//! These incldue the truck, bridge and the solver configuration.
 namespace mtobridge{
 
+
+//! savePlatoonConfiguration takes in an input of a truck object and saves the data to a text file in a specific format 
 void saver::savePlatoonConfiguration(mtobridge::MockTruckT PlatoonT)
 {
+//! Used custom extensions which would allow easier navigation as well as loading 
     QString fileName = QFileDialog::getSaveFileName(nullptr,
         "Save Truck Configuration", "",
         "MTOBridge (*.trk);;All Files (*)");
 
-
+//! Check to see if the file is empty and it can be opened
     if (fileName.isEmpty())
         return;
     else {
@@ -21,6 +26,7 @@ void saver::savePlatoonConfiguration(mtobridge::MockTruckT PlatoonT)
             return;
         }
 
+//! The truck object has four fields which include axleLoad, axleSpacing, headway and # of truck. 
     QString straxleLoad;
     for(auto it = PlatoonT.axleLoad.begin();it!=PlatoonT.axleLoad.end();it++){
         straxleLoad = straxleLoad + QString::number(*it);
@@ -43,12 +49,14 @@ void saver::savePlatoonConfiguration(mtobridge::MockTruckT PlatoonT)
     }
 }
 
+//! saveBridgeConfiguration takes in an input of a bridge object and saves the data to a text file in a specific format 
 void saver::saveBridgeConfiguration(mtobridge::BridgeT BridgeT) {
+//! Used custom extensions which would allow easier navigation as well as loading
     QString fileName = QFileDialog::getSaveFileName(nullptr,
         "Save Bridge Configuration", "",
         "MTOBridge (*.brg);;All Files (*)");
 
-
+//! Check to see if the file is empty and it can be opened
     if (fileName.isEmpty())
         return;
     else {
@@ -59,6 +67,7 @@ void saver::saveBridgeConfiguration(mtobridge::BridgeT BridgeT) {
             return;
         }
 
+//! The bridge object has four fields which include # of spans, spanLength, concernedSection and discretizationLength. 
     QString strspanLength;
     for(auto it = BridgeT.spanLength.begin();it!=BridgeT.spanLength.end();it++){
         strspanLength = strspanLength + QString::number(*it);
@@ -75,13 +84,15 @@ void saver::saveBridgeConfiguration(mtobridge::BridgeT BridgeT) {
     }
 }
 
+//! saveSolverConfiguration takes in an input of a solver object and saves the data to a text file in a specific format 
 void saver::saveSolverConfiguration(mtobridge::MockSolverT SolverT)
 {
+//! Used custom extensions which would allow easier navigation as well as loading
     QString fileName = QFileDialog::getSaveFileName(nullptr,
         "Save Solver Configuration", "",
         "MTOBridge (*.slv);;All Files (*)");
 
-
+//! Check to see if the file is empty and it can be opened
     if (fileName.isEmpty())
         return;
     else {
@@ -91,7 +102,7 @@ void saver::saveSolverConfiguration(mtobridge::MockSolverT SolverT)
                 file.errorString());
             return;
         }
-
+//! The solver object has two feilds which include forceType and solverType both of which are enums.
         QString strForce;
         switch (SolverT.forceType)
         {
@@ -131,13 +142,16 @@ void saver::saveSolverConfiguration(mtobridge::MockSolverT SolverT)
     }
 }
 
+//! saveReport takes in an input of a report object and saves the data to a text file in a specific format 
+//! This is the main function for displaying the actual results of the calculation. 
+//! The report object file is made up of the truck, bridge and solver objects along with the results.
 void saver::saveReport(mtobridge::Report ReportT)
 {
     QString fileName = QFileDialog::getSaveFileName(nullptr,
         "Save Solver Configuration", "",
         "MTOBridge (*.txt);;All Files (*)");
 
-
+//! Check to see if the file is empty and it can be opened
     if (fileName.isEmpty())
         return;
     else {
@@ -147,7 +161,7 @@ void saver::saveReport(mtobridge::Report ReportT)
                 file.errorString());
             return;
         }
-
+//! The code first outputs the data for each input object including truck, bridge and the solver. 
     QString inputheader = "Report\n*******\n*******\n*******\n[Platoon]\n";
 
     QString straxleLoad;
@@ -226,6 +240,8 @@ void saver::saveReport(mtobridge::Report ReportT)
 
     QString solverstr = forcetypestr + solvertypestr;
 
+//! The code then outputs the data for the actual result. 
+
     QString resulstheader = "\n*******\n*******\nResults\n*******\n*******\n*******\n";
 
 
@@ -245,7 +261,19 @@ void saver::saveReport(mtobridge::Report ReportT)
           ReportT.results.forceCriticalSection[i]);
     }
 
-    QString output = inputheader + truckstr + breakLine1 + bridgestr + breakLine2 + solverstr + resulstheader + criticalstr + strfirstaxleposition + "\n";
+    QString envelope;
+    if (strSolver == "Critical") {
+      envelope = "Envelope (section, force)\n";
+      for (int i = 0; i < ReportT.results.sections.size(); i++)
+      {
+          envelope += QString("%1, %2\n")
+              .arg(ReportT.results.sections[i])
+              .arg(ReportT.results.forceEnvelope[i]);
+      }
+    }
+
+    QString output = inputheader + truckstr + breakLine1 + bridgestr + breakLine2 + solverstr 
+        + resulstheader + criticalstr + strfirstaxleposition + envelope + "\n";
 
     QTextStream out(&file);
     out << output;
