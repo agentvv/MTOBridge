@@ -9,6 +9,7 @@
 #define ANIMATION_TIME 15000          //Total time the animation should take in miliseconds
 #define PIXELS_PER_METER 5            //Pixels per meter in truck and bridge visualisations
 #define TRUCK_POSITION_INCREMENT 0.1  //Amount the truck moves forward per data point (in meters)
+#define BUTTON_HOLD_TIME 500          //Amount of time (in ms) the nextFrame or backFrame button needs to be held before manual animation is started
 
 namespace mtobridge {
 class SolverVisual : public QWidget {
@@ -43,6 +44,7 @@ class SolverVisual : public QWidget {
   // Force setting window
   // Solver setting window
   QPushButton* calculateButton;
+  QTimer* animationTimer;
   QPushButton* firstFrameButton;
   QPushButton* backFrameButton;
   QPushButton* animationButton;

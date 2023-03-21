@@ -224,6 +224,10 @@ void SolverVisual::createPage() {
     });
   inputLayout->addWidget(calculateButton);
 
+  this->animationTimer = new QTimer(this);
+  this->animationTimer->setInterval(BUTTON_HOLD_TIME);
+  this->animationTimer->setSingleShot(true);
+
   QWidget* animationWidget = new QWidget(this);
   QHBoxLayout* animationLayout = new QHBoxLayout();
   animationLayout->setSpacing(0);
@@ -235,7 +239,7 @@ void SolverVisual::createPage() {
   QObject::connect(this->firstFrameButton, &QPushButton::clicked, this, [&]() {
     int j = 0;
     foreach(QGraphicsItemGroup * group, *(this->groups)) {
-      group->setPos((120 + PlatoonConfiguration::getHeadway() * 5) * j++ + this->animationMin, 0);
+      group->setPos((24 + PlatoonConfiguration::getHeadway()) * PIXELS_PER_METER * j++ + this->animationMin, 0);
     }
     this->mChart->removeAllSeries();
     this->animationStatus = AtBeginning;
@@ -248,6 +252,36 @@ void SolverVisual::createPage() {
   this->backFrameButton = new QPushButton("<", this);
   this->backFrameButton->setDisabled(true);
   this->backFrameButton->setFixedWidth(25);
+  QObject::connect(this->backFrameButton, &QPushButton::pressed, this, [&]() {
+    if (lastFrame()) {
+      if (this->animationStatus == AtEnd) {
+        this->animationStatus = Paused;
+        this->nextFrameButton->setDisabled(false);
+        this->lastFrameButton->setDisabled(false);
+        this->animationButton->setText("Play");
+      }
+      this->animationTimer->start();
+      QObject::connect(this->animationTimer, &QTimer::timeout, this, [&]() {
+        this->animationStatus = RunningBackward;
+        this->animateBackward();
+        });
+    }
+    else {
+      this->animationStatus = AtBeginning;
+      this->backFrameButton->setDisabled(true);
+      this->firstFrameButton->setDisabled(true);
+    }
+    });
+  QObject::connect(this->backFrameButton, &QPushButton::released, this, [&]() {
+    this->animationTimer->disconnect();
+    if (this->animationTimer->isActive()) {
+      this->animationTimer->stop();
+    }
+    else if (this->animationStatus == RunningBackward) {
+      this->animationStatus = Paused;
+    }
+    });
+  /*
   QObject::connect(this->backFrameButton, &QPushButton::clicked, this, [&]() {
     //Have to add hold checking for manual animation
     if (lastFrame()) {
@@ -263,7 +297,7 @@ void SolverVisual::createPage() {
       this->backFrameButton->setDisabled(true);
       this->firstFrameButton->setDisabled(true);
     }
-    });
+    });*/
   this->animationButton = new QPushButton("Play", this);
   this->animationButton->setDisabled(true);
   this->animationButton->setFixedWidth(60);
@@ -284,7 +318,7 @@ void SolverVisual::createPage() {
       {
         int j = 0;
         foreach(QGraphicsItemGroup * group, *(this->groups)) {
-          group->setPos((120 + PlatoonConfiguration::getHeadway() * 5) * j++ + this->animationMin, 0);
+          group->setPos((24 + PlatoonConfiguration::getHeadway()) * PIXELS_PER_METER * j++ + this->animationMin, 0);
         }
       }
       //This is intended to roll over into the next case statements
@@ -305,14 +339,18 @@ void SolverVisual::createPage() {
   this->nextFrameButton = new QPushButton(">", this);
   this->nextFrameButton->setDisabled(true);
   this->nextFrameButton->setFixedWidth(25);
-  QObject::connect(this->nextFrameButton, &QPushButton::clicked, this, [&]() {
-    //Have to add hold checking for manual animation
+  QObject::connect(this->nextFrameButton, &QPushButton::pressed, this, [&]() {
     if (nextFrame()) {
       if (this->animationStatus == AtBeginning) {
         this->animationStatus = Paused;
         this->backFrameButton->setDisabled(false);
         this->firstFrameButton->setDisabled(false);
       }
+      this->animationTimer->start();
+      QObject::connect(this->animationTimer, &QTimer::timeout, this, [&]() {
+        this->animationStatus = RunningForward;
+        this->animateForward();
+        });
     }
     else {
       this->animationStatus = AtEnd;
@@ -321,13 +359,22 @@ void SolverVisual::createPage() {
       this->animationButton->setText("Restart");
     }
     });
+  QObject::connect(this->nextFrameButton, &QPushButton::released, this, [&]() {
+    this->animationTimer->disconnect();
+    if (this->animationTimer->isActive()) {
+      this->animationTimer->stop();
+    }
+    else if (this->animationStatus == RunningForward) {
+      this->animationStatus = Paused;
+    }
+    });
   this->lastFrameButton = new QPushButton(">>", this);
   this->lastFrameButton->setDisabled(true);
   this->lastFrameButton->setFixedWidth(25);
   QObject::connect(this->lastFrameButton, &QPushButton::clicked, this, [&]() {
     int j = 0;
     foreach(QGraphicsItemGroup * group, *(this->groups)) {
-      group->setPos((120 + PlatoonConfiguration::getHeadway() * 5) * j++ + this->animationMax, 0);
+      group->setPos((24 + PlatoonConfiguration::getHeadway()) * PIXELS_PER_METER * j++ + this->animationMax, 0);
     }
     std::vector<double> x_vals = this->mReport.results.firstAxlePosition;
     std::vector<double> y_vals;
@@ -469,6 +516,8 @@ void SolverVisual::animateForward() {
     this->animationButton->setText("Restart");
     this->backFrameButton->setDisabled(false);
     this->firstFrameButton->setDisabled(false);
+    this->nextFrameButton->setDisabled(true);
+    this->lastFrameButton->setDisabled(true);
     this->calculateButton->setText("Run Analysis");
     this->calculateButton->setDisabled(false);
   }
@@ -516,6 +565,8 @@ void SolverVisual::animateBackward() {
   else {
     this->animationStatus = AtBeginning;
     this->animationButton->setText("Play");
+    this->backFrameButton->setDisabled(true);
+    this->firstFrameButton->setDisabled(true);
     this->nextFrameButton->setDisabled(false);
     this->lastFrameButton->setDisabled(false);
     this->calculateButton->setText("Run Analysis");
@@ -533,7 +584,7 @@ void SolverVisual::setUpAnimation() {
 
   int j = 0;
   foreach(QGraphicsItemGroup* group, *(this->groups)) {
-    group->setPos((120 + PlatoonConfiguration::getHeadway() * 5) * j++ + this->animationMin, 0);
+    group->setPos((24 + PlatoonConfiguration::getHeadway()) * PIXELS_PER_METER * j++ + this->animationMin, 0);
   }
 
   this->animationStatus = RunningForward;
@@ -583,17 +634,17 @@ void SolverVisual::updateChart(MockCalculationInputT in,
 
   this->mChart->setTitle(QString("%1 at %2 meters").arg(force).arg(position));
   QValueAxis* xAxis = new QValueAxis();
-  xAxis->setTitleText(
+  xAxis->setTitleText(QString("First Axle Position (m)"));
+  xAxis->setMin(x_vals.front());
+  xAxis->setMax(x_vals.back());
+  this->mChart->addAxis(xAxis, Qt::AlignBottom);
+  QValueAxis* yAxis = new QValueAxis();
+  yAxis->setTitleText(
     QString("%1 at %2 Section (kNm)")
     .arg(force)
     .arg(in.solverConfig.solverType == MockSolverT::CONCERNED
       ? "Concerned"
       : "Critical"));
-  xAxis->setMin(x_vals.front());
-  xAxis->setMax(x_vals.back());
-  this->mChart->addAxis(xAxis, Qt::AlignBottom);
-  QValueAxis* yAxis = new QValueAxis();
-  yAxis->setTitleText(QString("First Axle Position (m)"));
   yAxis->setMin(*std::min_element(y_vals.begin(), y_vals.end()));
   yAxis->setMax(*std::max_element(y_vals.begin(), y_vals.end()));
   this->mChart->addAxis(yAxis, Qt::AlignLeft);
@@ -647,7 +698,7 @@ void SolverVisual::setPlatoon(QGraphicsScene* platoon) {
     if (group != nullptr && (this->groups->isEmpty() || group != this->groups->back())) {
       this->groups->append(group);
       truckScene->addItem(group);
-      group->setPos((120 + PlatoonConfiguration::getHeadway() * 5) * j++, 0);
+      group->setPos((24 + PlatoonConfiguration::getHeadway()) * PIXELS_PER_METER * j++, 0);
     }
   }
   this->truckVisual->setScene(truckScene);
