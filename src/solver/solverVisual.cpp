@@ -237,9 +237,13 @@ void SolverVisual::createPage() {
   this->firstFrameButton->setDisabled(true);
   this->firstFrameButton->setFixedWidth(25);
   QObject::connect(this->firstFrameButton, &QPushButton::clicked, this, [&]() {
+    double distBetweenTrucks = PlatoonConfiguration::getHeadway();
+    foreach(double spacing, PlatoonConfiguration::getAxleSpacings()) {
+      distBetweenTrucks += spacing;
+    }
     int j = 0;
     foreach(QGraphicsItemGroup * group, *(this->groups)) {
-      group->setPos((24 + PlatoonConfiguration::getHeadway()) * PIXELS_PER_METER * j++ + this->animationMin, 0);
+      group->setPos(distBetweenTrucks * PIXELS_PER_METER * j++ + this->animationMin, 0);
     }
     this->mChart->removeAllSeries();
     this->animationStatus = AtBeginning;
@@ -249,11 +253,12 @@ void SolverVisual::createPage() {
     this->lastFrameButton->setDisabled(false);
     this->animationButton->setText("Play");
     });
+
   this->backFrameButton = new QPushButton("<", this);
   this->backFrameButton->setDisabled(true);
   this->backFrameButton->setFixedWidth(25);
   QObject::connect(this->backFrameButton, &QPushButton::pressed, this, [&]() {
-    if (lastFrame()) {
+    if (backFrame()) {
       if (this->animationStatus == AtEnd) {
         this->animationStatus = Paused;
         this->nextFrameButton->setDisabled(false);
@@ -281,23 +286,7 @@ void SolverVisual::createPage() {
       this->animationStatus = Paused;
     }
     });
-  /*
-  QObject::connect(this->backFrameButton, &QPushButton::clicked, this, [&]() {
-    //Have to add hold checking for manual animation
-    if (lastFrame()) {
-      if (this->animationStatus == AtEnd) {
-        this->animationStatus = Paused;
-        this->nextFrameButton->setDisabled(false);
-        this->lastFrameButton->setDisabled(false);
-        this->animationButton->setText("Play");
-      }
-    }
-    else {
-      this->animationStatus = AtBeginning;
-      this->backFrameButton->setDisabled(true);
-      this->firstFrameButton->setDisabled(true);
-    }
-    });*/
+
   this->animationButton = new QPushButton("Play", this);
   this->animationButton->setDisabled(true);
   this->animationButton->setFixedWidth(60);
@@ -316,9 +305,13 @@ void SolverVisual::createPage() {
       break;
     case AtEnd:
       {
+        double distBetweenTrucks = PlatoonConfiguration::getHeadway();
+        foreach(double spacing, PlatoonConfiguration::getAxleSpacings()) {
+          distBetweenTrucks += spacing;
+        }
         int j = 0;
         foreach(QGraphicsItemGroup * group, *(this->groups)) {
-          group->setPos((24 + PlatoonConfiguration::getHeadway()) * PIXELS_PER_METER * j++ + this->animationMin, 0);
+          group->setPos(distBetweenTrucks * PIXELS_PER_METER * j++ + this->animationMin, 0);
         }
       }
       //This is intended to roll over into the next case statements
@@ -336,6 +329,7 @@ void SolverVisual::createPage() {
       break;
     }
     });
+
   this->nextFrameButton = new QPushButton(">", this);
   this->nextFrameButton->setDisabled(true);
   this->nextFrameButton->setFixedWidth(25);
@@ -368,13 +362,18 @@ void SolverVisual::createPage() {
       this->animationStatus = Paused;
     }
     });
+
   this->lastFrameButton = new QPushButton(">>", this);
   this->lastFrameButton->setDisabled(true);
   this->lastFrameButton->setFixedWidth(25);
   QObject::connect(this->lastFrameButton, &QPushButton::clicked, this, [&]() {
+    double distBetweenTrucks = PlatoonConfiguration::getHeadway();
+    foreach(double spacing, PlatoonConfiguration::getAxleSpacings()) {
+      distBetweenTrucks += spacing;
+    }
     int j = 0;
     foreach(QGraphicsItemGroup * group, *(this->groups)) {
-      group->setPos((24 + PlatoonConfiguration::getHeadway()) * PIXELS_PER_METER * j++ + this->animationMax, 0);
+    group->setPos(distBetweenTrucks * PIXELS_PER_METER * j++ + this->animationMax, 0);
     }
     std::vector<double> x_vals = this->mReport.results.firstAxlePosition;
     std::vector<double> y_vals;
@@ -482,7 +481,7 @@ bool SolverVisual::nextFrame() {
     group->setPos(group->pos().x() + this->animationInc, 0);
   }
 
-  int numDataPoints = ((this->groups->at(0)->pos().x() - this->animationMin) / this->animationInc) * this->animationPointsPerFrame;
+  double xMax = (this->groups->at(0)->pos().x() - this->animationMin) / PIXELS_PER_METER;
   std::vector<double> x_vals = this->mReport.results.firstAxlePosition;
   std::vector<double> y_vals;
   if (this->mReport.input.solverConfig.solverType == MockSolverT::CONCERNED) {
@@ -491,14 +490,14 @@ bool SolverVisual::nextFrame() {
   else {
     y_vals = this->mReport.results.forceCriticalSection;
   }
-  if (numDataPoints > x_vals.size()) numDataPoints = x_vals.size();
   QLineSeries* series = new QLineSeries(this->mChart);
-  for (int i = 0; i < numDataPoints; i++) {
+  for (int i = 0; i < x_vals.size(); i++) {
+    if (x_vals[i] > xMax) break;
     series->append(QPointF(x_vals[i], y_vals[i]));
   }
   this->mChart->removeAllSeries();
   this->mChart->addSeries(series);
-  foreach(QAbstractAxis* axis, this->mChart->axes()) {
+  foreach(QAbstractAxis * axis, this->mChart->axes()) {
     series->attachAxis(axis);
   }
 
@@ -523,7 +522,7 @@ void SolverVisual::animateForward() {
   }
 }
 
-bool SolverVisual::lastFrame() {
+bool SolverVisual::backFrame() {
   if (this->groups->at(0)->pos().x() <= this->animationMin) {
     return false;
   }
@@ -533,7 +532,7 @@ bool SolverVisual::lastFrame() {
     group->setPos(group->pos().x() - this->animationInc, 0);
   }
 
-  int numDataPoints = ((this->groups->at(0)->pos().x() - this->animationMin) / this->animationInc) * this->animationPointsPerFrame;
+  double xMax = (this->groups->at(0)->pos().x() - this->animationMin) / PIXELS_PER_METER;
   std::vector<double> x_vals = this->mReport.results.firstAxlePosition;
   std::vector<double> y_vals;
   if (this->mReport.input.solverConfig.solverType == MockSolverT::CONCERNED) {
@@ -542,14 +541,14 @@ bool SolverVisual::lastFrame() {
   else {
     y_vals = this->mReport.results.forceCriticalSection;
   }
-  if (numDataPoints > x_vals.size()) numDataPoints = x_vals.size();
   QLineSeries* series = new QLineSeries(this->mChart);
-  for (int i = 0; i < numDataPoints; i++) {
+  for (int i = 0; i < x_vals.size(); i++) {
+    if (x_vals[i] > xMax) break;
     series->append(QPointF(x_vals[i], y_vals[i]));
   }
   this->mChart->removeAllSeries();
   this->mChart->addSeries(series);
-  foreach(QAbstractAxis* axis, this->mChart->axes()) {
+  foreach(QAbstractAxis * axis, this->mChart->axes()) {
     series->attachAxis(axis);
   }
 
@@ -559,7 +558,7 @@ bool SolverVisual::lastFrame() {
 
 void SolverVisual::animateBackward() {
   if (this->animationStatus != RunningBackward) return;
-  if (lastFrame()) {
+  if (backFrame()) {
     QTimer::singleShot(this->animationSpeed, this, &SolverVisual::animateBackward);
   }
   else {
@@ -576,15 +575,27 @@ void SolverVisual::animateBackward() {
 
 void SolverVisual::setUpAnimation() {
   //Have to actually calculate these
-  this->animationMax = 575;         //Based on bridge size
-  this->animationMin = -250;        //Based on bridge and platoon size
-  this->animationInc = (int)ceil(PIXELS_PER_METER * TRUCK_POSITION_INCREMENT);          
-  this->animationPointsPerFrame = (int)(this->animationInc/(PIXELS_PER_METER * TRUCK_POSITION_INCREMENT));
+  double headway = PlatoonConfiguration::getHeadway();
+  double totalAxle = 0;
+  std::list<double> spacings = PlatoonConfiguration::getAxleSpacings();
+  foreach(double spacing, spacings) {
+    totalAxle += spacing;
+  }
+  double distBetweenTrucks = headway + totalAxle;
+  double bridgeLength = 0;
+  foreach(double span, BridgeConfiguration::getConfiguration().spanLength) {
+    bridgeLength += span;
+  }
+
+  this->animationMin = 375 - PIXELS_PER_METER * ( (this->groups->size() - 1) * distBetweenTrucks + 21.5 ) - PIXELS_PER_METER * (bridgeLength / 2);
+  this->animationMax = this->animationMin + PIXELS_PER_METER * ((this->groups->size() - 1) * distBetweenTrucks + totalAxle) + PIXELS_PER_METER * (bridgeLength);
+  this->animationInc = (int)ceil(PIXELS_PER_METER * TRUCK_POSITION_INCREMENT);
   this->animationSpeed = ANIMATION_TIME / ((this->animationMax - this->animationMin) / this->animationInc);
+
 
   int j = 0;
   foreach(QGraphicsItemGroup* group, *(this->groups)) {
-    group->setPos((24 + PlatoonConfiguration::getHeadway()) * PIXELS_PER_METER * j++ + this->animationMin, 0);
+    group->setPos(distBetweenTrucks * PIXELS_PER_METER * j++ + this->animationMin, 0);
   }
 
   this->animationStatus = RunningForward;
@@ -692,13 +703,16 @@ void SolverVisual::setPlatoon(QGraphicsScene* platoon) {
   QGraphicsScene* truckScene = new QGraphicsScene();
   int j = 0;
   this->groups = new QList<QGraphicsItemGroup*>;
-  QGraphicsItemGroup* lastGroup = nullptr;
+  double distBetweenTrucks = PlatoonConfiguration::getHeadway();
+  foreach(double spacing, PlatoonConfiguration::getAxleSpacings()) {
+    distBetweenTrucks += spacing;
+  }
   foreach(QGraphicsItem* item, items) {
     QGraphicsItemGroup* group = item->group();
     if (group != nullptr && (this->groups->isEmpty() || group != this->groups->back())) {
       this->groups->append(group);
       truckScene->addItem(group);
-      group->setPos((24 + PlatoonConfiguration::getHeadway()) * PIXELS_PER_METER * j++, 0);
+      group->setPos(distBetweenTrucks * PIXELS_PER_METER * j++, 0);
     }
   }
   this->truckVisual->setScene(truckScene);

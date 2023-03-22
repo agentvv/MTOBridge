@@ -35,7 +35,6 @@ class SolverVisual : public QWidget {
    int animationMin;
    int animationMax;
    int animationInc;
-   int animationPointsPerFrame;
    int animationSpeed;
    enum {NotLoaded, AtBeginning, AtEnd, Paused, RunningForward, RunningBackward} animationStatus;
 
@@ -82,7 +81,7 @@ class SolverVisual : public QWidget {
 
   bool nextFrame();
   void animateForward();
-  bool lastFrame();
+  bool backFrame();
   void animateBackward();
   void setUpAnimation();
   void createPage();
