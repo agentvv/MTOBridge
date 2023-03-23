@@ -24,7 +24,7 @@ class BridgeVisual : public QWidget {
   QLabel* mConcernedSectionLabel;
   QLineEdit* mConcernedSection;
   QLabel* mNumberSpansLabel;
-  QLineEdit* mNumberSpans;
+  QComboBox* mNumberSpans;
   QLabel* mDiscretizationLengthLabel;
   QLineEdit* mDiscretizationLength;
 
@@ -34,6 +34,7 @@ class BridgeVisual : public QWidget {
   QGraphicsView* mVisualizerView;
   QGraphicsScene* mScene;
   QGraphicsRectItem* bridgeRect;
+  QGraphicsRectItem* topLayerRect;
   QPushButton* previewButton;
   QWidget* bridgeIOWidget;
   QPushButton* saveButton;
