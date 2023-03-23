@@ -22,21 +22,42 @@ QPen blackPen(Qt::black);
 QGraphicsItemGroup *PlatoonVisual::makeTruck() {
   std::list<double> spacings = PlatoonConfiguration::getAxleSpacings();
   std::list<double>::iterator it = spacings.begin();
+  int length = 0;
+  while (it != spacings.end()) {
+    length += *it*5;
+    it++;
+  }
   blackPen.setWidth(2);
   truck = new QGraphicsItemGroup();
-  truckHead = mSceneWidget->addRect(90, 0, 30, 60, blackPen, redBrush);
-  truckWindow = mSceneWidget->addRect(100, 3, 15, 20, blackPen, whiteBrush);
-  truckBody = mSceneWidget->addRect(0, 0, 90, 60, blackPen, grayBrush);
+
+  truckHead = mSceneWidget->addRect(length*3/4, 0, length/4+10, 40, blackPen, redBrush);
+  truckHead->setZValue(0);
+
+  truckWindow = mSceneWidget->addRect(length*7/8+10, 3, length/10, 14, blackPen, whiteBrush);
+  truckWindow->setZValue(1);
+
+  truckBody = mSceneWidget->addRect(-10, 0, length*3/4+10, 40, blackPen, grayBrush);
+  truckBody->setZValue(0);
+
   truck->addToGroup(truckHead);
   truck->addToGroup(truckWindow);
   truck->addToGroup(truckBody);
-  int x = 105;
-  truckWheel = mSceneWidget->addEllipse(x, 57, 5, 10, blackPen, blackBrush);
+
+  int x = length;
+  truckWheel = mSceneWidget->addEllipse(x, 36, 10, 10, blackPen, blackBrush);
+  truckWheel->setZValue(1);
   truck->addToGroup(truckWheel);
+  truckRim = mSceneWidget->addEllipse(x+2, 38, 6, 6, blackPen, grayBrush);
+  truckRim->setZValue(2);
+  truck->addToGroup(truckRim);
+
+  it = spacings.begin();
   while (it != spacings.end()) {
     x = x - (*it * 5);
-    truckWheel = mSceneWidget->addEllipse(x, 57, 5, 10, blackPen, blackBrush);
+    truckWheel = mSceneWidget->addEllipse(x, 36, 10, 10, blackPen, blackBrush);
     truck->addToGroup(truckWheel);
+    truckRim = mSceneWidget->addEllipse(x + 2, 38, 6, 6, blackPen, grayBrush);
+    truck->addToGroup(truckRim);
     it++;
   }
   return truck;
@@ -78,7 +99,9 @@ void PlatoonVisual::platoonConfigured() {
   for (int i = 1; i < PlatoonConfiguration::getNumTrucks(); i++) {
         QGraphicsItemGroup *truck2 = makeTruck();
         mSceneWidget->addItem(truck2);
-        truck2->setPos((120 + PlatoonConfiguration::getHeadway()*5) * i, 0);
+        int length = truck2->boundingRect().width();
+        truck2->setPos((length - 20 + PlatoonConfiguration::getHeadway()*5) * i, 0);
+        truck->setZValue(i+1);
   }
 }
 void PlatoonVisual::saveButtonClicked() {

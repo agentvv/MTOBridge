@@ -42,6 +42,7 @@ class PlatoonVisual : public QWidget {
   QGraphicsRectItem *truckWindow;
   QGraphicsRectItem *truckBody;
   QGraphicsEllipseItem *truckWheel;
+  QGraphicsEllipseItem *truckRim;
   QGraphicsItemGroup *truck;
 };
 }  // namespace mtobridge
