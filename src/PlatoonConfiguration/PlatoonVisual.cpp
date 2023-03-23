@@ -55,8 +55,10 @@ QGraphicsItemGroup *PlatoonVisual::makeTruck() {
   while (it != spacings.end()) {
     x = x - (*it * 5);
     truckWheel = mSceneWidget->addEllipse(x, 36, 10, 10, blackPen, blackBrush);
+    truckWheel->setZValue(1);
     truck->addToGroup(truckWheel);
     truckRim = mSceneWidget->addEllipse(x + 2, 38, 6, 6, blackPen, grayBrush);
+    truckRim->setZValue(2);
     truck->addToGroup(truckRim);
     it++;
   }
