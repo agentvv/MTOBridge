@@ -123,19 +123,19 @@ void SolverVisual::createPage() {
   positiveMomentButton->setChecked(true);
   QObject::connect(positiveMomentButton, &QPushButton::clicked, this, [&]() {
     Solver::updateForceType("Positive Moment");
-    this->resetChartAnimation();
+    this->setUpAnimation();
     });
   forceBox->addWidget(positiveMomentButton);
   negativeMomentButton = new QRadioButton("Negative Moment");
   QObject::connect(negativeMomentButton, &QPushButton::clicked, this, [&]() {
     Solver::updateForceType("Negative Moment");
-    this->resetChartAnimation();
+    this->setUpAnimation();
     });;
   forceBox->addWidget(negativeMomentButton);
   shearButton = new QRadioButton("Shear");
   QObject::connect(shearButton, &QPushButton::clicked, this, [&]() {
     Solver::updateForceType("Shear");
-    this->resetChartAnimation();
+    this->setUpAnimation();
     });
   forceBox->addWidget(shearButton);
   forceBox->addStretch(1);
@@ -149,13 +149,13 @@ void SolverVisual::createPage() {
   concernedButton->setChecked(true);
   QObject::connect(concernedButton, &QPushButton::clicked, this, [&]() {
     Solver::updateSolverType("Concerned Section");
-    this->resetChartAnimation();
+    this->setUpAnimation();
     });
   solverBox->addWidget(concernedButton);
   criticalButton = new QRadioButton("Critical Section");
   QObject::connect(criticalButton, &QPushButton::clicked, this, [&]() {
     Solver::updateSolverType("Critical Section");
-    this->resetChartAnimation();
+    this->setUpAnimation();
     });
   solverBox->addWidget(criticalButton);
   solverBox->addStretch(1);
@@ -456,7 +456,7 @@ void SolverVisual::updatePage() {
   } else if (Solver::getSolverType() == "Critical Section") {
     criticalButton->setChecked(true);
   }
-  this->resetChartAnimation();
+  this->setUpAnimation();
 }
 
 bool SolverVisual::nextFrame() {
@@ -556,27 +556,41 @@ void SolverVisual::animateBackward() {
 }
 
 void SolverVisual::setUpAnimation() {
-  //Something is slightly off, 4 frames too much movement in truck
-  double totalTruckSize = this->truckVisual->scene()->itemsBoundingRect().width() - 2;
-  double bridgeLength = this->bridgeVisual->scene()->itemsBoundingRect().width() - 8 * PIXELS_PER_METER - 1;
-
-  this->animationMin = (375 + 10) + (PIXELS_PER_METER - totalTruckSize) - (bridgeLength / 2);
-  this->animationMax = this->animationMin + (totalTruckSize - 2 * PIXELS_PER_METER - 2 * PIXELS_PER_METER) + bridgeLength;
-  this->animationInc = (int)ceil(PIXELS_PER_METER * TRUCK_POSITION_INCREMENT);
-  this->animationSpeed = ANIMATION_TIME / ((this->animationMax - this->animationMin) / this->animationInc);
-
-  this->truckGroup->setPos(this->animationMin, 0);
-
-  this->animationStatus = RunningForward;
+  this->animationStatus = NotLoaded;
   this->backFrameButton->setDisabled(true);
   this->firstFrameButton->setDisabled(true);
   this->nextFrameButton->setDisabled(true);
   this->lastFrameButton->setDisabled(true);
-  this->animationButton->setText("Pause");
-  this->animationButton->setDisabled(false);
-  this->calculateButton->setText("Animating");
-  this->calculateButton->setDisabled(true);
-  this->animateForward();
+  this->animationButton->setText("Play");
+  this->animationButton->setDisabled(true);
+  if (this->calculateButton->text() != "Initialising...") {
+    this->calculateButton->setText("Run Analysis");
+    this->calculateButton->setDisabled(false);
+  }
+  this->saveButton->setDisabled(true);
+
+  this->mChart->removeAllSeries();
+  for (auto& axis : this->mChart->axes()) {
+    this->mChart->removeAxis(axis);
+  }
+  this->mChart->setTitle("");
+
+
+  if (this->truckVisual->scene() != NULL && this->bridgeVisual->scene() != NULL) {
+    //Something is slightly off, 4 frames too much movement in truck
+    double totalTruckSize = this->truckVisual->scene()->itemsBoundingRect().width() - 2;
+    double bridgeLength = this->bridgeVisual->scene()->itemsBoundingRect().width() - 8 * PIXELS_PER_METER - 1;
+
+    this->animationMin = (375 + 10) + (PIXELS_PER_METER - totalTruckSize) - (bridgeLength / 2);
+    this->animationMax = this->animationMin + (totalTruckSize - 2 * PIXELS_PER_METER - 2 * PIXELS_PER_METER) + bridgeLength;
+    this->animationInc = (int)ceil(PIXELS_PER_METER * TRUCK_POSITION_INCREMENT);
+    this->animationSpeed = ANIMATION_TIME / ((this->animationMax - this->animationMin) / this->animationInc);
+
+    this->truckGroup->setPos(this->animationMin, 0);
+  }
+  else if (this->truckVisual->scene() != NULL) {
+    this->truckGroup->setPos(10, 0);
+  }
 }
 
 void SolverVisual::updateChart(MockCalculationInputT in,
@@ -661,40 +675,22 @@ void SolverVisual::updateChart(MockCalculationInputT in,
   }
 
   this->saveButton->setDisabled(false);
-  this->setUpAnimation();
-}
-
-void SolverVisual::resetChartAnimation() {
-  this->animationStatus = NotLoaded;
+  this->animationStatus = RunningForward;
   this->backFrameButton->setDisabled(true);
   this->firstFrameButton->setDisabled(true);
   this->nextFrameButton->setDisabled(true);
   this->lastFrameButton->setDisabled(true);
-  this->animationButton->setText("Play");
-  this->animationButton->setDisabled(true);
-  if (this->calculateButton->text() != "Initialising...") {
-    this->calculateButton->setText("Run Analysis");
-    this->calculateButton->setDisabled(false);
-  }
-  this->saveButton->setDisabled(true);
-
-  this->mChart->removeAllSeries();
-  for (auto& axis : this->mChart->axes()) {
-    this->mChart->removeAxis(axis);
-  }
-  this->mChart->setTitle("");
-
-  if (this->truckVisual->scene() != NULL) {
-    this->truckGroup->setPos(10, 0);
-  }
+  this->animationButton->setText("Pause");
+  this->animationButton->setDisabled(false);
+  this->calculateButton->setText("Animating");
+  this->calculateButton->setDisabled(true);
+  this->animateForward();
 }
 
 void SolverVisual::setPlatoon(QGraphicsScene* platoon) {
-  this->resetChartAnimation();
-
   QList<QGraphicsItem*> items = platoon->items();
   if (items.size() == 0) {
-    if (this->truckVisual->scene() != NULL) this->truckVisual->setScene(NULL);
+    this->truckVisual->setScene(NULL);
     return;
   }
 
@@ -721,12 +717,15 @@ void SolverVisual::setPlatoon(QGraphicsScene* platoon) {
 
   this->truckVisual->setScene(truckScene);
   this->truckVisual->setSceneRect(0, 0, 750, 75);
+  this->setUpAnimation();
 }
 
 void SolverVisual::setBridge(QGraphicsScene* bridge) {
-  this->resetChartAnimation();
-
   QList<QGraphicsItem*> items = bridge->items();
+  if (items.size() == 0) {
+    this->bridgeVisual->setScene(NULL);
+    return;
+  }
   QGraphicsScene* bridgeScene = new QGraphicsScene();
 
   foreach(QGraphicsItem * item, items) {
@@ -745,6 +744,7 @@ void SolverVisual::setBridge(QGraphicsScene* bridge) {
   }
 
   this->bridgeVisual->setScene(bridgeScene);
+  this->setUpAnimation();
 }
 
 void SolverVisual::showEvent(QShowEvent* showEvent) {

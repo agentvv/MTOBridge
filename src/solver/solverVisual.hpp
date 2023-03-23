@@ -86,7 +86,6 @@ class SolverVisual : public QWidget {
   void setUpAnimation();
   void createPage();
   void updatePage();
-  void resetChartAnimation();
 
 };
 };  // namespace mtobridge
