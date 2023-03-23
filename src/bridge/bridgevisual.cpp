@@ -108,9 +108,9 @@ void BridgeVisual::createPage() {
               mScene->addRect((bridgeLength - 2 * topLayerWidth), 3 * topLayerWidth, 4 * topLayerWidth, 5 * topLayerWidth, blackpen,
                   grayBrush);  // Sketching the columns
           }
-          string test = to_string(configBridge.spanLength[i]);
-          wstring stemp = wstring(test.begin(), test.end());
-          LPCWSTR sw = stemp.c_str();
+          //string test = to_string(configBridge.spanLength[i]);
+          //wstring stemp = wstring(test.begin(), test.end());
+          //LPCWSTR sw = stemp.c_str();
           //MessageBox(NULL, sw, NULL, MB_OK);
        }
       

@@ -556,21 +556,12 @@ void SolverVisual::animateBackward() {
 }
 
 void SolverVisual::setUpAnimation() {
-  //Have to actually calculate these
-  double headway = PlatoonConfiguration::getHeadway();
-  double totalAxle = 0;
-  std::list<double> spacings = PlatoonConfiguration::getAxleSpacings();
-  foreach(double spacing, spacings) {
-    totalAxle += spacing;
-  }
-  double distBetweenTrucks = headway + totalAxle;
-  double bridgeLength = 0;
-  foreach(double span, BridgeConfiguration::getConfiguration().spanLength) {
-    bridgeLength += span;
-  }
+  //Something is slightly off, 4 frames too much movement in truck
+  double totalTruckSize = this->truckVisual->scene()->itemsBoundingRect().width() - 2;
+  double bridgeLength = this->bridgeVisual->scene()->itemsBoundingRect().width() - 8 * PIXELS_PER_METER - 1;
 
-  this->animationMin = 375 - PIXELS_PER_METER * ((PlatoonConfiguration::getNumTrucks() - 1) * distBetweenTrucks + 21.5) - PIXELS_PER_METER * (bridgeLength / 2);
-  this->animationMax = this->animationMin + PIXELS_PER_METER * ((PlatoonConfiguration::getNumTrucks() - 1) * distBetweenTrucks + totalAxle) + PIXELS_PER_METER * (bridgeLength);
+  this->animationMin = (375 + 10) + (PIXELS_PER_METER - totalTruckSize) - (bridgeLength / 2);
+  this->animationMax = this->animationMin + (totalTruckSize - 2 * PIXELS_PER_METER - 2 * PIXELS_PER_METER) + bridgeLength;
   this->animationInc = (int)ceil(PIXELS_PER_METER * TRUCK_POSITION_INCREMENT);
   this->animationSpeed = ANIMATION_TIME / ((this->animationMax - this->animationMin) / this->animationInc);
 
@@ -694,7 +685,7 @@ void SolverVisual::resetChartAnimation() {
   this->mChart->setTitle("");
 
   if (this->truckVisual->scene() != NULL) {
-    this->truckGroup->setPos(0, 0);
+    this->truckGroup->setPos(10, 0);
   }
 }
 
@@ -726,6 +717,7 @@ void SolverVisual::setPlatoon(QGraphicsScene* platoon) {
     }
   }
   truckScene->addItem(this->truckGroup);
+  this->truckGroup->setPos(10, 0);
 
   this->truckVisual->setScene(truckScene);
   this->truckVisual->setSceneRect(0, 0, 750, 75);
