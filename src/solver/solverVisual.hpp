@@ -77,7 +77,7 @@ class SolverVisual : public QWidget {
 
   Report mReport;
 
-  QList<QGraphicsItemGroup*>* groups;
+  QGraphicsItemGroup* truckGroup;
 
   bool nextFrame();
   void animateForward();

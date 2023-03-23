@@ -247,14 +247,7 @@ void SolverVisual::createPage() {
   this->firstFrameButton->setDisabled(true);
   this->firstFrameButton->setFixedWidth(25);
   QObject::connect(this->firstFrameButton, &QPushButton::clicked, this, [&]() {
-    double distBetweenTrucks = PlatoonConfiguration::getHeadway();
-    foreach(double spacing, PlatoonConfiguration::getAxleSpacings()) {
-      distBetweenTrucks += spacing;
-    }
-    int j = 0;
-    foreach(QGraphicsItemGroup * group, *(this->groups)) {
-      group->setPos(distBetweenTrucks * PIXELS_PER_METER * j++ + this->animationMin, 0);
-    }
+    this->truckGroup->setPos(this->animationMin, 0);
     this->mChart->removeAllSeries();
     this->animationStatus = AtBeginning;
     this->backFrameButton->setDisabled(true);
@@ -314,16 +307,7 @@ void SolverVisual::createPage() {
       this->calculateButton->setDisabled(false);
       break;
     case AtEnd:
-      {
-        double distBetweenTrucks = PlatoonConfiguration::getHeadway();
-        foreach(double spacing, PlatoonConfiguration::getAxleSpacings()) {
-          distBetweenTrucks += spacing;
-        }
-        int j = 0;
-        foreach(QGraphicsItemGroup * group, *(this->groups)) {
-          group->setPos(distBetweenTrucks * PIXELS_PER_METER * j++ + this->animationMin, 0);
-        }
-      }
+      this->truckGroup->setPos(this->animationMin, 0);
       //This is intended to roll over into the next case statements
     case Paused:
     case AtBeginning:
@@ -377,14 +361,7 @@ void SolverVisual::createPage() {
   this->lastFrameButton->setDisabled(true);
   this->lastFrameButton->setFixedWidth(25);
   QObject::connect(this->lastFrameButton, &QPushButton::clicked, this, [&]() {
-    double distBetweenTrucks = PlatoonConfiguration::getHeadway();
-    foreach(double spacing, PlatoonConfiguration::getAxleSpacings()) {
-      distBetweenTrucks += spacing;
-    }
-    int j = 0;
-    foreach(QGraphicsItemGroup * group, *(this->groups)) {
-    group->setPos(distBetweenTrucks * PIXELS_PER_METER * j++ + this->animationMax, 0);
-    }
+    this->truckGroup->setPos(this->animationMax, 0);
     std::vector<double> x_vals = this->mReport.results.firstAxlePosition;
     std::vector<double> y_vals;
     if (this->mReport.input.solverConfig.solverType == MockSolverT::CONCERNED) {
@@ -483,16 +460,13 @@ void SolverVisual::updatePage() {
 }
 
 bool SolverVisual::nextFrame() {
-  if (this->groups->at(0)->pos().x() >= this->animationMax) {
+  if (this->truckGroup->x() >= this->animationMax) {
     return false;
   }
 
-  int j = 0;
-  foreach(QGraphicsItemGroup * group, *(this->groups)) {
-    group->setPos(group->pos().x() + this->animationInc, 0);
-  }
+  this->truckGroup->moveBy(this->animationInc, 0);
 
-  double xMax = (this->groups->at(0)->pos().x() - this->animationMin) / PIXELS_PER_METER;
+  double xMax = (this->truckGroup->x() - this->animationMin) / PIXELS_PER_METER;
   std::vector<double> x_vals = this->mReport.results.firstAxlePosition;
   std::vector<double> y_vals;
   if (this->mReport.input.solverConfig.solverType == MockSolverT::CONCERNED) {
@@ -512,7 +486,7 @@ bool SolverVisual::nextFrame() {
     series->attachAxis(axis);
   }
 
-  if (this->groups->at(0)->pos().x() >= this->animationMax) return false;
+  if (this->truckGroup->x() >= this->animationMax) return false;
   else return true;
 }
 
@@ -534,16 +508,13 @@ void SolverVisual::animateForward() {
 }
 
 bool SolverVisual::backFrame() {
-  if (this->groups->at(0)->pos().x() <= this->animationMin) {
+  if (this->truckGroup->x() <= this->animationMin) {
     return false;
   }
 
-  int j = 0;
-  foreach(QGraphicsItemGroup * group, *(this->groups)) {
-    group->setPos(group->pos().x() - this->animationInc, 0);
-  }
+  this->truckGroup->moveBy(-this->animationInc, 0);
 
-  double xMax = (this->groups->at(0)->pos().x() - this->animationMin) / PIXELS_PER_METER;
+  double xMax = (this->truckGroup->x() - this->animationMin) / PIXELS_PER_METER;
   std::vector<double> x_vals = this->mReport.results.firstAxlePosition;
   std::vector<double> y_vals;
   if (this->mReport.input.solverConfig.solverType == MockSolverT::CONCERNED) {
@@ -563,7 +534,7 @@ bool SolverVisual::backFrame() {
     series->attachAxis(axis);
   }
 
-  if (this->groups->at(0)->pos().x() <= this->animationMin) return false;
+  if (this->truckGroup->x() <= this->animationMin) return false;
   else return true;
 }
 
@@ -598,16 +569,12 @@ void SolverVisual::setUpAnimation() {
     bridgeLength += span;
   }
 
-  this->animationMin = 375 - PIXELS_PER_METER * ( (this->groups->size() - 1) * distBetweenTrucks + 21.5 ) - PIXELS_PER_METER * (bridgeLength / 2);
-  this->animationMax = this->animationMin + PIXELS_PER_METER * ((this->groups->size() - 1) * distBetweenTrucks + totalAxle) + PIXELS_PER_METER * (bridgeLength);
+  this->animationMin = 375 - PIXELS_PER_METER * ((PlatoonConfiguration::getNumTrucks() - 1) * distBetweenTrucks + 21.5) - PIXELS_PER_METER * (bridgeLength / 2);
+  this->animationMax = this->animationMin + PIXELS_PER_METER * ((PlatoonConfiguration::getNumTrucks() - 1) * distBetweenTrucks + totalAxle) + PIXELS_PER_METER * (bridgeLength);
   this->animationInc = (int)ceil(PIXELS_PER_METER * TRUCK_POSITION_INCREMENT);
   this->animationSpeed = ANIMATION_TIME / ((this->animationMax - this->animationMin) / this->animationInc);
 
-
-  int j = 0;
-  foreach(QGraphicsItemGroup* group, *(this->groups)) {
-    group->setPos(distBetweenTrucks * PIXELS_PER_METER * j++ + this->animationMin, 0);
-  }
+  this->truckGroup->setPos(this->animationMin, 0);
 
   this->animationStatus = RunningForward;
   this->backFrameButton->setDisabled(true);
@@ -726,15 +693,8 @@ void SolverVisual::resetChartAnimation() {
   }
   this->mChart->setTitle("");
 
-  if (this->truckVisual->scene() != NULL && !this->groups->isEmpty()) {
-    double distBetweenTrucks = PlatoonConfiguration::getHeadway();
-    foreach(double spacing, PlatoonConfiguration::getAxleSpacings()) {
-      distBetweenTrucks += spacing;
-    }
-    int j = 0;
-    foreach(QGraphicsItemGroup * group, *(this->groups)) {
-      group->setPos(distBetweenTrucks * PIXELS_PER_METER * j++ + this->animationMin, 0);
-    }
+  if (this->truckVisual->scene() != NULL) {
+    this->truckGroup->setPos(0, 0);
   }
 }
 
@@ -747,46 +707,25 @@ void SolverVisual::setPlatoon(QGraphicsScene* platoon) {
     return;
   }
 
-  double distBetweenTrucks = PlatoonConfiguration::getHeadway();
-  foreach(double spacing, PlatoonConfiguration::getAxleSpacings()) {
-    distBetweenTrucks += spacing;
-  }
-
-  QList<QGraphicsItemGroup*> origGroups = {};
-  foreach(QGraphicsItem *item, items) {
-    QGraphicsItemGroup *group = item->group();
-    if (group != nullptr && (origGroups.isEmpty() || group != origGroups.back())) {
-      origGroups.append(group);
-    }
-  }
-
   QGraphicsScene* truckScene = new QGraphicsScene();
-  this->groups = new QList<QGraphicsItemGroup*>;
-  int j = 0;
-  foreach(QGraphicsItemGroup* group, origGroups) {
-    QGraphicsItemGroup* newGroup = new QGraphicsItemGroup;
-
-    foreach(QGraphicsItem *item, group->childItems()) {
-      //Inspiration from https://forum.qt.io/topic/85648/how-can-i-copy-paste-qgraphicsitems/6
-      QGraphicsRectItem* rect = qgraphicsitem_cast<QGraphicsRectItem*>(item);
-      if (rect != NULL) {
-        QGraphicsRectItem* newRect = truckScene->addRect(rect->rect(), rect->pen(), rect->brush());
-        newRect->setZValue(rect->zValue());
-        newGroup->addToGroup(newRect);
-      }
-
-      QGraphicsEllipseItem* ellipse = qgraphicsitem_cast<QGraphicsEllipseItem*>(item);
-      if (ellipse != NULL) {
-        QGraphicsEllipseItem* newEllipse = truckScene->addEllipse(ellipse->rect(), ellipse->pen(), ellipse->brush());
-        newEllipse->setZValue(ellipse->zValue());
-        newGroup->addToGroup(newEllipse);
-      }
+  this->truckGroup = new QGraphicsItemGroup();
+  foreach(QGraphicsItem *item, items) {
+    //Inspiration from https://forum.qt.io/topic/85648/how-can-i-copy-paste-qgraphicsitems/6
+    QGraphicsRectItem* rect = qgraphicsitem_cast<QGraphicsRectItem*>(item);
+    if (rect != NULL) {
+      QGraphicsRectItem* newRect = truckScene->addRect(rect->mapRectToScene(rect->rect()), rect->pen(), rect->brush());
+      newRect->setZValue(rect->zValue());
+      this->truckGroup->addToGroup(newRect);
     }
 
-    truckScene->addItem(newGroup);
-    newGroup->setPos(distBetweenTrucks * PIXELS_PER_METER * j++, 0);
-    this->groups->append(newGroup);
+    QGraphicsEllipseItem* ellipse = qgraphicsitem_cast<QGraphicsEllipseItem*>(item);
+    if (ellipse != NULL) {
+      QGraphicsEllipseItem* newEllipse = truckScene->addEllipse(ellipse->mapRectToScene(ellipse->rect()), ellipse->pen(), ellipse->brush());
+      newEllipse->setZValue(ellipse->zValue());
+      this->truckGroup->addToGroup(newEllipse);
+    }
   }
+  truckScene->addItem(this->truckGroup);
 
   this->truckVisual->setScene(truckScene);
   this->truckVisual->setSceneRect(0, 0, 750, 75);
