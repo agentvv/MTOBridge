@@ -261,7 +261,7 @@ void SolverVisual::createPage() {
   this->backFrameButton->setDisabled(true);
   this->backFrameButton->setFixedWidth(25);
   QObject::connect(this->backFrameButton, &QPushButton::pressed, this, [&]() {
-    if (backFrame()) {
+    if (moveFrames(-1)) {
       if (this->animationStatus == AtEnd) {
         this->animationStatus = Paused;
         this->nextFrameButton->setDisabled(false);
@@ -328,7 +328,7 @@ void SolverVisual::createPage() {
   this->nextFrameButton->setDisabled(true);
   this->nextFrameButton->setFixedWidth(25);
   QObject::connect(this->nextFrameButton, &QPushButton::pressed, this, [&]() {
-    if (nextFrame()) {
+    if (moveFrames(1)) {
       if (this->animationStatus == AtBeginning) {
         this->animationStatus = Paused;
         this->backFrameButton->setDisabled(false);
@@ -459,12 +459,11 @@ void SolverVisual::updatePage() {
   this->setUpAnimation();
 }
 
-bool SolverVisual::nextFrame() {
-  if (this->truckGroup->x() >= this->animationMax) {
-    return false;
-  }
+bool SolverVisual::moveFrames(int numFrames) {
+  if (numFrames > 0 && this->truckGroup->x() >= this->animationMax) return false;
+  if (numFrames < 0 && this->truckGroup->x() <= this->animationMin) return false;
 
-  this->truckGroup->moveBy(this->animationInc, 0);
+  this->truckGroup->moveBy(numFrames * this->animationInc, 0);
 
   double xMax = (this->truckGroup->x() - this->animationMin) / PIXELS_PER_METER;
   std::vector<double> x_vals = this->mReport.results.firstAxlePosition;
@@ -486,13 +485,13 @@ bool SolverVisual::nextFrame() {
     series->attachAxis(axis);
   }
 
-  if (this->truckGroup->x() >= this->animationMax) return false;
+  if (this->truckGroup->x() >= this->animationMax || this->truckGroup->x() <= this->animationMin) return false;
   else return true;
 }
 
 void SolverVisual::animateForward() {
   if (this->animationStatus != RunningForward) return;
-  if (nextFrame()) {
+  if (moveFrames(1)) {
     QTimer::singleShot(this->animationSpeed, this, &SolverVisual::animateForward);
   }
   else {
@@ -507,40 +506,9 @@ void SolverVisual::animateForward() {
   }
 }
 
-bool SolverVisual::backFrame() {
-  if (this->truckGroup->x() <= this->animationMin) {
-    return false;
-  }
-
-  this->truckGroup->moveBy(-this->animationInc, 0);
-
-  double xMax = (this->truckGroup->x() - this->animationMin) / PIXELS_PER_METER;
-  std::vector<double> x_vals = this->mReport.results.firstAxlePosition;
-  std::vector<double> y_vals;
-  if (this->mReport.input.solverConfig.solverType == MockSolverT::CONCERNED) {
-    y_vals = this->mReport.results.forceConcernedSection;
-  }
-  else {
-    y_vals = this->mReport.results.forceCriticalSection;
-  }
-  QLineSeries* series = new QLineSeries(this->mChart);
-  for (int i = 0; i < x_vals.size(); i++) {
-    if (x_vals[i] > xMax) break;
-    series->append(QPointF(x_vals[i], y_vals[i]));
-  }
-  this->mChart->removeAllSeries();
-  this->mChart->addSeries(series);
-  foreach(QAbstractAxis * axis, this->mChart->axes()) {
-    series->attachAxis(axis);
-  }
-
-  if (this->truckGroup->x() <= this->animationMin) return false;
-  else return true;
-}
-
 void SolverVisual::animateBackward() {
   if (this->animationStatus != RunningBackward) return;
-  if (backFrame()) {
+  if (moveFrames(-1)) {
     QTimer::singleShot(this->animationSpeed, this, &SolverVisual::animateBackward);
   }
   else {
@@ -713,7 +681,6 @@ void SolverVisual::setPlatoon(QGraphicsScene* platoon) {
     }
   }
   truckScene->addItem(this->truckGroup);
-  this->truckGroup->setPos(10, 0);
 
   this->truckVisual->setScene(truckScene);
   this->truckVisual->setSceneRect(0, 0, 750, 75);

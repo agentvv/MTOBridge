@@ -79,9 +79,8 @@ class SolverVisual : public QWidget {
 
   QGraphicsItemGroup* truckGroup;
 
-  bool nextFrame();
+  bool moveFrames(int);
   void animateForward();
-  bool backFrame();
   void animateBackward();
   void setUpAnimation();
   void createPage();
