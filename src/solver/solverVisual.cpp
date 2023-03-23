@@ -121,16 +121,22 @@ void SolverVisual::createPage() {
   this->forceSettingGroup->setLayout(forceBox);
   positiveMomentButton = new QRadioButton("Positive Moment");
   positiveMomentButton->setChecked(true);
-  QObject::connect(positiveMomentButton, &QPushButton::clicked, this,
-                   [&]() { Solver::updateForceType("Positive Moment"); });
+  QObject::connect(positiveMomentButton, &QPushButton::clicked, this, [&]() {
+    Solver::updateForceType("Positive Moment");
+    this->resetChartAnimation();
+    });
   forceBox->addWidget(positiveMomentButton);
   negativeMomentButton = new QRadioButton("Negative Moment");
-  QObject::connect(negativeMomentButton, &QPushButton::clicked, this,
-                   [&]() { Solver::updateForceType("Negative Moment"); });
+  QObject::connect(negativeMomentButton, &QPushButton::clicked, this, [&]() {
+    Solver::updateForceType("Negative Moment");
+    this->resetChartAnimation();
+    });;
   forceBox->addWidget(negativeMomentButton);
   shearButton = new QRadioButton("Shear");
-  QObject::connect(shearButton, &QPushButton::clicked, this,
-                   [&]() { Solver::updateForceType("Shear"); });
+  QObject::connect(shearButton, &QPushButton::clicked, this, [&]() {
+    Solver::updateForceType("Shear");
+    this->resetChartAnimation();
+    });
   forceBox->addWidget(shearButton);
   forceBox->addStretch(1);
   this->forceSettingGroup->setFixedHeight(100);
@@ -141,12 +147,16 @@ void SolverVisual::createPage() {
   this->solverSettingGroup->setLayout(solverBox);
   concernedButton = new QRadioButton("Concerned Section");
   concernedButton->setChecked(true);
-  QObject::connect(concernedButton, &QPushButton::clicked, this,
-                   [&]() { Solver::updateSolverType("Concerned Section"); });
+  QObject::connect(concernedButton, &QPushButton::clicked, this, [&]() {
+    Solver::updateSolverType("Concerned Section");
+    this->resetChartAnimation();
+    });
   solverBox->addWidget(concernedButton);
   criticalButton = new QRadioButton("Critical Section");
-  QObject::connect(criticalButton, &QPushButton::clicked, this,
-                   [&]() { Solver::updateSolverType("Critical Section"); });
+  QObject::connect(criticalButton, &QPushButton::clicked, this, [&]() {
+    Solver::updateSolverType("Critical Section");
+    this->resetChartAnimation();
+    });
   solverBox->addWidget(criticalButton);
   solverBox->addStretch(1);
   this->solverSettingGroup->setFixedHeight(75);
@@ -469,6 +479,7 @@ void SolverVisual::updatePage() {
   } else if (Solver::getSolverType() == "Critical Section") {
     criticalButton->setChecked(true);
   }
+  this->resetChartAnimation();
 }
 
 bool SolverVisual::nextFrame() {
@@ -695,32 +706,114 @@ void SolverVisual::updateChart(MockCalculationInputT in,
   this->setUpAnimation();
 }
 
+void SolverVisual::resetChartAnimation() {
+  this->animationStatus = NotLoaded;
+  this->backFrameButton->setDisabled(true);
+  this->firstFrameButton->setDisabled(true);
+  this->nextFrameButton->setDisabled(true);
+  this->lastFrameButton->setDisabled(true);
+  this->animationButton->setText("Play");
+  this->animationButton->setDisabled(true);
+  if (this->calculateButton->text() != "Initialising...") {
+    this->calculateButton->setText("Run Analysis");
+    this->calculateButton->setDisabled(false);
+  }
+  this->saveButton->setDisabled(true);
+
+  this->mChart->removeAllSeries();
+  for (auto& axis : this->mChart->axes()) {
+    this->mChart->removeAxis(axis);
+  }
+  this->mChart->setTitle("");
+
+  if (this->truckVisual->scene() != NULL && !this->groups->isEmpty()) {
+    double distBetweenTrucks = PlatoonConfiguration::getHeadway();
+    foreach(double spacing, PlatoonConfiguration::getAxleSpacings()) {
+      distBetweenTrucks += spacing;
+    }
+    int j = 0;
+    foreach(QGraphicsItemGroup * group, *(this->groups)) {
+      group->setPos(distBetweenTrucks * PIXELS_PER_METER * j++ + this->animationMin, 0);
+    }
+  }
+}
+
 void SolverVisual::setPlatoon(QGraphicsScene* platoon) {
-  //this->truckVisual->setScene(platoon);
-  
+  this->resetChartAnimation();
+
   QList<QGraphicsItem*> items = platoon->items();
-  if (items.size() == 0) return;
-  QGraphicsScene* truckScene = new QGraphicsScene();
-  int j = 0;
-  this->groups = new QList<QGraphicsItemGroup*>;
+  if (items.size() == 0) {
+    if (this->truckVisual->scene() != NULL) this->truckVisual->setScene(NULL);
+    return;
+  }
+
   double distBetweenTrucks = PlatoonConfiguration::getHeadway();
   foreach(double spacing, PlatoonConfiguration::getAxleSpacings()) {
     distBetweenTrucks += spacing;
   }
-  foreach(QGraphicsItem* item, items) {
-    QGraphicsItemGroup* group = item->group();
-    if (group != nullptr && (this->groups->isEmpty() || group != this->groups->back())) {
-      this->groups->append(group);
-      truckScene->addItem(group);
-      group->setPos(distBetweenTrucks * PIXELS_PER_METER * j++, 0);
+
+  QList<QGraphicsItemGroup*> origGroups = {};
+  foreach(QGraphicsItem *item, items) {
+    QGraphicsItemGroup *group = item->group();
+    if (group != nullptr && (origGroups.isEmpty() || group != origGroups.back())) {
+      origGroups.append(group);
     }
   }
+
+  QGraphicsScene* truckScene = new QGraphicsScene();
+  this->groups = new QList<QGraphicsItemGroup*>;
+  int j = 0;
+  foreach(QGraphicsItemGroup* group, origGroups) {
+    QGraphicsItemGroup* newGroup = new QGraphicsItemGroup;
+
+    foreach(QGraphicsItem *item, group->childItems()) {
+      //Inspiration from https://forum.qt.io/topic/85648/how-can-i-copy-paste-qgraphicsitems/6
+      QGraphicsRectItem* rect = qgraphicsitem_cast<QGraphicsRectItem*>(item);
+      if (rect != NULL) {
+        QGraphicsRectItem* newRect = truckScene->addRect(rect->rect(), rect->pen(), rect->brush());
+        newRect->setZValue(rect->zValue());
+        newGroup->addToGroup(newRect);
+      }
+
+      QGraphicsEllipseItem* ellipse = qgraphicsitem_cast<QGraphicsEllipseItem*>(item);
+      if (ellipse != NULL) {
+        QGraphicsEllipseItem* newEllipse = truckScene->addEllipse(ellipse->rect(), ellipse->pen(), ellipse->brush());
+        newEllipse->setZValue(ellipse->zValue());
+        newGroup->addToGroup(newEllipse);
+      }
+    }
+
+    truckScene->addItem(newGroup);
+    newGroup->setPos(distBetweenTrucks * PIXELS_PER_METER * j++, 0);
+    this->groups->append(newGroup);
+  }
+
   this->truckVisual->setScene(truckScene);
   this->truckVisual->setSceneRect(0, 0, 750, 75);
 }
 
 void SolverVisual::setBridge(QGraphicsScene* bridge) {
-  this->bridgeVisual->setScene(bridge);
+  this->resetChartAnimation();
+
+  QList<QGraphicsItem*> items = bridge->items();
+  QGraphicsScene* bridgeScene = new QGraphicsScene();
+
+  foreach(QGraphicsItem * item, items) {
+    //Inspiration from https://forum.qt.io/topic/85648/how-can-i-copy-paste-qgraphicsitems/6
+    QGraphicsRectItem* rect = qgraphicsitem_cast<QGraphicsRectItem*>(item);
+    if (rect != NULL) {
+      QGraphicsRectItem* newRect = bridgeScene->addRect(rect->rect(), rect->pen(), rect->brush());
+      newRect->setZValue(rect->zValue());
+    }
+
+    QGraphicsLineItem* line = qgraphicsitem_cast<QGraphicsLineItem*>(item);
+    if (line != NULL) {
+      QGraphicsLineItem* newLine = bridgeScene->addLine(line->line(), line->pen());
+      newLine->setZValue(line->zValue());
+    }
+  }
+
+  this->bridgeVisual->setScene(bridgeScene);
 }
 
 void SolverVisual::showEvent(QShowEvent* showEvent) {

@@ -29,8 +29,6 @@ void Window::createWindow() {
   mPlatoon = new PlatoonVisual(this);
   mBridge = new BridgeVisual(this);
   mSolver = new SolverVisual(this);
-  //mSolver->setPlatoon(mPlatoon->getScene());
-  mSolver->setBridge(mBridge->getScene());
 
   mTabWidget->addTab(mPlatoon, "Platoon");
   mTabWidget->addTab(mBridge, "Bridge");
@@ -43,6 +41,10 @@ void Window::createWindow() {
 
   QObject::connect(mPlatoon->getScene(), &QGraphicsScene::changed, this, [&]() {
       mSolver->setPlatoon(mPlatoon->getScene());
+    });
+
+  QObject::connect(mBridge->getScene(), &QGraphicsScene::changed, this, [&]() {
+    mSolver->setBridge(mBridge->getScene());
     });
 }
 
