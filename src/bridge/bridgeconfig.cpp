@@ -13,12 +13,13 @@ namespace mtobridge {
 //  this->config.concernedSection = ConcernedSection.toDouble();
 //  this->config.discretizationLength = DiscretizationLength.toDouble();
 //}
-int defaultSpanNumber = 2;
-std::vector<double> defaultSpanLength{20, 20};
-double defualtConcernedSection = 10;
-double defualtDiscretizationLength = 0.1;
+// 
+int defaultSpanNumber;
+std::vector<double> defaultSpanLength;
+double defualtConcernedSection;
+double defualtDiscretizationLength;
 BridgeT BridgeConfiguration::config = {defaultSpanNumber, defaultSpanLength,
-                                       defualtConcernedSection,defualtDiscretizationLength}; 
+                                      defualtConcernedSection,defualtDiscretizationLength}; 
 
 
 vector<double> BridgeConfiguration::convertQstringToDoubleVector(QString qstring) {

@@ -13,9 +13,13 @@ class BridgeVisual : public QWidget {
 
   QGraphicsScene* getScene() { return mScene; }
 
+ public slots:
+  void bridgeConfigEdited();
+
+
  private:
   void createPage();
-
+  
   QLabel* mSpanLengthLabel;
   QLineEdit* mSpanLength;
   QLabel* mConcernedSectionLabel;
@@ -37,5 +41,6 @@ class BridgeVisual : public QWidget {
   QPushButton* saveButton;
   QPushButton* loadButton;
   BridgeConfiguration* bridgeConfiguration;
+  
 };
 }  // namespace mtobridge
