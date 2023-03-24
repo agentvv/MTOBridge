@@ -27,7 +27,8 @@ void BridgeVisual::bridgeConfigEdited() {
 
     QBrush grayBrush(Qt::gray);
     QBrush redBrush(Qt::red);
-    QBrush blackBrush(Qt::blue);
+    QBrush blueBrush(Qt::blue);
+    QBrush blackBrush(Qt::black);
     QPen blackpen(Qt::black);
     blackpen.setWidthF(1);
     QPen redpen(Qt::red);
@@ -54,8 +55,13 @@ void BridgeVisual::bridgeConfigEdited() {
     mScene->addRect((bridgeLength - 4 * topLayerWidth), topLayerWidth, 8 * topLayerWidth, 7 * topLayerWidth, blackpen, grayBrush);
     bridgeLength += 4 * topLayerWidth; //Sketching second abutment
 
-    mScene->addRect(0, 0, bridgeLength, topLayerWidth, blackpen, blackBrush); //Sketching the top layer
-    mScene->addRect(4 * topLayerWidth, topLayerWidth, (bridgeLength - 8 * topLayerWidth), 2 * topLayerWidth, blackpen, redBrush);
+    mScene->addRect(0, 0, bridgeLength, topLayerWidth, blackpen, blueBrush); //Sketching the top layer
+    mScene->addRect(4 * topLayerWidth, topLayerWidth, (bridgeLength - 8 * topLayerWidth), 2 * topLayerWidth, blackpen, redBrush);//Sketching the bridge
+
+    QGraphicsTextItem* text = mScene->addText("Discretization Length: " + mDiscretizationLength->text()); //Indicating Discretization Length
+    text->setPos(bridgeLength/2, 8 * topLayerWidth);
+
+    mScene->addLine(4 * topLayerWidth + configBridge.concernedSection * scale, topLayerWidth, 4 * topLayerWidth + configBridge.concernedSection * scale, 3 * topLayerWidth, blackpen); // Indicating Concerned Section
 
     //for (double i = configBridge.discretizationLength * scale;
     //     i < bridgeLength * scale;
