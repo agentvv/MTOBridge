@@ -12,6 +12,17 @@
 #define BUTTON_HOLD_TIME 500          //Amount of time (in ms) the nextFrame or backFrame button needs to be held before manual animation is started
 
 namespace mtobridge {
+enum AnimationStatus { NotLoaded, AtBeginning, AtEnd, Paused, RunningForward, RunningBackward };
+class ChartView : public QChartView {
+  Q_OBJECT
+
+ public:
+  ChartView(QChart* chart, QWidget* parent = 0) {}
+
+ protected:
+  void mouseReleaseEvent(QMouseEvent* event) override;
+};
+
 class SolverVisual : public QWidget {
   Q_OBJECT
 
@@ -23,6 +34,8 @@ class SolverVisual : public QWidget {
   //void setBridge(QGraphicsScene*);
   //void setPlatoon(QGraphicsScene*);
   void showEvent(QShowEvent* showEvent);
+
+  friend class ChartView;
 
  signals:
   void runCommand(MockCalculationInputT);
@@ -36,7 +49,7 @@ class SolverVisual : public QWidget {
    int animationMax;
    int animationInc;
    int animationSpeed;
-   enum {NotLoaded, AtBeginning, AtEnd, Paused, RunningForward, RunningBackward} animationStatus;
+   AnimationStatus animationStatus;
 
   QGroupBox* forceSettingGroup;
   QGroupBox* solverSettingGroup;
@@ -55,7 +68,7 @@ class SolverVisual : public QWidget {
   // QPushButton* loadButton;
   // Truck + bridge window
   QChart* mChart;
-  QChartView* mChartView;
+  ChartView* mChartView;
 
   // Force Envelope Chart
   QChart* mEnvelopeChart;

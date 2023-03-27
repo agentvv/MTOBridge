@@ -1,5 +1,4 @@
 #include "solverVisual.hpp"
-#include "solverVisual.hpp"
 
 #include "../PlatoonConfiguration/PlatoonConfiguration.hpp"
 #include "../engine/engine.hpp"
@@ -7,6 +6,7 @@
 #include "../saver/saver.hpp"
 #include "solver.hpp"
 #include <math.h>
+
 namespace mtobridge {
 void SolverVisual::errorOccurred(QString error) {
   QMessageBox::critical(this, QString("Error!"), error);
@@ -32,12 +32,11 @@ void SolverVisual::createPage() {
                                             QSizePolicy::Policy::Expanding));
     mChartWidget->setLayout(chartLayout);
 
-    // QChart* mChart = new QChart();
     mChart = new QChart();
     mChart->legend()->hide();
     mChart->createDefaultAxes();
 
-    mChartView = new QChartView(mChart, mChartWidget);
+    mChartView = new ChartView(mChart, mChartWidget);
     mChartView->setRenderHint(QPainter::Antialiasing);
     mChartView->resize(300, 300);
     mChartView->setSizePolicy(QSizePolicy(QSizePolicy::Policy::Expanding,
@@ -237,6 +236,8 @@ void SolverVisual::createPage() {
   this->animationTimer->setInterval(BUTTON_HOLD_TIME);
   this->animationTimer->setSingleShot(true);
 
+  this->animationStatus = NotLoaded;
+
   QWidget* animationWidget = new QWidget(this);
   QHBoxLayout* animationLayout = new QHBoxLayout();
   animationLayout->setSpacing(0);
@@ -433,6 +434,41 @@ void SolverVisual::updatePage() {
     criticalButton->setChecked(true);
   }
   this->setUpAnimation();
+}
+
+void ChartView::mouseReleaseEvent(QMouseEvent* event) {
+  SolverVisual* solver = (SolverVisual*) this->parent()->parent()->parent();
+  auto status = solver->animationStatus;
+  if (status == AtEnd || status == AtBeginning || status == Paused) {
+    //Mapping taken from https://stackoverflow.com/questions/44067831/get-mouse-coordinates-in-qchartviews-axis-system
+    double x = this->chart()->mapToValue(this->chart()->mapFromScene(this->mapToScene(event->pos().x(), 0))).x();
+    solver->setTruckPosition(solver->animationMin + x * PIXELS_PER_METER);
+    if (solver->truckGroup->x() == solver->animationMax) {
+      solver->animationStatus = AtEnd;
+      solver->nextFrameButton->setDisabled(true);
+      solver->lastFrameButton->setDisabled(true);
+      solver->backFrameButton->setDisabled(false);
+      solver->firstFrameButton->setDisabled(false);
+      solver->animationButton->setText("Restart");
+    }
+    else if (solver->truckGroup->x() == solver->animationMin) {
+      solver->animationStatus = AtBeginning;
+      solver->backFrameButton->setDisabled(true);
+      solver->firstFrameButton->setDisabled(true);
+      solver->nextFrameButton->setDisabled(false);
+      solver->lastFrameButton->setDisabled(false);
+      solver->animationButton->setText("Play");
+    }
+    else {
+      solver->animationStatus = Paused;
+      solver->backFrameButton->setDisabled(false);
+      solver->firstFrameButton->setDisabled(false);
+      solver->nextFrameButton->setDisabled(false);
+      solver->lastFrameButton->setDisabled(false);
+      solver->animationButton->setText("Play");
+    }
+  }
+  QChartView::mouseReleaseEvent(event);
 }
 
 void SolverVisual::setTruckPosition(double x) {
