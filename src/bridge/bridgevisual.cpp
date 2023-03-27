@@ -56,7 +56,7 @@ void BridgeVisual::bridgeConfigEdited() {
     bridge->setZValue(1);
 
     QGraphicsTextItem* text = mScene->addText("Discretization Length: " + mDiscretizationLength->text()); //Indicating Discretization Length
-    text->setPos(bridgeLength/2, 8 * topLayerWidth);
+    text->setPos(( bridgeLength - text->boundingRect().width() ) / 2, 8 * topLayerWidth);
 
     QGraphicsLineItem* concernedLine = mScene->addLine(4 * topLayerWidth + configBridge.concernedSection * scale, topLayerWidth + 1, 4 * topLayerWidth + configBridge.concernedSection * scale, 3 * topLayerWidth - 1, redpen); // Indicating Concerned Section
     concernedLine->setZValue(2);

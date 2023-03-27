@@ -637,11 +637,6 @@ void SolverVisual::setUpAnimation() {
     double width = (this->bridgeGroup->boundingRect().width() < 750) ? 750 : this->bridgeGroup->boundingRect().width();
     this->truckBridgeVisual->setSceneRect(0, 0, width, 110);
     this->bridgeGroup->setPos((width - this->bridgeGroup->boundingRect().width()) / 2, 48);
-
-    std::string test = "bridge setup";
-    std::wstring stemp = std::wstring(test.begin(), test.end());
-    LPCWSTR sw = stemp.c_str();
-    MessageBox(NULL, sw, NULL, MB_OK);
   }
 
   if (this->truckGroup->childItems().size() != 0 && this->bridgeGroup->childItems().size() != 0) {
@@ -654,19 +649,9 @@ void SolverVisual::setUpAnimation() {
     this->animationSpeed = ANIMATION_TIME / ((this->animationMax - this->animationMin) / this->animationInc);
 
     this->truckGroup->setPos(this->animationMin, 1);
-
-    std::string test = "truck setup 1";
-    std::wstring stemp = std::wstring(test.begin(), test.end());
-    LPCWSTR sw = stemp.c_str();
-    MessageBox(NULL, sw, NULL, MB_OK);
   }
   else if (this->truckGroup->childItems().size() != 0) {
     this->truckGroup->setPos(10, 1);
-
-    std::string test = "truck setup 2";
-    std::wstring stemp = std::wstring(test.begin(), test.end());
-    LPCWSTR sw = stemp.c_str();
-    MessageBox(NULL, sw, NULL, MB_OK);
   }
 }
 
