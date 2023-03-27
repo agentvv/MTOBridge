@@ -132,7 +132,7 @@ void BridgeVisual::createPage() {
 
   // connect window to engine for running commands and drawing chart
   {
-    QObject::connect(mNumberSpans, &QComboBox::currentTextChanged, this, &BridgeVisual::bridgeConfigEdited);
+    //QObject::connect(mNumberSpans, &QComboBox::currentTextChanged, this, &BridgeVisual::bridgeConfigEdited);
     QObject::connect(mSpanLength, &QLineEdit::editingFinished, this, &BridgeVisual::bridgeConfigEdited);
     QObject::connect(mConcernedSection, &QLineEdit::editingFinished, this, &BridgeVisual::bridgeConfigEdited);
     QObject::connect(mDiscretizationLength, &QLineEdit::editingFinished, this, &BridgeVisual::bridgeConfigEdited);
