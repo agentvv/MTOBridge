@@ -405,8 +405,9 @@ void SolverVisual::createPage() {
   // enable buttons as soon as matlab is ready to go
   QObject::connect(&engine, &Engine::engineStarted, this, [&]() {
     this->calculateButton->setText("Run Analysis");
-    this->calculateButton->setDisabled(false);
-    this->saveButton->setDisabled(false);
+    if (this->truckGroup->childItems().size() != 0 && this->bridgeGroup->childItems().size() != 0) {
+      this->calculateButton->setDisabled(false);
+    }
   });
 
   // draw chart after command finished
@@ -643,11 +644,11 @@ void SolverVisual::setUpAnimation() {
   this->lastFrameButton->setDisabled(true);
   this->animationButton->setText("Play");
   this->animationButton->setDisabled(true);
+  this->saveButton->setDisabled(true);
   if (this->calculateButton->text() != "Initialising...") {
     this->calculateButton->setText("Run Analysis");
-    this->calculateButton->setDisabled(false);
+    this->calculateButton->setDisabled(true);
   }
-  this->saveButton->setDisabled(true);
 
   this->mChart->removeAllSeries();
   for (auto& axis : this->mChart->axes()) {
@@ -688,6 +689,10 @@ void SolverVisual::setUpAnimation() {
   }
 
   if (this->truckGroup->childItems().size() != 0 && this->bridgeGroup->childItems().size() != 0) {
+    if (this->calculateButton->text() != "Initialising...") {
+      this->calculateButton->setDisabled(false);
+    }
+
     double totalTruckSize = this->truckGroup->boundingRect().width() - 2;
     double bridgeLength = this->bridgeGroup->boundingRect().width() - 8 * PIXELS_PER_METER - 1;
 
@@ -728,66 +733,67 @@ void SolverVisual::updateScene(std::string sceneType, QGraphicsScene* scene) {
   }
 
   QList<QGraphicsItem*> items = scene->items();
-  if (items.size() == 0) return;
+  if (items.size() != 0) {
+    int spanCount = 0;
+    foreach(QGraphicsItem* item, items) {
+      //Inspiration from https://forum.qt.io/topic/85648/how-can-i-copy-paste-qgraphicsitems/6
+      QGraphicsRectItem* rect = qgraphicsitem_cast<QGraphicsRectItem*>(item);
+      if (rect != NULL) {
+        QGraphicsRectItem* newRect = this->truckBridgeVisual->scene()->addRect(rect->mapRectToScene(rect->rect()), rect->pen(), rect->brush());
+        newRect->setZValue(rect->zValue());
+        group->addToGroup(newRect);
+        if (sceneType == "Bridge" && rect->brush().color() == Qt::gray) {
+          spanCount++;
+        }
+      }
 
-  int spanCount = 0;
-  foreach(QGraphicsItem *item, items) {
-    //Inspiration from https://forum.qt.io/topic/85648/how-can-i-copy-paste-qgraphicsitems/6
-    QGraphicsRectItem* rect = qgraphicsitem_cast<QGraphicsRectItem*>(item);
-    if (rect != NULL) {
-      QGraphicsRectItem *newRect = this->truckBridgeVisual->scene()->addRect(rect->mapRectToScene(rect->rect()), rect->pen(), rect->brush());
-      newRect->setZValue(rect->zValue());
-      group->addToGroup(newRect);
-      if (sceneType == "Bridge" && rect->brush().color() == Qt::gray) {
-        spanCount++;
+      QGraphicsEllipseItem* ellipse = qgraphicsitem_cast<QGraphicsEllipseItem*>(item);
+      if (ellipse != NULL) {
+        QGraphicsEllipseItem* newEllipse = this->truckBridgeVisual->scene()->addEllipse(ellipse->mapRectToScene(ellipse->rect()), ellipse->pen(), ellipse->brush());
+        newEllipse->setZValue(ellipse->zValue());
+        group->addToGroup(newEllipse);
+      }
+
+      QGraphicsLineItem* line = qgraphicsitem_cast<QGraphicsLineItem*>(item);
+      if (line != NULL) {
+        QPointF p1 = line->mapToScene(line->line().p1());
+        QPointF p2 = line->mapToScene(line->line().p2());
+        QGraphicsLineItem* newLine = this->truckBridgeVisual->scene()->addLine(p1.x(), p1.y(), p2.x(), p2.y(), line->pen());
+        newLine->setZValue(line->zValue());
+        group->addToGroup(newLine);
+        if (sceneType == "Bridge" && line->pen().color() == Qt::red) {
+          this->concernedSectionLine = newLine;
+          newLine->hide();
+        }
+      }
+
+      QGraphicsTextItem* text = qgraphicsitem_cast<QGraphicsTextItem*>(item);
+      if (text != NULL) {
+        QGraphicsTextItem* newText = this->truckBridgeVisual->scene()->addText(text->toPlainText());
+        newText->setZValue(text->zValue());
+        newText->hide();
+        this->discretizationLengthText = newText;
       }
     }
 
-    QGraphicsEllipseItem *ellipse = qgraphicsitem_cast<QGraphicsEllipseItem*>(item);
-    if (ellipse != NULL) {
-      QGraphicsEllipseItem* newEllipse = this->truckBridgeVisual->scene()->addEllipse(ellipse->mapRectToScene(ellipse->rect()), ellipse->pen(), ellipse->brush());
-      newEllipse->setZValue(ellipse->zValue());
-      group->addToGroup(newEllipse);
-    }
+    this->truckBridgeVisual->scene()->addItem(group);
 
-    QGraphicsLineItem *line = qgraphicsitem_cast<QGraphicsLineItem*>(item);
-    if (line != NULL) {
-      QPointF p1 = line->mapToScene(line->line().p1());
-      QPointF p2 = line->mapToScene(line->line().p2());
-      QGraphicsLineItem* newLine = this->truckBridgeVisual->scene()->addLine(p1.x(), p1.y(), p2.x(), p2.y(), line->pen());
-      newLine->setZValue(line->zValue());
-      group->addToGroup(newLine);
-      if (sceneType == "Bridge" && line->pen().color() == Qt::red) {
-        this->concernedSectionLine = newLine;
-        newLine->hide();
+    if (sceneType == "Bridge") {
+      if (spanCount == 2) {
+        //Disable negative moment, swap if need be
+        this->negativeMomentButton->setEnabled(false);
+        if (this->negativeMomentButton->isChecked()) {
+          this->positiveMomentButton->click();
+        }
       }
-    }
-    
-    QGraphicsTextItem *text = qgraphicsitem_cast<QGraphicsTextItem*>(item);
-    if (text != NULL) {
-      QGraphicsTextItem* newText = this->truckBridgeVisual->scene()->addText(text->toPlainText());
-      newText->setZValue(text->zValue());
-      newText->hide();
-      this->discretizationLengthText = newText;
+      else {
+        //Enable negative moment
+        this->negativeMomentButton->setEnabled(true);
+      }
     }
   }
 
-  this->truckBridgeVisual->scene()->addItem(group);
   this->setUpAnimation();
-
-  if (sceneType == "Bridge") {
-    if (spanCount == 2) {
-      //Disable negative moment, swap if need be
-      this->negativeMomentButton->setEnabled(false);
-      if (this->negativeMomentButton->isChecked()) {
-        this->positiveMomentButton->click();
-      }
-    }
-    else {
-      //Enable negative moment
-      this->negativeMomentButton->setEnabled(true);
-    }
-  }
 }
 
 void SolverVisual::showEvent(QShowEvent* showEvent) {
