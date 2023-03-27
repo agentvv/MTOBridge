@@ -82,6 +82,7 @@ class SolverVisual : public QWidget {
   QGraphicsLineItem *criticalSectionLine;
   QGraphicsTextItem *discretizationLengthText;
 
+  void setTruckPosition(double);
   bool moveFrames(int);
   void animateForward();
   void animateBackward();

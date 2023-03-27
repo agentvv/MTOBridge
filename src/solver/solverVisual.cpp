@@ -246,8 +246,7 @@ void SolverVisual::createPage() {
   this->firstFrameButton->setDisabled(true);
   this->firstFrameButton->setFixedWidth(25);
   QObject::connect(this->firstFrameButton, &QPushButton::clicked, this, [&]() {
-    this->truckGroup->setPos(this->animationMin, 1);
-    this->mChart->removeAllSeries();
+    this->setTruckPosition(this->animationMin);
     this->animationStatus = AtBeginning;
     this->backFrameButton->setDisabled(true);
     this->firstFrameButton->setDisabled(true);
@@ -302,11 +301,9 @@ void SolverVisual::createPage() {
       this->nextFrameButton->setDisabled(false);
       this->lastFrameButton->setDisabled(false);
       this->animationButton->setText("Play");
-      this->calculateButton->setText("Run Analysis");
-      this->calculateButton->setDisabled(false);
       break;
     case AtEnd:
-      this->truckGroup->setPos(this->animationMin, 1);
+      this->setTruckPosition(this->animationMin);
       //This is intended to roll over into the next case statements
     case Paused:
     case AtBeginning:
@@ -316,8 +313,6 @@ void SolverVisual::createPage() {
       this->nextFrameButton->setDisabled(true);
       this->lastFrameButton->setDisabled(true);
       this->animationButton->setText("Pause");
-      this->calculateButton->setText("Animating");
-      this->calculateButton->setDisabled(true);
       this->animateForward();
       break;
     }
@@ -360,24 +355,7 @@ void SolverVisual::createPage() {
   this->lastFrameButton->setDisabled(true);
   this->lastFrameButton->setFixedWidth(25);
   QObject::connect(this->lastFrameButton, &QPushButton::clicked, this, [&]() {
-    this->truckGroup->setPos(this->animationMax, 1);
-    std::vector<double> x_vals = this->mReport.results.firstAxlePosition;
-    std::vector<double> y_vals;
-    if (this->mReport.input.solverConfig.solverType == MockSolverT::CONCERNED) {
-      y_vals = this->mReport.results.forceConcernedSection;
-    }
-    else {
-      y_vals = this->mReport.results.forceCriticalSection;
-    }
-    QLineSeries* series = new QLineSeries(this->mChart);
-    for (int i = 0; i < x_vals.size(); i++) {
-      series->append(QPointF(x_vals[i], y_vals[i]));
-    }
-    this->mChart->removeAllSeries();
-    this->mChart->addSeries(series);
-    foreach(QAbstractAxis * axis, this->mChart->axes()) {
-      series->attachAxis(axis);
-    }
+    this->setTruckPosition(this->animationMax);
     this->animationStatus = AtEnd;
     this->nextFrameButton->setDisabled(true);
     this->lastFrameButton->setDisabled(true);
@@ -457,13 +435,13 @@ void SolverVisual::updatePage() {
   this->setUpAnimation();
 }
 
-bool SolverVisual::moveFrames(int numFrames) {
-  if (numFrames > 0 && this->truckGroup->x() >= this->animationMax) return false;
-  if (numFrames < 0 && this->truckGroup->x() <= this->animationMin) return false;
+void SolverVisual::setTruckPosition(double x) {
+  if (x > this->animationMax) x = this->animationMax;
+  else if (x < this->animationMin) x = this->animationMin;
 
-  this->truckGroup->moveBy(numFrames * this->animationInc, 0);
+  this->truckGroup->setPos(x, 1);
 
-  double xMax = (this->truckGroup->x() - this->animationMin) / PIXELS_PER_METER;
+  double xMax = (x - this->animationMin) / PIXELS_PER_METER;
   std::vector<double> x_vals = this->mReport.results.firstAxlePosition;
   std::vector<double> y_vals;
   if (this->mReport.input.solverConfig.solverType == MockSolverT::CONCERNED) {
@@ -482,6 +460,10 @@ bool SolverVisual::moveFrames(int numFrames) {
   foreach(QAbstractAxis * axis, this->mChart->axes()) {
     series->attachAxis(axis);
   }
+}
+
+bool SolverVisual::moveFrames(int numFrames) {
+  this->setTruckPosition(this->truckGroup->x() + numFrames * this->animationInc);
 
   if (this->truckGroup->x() >= this->animationMax || this->truckGroup->x() <= this->animationMin) return false;
   else return true;
@@ -499,8 +481,6 @@ void SolverVisual::animateForward() {
     this->firstFrameButton->setDisabled(false);
     this->nextFrameButton->setDisabled(true);
     this->lastFrameButton->setDisabled(true);
-    this->calculateButton->setText("Run Analysis");
-    this->calculateButton->setDisabled(false);
   }
 }
 
@@ -516,8 +496,6 @@ void SolverVisual::animateBackward() {
     this->firstFrameButton->setDisabled(true);
     this->nextFrameButton->setDisabled(false);
     this->lastFrameButton->setDisabled(false);
-    this->calculateButton->setText("Run Analysis");
-    this->calculateButton->setDisabled(false);
   }
 }
 
@@ -615,7 +593,7 @@ void SolverVisual::updateChart(MockCalculationInputT in,
   this->lastFrameButton->setDisabled(true);
   this->animationButton->setText("Pause");
   this->animationButton->setDisabled(false);
-  this->calculateButton->setText("Animating");
+  this->calculateButton->setText("Results Are Displayed");
   this->calculateButton->setDisabled(true);
   this->animateForward();
 }
