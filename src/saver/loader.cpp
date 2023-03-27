@@ -187,12 +187,12 @@ mtobridge::BridgeT loader::loadBridgeConfiguration() {
     }
     //! Define a regular expression pattern to match doubles only (excluding
     //! integers)
-    matchInt = regexInt.match(strList[2]);
+    matchDouble = regexDouble.match(strList[2]);
 
     //! Check if the input matches the regular expression pattern
-    if (matchInt.hasMatch() && matchInt.capturedStart() == 0 &&
-        matchInt.capturedLength() == strList[2].length()) {
-      tempbridge.concernedSection = strList[2].toInt();
+    if (matchDouble.hasMatch() && matchDouble.capturedStart() == 0 &&
+        matchDouble.capturedLength() == strList[2].length()) {
+      tempbridge.concernedSection = strList[2].toDouble();
     } else {
       QMessageBox::information(
           nullptr, "Invalid Type",
