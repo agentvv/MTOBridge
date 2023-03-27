@@ -8,8 +8,6 @@
 #include "solver.hpp"
 #include <math.h>
 namespace mtobridge {
-void SolverVisual::visualize() {}
-
 void SolverVisual::errorOccurred(QString error) {
   QMessageBox::critical(this, QString("Error!"), error);
 }
@@ -247,7 +245,7 @@ void SolverVisual::createPage() {
   this->firstFrameButton->setDisabled(true);
   this->firstFrameButton->setFixedWidth(25);
   QObject::connect(this->firstFrameButton, &QPushButton::clicked, this, [&]() {
-    this->truckGroup->setPos(this->animationMin, 0);
+    this->truckGroup->setPos(this->animationMin, 1);
     this->mChart->removeAllSeries();
     this->animationStatus = AtBeginning;
     this->backFrameButton->setDisabled(true);
@@ -307,7 +305,7 @@ void SolverVisual::createPage() {
       this->calculateButton->setDisabled(false);
       break;
     case AtEnd:
-      this->truckGroup->setPos(this->animationMin, 0);
+      this->truckGroup->setPos(this->animationMin, 1);
       //This is intended to roll over into the next case statements
     case Paused:
     case AtBeginning:
@@ -361,7 +359,7 @@ void SolverVisual::createPage() {
   this->lastFrameButton->setDisabled(true);
   this->lastFrameButton->setFixedWidth(25);
   QObject::connect(this->lastFrameButton, &QPushButton::clicked, this, [&]() {
-    this->truckGroup->setPos(this->animationMax, 0);
+    this->truckGroup->setPos(this->animationMax, 1);
     std::vector<double> x_vals = this->mReport.results.firstAxlePosition;
     std::vector<double> y_vals;
     if (this->mReport.input.solverConfig.solverType == MockSolverT::CONCERNED) {
@@ -405,18 +403,15 @@ void SolverVisual::createPage() {
     });
     inputLayout->addWidget(this->saveButton);
   }
-
-  QWidget* bottomHalf = new QWidget(this);
-  QVBoxLayout* truckBridgeLayout = new QVBoxLayout;
-  bottomHalf->setLayout(truckBridgeLayout);
-  bottomHalf->setFixedHeight(160);
-  truckVisual = new QGraphicsView(this);
-  truckVisual->setFixedHeight(80);
-  bridgeVisual = new QGraphicsView(this);
-  bridgeVisual->setFixedHeight(65);
-  truckBridgeLayout->addWidget(truckVisual);
-  truckBridgeLayout->addWidget(bridgeVisual);
-  pageLayout->addWidget(bottomHalf);
+  
+  this->truckBridgeVisual = new QGraphicsView(this);
+  this->truckBridgeVisual->setFixedHeight(130);
+  QGraphicsScene* truckBridgeScene = new QGraphicsScene;
+  this->truckBridgeVisual->setScene(truckBridgeScene);
+  this->truckBridgeVisual->setAlignment(Qt::AlignLeft | Qt::AlignTop);
+  pageLayout->addWidget(this->truckBridgeVisual);
+  this->truckGroup = new QGraphicsItemGroup();
+  this->bridgeGroup = new QGraphicsItemGroup();
 
   auto& engine = Engine::getInstance();
 
@@ -523,44 +518,6 @@ void SolverVisual::animateBackward() {
   }
 }
 
-void SolverVisual::setUpAnimation() {
-  this->animationStatus = NotLoaded;
-  this->backFrameButton->setDisabled(true);
-  this->firstFrameButton->setDisabled(true);
-  this->nextFrameButton->setDisabled(true);
-  this->lastFrameButton->setDisabled(true);
-  this->animationButton->setText("Play");
-  this->animationButton->setDisabled(true);
-  if (this->calculateButton->text() != "Initialising...") {
-    this->calculateButton->setText("Run Analysis");
-    this->calculateButton->setDisabled(false);
-  }
-  this->saveButton->setDisabled(true);
-
-  this->mChart->removeAllSeries();
-  for (auto& axis : this->mChart->axes()) {
-    this->mChart->removeAxis(axis);
-  }
-  this->mChart->setTitle("");
-
-
-  if (this->truckVisual->scene() != NULL && this->bridgeVisual->scene() != NULL) {
-    //Something is slightly off, 4 frames too much movement in truck
-    double totalTruckSize = this->truckVisual->scene()->itemsBoundingRect().width() - 2;
-    double bridgeLength = this->bridgeVisual->scene()->itemsBoundingRect().width() - 8 * PIXELS_PER_METER - 1;
-
-    this->animationMin = (375 + 10) + (PIXELS_PER_METER - totalTruckSize) - (bridgeLength / 2);
-    this->animationMax = this->animationMin + (totalTruckSize - 2 * PIXELS_PER_METER - 2 * PIXELS_PER_METER) + bridgeLength;
-    this->animationInc = (int)ceil(PIXELS_PER_METER * TRUCK_POSITION_INCREMENT);
-    this->animationSpeed = ANIMATION_TIME / ((this->animationMax - this->animationMin) / this->animationInc);
-
-    this->truckGroup->setPos(this->animationMin, 0);
-  }
-  else if (this->truckVisual->scene() != NULL) {
-    this->truckGroup->setPos(10, 0);
-  }
-}
-
 void SolverVisual::updateChart(MockCalculationInputT in,
                                MockCalculationOutputT out) {
   //Have to move all the data point adding into the frame functions
@@ -655,62 +612,127 @@ void SolverVisual::updateChart(MockCalculationInputT in,
   this->animateForward();
 }
 
-void SolverVisual::setPlatoon(QGraphicsScene* platoon) {
-  QList<QGraphicsItem*> items = platoon->items();
-  if (items.size() == 0) {
-    this->truckVisual->setScene(NULL);
-    return;
+void SolverVisual::setUpAnimation() {
+  this->animationStatus = NotLoaded;
+  this->backFrameButton->setDisabled(true);
+  this->firstFrameButton->setDisabled(true);
+  this->nextFrameButton->setDisabled(true);
+  this->lastFrameButton->setDisabled(true);
+  this->animationButton->setText("Play");
+  this->animationButton->setDisabled(true);
+  if (this->calculateButton->text() != "Initialising...") {
+    this->calculateButton->setText("Run Analysis");
+    this->calculateButton->setDisabled(false);
+  }
+  this->saveButton->setDisabled(true);
+
+  this->mChart->removeAllSeries();
+  for (auto& axis : this->mChart->axes()) {
+    this->mChart->removeAxis(axis);
+  }
+  this->mChart->setTitle("");
+
+  if (this->bridgeGroup->childItems().size() != 0) {
+    //Set Bridge location
+    double width = (this->bridgeGroup->boundingRect().width() < 750) ? 750 : this->bridgeGroup->boundingRect().width();
+    this->truckBridgeVisual->setSceneRect(0, 0, width, 110);
+    this->bridgeGroup->setPos((width - this->bridgeGroup->boundingRect().width()) / 2, 48);
+
+    std::string test = "bridge setup";
+    std::wstring stemp = std::wstring(test.begin(), test.end());
+    LPCWSTR sw = stemp.c_str();
+    MessageBox(NULL, sw, NULL, MB_OK);
   }
 
-  QGraphicsScene* truckScene = new QGraphicsScene();
-  this->truckGroup = new QGraphicsItemGroup();
+  if (this->truckGroup->childItems().size() != 0 && this->bridgeGroup->childItems().size() != 0) {
+    double totalTruckSize = this->truckGroup->boundingRect().width() - 2;
+    double bridgeLength = this->bridgeGroup->boundingRect().width() - 8 * PIXELS_PER_METER - 1;
+
+    this->animationMin = (this->truckBridgeVisual->sceneRect().width() / 2 + 10) + (PIXELS_PER_METER - totalTruckSize) - (bridgeLength / 2);
+    this->animationMax = this->animationMin + (totalTruckSize - 2 * PIXELS_PER_METER - 2 * PIXELS_PER_METER) + bridgeLength;
+    this->animationInc = (int)ceil(PIXELS_PER_METER * TRUCK_POSITION_INCREMENT);
+    this->animationSpeed = ANIMATION_TIME / ((this->animationMax - this->animationMin) / this->animationInc);
+
+    this->truckGroup->setPos(this->animationMin, 1);
+
+    std::string test = "truck setup 1";
+    std::wstring stemp = std::wstring(test.begin(), test.end());
+    LPCWSTR sw = stemp.c_str();
+    MessageBox(NULL, sw, NULL, MB_OK);
+  }
+  else if (this->truckGroup->childItems().size() != 0) {
+    this->truckGroup->setPos(10, 1);
+
+    std::string test = "truck setup 2";
+    std::wstring stemp = std::wstring(test.begin(), test.end());
+    LPCWSTR sw = stemp.c_str();
+    MessageBox(NULL, sw, NULL, MB_OK);
+  }
+}
+
+void SolverVisual::updateScene(int sceneType, QGraphicsScene* scene) {
+  QGraphicsItemGroup* group = new QGraphicsItemGroup();;
+  switch (sceneType) {
+  case 0:
+    foreach(QGraphicsItem * item, this->truckGroup->childItems()) {
+      this->truckBridgeVisual->scene()->removeItem(item);
+      delete item;
+    }
+    this->truckGroup = group;
+    break;
+  case 1:
+    foreach(QGraphicsItem * item, this->bridgeGroup->childItems()) {
+      this->truckBridgeVisual->scene()->removeItem(item);
+      delete item;
+    }
+    this->bridgeGroup = group;
+    break;
+  }
+
+  QList<QGraphicsItem*> items = scene->items();
+  if (items.size() == 0) return;
+
   foreach(QGraphicsItem *item, items) {
     //Inspiration from https://forum.qt.io/topic/85648/how-can-i-copy-paste-qgraphicsitems/6
     QGraphicsRectItem* rect = qgraphicsitem_cast<QGraphicsRectItem*>(item);
     if (rect != NULL) {
-      QGraphicsRectItem* newRect = truckScene->addRect(rect->mapRectToScene(rect->rect()), rect->pen(), rect->brush());
+      QGraphicsRectItem *newRect = this->truckBridgeVisual->scene()->addRect(rect->mapRectToScene(rect->rect()), rect->pen(), rect->brush());
       newRect->setZValue(rect->zValue());
-      this->truckGroup->addToGroup(newRect);
+      group->addToGroup(newRect);
     }
 
-    QGraphicsEllipseItem* ellipse = qgraphicsitem_cast<QGraphicsEllipseItem*>(item);
+    QGraphicsEllipseItem *ellipse = qgraphicsitem_cast<QGraphicsEllipseItem*>(item);
     if (ellipse != NULL) {
-      QGraphicsEllipseItem* newEllipse = truckScene->addEllipse(ellipse->mapRectToScene(ellipse->rect()), ellipse->pen(), ellipse->brush());
+      QGraphicsEllipseItem* newEllipse = this->truckBridgeVisual->scene()->addEllipse(ellipse->mapRectToScene(ellipse->rect()), ellipse->pen(), ellipse->brush());
       newEllipse->setZValue(ellipse->zValue());
-      this->truckGroup->addToGroup(newEllipse);
-    }
-  }
-  truckScene->addItem(this->truckGroup);
-
-  this->truckVisual->setScene(truckScene);
-  this->truckVisual->setSceneRect(0, 0, 750, 75);
-  this->setUpAnimation();
-}
-
-void SolverVisual::setBridge(QGraphicsScene* bridge) {
-  QList<QGraphicsItem*> items = bridge->items();
-  if (items.size() == 0) {
-    this->bridgeVisual->setScene(NULL);
-    return;
-  }
-  QGraphicsScene* bridgeScene = new QGraphicsScene();
-
-  foreach(QGraphicsItem * item, items) {
-    //Inspiration from https://forum.qt.io/topic/85648/how-can-i-copy-paste-qgraphicsitems/6
-    QGraphicsRectItem* rect = qgraphicsitem_cast<QGraphicsRectItem*>(item);
-    if (rect != NULL) {
-      QGraphicsRectItem* newRect = bridgeScene->addRect(rect->rect(), rect->pen(), rect->brush());
-      newRect->setZValue(rect->zValue());
+      group->addToGroup(newEllipse);
     }
 
-    QGraphicsLineItem* line = qgraphicsitem_cast<QGraphicsLineItem*>(item);
+    QGraphicsLineItem *line = qgraphicsitem_cast<QGraphicsLineItem*>(item);
     if (line != NULL) {
-      QGraphicsLineItem* newLine = bridgeScene->addLine(line->line(), line->pen());
+      QPointF p1 = line->mapToScene(line->line().p1());
+      QPointF p2 = line->mapToScene(line->line().p2());
+      QGraphicsLineItem* newLine = this->truckBridgeVisual->scene()->addLine(p1.x(), p1.y(), p2.x(), p2.y(), line->pen());
       newLine->setZValue(line->zValue());
+      group->addToGroup(newLine);
+      if (group == this->bridgeGroup && line->pen().color() == Qt::red) {
+        this->concernedSectionLine = newLine;
+      }
     }
+    /*
+    QGraphicsTextItem *text = qgraphicsitem_cast<QGraphicsTextItem*>(item);
+    if (text != NULL) {
+      QGraphicsTextItem* newText = this->truckBridgeVisual->scene()->addText(text->toPlainText());
+      newText->setPos(text->mapToScene(text->pos()));
+      newText->setZValue(text->zValue());
+      group->addToGroup(newText);
+      if (group == this->bridgeGroup) {
+        this->discretizationLengthText = newText;
+      }
+    }*/
   }
 
-  this->bridgeVisual->setScene(bridgeScene);
+  this->truckBridgeVisual->scene()->addItem(group);
   this->setUpAnimation();
 }
 

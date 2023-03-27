@@ -19,10 +19,10 @@ class SolverVisual : public QWidget {
   SolverVisual(QWidget* parent) : QWidget(parent) { createPage(); };
   ~SolverVisual(){};
 
-  void setBridge(QGraphicsScene*);
+  void updateScene(int, QGraphicsScene*);
+  //void setBridge(QGraphicsScene*);
+  //void setPlatoon(QGraphicsScene*);
   void showEvent(QShowEvent* showEvent);
-  void setPlatoon(QGraphicsScene*);
-  void visualize();
 
  signals:
   void runCommand(MockCalculationInputT);
@@ -67,8 +67,7 @@ class SolverVisual : public QWidget {
   QRadioButton* concernedButton;
   QRadioButton* criticalButton;
 
-  QGraphicsView* truckVisual;
-  QGraphicsView* bridgeVisual;
+  QGraphicsView* truckBridgeVisual;
 
   QLabel* concernedSectionLabel;
   QLineEdit* concernedSectionReminder;
@@ -77,7 +76,11 @@ class SolverVisual : public QWidget {
 
   Report mReport;
 
-  QGraphicsItemGroup* truckGroup;
+  QGraphicsItemGroup *truckGroup;
+  QGraphicsItemGroup *bridgeGroup;
+  QGraphicsLineItem *concernedSectionLine;
+  QGraphicsLineItem *criticalSectionLine;
+  QGraphicsTextItem *discretizationLengthText;
 
   bool moveFrames(int);
   void animateForward();
