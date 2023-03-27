@@ -413,6 +413,7 @@ void SolverVisual::createPage() {
   this->truckGroup = new QGraphicsItemGroup();
   this->bridgeGroup = new QGraphicsItemGroup();
   this->discretizationLengthText = NULL;
+  this->criticalSectionLine = NULL;
 
   auto& engine = Engine::getInstance();
 
@@ -550,6 +551,11 @@ void SolverVisual::updateChart(MockCalculationInputT in,
     position = in.bridgeConfig.concernedSection;
   } else {
     position = out.criticalSection;
+
+    int x = this->bridgeGroup->mapRectToScene(this->bridgeGroup->boundingRect()).x() + 4 * PIXELS_PER_METER + position * PIXELS_PER_METER;
+    int y = this->bridgeGroup->mapRectToScene(this->bridgeGroup->boundingRect()).y() + 1 * PIXELS_PER_METER + 2;
+    this->criticalSectionLine = this->truckBridgeVisual->scene()->addLine(x, y, x, y + 2 * PIXELS_PER_METER - 2, this->concernedSectionLine->pen());
+    criticalSectionLine->setZValue(this->concernedSectionLine->zValue());
   }
 
   this->mChart->setTitle(QString("%1 at %2 meters").arg(force).arg(position));
@@ -633,12 +639,28 @@ void SolverVisual::setUpAnimation() {
   }
   this->mChart->setTitle("");
 
+  if (this->criticalSectionLine != NULL) {
+    delete this->criticalSectionLine;
+    this->criticalSectionLine = NULL;
+  }
+
   if (this->bridgeGroup->childItems().size() != 0) {
     //Set Bridge location
     double width = (this->bridgeGroup->boundingRect().width() < 750) ? 750 : this->bridgeGroup->boundingRect().width();
     this->truckBridgeVisual->setSceneRect(0, 0, width, 110);
     this->bridgeGroup->setPos(( width - this->bridgeGroup->boundingRect().width() ) / 2, 48);
-    this->discretizationLengthText->setPos((width - this->discretizationLengthText->boundingRect().width()) / 2, 88);
+
+    if (this->concernedButton->isChecked()) {
+      this->discretizationLengthText->hide();
+
+      this->concernedSectionLine->show();
+    }
+    else if (this->criticalButton->isChecked()) {
+      this->concernedSectionLine->hide();
+
+      this->discretizationLengthText->show();
+      this->discretizationLengthText->setPos((width - this->discretizationLengthText->boundingRect().width()) / 2, 88);
+    }
   }
 
   if (this->truckGroup->childItems().size() != 0 && this->bridgeGroup->childItems().size() != 0) {
@@ -658,7 +680,7 @@ void SolverVisual::setUpAnimation() {
 }
 
 void SolverVisual::updateScene(int sceneType, QGraphicsScene* scene) {
-  QGraphicsItemGroup* group = new QGraphicsItemGroup();;
+  QGraphicsItemGroup* group = new QGraphicsItemGroup();
   switch (sceneType) {
   case 0:
     foreach(QGraphicsItem * item, this->truckGroup->childItems()) {
@@ -706,6 +728,7 @@ void SolverVisual::updateScene(int sceneType, QGraphicsScene* scene) {
       group->addToGroup(newLine);
       if (group == this->bridgeGroup && line->pen().color() == Qt::red) {
         this->concernedSectionLine = newLine;
+        newLine->hide();
       }
     }
     
@@ -713,6 +736,7 @@ void SolverVisual::updateScene(int sceneType, QGraphicsScene* scene) {
     if (text != NULL) {
       QGraphicsTextItem* newText = this->truckBridgeVisual->scene()->addText(text->toPlainText());
       newText->setZValue(text->zValue());
+      newText->hide();
       this->discretizationLengthText = newText;
     }
   }
