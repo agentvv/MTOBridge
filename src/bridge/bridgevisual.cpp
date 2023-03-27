@@ -157,6 +157,7 @@ void BridgeVisual::createPage() {
       mDiscretizationLength->setText(
           QString::number(config.discretizationLength));
       mConcernedSection->setText(QString::number(config.concernedSection));
+      bridgeConfigEdited();
     });
   }
 }
