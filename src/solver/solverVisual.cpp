@@ -392,6 +392,7 @@ void SolverVisual::createPage() {
   pageLayout->addWidget(this->truckBridgeVisual);
   this->truckGroup = new QGraphicsItemGroup();
   this->bridgeGroup = new QGraphicsItemGroup();
+  this->concernedSectionLine = NULL;
   this->discretizationLengthText = NULL;
   this->criticalSectionLine = NULL;
 
@@ -666,15 +667,23 @@ void SolverVisual::setUpAnimation() {
     this->bridgeGroup->setPos(( width - this->bridgeGroup->boundingRect().width() ) / 2, 48);
 
     if (this->concernedButton->isChecked()) {
-      this->discretizationLengthText->hide();
+      if (this->discretizationLengthText != NULL) {
+        this->discretizationLengthText->hide();
+      }
 
-      this->concernedSectionLine->show();
+      if (this->concernedSectionLine != NULL) {
+        this->concernedSectionLine->show();
+      }
     }
     else if (this->criticalButton->isChecked()) {
-      this->concernedSectionLine->hide();
+      if (this->concernedSectionLine != NULL) {
+        this->concernedSectionLine->hide();
+      }
 
-      this->discretizationLengthText->show();
-      this->discretizationLengthText->setPos((width - this->discretizationLengthText->boundingRect().width()) / 2, 88);
+      if (this->discretizationLengthText != NULL) {
+        this->discretizationLengthText->show();
+        this->discretizationLengthText->setPos((width - this->discretizationLengthText->boundingRect().width()) / 2, 88);
+      }
     }
   }
 
@@ -710,6 +719,8 @@ void SolverVisual::updateScene(std::string sceneType, QGraphicsScene* scene) {
     }
     this->truckBridgeVisual->scene()->removeItem(this->discretizationLengthText);
     delete this->discretizationLengthText;
+    this->discretizationLengthText = NULL;
+    this->concernedSectionLine = NULL;
     this->bridgeGroup = group;
   }
   else {
