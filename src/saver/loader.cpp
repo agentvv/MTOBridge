@@ -157,11 +157,26 @@ mtobridge::BridgeT loader::loadBridgeConfiguration() {
         QStringLiteral(R"([-+]?[0-9]*\.[0-9]+([eE][-+]?[0-9]+)?)"));
     QRegularExpression regexInt(QStringLiteral(R"([-+]?[0-9]+)"));
 
-    for (const auto& i : spanLengthList) {
-      QRegularExpressionMatch matchDouble = regexDouble.match(i);
 
-      if (matchDouble.hasMatch() && matchDouble.capturedStart() == 0 &&
-          matchDouble.capturedLength() == i.length()) {
+    QRegularExpressionMatch matchInt = regexInt.match(strList[0]);
+    //! Return true if the input matches the pattern and the whole input is
+    //! matched, otherwise return false
+    if (matchInt.hasMatch() && matchInt.capturedStart() == 0 &&
+        matchInt.capturedLength() == strList[0].length()) {
+      tempbridge.numberSpans = strList[0].toInt();
+    } else {
+      QMessageBox::information(
+          nullptr, "Invalid Type",
+          "The file you are attempting to load contains non-int value "
+          "for the numberSpans.");
+    }
+
+    QRegularExpressionMatch matchDouble;
+    for (const auto& i : spanLengthList) {
+      matchInt = regexInt.match(i);
+
+      if (matchInt.hasMatch() && matchInt.capturedStart() == 0 &&
+          matchInt.capturedLength() == i.length()) {
         tempbridge.spanLength.push_back(i.toDouble());
       } else {
         QMessageBox::information(
@@ -170,15 +185,14 @@ mtobridge::BridgeT loader::loadBridgeConfiguration() {
             "for the spanLength.");
       }
     }
-
     //! Define a regular expression pattern to match doubles only (excluding
     //! integers)
-    QRegularExpressionMatch matchDouble = regexDouble.match(strList[2]);
+    matchInt = regexInt.match(strList[2]);
 
     //! Check if the input matches the regular expression pattern
-    if (matchDouble.hasMatch() && matchDouble.capturedStart() == 0 &&
-        matchDouble.capturedLength() == strList[2].length()) {
-      tempbridge.concernedSection = strList[2].toDouble();
+    if (matchInt.hasMatch() && matchInt.capturedStart() == 0 &&
+        matchInt.capturedLength() == strList[2].length()) {
+      tempbridge.concernedSection = strList[2].toInt();
     } else {
       QMessageBox::information(
           nullptr, "Invalid Type",
@@ -197,18 +211,7 @@ mtobridge::BridgeT loader::loadBridgeConfiguration() {
           "for the discretizationLength.");
     }
 
-    QRegularExpressionMatch matchInt = regexInt.match(strList[0]);
-    //! Return true if the input matches the pattern and the whole input is
-    //! matched, otherwise return false
-    if (matchInt.hasMatch() && matchInt.capturedStart() == 0 &&
-        matchInt.capturedLength() == strList[0].length()) {
-      tempbridge.numberSpans = strList[0].toInt();
-    } else {
-      QMessageBox::information(
-          nullptr, "Invalid Type",
-          "The file you are attempting to load contains non-int value "
-          "for the numberSpans.");
-    }
+  
   }
   return tempbridge;
 }
