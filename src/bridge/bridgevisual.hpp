@@ -1,6 +1,6 @@
 #pragma once
 #include <QtWidgets>
-
+#include <vector>
 #include "bridgeconfig.hpp"
 
 namespace mtobridge {
@@ -15,11 +15,11 @@ class BridgeVisual : public QWidget {
 
  public slots:
   void bridgeConfigEdited();
-
+  
 
  private:
   void createPage();
-  
+  void numberOfSpansDetermined(QGridLayout* bridgeInputLayout, QString numberOfSpans);
   QLabel* mSpanLengthLabel;
   QLineEdit* mSpanLength;
   QLabel* mConcernedSectionLabel;
@@ -41,6 +41,8 @@ class BridgeVisual : public QWidget {
   QPushButton* saveButton;
   QPushButton* loadButton;
   BridgeConfiguration* bridgeConfiguration;
-  
+
+  std::vector<QLineEdit*> spanLengthLineBoxes{};
+  QGridLayout* bridgeInputLayout;
 };
 }  // namespace mtobridge
