@@ -40,11 +40,11 @@ void Window::createWindow() {
                    &Window::errorOccurred);
 
   QObject::connect(mPlatoon->getScene(), &QGraphicsScene::changed, this, [&]() {
-      mSolver->updateScene(0, mPlatoon->getScene());
+      mSolver->updateScene("Truck", mPlatoon->getScene());
     });
 
   QObject::connect(mBridge->getScene(), &QGraphicsScene::changed, this, [&]() {
-    mSolver->updateScene(1, mBridge->getScene());
+    mSolver->updateScene("Bridge", mBridge->getScene());
     });
 }
 

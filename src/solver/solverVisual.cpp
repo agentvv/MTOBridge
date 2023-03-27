@@ -125,6 +125,7 @@ void SolverVisual::createPage() {
     });
   forceBox->addWidget(positiveMomentButton);
   negativeMomentButton = new QRadioButton("Negative Moment");
+  negativeMomentButton->setEnabled(false);
   QObject::connect(negativeMomentButton, &QPushButton::clicked, this, [&]() {
     Solver::updateForceType("Negative Moment");
     this->setUpAnimation();
@@ -679,17 +680,16 @@ void SolverVisual::setUpAnimation() {
   }
 }
 
-void SolverVisual::updateScene(int sceneType, QGraphicsScene* scene) {
+void SolverVisual::updateScene(std::string sceneType, QGraphicsScene* scene) {
   QGraphicsItemGroup* group = new QGraphicsItemGroup();
-  switch (sceneType) {
-  case 0:
+  if (sceneType == "Truck") {
     foreach(QGraphicsItem * item, this->truckGroup->childItems()) {
       this->truckBridgeVisual->scene()->removeItem(item);
       delete item;
     }
     this->truckGroup = group;
-    break;
-  case 1:
+  }
+  else if (sceneType == "Bridge") {
     foreach(QGraphicsItem * item, this->bridgeGroup->childItems()) {
       this->truckBridgeVisual->scene()->removeItem(item);
       delete item;
@@ -697,12 +697,15 @@ void SolverVisual::updateScene(int sceneType, QGraphicsScene* scene) {
     this->truckBridgeVisual->scene()->removeItem(this->discretizationLengthText);
     delete this->discretizationLengthText;
     this->bridgeGroup = group;
-    break;
+  }
+  else {
+    return;
   }
 
   QList<QGraphicsItem*> items = scene->items();
   if (items.size() == 0) return;
 
+  int spanCount = 0;
   foreach(QGraphicsItem *item, items) {
     //Inspiration from https://forum.qt.io/topic/85648/how-can-i-copy-paste-qgraphicsitems/6
     QGraphicsRectItem* rect = qgraphicsitem_cast<QGraphicsRectItem*>(item);
@@ -710,6 +713,9 @@ void SolverVisual::updateScene(int sceneType, QGraphicsScene* scene) {
       QGraphicsRectItem *newRect = this->truckBridgeVisual->scene()->addRect(rect->mapRectToScene(rect->rect()), rect->pen(), rect->brush());
       newRect->setZValue(rect->zValue());
       group->addToGroup(newRect);
+      if (sceneType == "Bridge" && rect->brush().color() == Qt::gray) {
+        spanCount++;
+      }
     }
 
     QGraphicsEllipseItem *ellipse = qgraphicsitem_cast<QGraphicsEllipseItem*>(item);
@@ -726,7 +732,7 @@ void SolverVisual::updateScene(int sceneType, QGraphicsScene* scene) {
       QGraphicsLineItem* newLine = this->truckBridgeVisual->scene()->addLine(p1.x(), p1.y(), p2.x(), p2.y(), line->pen());
       newLine->setZValue(line->zValue());
       group->addToGroup(newLine);
-      if (group == this->bridgeGroup && line->pen().color() == Qt::red) {
+      if (sceneType == "Bridge" && line->pen().color() == Qt::red) {
         this->concernedSectionLine = newLine;
         newLine->hide();
       }
@@ -743,6 +749,20 @@ void SolverVisual::updateScene(int sceneType, QGraphicsScene* scene) {
 
   this->truckBridgeVisual->scene()->addItem(group);
   this->setUpAnimation();
+
+  if (sceneType == "Bridge") {
+    if (spanCount == 2) {
+      //Disable negative moment, swap if need be
+      this->negativeMomentButton->setEnabled(false);
+      if (this->negativeMomentButton->isChecked()) {
+        this->positiveMomentButton->click();
+      }
+    }
+    else {
+      //Enable negative moment
+      this->negativeMomentButton->setEnabled(true);
+    }
+  }
 }
 
 void SolverVisual::showEvent(QShowEvent* showEvent) {

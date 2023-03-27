@@ -19,7 +19,7 @@ class SolverVisual : public QWidget {
   SolverVisual(QWidget* parent) : QWidget(parent) { createPage(); };
   ~SolverVisual(){};
 
-  void updateScene(int, QGraphicsScene*);
+  void updateScene(std::string, QGraphicsScene*);
   //void setBridge(QGraphicsScene*);
   //void setPlatoon(QGraphicsScene*);
   void showEvent(QShowEvent* showEvent);
