@@ -98,7 +98,7 @@ void BridgeVisual::numberOfSpansDetermined(QGridLayout* bridgeInputLayout, QStri
     }
     else if (spanLengthsize < numberOfSpans.toInt()) {
         for (int i = spanLengthsize; i < numberOfSpans.toInt(); i++) {
-            QLineEdit* SpanLengthLineEdit = new QLineEdit(this);
+            QLineEdit* SpanLengthLineEdit = new QLineEdit("0", this);
             bridgeInputLayout->addWidget(SpanLengthLineEdit, i + 2, 1);
             QObject::connect(SpanLengthLineEdit, &QLineEdit::editingFinished, this, &BridgeVisual::bridgeConfigEdited);
             spanLengthLineBoxes.push_back(SpanLengthLineEdit);
@@ -126,13 +126,13 @@ void BridgeVisual::createPage() {
     
     mNumberSpansLabel = new QLabel("Number of Spans", this);
 
-    mSpanLength = new QLineEdit(this);
+    mSpanLength = new QLineEdit("0", this);
     mSpanLengthLabel = new QLabel("Span Length(m)", this);
 
-    mConcernedSection = new QLineEdit(this);
+    mConcernedSection = new QLineEdit("0", this);
     mConcernedSectionLabel = new QLabel("Concerned Section(m)", this);
 
-    mDiscretizationLength = new QLineEdit(this);
+    mDiscretizationLength = new QLineEdit("0", this);
     mDiscretizationLengthLabel = new QLabel("Discretization Length(m)", this);
 
     bridgeInputLayout->addWidget(mNumberSpansLabel, 1, 0);
@@ -184,12 +184,23 @@ void BridgeVisual::createPage() {
     QObject::connect(mDiscretizationLength, &QLineEdit::editingFinished, this, &BridgeVisual::bridgeConfigEdited);
 
     QObject::connect(saveButton, &QPushButton::clicked, this, [&]() {
-      /*BridgeConfiguration::updateNumberOfSpans(mNumberSpans->currentText());
-      BridgeConfiguration::updateConcernedSection(mConcernedSection->text());
-      BridgeConfiguration::updateSpanLength(mSpanLength->text());
-      BridgeConfiguration::updateDiscretizationLength(
-          mDiscretizationLength->text());*/
-      saver::saveBridgeConfiguration(BridgeConfiguration::getConfiguration());
+        BridgeConfiguration::updateNumberOfSpans(mNumberSpans->currentText());
+        BridgeConfiguration::updateConcernedSection(mConcernedSection->text());
+        QString spanLengthsConcatenated = "";
+        for (int i = 0; i < spanLengthLineBoxes.size(); i++) {
+            if (i == spanLengthLineBoxes.size() - 1) {
+                spanLengthsConcatenated += spanLengthLineBoxes[i]->text();
+            }
+            else {
+                spanLengthsConcatenated = spanLengthsConcatenated + spanLengthLineBoxes[i]->text() + " ";
+            }
+        }
+        BridgeConfiguration::updateSpanLength(spanLengthsConcatenated);
+        BridgeConfiguration::updateDiscretizationLength(
+            mDiscretizationLength->text());
+
+        BridgeT config = BridgeConfiguration::getConfiguration();
+        saver::saveBridgeConfiguration(config);
     });
 
     QObject::connect(loadButton, &QPushButton::clicked, this, [&]() {
@@ -200,6 +211,7 @@ void BridgeVisual::createPage() {
         spanLengthLineBoxes[spanLengthCounter]->setText(QString::number(i));
         spanLengthCounter += 1;
       }
+      
       mDiscretizationLength->setText(
           QString::number(config.discretizationLength));
       mConcernedSection->setText(QString::number(config.concernedSection));
