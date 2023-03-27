@@ -412,6 +412,7 @@ void SolverVisual::createPage() {
   pageLayout->addWidget(this->truckBridgeVisual);
   this->truckGroup = new QGraphicsItemGroup();
   this->bridgeGroup = new QGraphicsItemGroup();
+  this->discretizationLengthText = NULL;
 
   auto& engine = Engine::getInstance();
 
@@ -636,7 +637,8 @@ void SolverVisual::setUpAnimation() {
     //Set Bridge location
     double width = (this->bridgeGroup->boundingRect().width() < 750) ? 750 : this->bridgeGroup->boundingRect().width();
     this->truckBridgeVisual->setSceneRect(0, 0, width, 110);
-    this->bridgeGroup->setPos((width - this->bridgeGroup->boundingRect().width()) / 2, 48);
+    this->bridgeGroup->setPos(( width - this->bridgeGroup->boundingRect().width() ) / 2, 48);
+    this->discretizationLengthText->setPos((width - this->discretizationLengthText->boundingRect().width()) / 2, 88);
   }
 
   if (this->truckGroup->childItems().size() != 0 && this->bridgeGroup->childItems().size() != 0) {
@@ -670,6 +672,8 @@ void SolverVisual::updateScene(int sceneType, QGraphicsScene* scene) {
       this->truckBridgeVisual->scene()->removeItem(item);
       delete item;
     }
+    this->truckBridgeVisual->scene()->removeItem(this->discretizationLengthText);
+    delete this->discretizationLengthText;
     this->bridgeGroup = group;
     break;
   }
@@ -704,17 +708,13 @@ void SolverVisual::updateScene(int sceneType, QGraphicsScene* scene) {
         this->concernedSectionLine = newLine;
       }
     }
-    /*
+    
     QGraphicsTextItem *text = qgraphicsitem_cast<QGraphicsTextItem*>(item);
     if (text != NULL) {
       QGraphicsTextItem* newText = this->truckBridgeVisual->scene()->addText(text->toPlainText());
-      newText->setPos(text->mapToScene(text->pos()));
       newText->setZValue(text->zValue());
-      group->addToGroup(newText);
-      if (group == this->bridgeGroup) {
-        this->discretizationLengthText = newText;
-      }
-    }*/
+      this->discretizationLengthText = newText;
+    }
   }
 
   this->truckBridgeVisual->scene()->addItem(group);
