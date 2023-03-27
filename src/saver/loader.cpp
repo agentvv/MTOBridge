@@ -154,7 +154,7 @@ mtobridge::BridgeT loader::loadBridgeConfiguration() {
     //! use to check against our list of values.
 
     QRegularExpression regexDouble(
-        QStringLiteral(R"([-+]?[0-9]*\.[0-9]+([eE][-+]?[0-9]+)?)"));
+        QStringLiteral(R"([-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?)"));
     QRegularExpression regexInt(QStringLiteral(R"([-+]?[0-9]+)"));
 
 
@@ -173,10 +173,10 @@ mtobridge::BridgeT loader::loadBridgeConfiguration() {
 
     QRegularExpressionMatch matchDouble;
     for (const auto& i : spanLengthList) {
-      matchInt = regexInt.match(i);
+      matchDouble = regexDouble.match(i);
 
-      if (matchInt.hasMatch() && matchInt.capturedStart() == 0 &&
-          matchInt.capturedLength() == i.length()) {
+      if (matchDouble.hasMatch() && matchDouble.capturedStart() == 0 &&
+          matchDouble.capturedLength() == i.length()) {
         tempbridge.spanLength.push_back(i.toDouble());
       } else {
         QMessageBox::information(
