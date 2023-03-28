@@ -20,10 +20,10 @@ mtobridge::MockTruckT loader::loadPlatoonConfiguration() {
   //! If the file is empty, we prepopulate it with some data. If the file is
   //! unable to open we send a warning.
   if (fileName.isEmpty())
-    return temptruck = {.axleLoad = {53.4, 75.6, 75.6, 75.6, 75.6},
-                        .axleSpacing = {3.6576, 1.2192, 9.4488, 1.2192},
-                        .numberOfTrucks = 3,
-                        .headway = 5};
+    return temptruck = {.axleLoad = {0},
+                        .axleSpacing = {0},
+                        .numberOfTrucks = 0,
+                        .headway = 0};
   else {
     QFile file(fileName);
 
@@ -120,10 +120,10 @@ mtobridge::BridgeT loader::loadBridgeConfiguration() {
   //! If the file is empty, we prepopulate it with some data. If the file is
   //! unable to open we send a warning.
   if (fileName.isEmpty())
-    return tempbridge = {.numberSpans = 2,
-                         .spanLength = {20, 20},
-                         .concernedSection = 10,
-                         .discretizationLength = 0.1};
+    return tempbridge = {.numberSpans = 0,
+                         .spanLength = {0},
+                         .concernedSection = 0,
+                         .discretizationLength = 0};
   else {
     QFile file(fileName);
 
