@@ -14,7 +14,16 @@ class Window : public QWidget {
 
  public:
   Window(QWidget *parent = nullptr);
-  ~Window() { Engine::getInstance().stopEngine(); };
+  ~Window() { 
+    Engine::getInstance().stopEngine();
+
+    QEventLoop loop(this);
+    while (!Engine::getInstance().thread()->isFinished())
+    {
+      loop.processEvents();
+      Engine::getInstance().thread()->wait(10);
+    }
+  };
 
  signals:
   void runCommand(MockCalculationInputT);
