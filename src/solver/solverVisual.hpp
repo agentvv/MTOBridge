@@ -67,6 +67,8 @@ class SolverVisual : public QWidget {
   // QPushButton* saveButton;
   // QPushButton* loadButton;
   // Truck + bridge window
+
+  QTabWidget* mChartTabWidget;
   QChart* mChart;
   ChartView* mChartView;
 
