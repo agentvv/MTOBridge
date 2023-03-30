@@ -26,21 +26,19 @@ void SolverVisual::createPage() {
 
   // set up chart
   {
-    auto* chartLayout = new QGridLayout();
-    QWidget* mChartWidget = new QWidget(this);
-    mChartWidget->setSizePolicy(QSizePolicy(QSizePolicy::Policy::Expanding,
-                                            QSizePolicy::Policy::Expanding));
-    mChartWidget->setLayout(chartLayout);
+    mChartTabWidget = new QTabWidget(this);
 
     mChart = new QChart();
     mChart->legend()->hide();
     mChart->createDefaultAxes();
 
-    mChartView = new ChartView(mChart, mChartWidget);
+    mChartView = new ChartView(mChart, mChartTabWidget);
     mChartView->setRenderHint(QPainter::Antialiasing);
     mChartView->resize(300, 300);
     mChartView->setSizePolicy(QSizePolicy(QSizePolicy::Policy::Expanding,
                                           QSizePolicy::Policy::Expanding));
+
+    mChartTabWidget->addTab(mChartView, "Concerned Section");
 
     mEnvelopeChart = new QChart();
     mEnvelopeChart->legend()->hide();
@@ -52,8 +50,9 @@ void SolverVisual::createPage() {
     mEnvelopeChartView->setSizePolicy(QSizePolicy(
         QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Expanding));
 
-    chartLayout->addWidget(mChartView, 0, 0);
-    topHalfLayout->addWidget(mChartWidget);
+    mChartTabWidget->addTab(mEnvelopeChartView, "Force Envelope");
+    mChartTabWidget->setTabVisible(1, false);
+    topHalfLayout->addWidget(mChartTabWidget);
   }
 
   QVBoxLayout* inputLayout = new QVBoxLayout();
@@ -120,6 +119,7 @@ void SolverVisual::createPage() {
   positiveMomentButton->setChecked(true);
   QObject::connect(positiveMomentButton, &QPushButton::clicked, this, [&]() {
     Solver::updateForceType("Positive Moment");
+  updatePage();
     this->setUpAnimation();
     });
   forceBox->addWidget(positiveMomentButton);
@@ -127,12 +127,14 @@ void SolverVisual::createPage() {
   negativeMomentButton->setEnabled(false);
   QObject::connect(negativeMomentButton, &QPushButton::clicked, this, [&]() {
     Solver::updateForceType("Negative Moment");
+  updatePage();
     this->setUpAnimation();
     });;
   forceBox->addWidget(negativeMomentButton);
   shearButton = new QRadioButton("Shear");
   QObject::connect(shearButton, &QPushButton::clicked, this, [&]() {
     Solver::updateForceType("Shear");
+  updatePage();
     this->setUpAnimation();
     });
   forceBox->addWidget(shearButton);
@@ -147,12 +149,14 @@ void SolverVisual::createPage() {
   concernedButton->setChecked(true);
   QObject::connect(concernedButton, &QPushButton::clicked, this, [&]() {
     Solver::updateSolverType("Concerned Section");
+  updatePage();
     this->setUpAnimation();
     });
   solverBox->addWidget(concernedButton);
   criticalButton = new QRadioButton("Critical Section");
   QObject::connect(criticalButton, &QPushButton::clicked, this, [&]() {
     Solver::updateSolverType("Critical Section");
+  updatePage();
     this->setUpAnimation();
     });
   solverBox->addWidget(criticalButton);
@@ -432,8 +436,12 @@ void SolverVisual::updatePage() {
 
   if (Solver::getSolverType() == "Concerned Section") {
     concernedButton->setChecked(true);
+    mChartTabWidget->setTabText(0, "Concerned Section");
+    mChartTabWidget->setTabVisible(1, false);
   } else if (Solver::getSolverType() == "Critical Section") {
     criticalButton->setChecked(true);
+    mChartTabWidget->setTabText(0, "Critical Section");
+    mChartTabWidget->setTabVisible(1, true);
   }
   this->setUpAnimation();
 }
@@ -602,7 +610,7 @@ void SolverVisual::updateChart(MockCalculationInputT in,
     for (int i = 0; i < x_vals.size(); i++) {
       series->append(QPointF(x_vals[i], y_vals[i]));
     }
-
+       
     mEnvelopeChart->removeAllSeries();
     for (auto& axis : mEnvelopeChart->axes()) {
       mEnvelopeChart->removeAxis(axis);
@@ -610,15 +618,20 @@ void SolverVisual::updateChart(MockCalculationInputT in,
     mEnvelopeChart->addSeries(series);
 
     mEnvelopeChart->createDefaultAxes();
+    mEnvelopeChart->setTitle(QString("%1 Envelope").arg(force));
+
     mEnvelopeChart->axes(Qt::Horizontal).first()->setMin(x_vals.front());
     mEnvelopeChart->axes(Qt::Horizontal).first()->setMax(x_vals.back());
-
+    mEnvelopeChart->axes(Qt::Horizontal).first()->setTitleText("Bridge Section (m)");
     mEnvelopeChart->axes(Qt::Vertical)
         .first()
         ->setMin(*std::min_element(y_vals.begin(), y_vals.end()));
     mEnvelopeChart->axes(Qt::Vertical)
         .first()
         ->setMax(*std::max_element(y_vals.begin(), y_vals.end()));
+    mEnvelopeChart->axes(Qt::Vertical).first()->setTitleText(
+      QString("%1 (kNm)")
+      .arg(force));
 
     mEnvelopeChartView->setChart(mEnvelopeChart);
   }
@@ -655,6 +668,12 @@ void SolverVisual::setUpAnimation() {
     this->mChart->removeAxis(axis);
   }
   this->mChart->setTitle("");
+
+  this->mEnvelopeChart->removeAllSeries();
+  for (auto& axis : this->mEnvelopeChart->axes()) {
+    this->mEnvelopeChart->removeAxis(axis);
+  }
+  this->mEnvelopeChart->setTitle("");
 
   if (this->criticalSectionLine != NULL) {
     delete this->criticalSectionLine;
