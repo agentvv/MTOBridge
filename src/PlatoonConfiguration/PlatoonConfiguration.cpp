@@ -5,14 +5,8 @@
 #include <list>
 using namespace std;
 namespace mtobridge {
-    std::list<double> emptyLoads;
-    std::list<double> emptySpacings;
-    int defaultTrucks = 3;
-    double defaultHeadway = 5;
-
-    PlatoonConfiguration::PlatoonT PlatoonConfiguration::TruckConfig = {defaultTrucks, emptyLoads, emptySpacings, defaultHeadway};
-    
-    PlatoonConfiguration::PlatoonT* PlatoonConfiguration::getConfiguration() { return &TruckConfig; }
+    MockTruckT PlatoonConfiguration::TruckConfig;
+    MockTruckT* PlatoonConfiguration::getConfiguration() { return &TruckConfig; }
 
 void PlatoonConfiguration::updateAxleLoad(QString newLoad) {
 
@@ -48,6 +42,6 @@ void PlatoonConfiguration::updateHeadway(QString newHead) {
 
     int PlatoonConfiguration::getNumTrucks() { return TruckConfig.numberOfTrucks; }
     double PlatoonConfiguration::getHeadway() { return TruckConfig.headway; }
-    list<double> PlatoonConfiguration::getAxleLoads() {return TruckConfig.axleLoad;}
-    list<double> PlatoonConfiguration::getAxleSpacings() {return TruckConfig.axleSpacing;}
+    vector<double> PlatoonConfiguration::getAxleLoads() {return TruckConfig.axleLoad;}
+    vector<double> PlatoonConfiguration::getAxleSpacings() {return TruckConfig.axleSpacing;}
     }  // namespace mtobridge

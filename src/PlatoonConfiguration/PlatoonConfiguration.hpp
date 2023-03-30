@@ -1,19 +1,15 @@
 #pragma once
 #include <string>
-#include <list>
+#include <vector>
 #include <QString>
+#include "util/data_types.hpp"
 namespace mtobridge {
 class PlatoonConfiguration {
  private:
-  static struct PlatoonT {
-    int numberOfTrucks;
-    std::list<double> axleLoad;
-    std::list<double> axleSpacing;
-    double headway;
-  } TruckConfig;
+  static MockTruckT TruckConfig; 
 
  public:
-  static PlatoonT* getConfiguration();
+  static MockTruckT* getConfiguration();
   static void updateAxleLoad(QString newLoad);
   static void updateAxleSpacing(QString newSpacing);
   static void updateNumberOfTrucks(QString newNum);
@@ -21,7 +17,7 @@ class PlatoonConfiguration {
 
   static int getNumTrucks();
   static double getHeadway();
-  static std::list<double> getAxleLoads();
-  static std::list<double> getAxleSpacings();
+  static std::vector<double> getAxleLoads();
+  static std::vector<double> getAxleSpacings();
 };
 }  // namespace mtobridge

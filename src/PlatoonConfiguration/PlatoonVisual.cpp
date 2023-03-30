@@ -3,6 +3,7 @@
 #include <cctype>
 #include <iostream>
 #include <sstream>
+#include <QList>
 
 #include "../saver/loader.hpp"
 #include "../saver/saver.hpp"
@@ -19,9 +20,118 @@ QBrush blackBrush(Qt::black);
 QBrush whiteBrush(Qt::white);
 QPen blackPen(Qt::black);
 
-QGraphicsItemGroup *PlatoonVisual::makeTruck() {
-  std::list<double> spacings = PlatoonConfiguration::getAxleSpacings();
-  std::list<double>::iterator it = spacings.begin();
+void PlatoonVisual::validateLoadText(QString s) {
+    QLineEdit *sender = static_cast<QLineEdit *>(this->sender());
+    if (sender == nullptr) {
+      return;
+    }
+    int cursorPosition = 0;
+    if (sender->text() != "" && 
+        sender->validator()->validate(s, cursorPosition) ==
+            QValidator::Invalid ||
+        sender->validator()->validate(s, cursorPosition) ==
+            QValidator::Intermediate) {
+      sender->setStyleSheet("border: 1px solid red");
+  } else {
+      sender->setStyleSheet("border: 1px solid gray");
+  }
+    
+}
+void PlatoonVisual::validateSpacingText(QString s) {
+    QLineEdit *sender = static_cast<QLineEdit *>(this->sender());
+    if (sender == nullptr) {
+      return;
+    }
+    int cursorPosition = 0;
+    if (sender->text() != "" &&
+        (sender->validator()->validate(s, cursorPosition) ==
+            QValidator::Invalid ||
+        sender->validator()->validate(s, cursorPosition) ==
+            QValidator::Intermediate)) {
+      sender->setStyleSheet("border: 1px solid red");
+    } else {
+      sender->setStyleSheet("border: 1px solid gray");
+    }
+}
+void PlatoonVisual::numAxlesChanged(int i) {
+  if (axleLoadList.size() == 0 && axleSpacingList.size() == 0) {
+    for (int i = 0; i < 3; i++) {
+      QLineEdit *axleLoad = new QLineEdit(this->mInputWidget);
+      axleLoad->setSizePolicy(QSizePolicy(QSizePolicy::Policy::Maximum,QSizePolicy::Policy::Maximum));
+      axleLoad->setMaximumSize(45, 20);
+
+      QObject::connect(axleLoad, &QLineEdit::editingFinished, this,
+                       &PlatoonVisual::platoonConfigured);
+      QDoubleValidator *axleLoadValidator = new QDoubleValidator(this->mInputWidget);
+      axleLoadValidator->setRange(0.1, 1000, 1);
+      axleLoad->setValidator(axleLoadValidator);
+      QObject::connect(axleLoad, &QLineEdit::textChanged, this,
+                       &PlatoonVisual::validateLoadText);
+
+      this->inputLayout->addWidget(axleLoad, 3, axleLoadList.size() + 1);
+      axleLoadList.append(axleLoad);
+    }
+    for (int i = 0; i < 2; i++) {
+      QLineEdit *axleSpacing = new QLineEdit(this->mInputWidget);
+      axleSpacing->setSizePolicy(QSizePolicy(QSizePolicy::Policy::Maximum,QSizePolicy::Policy::Maximum));
+      axleSpacing->setMaximumSize(45, 20);
+
+      QObject::connect(axleSpacing, &QLineEdit::editingFinished, this, &PlatoonVisual::platoonConfigured);
+      QDoubleValidator *axleSpacingValidator = new QDoubleValidator(this->mInputWidget);
+      axleSpacingValidator->setRange(3, 20, 1);
+      axleSpacing->setValidator(axleSpacingValidator);
+      QObject::connect(axleSpacing, &QLineEdit::textChanged, this,
+                       &PlatoonVisual::validateSpacingText);
+      this->inputLayout->addWidget(axleSpacing, 4, axleSpacingList.size() + 1);
+      axleSpacingList.append(axleSpacing);
+    }
+    return;
+   }
+    int num = i - axleLoadList.size();
+  if (num > 0) {
+      for (int i = 0; i < num; i++) {
+        QLineEdit *axleLoad = new QLineEdit(this->mInputWidget);
+        axleLoad->setSizePolicy(QSizePolicy(QSizePolicy::Policy::Maximum,QSizePolicy::Policy::Maximum));
+        axleLoad->setMaximumSize(45, 20);
+
+        QObject::connect(axleLoad, &QLineEdit::editingFinished, this,&PlatoonVisual::platoonConfigured);
+        this->inputLayout->addWidget(axleLoad, 3, axleLoadList.size() + 1);
+        axleLoadList.append(axleLoad);
+
+        QLineEdit *axleSpacing = new QLineEdit(this->mInputWidget);
+        axleSpacing->setSizePolicy(QSizePolicy(QSizePolicy::Policy::Maximum,QSizePolicy::Policy::Maximum));
+        axleSpacing->setMaximumSize(45, 20);
+
+        QObject::connect(axleSpacing, &QLineEdit::editingFinished, this,&PlatoonVisual::platoonConfigured);
+        this->inputLayout->addWidget(axleSpacing, 4,
+                                     axleSpacingList.size() + 1);
+        axleSpacingList.append(axleSpacing);
+      }
+  } 
+  else if (num < 0) {
+      for (int i = 0; i > num; i--) {
+        QLineEdit *victimLoad = axleLoadList.takeLast();
+        this->inputLayout->removeWidget(victimLoad);
+        QObject::disconnect(victimLoad, &QLineEdit::editingFinished, this,
+                         &PlatoonVisual::platoonConfigured);
+        delete victimLoad;
+
+        QLineEdit *victimSpacing = axleSpacingList.takeLast();
+        this->inputLayout->removeWidget(victimSpacing);
+        QObject::disconnect(victimSpacing, &QLineEdit::editingFinished, this,
+                            &PlatoonVisual::platoonConfigured);
+        delete victimSpacing;
+      }
+  } 
+  else {
+    return;
+  }
+}
+
+
+    QGraphicsItemGroup *PlatoonVisual::makeTruck() {
+  std::vector<double> spacings = PlatoonConfiguration::getAxleSpacings();
+  std::vector<double>::iterator it = spacings.begin();
   int length = 0;
   while (it != spacings.end()) {
     length += *it*5;
@@ -47,7 +157,9 @@ QGraphicsItemGroup *PlatoonVisual::makeTruck() {
   truckWheel = mSceneWidget->addEllipse(x, 36, 10, 10, blackPen, blackBrush);
   truckWheel->setZValue(1);
   truck->addToGroup(truckWheel);
+  blackPen.setWidth(1);
   truckRim = mSceneWidget->addEllipse(x+2, 38, 6, 6, blackPen, grayBrush);
+  blackPen.setWidth(2);
   truckRim->setZValue(2);
   truck->addToGroup(truckRim);
 
@@ -66,20 +178,44 @@ QGraphicsItemGroup *PlatoonVisual::makeTruck() {
   
 }
 void PlatoonVisual::platoonConfigured() {
-  if (mAxleSpacing->text() == "" || mAxleLoad->text() == "" ||
-      mHeadway->text() == "" || mNumberOfTrucks->text() == "") {
-       return;
-  }
-  if (!isdigit(mNumberOfTrucks->text().toStdString()[0]) ||!isdigit(mHeadway->text().toStdString()[0]) 
-      || !isdigit(mAxleLoad->text().toStdString()[0]) || !isdigit(mAxleSpacing->text().toStdString()[0])) {
-       return;
-  }
+    for (auto *w : axleLoadList) {
+        QString text = w->text();
+        int cursorPosition = 0;
+        if (w->validator()->validate(text, cursorPosition) ==
+            QValidator::Invalid ||
+        w->validator()->validate(text, cursorPosition) == 
+            QValidator::Intermediate) {
+        return;
+     }
+    }
+    for (auto *w : axleSpacingList) {
+        QString text = w->text();
+        int cursorPosition = 0;
+        if (w->validator()->validate(text, cursorPosition) ==
+             QValidator::Invalid ||
+            w->validator()->validate(text, cursorPosition) ==
+             QValidator::Intermediate) {
+        return;
+     }
+    }
+     if (mHeadway->text() == "" || mNumberOfTrucks->text() == "") {
+        return;
+     }
+   
   mSceneWidget->clear();
   
   blackPen.setWidth(2);
-
-  QString axleLoads = mAxleLoad->text();
-  QString axleSpacings = mAxleSpacing->text();
+  QString axleLoads = "";
+  QString axleSpacings = "";
+  
+  for (auto *w : axleLoadList) {
+       axleLoads += w->text();
+       axleLoads += " ";
+  }
+  for (auto *w : axleSpacingList) {
+       axleSpacings += w->text();
+       axleSpacings += " ";
+  }
   QString numTrucks = mNumberOfTrucks->text();
   QString headway = mHeadway->text();
 
@@ -88,8 +224,8 @@ void PlatoonVisual::platoonConfigured() {
   PlatoonConfiguration::updateNumberOfTrucks(numTrucks);
   PlatoonConfiguration::updateHeadway(headway);
 
-  std::list<double> spacings = PlatoonConfiguration::getAxleSpacings();
-  std::list<double>::iterator it = spacings.begin();
+  std::vector<double> spacings = PlatoonConfiguration::getAxleSpacings();
+  std::vector<double>::iterator it = spacings.begin();
   if (PlatoonConfiguration::getNumTrucks() > 0) {
        truck = makeTruck();
        mSceneWidget->clear();
@@ -105,11 +241,17 @@ void PlatoonVisual::platoonConfigured() {
         truck2->setPos((length - 20 + PlatoonConfiguration::getHeadway()*5) * i, 0);
         truck->setZValue(i+1);
   }
+  QRectF itemRect = mSceneWidget->itemsBoundingRect();
+  QRectF PaddedRect(itemRect.left() - itemRect.width() * 0.1,itemRect.top() - itemRect.height() * 0.1,
+                    itemRect.width() * 1.2, itemRect.height() * 1.2);
+  mSceneWidget->setSceneRect(PaddedRect);
+  mViewWidget->fitInView(mSceneWidget->sceneRect(), Qt::KeepAspectRatio);
+  mViewWidget->centerOn(mSceneWidget->sceneRect().center());
 }
 void PlatoonVisual::saveButtonClicked() {
   MockTruckT config;
-  std::list<double> axleLoadTemp = PlatoonConfiguration::getAxleLoads();
-  std::list<double> axleSpacingTemp = PlatoonConfiguration::getAxleSpacings();
+  std::vector<double> axleLoadTemp = PlatoonConfiguration::getAxleLoads();
+  std::vector<double> axleSpacingTemp = PlatoonConfiguration::getAxleSpacings();
   config.axleLoad =
       std::vector<double>{axleLoadTemp.begin(), axleLoadTemp.end()};
   config.axleSpacing =
@@ -142,8 +284,8 @@ void PlatoonVisual::loadButtonClicked() {
 
   mAxleSpacing->setText(spacings);
   mAxleLoad->setText(spacings2);
-  mNumberOfTrucks->setText(QString::number(config.numberOfTrucks));
-  mHeadway->setText(QString::number(config.headway));
+  mNumberOfTrucks->setValue(config.numberOfTrucks);
+  mHeadway->setValue(config.headway);
 
   platoonConfigured();
 }
@@ -156,37 +298,67 @@ void PlatoonVisual::createPage() {
 
   // set up all inputs and layout
   {
-    auto *inputLayout = new QGridLayout();
+    inputLayout = new QGridLayout();
     mInputWidget = new QWidget(this);
-    mInputWidget->setSizePolicy(QSizePolicy(QSizePolicy::Policy::Expanding,
-                                            QSizePolicy::Policy::Expanding));
+    mInputWidget->setSizePolicy(QSizePolicy(QSizePolicy::Policy::Fixed, QSizePolicy::Policy::Fixed));
     mInputWidget->setLayout(inputLayout);
 
-    mNumberOfTrucks = new QLineEdit("", mInputWidget);
+    axleLoadList = {};
+    axleSpacingList = {};
+
+    mNumberOfTrucks = new QSpinBox(mInputWidget);
+    mNumberOfTrucks->setMinimum(1);
+    mNumberOfTrucks->setSizePolicy(QSizePolicy(QSizePolicy::Policy::Fixed,QSizePolicy::Policy::Fixed));
+    mNumberOfTrucks->setMaximumSize(45, 20);
+
     mNumberOfTrucksLabel = new QLabel("Number of Trucks", mInputWidget);
+    mNumberOfTrucksLabel->setSizePolicy(QSizePolicy(QSizePolicy::Policy::Fixed, QSizePolicy::Policy::Fixed));
 
-    mHeadway = new QLineEdit("", mInputWidget);
-    mHeadwayLabel = new QLabel("Truck Headway", mInputWidget);
+    mHeadway = new QDoubleSpinBox(mInputWidget);
+    mHeadway->setSizePolicy(QSizePolicy(QSizePolicy::Policy::Maximum, QSizePolicy::Policy::Maximum));
+    mHeadway->setMaximumSize(45, 20);
+    mHeadway->setMinimum(4);
+    mHeadway->setDecimals(1);
 
-    mAxleLoad = new QLineEdit("", mInputWidget);
-    mAxleLoadLabel = new QLabel("Axle Load", mInputWidget);
 
-    mAxleSpacing = new QLineEdit("", mInputWidget);
-    mAxleSpacingLabel = new QLabel("Axle Spacing", mInputWidget);
+    mHeadwayLabel = new QLabel("Truck Headway (m)", mInputWidget);
+    mHeadwayLabel->setSizePolicy(QSizePolicy(QSizePolicy::Policy::Fixed, QSizePolicy::Policy::Fixed));
+   
+    mNumberOfAxles = new QSpinBox(mInputWidget);
+    mNumberOfAxles->setMinimum(3);
+    mNumberOfAxles->setSizePolicy(QSizePolicy(QSizePolicy::Policy::Maximum,QSizePolicy::Policy::Maximum));
+    mNumberOfAxles->setMaximumSize(45, 20);
+
+    mNumberOfAxlesLabel = new QLabel("Number of Axles", mInputWidget);
+    mNumberOfAxlesLabel->setSizePolicy(
+        QSizePolicy(QSizePolicy::Policy::Fixed, QSizePolicy::Policy::Fixed));
+
+    mAxleLoadLabel = new QLabel("Axle Load (kNm) ", mInputWidget);
+    mAxleLoadLabel->setSizePolicy(QSizePolicy(QSizePolicy::Policy::Fixed, QSizePolicy::Policy::Fixed));
+
+
+    mAxleSpacingLabel = new QLabel("Axle Spacing (m)", mInputWidget);
+    mAxleSpacingLabel->setSizePolicy(QSizePolicy(QSizePolicy::Policy::Fixed, QSizePolicy::Policy::Fixed));
 
     mSaveButton = new QPushButton("Save Truck Configuration", this);
+    mSaveButton->setSizePolicy(QSizePolicy(QSizePolicy::Policy::Fixed, QSizePolicy::Policy::Fixed));
+
     mLoadButton = new QPushButton("Load Truck Configuration", this);
+    mLoadButton->setSizePolicy(QSizePolicy(QSizePolicy::Policy::Fixed, QSizePolicy::Policy::Fixed));
+
 
     inputLayout->addWidget(mNumberOfTrucksLabel, 0, 0);
     inputLayout->addWidget(mNumberOfTrucks, 0, 1);
     inputLayout->addWidget(mHeadwayLabel, 1, 0);
     inputLayout->addWidget(mHeadway, 1, 1);
-    inputLayout->addWidget(mAxleLoadLabel, 2, 0);
-    inputLayout->addWidget(mAxleLoad, 2, 1);
-    inputLayout->addWidget(mAxleSpacingLabel, 3, 0);
-    inputLayout->addWidget(mAxleSpacing, 3, 1);
-    inputLayout->addWidget(mSaveButton, 4, 0);
-    inputLayout->addWidget(mLoadButton, 5, 0);
+    inputLayout->addWidget(mNumberOfAxlesLabel, 2, 0);
+    inputLayout->addWidget(mNumberOfAxles, 2, 1);
+    inputLayout->addWidget(mAxleLoadLabel, 3, 0);
+    inputLayout->addWidget(mAxleSpacingLabel, 4, 0);
+    inputLayout->addWidget(mSaveButton, 5, 0);
+    inputLayout->addWidget(mLoadButton, 6, 0);
+    inputLayout->setHorizontalSpacing(0);
+    numAxlesChanged(3);
 
     mViewWidget = new QGraphicsView(this);
     mSceneWidget = new QGraphicsScene(this);
@@ -194,13 +366,11 @@ void PlatoonVisual::createPage() {
     pageLayout->addWidget(mInputWidget);
     pageLayout->addWidget(mViewWidget);
 
-    QObject::connect(mNumberOfTrucks, &QLineEdit::editingFinished, this,
+    QObject::connect(mNumberOfAxles, &QSpinBox::valueChanged, this,
+                     &PlatoonVisual::numAxlesChanged);
+    QObject::connect(mNumberOfTrucks, &QSpinBox::valueChanged, this,
                      &PlatoonVisual::platoonConfigured);
-    QObject::connect(mHeadway, &QLineEdit::editingFinished, this,
-                     &PlatoonVisual::platoonConfigured);
-    QObject::connect(mAxleLoad, &QLineEdit::editingFinished, this,
-                     &PlatoonVisual::platoonConfigured);
-    QObject::connect(mAxleSpacing, &QLineEdit::editingFinished, this,
+    QObject::connect(mHeadway, &QDoubleSpinBox::valueChanged, this,
                      &PlatoonVisual::platoonConfigured);
     QObject::connect(mSaveButton, &QPushButton::clicked, this,
                      &PlatoonVisual::saveButtonClicked);

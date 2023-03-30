@@ -199,10 +199,8 @@ void SolverVisual::createPage() {
 
     MockCalculationInputT in;
 
-    std::list<double> tempList = PlatoonConfiguration::getAxleLoads();
-    in.truckConfig.axleLoad = { std::begin(tempList), std::end(tempList) };
-    tempList = PlatoonConfiguration::getAxleSpacings();
-    in.truckConfig.axleSpacing = { std::begin(tempList), std::end(tempList) };
+    in.truckConfig.axleLoad = PlatoonConfiguration::getAxleLoads();
+    in.truckConfig.axleSpacing = PlatoonConfiguration::getAxleSpacings();
     in.truckConfig.numberOfTrucks = PlatoonConfiguration::getNumTrucks();
     in.truckConfig.headway = PlatoonConfiguration::getHeadway();
 

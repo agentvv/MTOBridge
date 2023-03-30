@@ -10,7 +10,10 @@ class PlatoonVisual : public QWidget {
 
   QGraphicsScene *getScene() { return mSceneWidget; }
 
- public slots:
+ private slots:
+  void numAxlesChanged(int i);
+  void validateLoadText(QString s);
+  void validateSpacingText(QString s);
   void platoonConfigured();
   void saveButtonClicked();
   void loadButtonClicked();
@@ -22,6 +25,7 @@ class PlatoonVisual : public QWidget {
 
   QTabWidget *mTabWidget;
   QWidget *mPage;
+  QGridLayout *inputLayout;
 
   QWidget *mInputWidget;
   QLabel *mAxleLoadLabel;
@@ -29,12 +33,17 @@ class PlatoonVisual : public QWidget {
   QLabel *mAxleSpacingLabel;
   QLineEdit *mAxleSpacing;
   QLabel *mNumberOfTrucksLabel;
-  QLineEdit *mNumberOfTrucks;
+  QSpinBox *mNumberOfTrucks;
   QLabel *mHeadwayLabel;
-  QLineEdit *mHeadway;
-
+  QDoubleSpinBox *mHeadway;
+  QSpinBox *mNumberOfAxles;
+  QLabel *mNumberOfAxlesLabel;
+  QList<QLineEdit*> axleLoadList;
+  QList<QLineEdit*> axleSpacingList;
   QPushButton *mSaveButton;
   QPushButton *mLoadButton;
+  QDoubleValidator *axleLoadValidator;
+  QDoubleValidator *axleSpacingValidator;
 
   QGraphicsScene *mSceneWidget;
   QGraphicsView *mViewWidget;
