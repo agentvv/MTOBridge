@@ -94,6 +94,8 @@ void BridgeVisual::bridgeConfigEdited() {
 
     QGraphicsLineItem* concernedLine = mScene->addLine(4 * topLayerWidth + configBridge.concernedSection * scale, topLayerWidth + 1, 4 * topLayerWidth + configBridge.concernedSection * scale, 3 * topLayerWidth - 1, redpen); // Indicating Concerned Section
     concernedLine->setZValue(2);
+
+    this->saveButton->setDisabled(false);
 }
 
 void BridgeVisual::numberOfSpansDetermined(QGridLayout* bridgeInputLayout, QString numberOfSpans) {
@@ -174,7 +176,7 @@ void BridgeVisual::createPage() {
 
   bridgePageLayout->addWidget(mVisualizerWidget);
 
-  // bridge IO section
+  // bridge save\load section
   auto* bridgeIOLayout = new QGridLayout();
   bridgeIOWidget = new QWidget(this);
   bridgeIOWidget->setSizePolicy(QSizePolicy(QSizePolicy::Policy::Expanding,
@@ -183,12 +185,12 @@ void BridgeVisual::createPage() {
 
   saveButton = new QPushButton("Save Config", this);
   bridgePageLayout->addWidget(saveButton);
+  saveButton->setDisabled(true);
 
   loadButton = new QPushButton("Load Config", this);
   bridgePageLayout->addWidget(loadButton);
 
-  // connect window to engine for running commands and drawing chart
-  //{
+
     QObject::connect(mNumberSpans, &QComboBox::currentTextChanged, this, [&]() {
       numberOfSpansDetermined(bridgeInputLayout, mNumberSpans->currentText());
     });
