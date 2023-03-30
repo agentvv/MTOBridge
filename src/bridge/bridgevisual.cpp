@@ -6,8 +6,57 @@
 using namespace std;
 
 namespace mtobridge {
+    bool isNumber(string str) {
+        bool isNumber = true;
+        for (char c : str)
+        {
+            if (!std::isdigit(c) && c != '.')
+            {
+                isNumber = false;
+                break;
+            }
+        }
+        return isNumber;
+    }
+
+void BridgeVisual::spanLengthChanged() {
+    if (!isNumber(mSpanLength->text().toStdString())){
+        mSpanLengthErrorLabel->setVisible(true);
+    }
+    else
+    {
+        mSpanLengthErrorLabel->setVisible(false);
+        BridgeVisual::bridgeConfigEdited();
+    }
+}
+
+void BridgeVisual::concernedSectionChanged() {
+    if (!isNumber(mConcernedSection->text().toStdString())) {
+        mConcernedSectionErrorLabel->setText("Concerned section is a single positive real number.");
+        mConcernedSectionErrorLabel->setVisible(true);
+        return;
+    }
+
+    else {
+        mConcernedSectionErrorLabel->setVisible(false);
+        BridgeVisual::bridgeConfigEdited();
+    }
+}
+
+void BridgeVisual::discretizationLengthChanged() {
+    if (!isNumber(mDiscretizationLength->text().toStdString())) {
+        mDiscretizationLengthErrorLabel->setText("Discretization Length is a single positive real number.");
+        mDiscretizationLengthErrorLabel->setVisible(true);
+        return;
+    }
+    else {
+        mDiscretizationLengthErrorLabel->setVisible(false);
+        BridgeVisual::bridgeConfigEdited();
+    }
+}
 
 void BridgeVisual::bridgeConfigEdited() {
+
     bool spanLengthsGiven = true;
     for (int i = 0; i < spanLengthLineBoxes.size(); i++) {
         if (spanLengthLineBoxes[i]->text() == "") {
@@ -19,16 +68,28 @@ void BridgeVisual::bridgeConfigEdited() {
         return;
     }
 
-    bool spanLenghtsAreDigits = true;
+    bool spanLenghtsAreNumbers = true;
     for (int i = 0; i < spanLengthLineBoxes.size(); i++) {
-        if (!isdigit(spanLengthLineBoxes[i]->text().toStdString()[0])) {
-            spanLenghtsAreDigits = false;
+        if (!isNumber(spanLengthLineBoxes[i]->text().toStdString())) {
+            spanLenghtsAreNumbers = false;
         }
     }
-    if (!spanLenghtsAreDigits || !isdigit(mConcernedSection->text().toStdString()[0])
-        || !isdigit(mDiscretizationLength->text().toStdString()[0])) {
+    if (!spanLenghtsAreNumbers || !isNumber(mConcernedSection->text().toStdString())
+        || !isNumber(mDiscretizationLength->text().toStdString())) {
         return;
     }
+
+    double spanSum = 0;
+    for (int i = 0; i < spanLengthLineBoxes.size(); i++) {
+        spanSum += std::stod(spanLengthLineBoxes[i]->text().toStdString());
+    }
+    double concernedSectionValue = std::stod(mConcernedSection->text().toStdString());
+    if (concernedSectionValue > spanSum) {
+        mConcernedSectionErrorLabel->setText("Concerned section should be less than sum of span lengths.");
+        mConcernedSectionErrorLabel->setVisible(true);
+        return;
+    }
+
     mScene->clear();
 
     QString spanLengthsConcatenated = "";
@@ -40,6 +101,7 @@ void BridgeVisual::bridgeConfigEdited() {
             spanLengthsConcatenated = spanLengthsConcatenated + spanLengthLineBoxes[i]->text() + " ";
         }
     }
+
     BridgeConfiguration::updateNumberOfSpans(mNumberSpans->currentText());
     BridgeConfiguration::updateConcernedSection(mConcernedSection->text());
     BridgeConfiguration::updateSpanLength(spanLengthsConcatenated);
@@ -82,6 +144,8 @@ void BridgeVisual::bridgeConfigEdited() {
 
     QGraphicsLineItem* concernedLine = mScene->addLine(4 * topLayerWidth + configBridge.concernedSection * scale, topLayerWidth + 1, 4 * topLayerWidth + configBridge.concernedSection * scale, 3 * topLayerWidth - 1, redpen); // Indicating Concerned Section
     concernedLine->setZValue(2);
+
+    this->saveButton->setDisabled(false);
 }
 
 void BridgeVisual::numberOfSpansDetermined(QGridLayout* bridgeInputLayout, QString numberOfSpans) {
@@ -93,19 +157,36 @@ void BridgeVisual::numberOfSpansDetermined(QGridLayout* bridgeInputLayout, QStri
         {
             delete spanLengthLineBoxes[spanLengthLineBoxes.size() - 1];
             spanLengthLineBoxes.pop_back();
+            delete spanLengthErrorLables[spanLengthErrorLables.size() - 1];
+            spanLengthErrorLables.pop_back();
             bridgeConfigEdited();
         }
     }
     else if (spanLengthsize < numberOfSpans.toInt()) {
         for (int i = spanLengthsize; i < numberOfSpans.toInt(); i++) {
-            QLineEdit* SpanLengthLineEdit = new QLineEdit("0", this);
+            QLineEdit* SpanLengthLineEdit = new QLineEdit(this);
+            QLabel* SpanLengthErrorLabel = new QLabel("Span Length is a single positive real number", this);
+            SpanLengthErrorLabel->setStyleSheet("QLabel { color : red; }");
+            SpanLengthErrorLabel->setVisible(false);
             bridgeInputLayout->addWidget(SpanLengthLineEdit, i + 2, 1);
-            QObject::connect(SpanLengthLineEdit, &QLineEdit::editingFinished, this, &BridgeVisual::bridgeConfigEdited);
+            bridgeInputLayout->addWidget(SpanLengthErrorLabel, i + 2, 2);
+            string index = std::to_string(i);
+            QObject::connect(SpanLengthLineEdit, &QLineEdit::editingFinished, this, [=]() {
+                if (!isNumber(SpanLengthLineEdit->text().toStdString())) {
+                    SpanLengthErrorLabel->setVisible(true);
+                }
+                else {
+                    SpanLengthErrorLabel->setVisible(false);
+                    BridgeVisual::bridgeConfigEdited();
+                }
+                });
             spanLengthLineBoxes.push_back(SpanLengthLineEdit);
+            spanLengthErrorLables.push_back(SpanLengthErrorLabel);
+            
         }
     }
-
 }
+
 void BridgeVisual::createPage() {
   this->setSizePolicy(QSizePolicy(QSizePolicy::Policy::Expanding,
                                   QSizePolicy::Policy::Expanding));
@@ -125,25 +206,41 @@ void BridgeVisual::createPage() {
     mNumberSpans->addItem("3");
     
     mNumberSpansLabel = new QLabel("Number of Spans", this);
-
-    mSpanLength = new QLineEdit("0", this);
+    mSpanLength = new QLineEdit(this);
     mSpanLengthLabel = new QLabel("Span Length(m)", this);
+    mSpanLengthErrorLabel = new QLabel("Span Length is a single positive real number", this);
+    mSpanLengthErrorLabel->setStyleSheet("QLabel { color : red; }");
+    mSpanLengthErrorLabel->setVisible(false);
 
-    mConcernedSection = new QLineEdit("0", this);
     mConcernedSectionLabel = new QLabel("Concerned Section(m)", this);
+    mConcernedSection = new QLineEdit(this);
+    mConcernedSectionErrorLabel = new QLabel(this);
+    mConcernedSectionErrorLabel->setStyleSheet("QLabel { color : red; }");
+    mSpanLengthErrorLabel->setVisible(false);
 
-    mDiscretizationLength = new QLineEdit("0", this);
     mDiscretizationLengthLabel = new QLabel("Discretization Length(m)", this);
+    mDiscretizationLength = new QLineEdit(this);
+    mDiscretizationLengthErrorLabel = new QLabel(this);
+    mDiscretizationLengthErrorLabel->setStyleSheet("QLabel { color : red; }");
+    mSpanLengthErrorLabel->setVisible(false);
+    
 
     bridgeInputLayout->addWidget(mNumberSpansLabel, 1, 0);
     bridgeInputLayout->addWidget(mNumberSpans, 1, 1);
+
     bridgeInputLayout->addWidget(mSpanLengthLabel, 2, 0);
     bridgeInputLayout->addWidget(mSpanLength, 2, 1);
+    bridgeInputLayout->addWidget(mSpanLengthErrorLabel, 2, 2);
     spanLengthLineBoxes.push_back(mSpanLength);
+    spanLengthErrorLables.push_back(mSpanLengthErrorLabel);
     bridgeInputLayout->addWidget(mConcernedSectionLabel, 5, 0);
     bridgeInputLayout->addWidget(mConcernedSection, 5, 1);
+    bridgeInputLayout->addWidget(mConcernedSectionErrorLabel, 5, 2);
+
     bridgeInputLayout->addWidget(mDiscretizationLengthLabel, 6, 0);
     bridgeInputLayout->addWidget(mDiscretizationLength, 6, 1);
+    bridgeInputLayout->addWidget(mDiscretizationLengthErrorLabel, 6, 2);
+
     bridgePageLayout->addWidget(bridgeInputWidget);
   }
   // bridge visualizer
@@ -161,7 +258,7 @@ void BridgeVisual::createPage() {
 
   bridgePageLayout->addWidget(mVisualizerWidget);
 
-  // bridge IO section
+  // bridge save\load section
   auto* bridgeIOLayout = new QGridLayout();
   bridgeIOWidget = new QWidget(this);
   bridgeIOWidget->setSizePolicy(QSizePolicy(QSizePolicy::Policy::Expanding,
@@ -170,20 +267,20 @@ void BridgeVisual::createPage() {
 
   saveButton = new QPushButton("Save Config", this);
   bridgePageLayout->addWidget(saveButton);
+  saveButton->setDisabled(true);
 
   loadButton = new QPushButton("Load Config", this);
   bridgePageLayout->addWidget(loadButton);
 
-  // connect window to engine for running commands and drawing chart
-  //{
-    QObject::connect(mNumberSpans, &QComboBox::currentTextChanged, this, [&]() {
+  //signal handlers
+  QObject::connect(mNumberSpans, &QComboBox::currentTextChanged, this, [&]() {
       numberOfSpansDetermined(bridgeInputLayout, mNumberSpans->currentText());
     });
-    QObject::connect(mSpanLength, &QLineEdit::editingFinished, this, &BridgeVisual::bridgeConfigEdited);
-    QObject::connect(mConcernedSection, &QLineEdit::editingFinished, this, &BridgeVisual::bridgeConfigEdited);
-    QObject::connect(mDiscretizationLength, &QLineEdit::editingFinished, this, &BridgeVisual::bridgeConfigEdited);
+  QObject::connect(mSpanLength, &QLineEdit::editingFinished, this, &BridgeVisual::spanLengthChanged);
+  QObject::connect(mConcernedSection, &QLineEdit::editingFinished, this, &BridgeVisual::concernedSectionChanged);
+  QObject::connect(mDiscretizationLength, &QLineEdit::editingFinished, this, &BridgeVisual::discretizationLengthChanged);
 
-    QObject::connect(saveButton, &QPushButton::clicked, this, [&]() {
+  QObject::connect(saveButton, &QPushButton::clicked, this, [&]() {
         BridgeConfiguration::updateNumberOfSpans(mNumberSpans->currentText());
         BridgeConfiguration::updateConcernedSection(mConcernedSection->text());
         QString spanLengthsConcatenated = "";
@@ -202,8 +299,7 @@ void BridgeVisual::createPage() {
         BridgeT config = BridgeConfiguration::getConfiguration();
         saver::saveBridgeConfiguration(config);
     });
-
-    QObject::connect(loadButton, &QPushButton::clicked, this, [&]() {
+  QObject::connect(loadButton, &QPushButton::clicked, this, [&]() {
       BridgeT config = loader::loadBridgeConfiguration();
       mNumberSpans->setCurrentText(QString::number(config.numberSpans));
       int spanLengthCounter = 0;
@@ -217,6 +313,6 @@ void BridgeVisual::createPage() {
       mConcernedSection->setText(QString::number(config.concernedSection));
       bridgeConfigEdited();
     });
-  //}
+
 }
 }  // namespace mtobridge

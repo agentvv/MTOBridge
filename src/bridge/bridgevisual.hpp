@@ -14,35 +14,40 @@ class BridgeVisual : public QWidget {
   QGraphicsScene* getScene() { return mScene; }
 
  public slots:
-  void bridgeConfigEdited();
-  
+	void bridgeConfigEdited();
+	void spanLengthChanged();
+	void concernedSectionChanged();
+	void discretizationLengthChanged();
 
  private:
-  void createPage();
-  void numberOfSpansDetermined(QGridLayout* bridgeInputLayout, QString numberOfSpans);
-  QLabel* mSpanLengthLabel;
-  QLineEdit* mSpanLength;
-  QLabel* mConcernedSectionLabel;
-  QLineEdit* mConcernedSection;
-  QLabel* mNumberSpansLabel;
-  QComboBox* mNumberSpans;
-  QLabel* mDiscretizationLengthLabel;
-  QLineEdit* mDiscretizationLength;
+	void createPage();
+	void numberOfSpansDetermined(QGridLayout* bridgeInputLayout, QString numberOfSpans);
+	QLabel* mSpanLengthLabel;
+	QLineEdit* mSpanLength;
+	QLabel* mConcernedSectionLabel;
+	QLineEdit* mConcernedSection;
+	QLabel* mNumberSpansLabel;
+	QComboBox* mNumberSpans;
+	QLabel* mDiscretizationLengthLabel;
+	QLabel* mSpanLengthErrorLabel;
+	QLabel* mConcernedSectionErrorLabel;
+	QLabel* mDiscretizationLengthErrorLabel;
 
-  // Bridge UI Elements
-  QWidget* bridgeInputWidget;
-  QWidget* mVisualizerWidget;
-  QGraphicsView* mVisualizerView;
-  QGraphicsScene* mScene;
-  QGraphicsRectItem* bridgeRect;
-  QGraphicsRectItem* topLayerRect;
-  QPushButton* previewButton;
-  QWidget* bridgeIOWidget;
-  QPushButton* saveButton;
-  QPushButton* loadButton;
-  BridgeConfiguration* bridgeConfiguration;
+	QLineEdit* mDiscretizationLength;
+	QWidget* bridgeInputWidget;
+	QWidget* mVisualizerWidget;
+	QGraphicsView* mVisualizerView;
+	QGraphicsScene* mScene;
+	QGraphicsRectItem* bridgeRect;
+	QGraphicsRectItem* topLayerRect;
+	QPushButton* previewButton;
+	QWidget* bridgeIOWidget;
+	QPushButton* saveButton;
+	QPushButton* loadButton;
+	BridgeConfiguration* bridgeConfiguration;
 
-  std::vector<QLineEdit*> spanLengthLineBoxes{};
-  QGridLayout* bridgeInputLayout;
+	std::vector<QLineEdit*> spanLengthLineBoxes{};
+	std::vector<QLabel*> spanLengthErrorLables{};
+	QGridLayout* bridgeInputLayout;
 };
 }  // namespace mtobridge

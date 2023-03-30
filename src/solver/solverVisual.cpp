@@ -62,55 +62,6 @@ void SolverVisual::createPage() {
   mInputWidget->setLayout(inputLayout);
   mInputWidget->setFixedWidth(200);
 
-  this->saveLoadGroup = new QGroupBox("Save/Load From File", this);
-  inputLayout->addWidget(this->saveLoadGroup);
-  QVBoxLayout* saveLoadBox = new QVBoxLayout;
-  this->saveLoadGroup->setLayout(saveLoadBox);
-  QPushButton* saveButton = new QPushButton("Save Solver Configuration", this);
-  QObject::connect(saveButton, &QPushButton::clicked, this, [&]() {
-    MockSolverT config;
-    if (Solver::getForceType() == "Positive Moment") {
-      config.forceType = MockSolverT::POSITIVE_MOMENT;
-    } else if (Solver::getForceType() == "Negative Moment") {
-      config.forceType = MockSolverT::NEGATIVE_MOMENT;
-    } else if (Solver::getForceType() == "Shear") {
-      config.forceType = MockSolverT::SHEAR;
-    }
-
-    if (Solver::getSolverType() == "Concerned Section") {
-      config.solverType = MockSolverT::CONCERNED;
-    } else if (Solver::getSolverType() == "Critical Section") {
-      config.solverType = MockSolverT::CRITICAL;
-    }
-
-    saver::saveSolverConfiguration(config);
-  });
-
-  saveLoadBox->addWidget(saveButton);
-  QPushButton* loadButton = new QPushButton("Load Solver Configuration", this);
-
-  QObject::connect(loadButton, &QPushButton::clicked, this, [&]() {
-    MockSolverT config = loader::loadSolverConfiguration();
-    if (config.forceType == MockSolverT::POSITIVE_MOMENT) {
-      Solver::updateForceType("Positive Moment");
-    } else if (config.forceType == MockSolverT::NEGATIVE_MOMENT) {
-      Solver::updateForceType("Negative Moment");
-    } else if (config.forceType == MockSolverT::SHEAR) {
-      Solver::updateForceType("Shear");
-    }
-
-    if (config.solverType == MockSolverT::CONCERNED) {
-      Solver::updateSolverType("Concerned Section");
-    } else if (config.solverType == MockSolverT::CRITICAL) {
-      Solver::updateSolverType("Critical Section");
-    }
-    updatePage();
-  });
-
-  saveLoadBox->addWidget(loadButton);
-  saveLoadBox->addStretch(1);
-  this->saveLoadGroup->setFixedHeight(100);
-
   this->forceSettingGroup = new QGroupBox("Force Response", this);
   inputLayout->addWidget(this->forceSettingGroup);
   QVBoxLayout* forceBox = new QVBoxLayout;
@@ -377,6 +328,40 @@ void SolverVisual::createPage() {
   topHalfLayout->addWidget(mInputWidget);
   pageLayout->addWidget(topHalf);
 
+  this->saveLoadGroup = new QGroupBox("Save/Load From File", this);
+  inputLayout->addWidget(this->saveLoadGroup);
+  QVBoxLayout* saveLoadBox = new QVBoxLayout;
+  this->saveLoadGroup->setLayout(saveLoadBox);
+  QPushButton* saveButton = new QPushButton("Save Solver Figure", this);
+
+
+  saveLoadBox->addWidget(saveButton);
+  QPushButton* loadButton = new QPushButton("Load Solver Configuration", this);
+
+  QObject::connect(loadButton, &QPushButton::clicked, this, [&]() {
+      MockSolverT config = loader::loadSolverConfiguration();
+  if (config.forceType == MockSolverT::POSITIVE_MOMENT) {
+      Solver::updateForceType("Positive Moment");
+  }
+  else if (config.forceType == MockSolverT::NEGATIVE_MOMENT) {
+      Solver::updateForceType("Negative Moment");
+  }
+  else if (config.forceType == MockSolverT::SHEAR) {
+      Solver::updateForceType("Shear");
+  }
+
+  if (config.solverType == MockSolverT::CONCERNED) {
+      Solver::updateSolverType("Concerned Section");
+  }
+  else if (config.solverType == MockSolverT::CRITICAL) {
+      Solver::updateSolverType("Critical Section");
+  }
+  updatePage();
+      });
+
+  saveLoadBox->addWidget(loadButton);
+  saveLoadBox->addStretch(1);
+  this->saveLoadGroup->setFixedHeight(100);
   {
     this->saveButton = new QPushButton("Save Results", this);
     this->saveButton->setDisabled(true);
@@ -400,6 +385,9 @@ void SolverVisual::createPage() {
   this->discretizationLengthText = NULL;
   this->criticalSectionLine = NULL;
 
+  QObject::connect(saveButton, &QPushButton::clicked, this, [&]() {      
+      saver::saveSolverFigure(*mChartView->scene());
+  });
   auto& engine = Engine::getInstance();
 
   // add command for engine to run
