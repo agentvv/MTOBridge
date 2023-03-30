@@ -78,7 +78,7 @@ void PlatoonVisual::numAxlesChanged(int i) {
 
       QObject::connect(axleSpacing, &QLineEdit::editingFinished, this, &PlatoonVisual::platoonConfigured);
       QDoubleValidator *axleSpacingValidator = new QDoubleValidator(this->mInputWidget);
-      axleSpacingValidator->setRange(3, 20, 1);
+      axleSpacingValidator->setRange(1.2, 20, 1);
       axleSpacing->setValidator(axleSpacingValidator);
       QObject::connect(axleSpacing, &QLineEdit::textChanged, this,
                        &PlatoonVisual::validateSpacingText);
@@ -95,6 +95,14 @@ void PlatoonVisual::numAxlesChanged(int i) {
         axleLoad->setMaximumSize(45, 20);
 
         QObject::connect(axleLoad, &QLineEdit::editingFinished, this,&PlatoonVisual::platoonConfigured);
+
+        QDoubleValidator *axleLoadValidator =
+            new QDoubleValidator(this->mInputWidget);
+        axleLoadValidator->setRange(0.1, 1000, 1);
+        axleLoad->setValidator(axleLoadValidator);
+        QObject::connect(axleLoad, &QLineEdit::textChanged, this,
+                         &PlatoonVisual::validateLoadText);
+
         this->inputLayout->addWidget(axleLoad, 3, axleLoadList.size() + 1);
         axleLoadList.append(axleLoad);
 
@@ -103,6 +111,14 @@ void PlatoonVisual::numAxlesChanged(int i) {
         axleSpacing->setMaximumSize(45, 20);
 
         QObject::connect(axleSpacing, &QLineEdit::editingFinished, this,&PlatoonVisual::platoonConfigured);
+
+        QDoubleValidator *axleSpacingValidator =
+            new QDoubleValidator(this->mInputWidget);
+        axleSpacingValidator->setRange(1.2, 20, 1);
+        axleSpacing->setValidator(axleSpacingValidator);
+        QObject::connect(axleSpacing, &QLineEdit::textChanged, this,
+                         &PlatoonVisual::validateSpacingText);
+
         this->inputLayout->addWidget(axleSpacing, 4,
                                      axleSpacingList.size() + 1);
         axleSpacingList.append(axleSpacing);
@@ -137,16 +153,14 @@ void PlatoonVisual::numAxlesChanged(int i) {
     length += *it*5;
     it++;
   }
-  blackPen.setWidth(2);
+  blackPen.setWidth(1);
   truck = new QGraphicsItemGroup();
 
-  truckHead = mSceneWidget->addRect(length*3/4, 0, length/4+10, 40, blackPen, redBrush);
+  truckHead = mSceneWidget->addRect(length*3/4, 0, length/4+10, 20, blackPen, redBrush);
   truckHead->setZValue(0);
-
-  truckWindow = mSceneWidget->addRect(length*7/8+10, 3, length/10, 14, blackPen, whiteBrush);
+  truckWindow = mSceneWidget->addRect(length*7/8+10, 3, length/10, 7, blackPen, whiteBrush);
   truckWindow->setZValue(1);
-
-  truckBody = mSceneWidget->addRect(-10, 0, length*3/4+10, 40, blackPen, grayBrush);
+  truckBody = mSceneWidget->addRect(-10, 0, length*3/4+10, 20, blackPen, grayBrush);
   truckBody->setZValue(0);
 
   truck->addToGroup(truckHead);
@@ -154,26 +168,26 @@ void PlatoonVisual::numAxlesChanged(int i) {
   truck->addToGroup(truckBody);
 
   int x = length;
-  truckWheel = mSceneWidget->addEllipse(x, 36, 10, 10, blackPen, blackBrush);
+  blackPen.setWidth(0);
+  truckWheel = mSceneWidget->addEllipse(x, 18.5, 5, 5, blackPen, blackBrush);
   truckWheel->setZValue(1);
   truck->addToGroup(truckWheel);
-  blackPen.setWidth(1);
-  truckRim = mSceneWidget->addEllipse(x+2, 38, 6, 6, blackPen, grayBrush);
-  blackPen.setWidth(2);
+  truckRim = mSceneWidget->addEllipse(x + 1, 19.5, 3, 3, blackPen, grayBrush);
   truckRim->setZValue(2);
   truck->addToGroup(truckRim);
 
   it = spacings.begin();
   while (it != spacings.end()) {
     x = x - (*it * 5);
-    truckWheel = mSceneWidget->addEllipse(x, 36, 10, 10, blackPen, blackBrush);
+    truckWheel = mSceneWidget->addEllipse(x, 18.5, 5, 5, blackPen, blackBrush);
     truckWheel->setZValue(1);
     truck->addToGroup(truckWheel);
-    truckRim = mSceneWidget->addEllipse(x + 2, 38, 6, 6, blackPen, grayBrush);
+    truckRim = mSceneWidget->addEllipse(x + 1, 19.5, 3, 3, blackPen, grayBrush);
     truckRim->setZValue(2);
     truck->addToGroup(truckRim);
     it++;
   }
+  blackPen.setWidth(1);
   return truck;
   
 }
@@ -317,7 +331,7 @@ void PlatoonVisual::createPage() {
     mHeadway = new QDoubleSpinBox(mInputWidget);
     mHeadway->setSizePolicy(QSizePolicy(QSizePolicy::Policy::Maximum, QSizePolicy::Policy::Maximum));
     mHeadway->setMaximumSize(45, 20);
-    mHeadway->setMinimum(4);
+    mHeadway->setMinimum(5);
     mHeadway->setDecimals(1);
 
 
