@@ -6,6 +6,18 @@
 using namespace std;
 
 namespace mtobridge {
+bool isNumber(string str) {
+    bool isNumber = true;
+    for (char c : str)
+    {
+        if (!std::isdigit(c) && c != '.')
+        {
+            isNumber = false;
+            break;
+        }
+    }
+    return isNumber;
+}
 
 void BridgeVisual::bridgeConfigEdited() {
     bool spanLengthsGiven = true;
@@ -19,14 +31,14 @@ void BridgeVisual::bridgeConfigEdited() {
         return;
     }
 
-    bool spanLenghtsAreDigits = true;
+    bool spanLenghtsAreNumbers = true;
     for (int i = 0; i < spanLengthLineBoxes.size(); i++) {
-        if (!isdigit(spanLengthLineBoxes[i]->text().toStdString()[0])) {
-            spanLenghtsAreDigits = false;
+        if (!isNumber(spanLengthLineBoxes[i]->text().toStdString())) {
+            spanLenghtsAreNumbers = false;
         }
     }
-    if (!spanLenghtsAreDigits || !isdigit(mConcernedSection->text().toStdString()[0])
-        || !isdigit(mDiscretizationLength->text().toStdString()[0])) {
+    if (!spanLenghtsAreNumbers || !isNumber(mConcernedSection->text().toStdString())
+        || !isNumber(mDiscretizationLength->text().toStdString())) {
         return;
     }
     mScene->clear();
@@ -98,7 +110,7 @@ void BridgeVisual::numberOfSpansDetermined(QGridLayout* bridgeInputLayout, QStri
     }
     else if (spanLengthsize < numberOfSpans.toInt()) {
         for (int i = spanLengthsize; i < numberOfSpans.toInt(); i++) {
-            QLineEdit* SpanLengthLineEdit = new QLineEdit("0", this);
+            QLineEdit* SpanLengthLineEdit = new QLineEdit(this);
             bridgeInputLayout->addWidget(SpanLengthLineEdit, i + 2, 1);
             QObject::connect(SpanLengthLineEdit, &QLineEdit::editingFinished, this, &BridgeVisual::bridgeConfigEdited);
             spanLengthLineBoxes.push_back(SpanLengthLineEdit);
@@ -106,6 +118,7 @@ void BridgeVisual::numberOfSpansDetermined(QGridLayout* bridgeInputLayout, QStri
     }
 
 }
+
 void BridgeVisual::createPage() {
   this->setSizePolicy(QSizePolicy(QSizePolicy::Policy::Expanding,
                                   QSizePolicy::Policy::Expanding));
@@ -126,13 +139,13 @@ void BridgeVisual::createPage() {
     
     mNumberSpansLabel = new QLabel("Number of Spans", this);
 
-    mSpanLength = new QLineEdit("0", this);
+    mSpanLength = new QLineEdit(this);
     mSpanLengthLabel = new QLabel("Span Length(m)", this);
 
-    mConcernedSection = new QLineEdit("0", this);
+    mConcernedSection = new QLineEdit(this);
     mConcernedSectionLabel = new QLabel("Concerned Section(m)", this);
 
-    mDiscretizationLength = new QLineEdit("0", this);
+    mDiscretizationLength = new QLineEdit(this);
     mDiscretizationLengthLabel = new QLabel("Discretization Length(m)", this);
 
     bridgeInputLayout->addWidget(mNumberSpansLabel, 1, 0);
