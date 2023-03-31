@@ -46,6 +46,9 @@ class SolverVisual : public QWidget {
   void updateChart(MockCalculationInputT, MockCalculationOutputT);
   void loadedReport(Report);
 
+private slots:
+  void calculateClicked();
+
  private:
    int animationMin;
    int animationMax;

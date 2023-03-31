@@ -142,47 +142,7 @@ void SolverVisual::createPage() {
 
   this->calculateButton = new QPushButton("Initialising...", this);
   this->calculateButton->setDisabled(true);
-  QObject::connect(this->calculateButton, &QPushButton::clicked, this, [&]() {
-    this->calculateButton->setDisabled(true);
-    this->calculateButton->setText("Analysing...");
-    this->saveButton->setDisabled(true);
-    this->backFrameButton->setDisabled(true);
-    this->firstFrameButton->setDisabled(true);
-    this->nextFrameButton->setDisabled(true);
-    this->lastFrameButton->setDisabled(true);
-    this->animationButton->setDisabled(true);
-
-    MockCalculationInputT in;
-
-    in.truckConfig.axleLoad = PlatoonConfiguration::getAxleLoads();
-    in.truckConfig.axleSpacing = PlatoonConfiguration::getAxleSpacings();
-    in.truckConfig.numberOfTrucks = PlatoonConfiguration::getNumTrucks();
-    in.truckConfig.headway = PlatoonConfiguration::getHeadway();
-
-    BridgeT bridgeConfig = BridgeConfiguration::getConfiguration();
-    in.bridgeConfig.numberSpans = bridgeConfig.numberSpans;
-    in.bridgeConfig.spanLength = bridgeConfig.spanLength;
-    in.bridgeConfig.concernedSection = bridgeConfig.concernedSection;
-    in.bridgeConfig.discretizationLength = bridgeConfig.discretizationLength;
-
-    if (Solver::getForceType() == "Positive Moment") {
-      in.solverConfig.forceType = MockSolverT::POSITIVE_MOMENT;
-    }
-    else if (Solver::getForceType() == "Negative Moment") {
-      in.solverConfig.forceType = MockSolverT::NEGATIVE_MOMENT;
-    }
-    else if (Solver::getForceType() == "Shear") {
-      in.solverConfig.forceType = MockSolverT::SHEAR;
-    }
-
-    if (Solver::getSolverType() == "Concerned Section") {
-      in.solverConfig.solverType = MockSolverT::CONCERNED;
-    }
-    else if (Solver::getSolverType() == "Critical Section") {
-      in.solverConfig.solverType = MockSolverT::CRITICAL;
-    }
-    emit SolverVisual::runCommand(in);
-    });
+  QObject::connect(this->calculateButton, &QPushButton::clicked, this, &SolverVisual::calculateClicked);
   inputLayout->addWidget(calculateButton);
 
   this->animationTimer = new QTimer(this);
@@ -819,6 +779,49 @@ void SolverVisual::showEvent(QShowEvent* showEvent) {
   */
 }
 
+void SolverVisual::calculateClicked()
+{
+  this->calculateButton->setDisabled(true);
+  this->calculateButton->setText("Analysing...");
+  this->saveButton->setDisabled(true);
+  this->backFrameButton->setDisabled(true);
+  this->firstFrameButton->setDisabled(true);
+  this->nextFrameButton->setDisabled(true);
+  this->lastFrameButton->setDisabled(true);
+  this->animationButton->setDisabled(true);
+
+  MockCalculationInputT in;
+
+  in.truckConfig.axleLoad = PlatoonConfiguration::getAxleLoads();
+  in.truckConfig.axleSpacing = PlatoonConfiguration::getAxleSpacings();
+  in.truckConfig.numberOfTrucks = PlatoonConfiguration::getNumTrucks();
+  in.truckConfig.headway = PlatoonConfiguration::getHeadway();
+
+  BridgeT bridgeConfig = BridgeConfiguration::getConfiguration();
+  in.bridgeConfig.numberSpans = bridgeConfig.numberSpans;
+  in.bridgeConfig.spanLength = bridgeConfig.spanLength;
+  in.bridgeConfig.concernedSection = bridgeConfig.concernedSection;
+  in.bridgeConfig.discretizationLength = bridgeConfig.discretizationLength;
+
+  if (Solver::getForceType() == "Positive Moment") {
+    in.solverConfig.forceType = MockSolverT::POSITIVE_MOMENT;
+  }
+  else if (Solver::getForceType() == "Negative Moment") {
+    in.solverConfig.forceType = MockSolverT::NEGATIVE_MOMENT;
+  }
+  else if (Solver::getForceType() == "Shear") {
+    in.solverConfig.forceType = MockSolverT::SHEAR;
+  }
+
+  if (Solver::getSolverType() == "Concerned Section") {
+    in.solverConfig.solverType = MockSolverT::CONCERNED;
+  }
+  else if (Solver::getSolverType() == "Critical Section") {
+    in.solverConfig.solverType = MockSolverT::CRITICAL;
+  }
+  emit SolverVisual::runCommand(in);
+}
+
 void SolverVisual::loadedReport(Report report)
 {
   auto config = report.input.solverConfig;
@@ -839,6 +842,6 @@ void SolverVisual::loadedReport(Report report)
       Solver::updateSolverType("Critical Section");
   }
   updatePage();
-  updateChart(report.input, report.results);
+  calculateClicked();
 }
 };  // namespace mtobridge
