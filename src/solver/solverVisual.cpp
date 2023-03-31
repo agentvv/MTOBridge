@@ -9,7 +9,7 @@
 
 namespace mtobridge {
 void ChartView::mouseReleaseEvent(QMouseEvent* event) {
-  SolverVisual* solver = (SolverVisual*)this->parent()->parent()->parent();
+  SolverVisual* solver = (SolverVisual*)this->parent()->parent()->parent()->parent();
   auto status = solver->animationStatus;
   if (status == AtEnd || status == AtBeginning || status == Paused) {
     //Mapping taken from https://stackoverflow.com/questions/44067831/get-mouse-coordinates-in-qchartviews-axis-system
@@ -73,7 +73,7 @@ void SolverVisual::createPage() {
     mChartView->setSizePolicy(QSizePolicy(QSizePolicy::Policy::Expanding,
                                           QSizePolicy::Policy::Expanding));
 
-    mChartTabWidget->addTab(mChartView, "Concerned Section");
+    mChartTabWidget->addTab(mChartView, "Force Response");
 
     mEnvelopeChart = new QChart();
     mEnvelopeChart->legend()->hide();
@@ -375,11 +375,9 @@ void SolverVisual::updatePage() {
 
   if (Solver::getSolverType() == "Concerned Section") {
     concernedButton->setChecked(true);
-    mChartTabWidget->setTabText(0, "Concerned Section");
     mChartTabWidget->setTabVisible(1, false);
   } else if (Solver::getSolverType() == "Critical Section") {
     criticalButton->setChecked(true);
-    mChartTabWidget->setTabText(0, "Critical Section");
     mChartTabWidget->setTabVisible(1, true);
   }
   this->setUpAnimation();
@@ -586,6 +584,7 @@ void SolverVisual::setUpAnimation() {
   this->mEnvelopeChart->setTitle("");
 
   if (this->criticalSectionLine != NULL) {
+    this->truckBridgeVisual->scene()->removeItem(this->criticalSectionLine);
     delete this->criticalSectionLine;
     this->criticalSectionLine = NULL;
   }
