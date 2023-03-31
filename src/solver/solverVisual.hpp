@@ -31,9 +31,6 @@ class SolverVisual : public QWidget {
   ~SolverVisual(){};
 
   void updateScene(std::string, QGraphicsScene*);
-  //void setBridge(QGraphicsScene*);
-  //void setPlatoon(QGraphicsScene*);
-  void showEvent(QShowEvent* showEvent);
 
   friend class ChartView;
 

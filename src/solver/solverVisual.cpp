@@ -8,6 +8,41 @@
 #include <math.h>
 
 namespace mtobridge {
+void ChartView::mouseReleaseEvent(QMouseEvent* event) {
+  SolverVisual* solver = (SolverVisual*)this->parent()->parent()->parent();
+  auto status = solver->animationStatus;
+  if (status == AtEnd || status == AtBeginning || status == Paused) {
+    //Mapping taken from https://stackoverflow.com/questions/44067831/get-mouse-coordinates-in-qchartviews-axis-system
+    double x = this->chart()->mapToValue(this->chart()->mapFromScene(this->mapToScene(event->pos().x(), 0))).x();
+    solver->setTruckPosition(solver->animationMin + x * PIXELS_PER_METER);
+    if (solver->truckGroup->x() == solver->animationMax) {
+      solver->animationStatus = AtEnd;
+      solver->nextFrameButton->setDisabled(true);
+      solver->lastFrameButton->setDisabled(true);
+      solver->backFrameButton->setDisabled(false);
+      solver->firstFrameButton->setDisabled(false);
+      solver->animationButton->setText("Restart");
+    }
+    else if (solver->truckGroup->x() == solver->animationMin) {
+      solver->animationStatus = AtBeginning;
+      solver->backFrameButton->setDisabled(true);
+      solver->firstFrameButton->setDisabled(true);
+      solver->nextFrameButton->setDisabled(false);
+      solver->lastFrameButton->setDisabled(false);
+      solver->animationButton->setText("Play");
+    }
+    else {
+      solver->animationStatus = Paused;
+      solver->backFrameButton->setDisabled(false);
+      solver->firstFrameButton->setDisabled(false);
+      solver->nextFrameButton->setDisabled(false);
+      solver->lastFrameButton->setDisabled(false);
+      solver->animationButton->setText("Play");
+    }
+  }
+  QChartView::mouseReleaseEvent(event);
+}
+
 void SolverVisual::errorOccurred(QString error) {
   QMessageBox::critical(this, QString("Error!"), error);
 }
@@ -113,32 +148,6 @@ void SolverVisual::createPage() {
   solverBox->addWidget(criticalButton);
   solverBox->addStretch(1);
   this->solverSettingGroup->setFixedHeight(75);
-
-  /*
-  //create reminders for concerned sec and discret length
-  {
-    auto* reminderLayout = new QGridLayout();
-    QWidget* reminderWidget = new QWidget(this);
-    reminderWidget->setSizePolicy(QSizePolicy(QSizePolicy::Policy::Expanding,
-                                              QSizePolicy::Policy::Expanding));
-    reminderWidget->setLayout(reminderLayout);
-
-    this->concernedSectionLabel = new QLabel("Concerned Section(m)", this);
-    this->concernedSectionReminder = new QLineEdit("10", this);
-    this->concernedSectionReminder->setDisabled(true);
-    reminderLayout->addWidget(this->concernedSectionLabel, 1, 0);
-    reminderLayout->addWidget(this->concernedSectionReminder, 1, 1);
-
-    this->discretizationLengthLabel =
-        new QLabel("Discretization Length(m)", this);
-    this->discretizationLengthReminder = new QLineEdit("0.1", this);
-    this->discretizationLengthReminder->setDisabled(true);
-    reminderLayout->addWidget(this->discretizationLengthLabel, 2, 0);
-    reminderLayout->addWidget(this->discretizationLengthReminder, 2, 1);
-
-    inputLayout->addWidget(reminderWidget);
-  }
-  */
 
   this->calculateButton = new QPushButton("Initialising...", this);
   this->calculateButton->setDisabled(true);
@@ -298,24 +307,8 @@ void SolverVisual::createPage() {
 
   QObject::connect(loadButton, &QPushButton::clicked, this, [&]() {
     emit loadReport();
-  //if (config.forceType == MockSolverT::POSITIVE_MOMENT) {
-  //    Solver::updateForceType("Positive Moment");
-  //}
-  //else if (config.forceType == MockSolverT::NEGATIVE_MOMENT) {
-  //    Solver::updateForceType("Negative Moment");
-  //}
-  //else if (config.forceType == MockSolverT::SHEAR) {
-  //    Solver::updateForceType("Shear");
-  //}
-
-  //if (config.solverType == MockSolverT::CONCERNED) {
-  //    Solver::updateSolverType("Concerned Section");
-  //}
-  //else if (config.solverType == MockSolverT::CRITICAL) {
-  //    Solver::updateSolverType("Critical Section");
-  //}
-  updatePage();
-      });
+    updatePage();
+    });
 
   saveLoadBox->addWidget(loadButton);
   saveLoadBox->addStretch(1);
@@ -390,41 +383,6 @@ void SolverVisual::updatePage() {
     mChartTabWidget->setTabVisible(1, true);
   }
   this->setUpAnimation();
-}
-
-void ChartView::mouseReleaseEvent(QMouseEvent* event) {
-  SolverVisual* solver = (SolverVisual*) this->parent()->parent()->parent();
-  auto status = solver->animationStatus;
-  if (status == AtEnd || status == AtBeginning || status == Paused) {
-    //Mapping taken from https://stackoverflow.com/questions/44067831/get-mouse-coordinates-in-qchartviews-axis-system
-    double x = this->chart()->mapToValue(this->chart()->mapFromScene(this->mapToScene(event->pos().x(), 0))).x();
-    solver->setTruckPosition(solver->animationMin + x * PIXELS_PER_METER);
-    if (solver->truckGroup->x() == solver->animationMax) {
-      solver->animationStatus = AtEnd;
-      solver->nextFrameButton->setDisabled(true);
-      solver->lastFrameButton->setDisabled(true);
-      solver->backFrameButton->setDisabled(false);
-      solver->firstFrameButton->setDisabled(false);
-      solver->animationButton->setText("Restart");
-    }
-    else if (solver->truckGroup->x() == solver->animationMin) {
-      solver->animationStatus = AtBeginning;
-      solver->backFrameButton->setDisabled(true);
-      solver->firstFrameButton->setDisabled(true);
-      solver->nextFrameButton->setDisabled(false);
-      solver->lastFrameButton->setDisabled(false);
-      solver->animationButton->setText("Play");
-    }
-    else {
-      solver->animationStatus = Paused;
-      solver->backFrameButton->setDisabled(false);
-      solver->firstFrameButton->setDisabled(false);
-      solver->nextFrameButton->setDisabled(false);
-      solver->lastFrameButton->setDisabled(false);
-      solver->animationButton->setText("Play");
-    }
-  }
-  QChartView::mouseReleaseEvent(event);
 }
 
 void SolverVisual::setTruckPosition(double x) {
@@ -765,18 +723,6 @@ void SolverVisual::updateScene(std::string sceneType, QGraphicsScene* scene) {
   }
 
   this->setUpAnimation();
-}
-
-void SolverVisual::showEvent(QShowEvent* showEvent) {
-  /*
-  BridgeT bridgeConfig = BridgeConfiguration::getConfiguration();
-  this->concernedSectionReminder->setText(
-      QString::number(bridgeConfig.concernedSection));
-  this->discretizationLengthReminder->setText(
-      QString::number(bridgeConfig.discretizationLength));
-
-  QWidget::showEvent(showEvent);
-  */
 }
 
 void SolverVisual::calculateClicked()
