@@ -36,6 +36,7 @@ add_custom_command(
                 ${CMAKE_SOURCE_DIR}/src/matlab/mtobridge_matlab.ctf
                 ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/mtobridge_matlab.ctf)
 
-add_custom_command(
-        TARGET MTOBridge POST_BUILD
-        COMMAND "${QT_PATH}bin/windeployqt.exe" ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+add_custom_command(TARGET MTOBridge
+        POST_BUILD
+        COMMAND "${QT_PATH}bin/windeployqt.exe" "--no-translations" ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
+)

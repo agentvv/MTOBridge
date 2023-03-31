@@ -8,6 +8,7 @@
 #include "../bridge/bridgevisual.hpp"
 #include "../engine/engine.hpp"
 #include "../saver/loader.hpp"
+#include "util/data_types.hpp"
 
 namespace mtobridge {
 Window::Window(QWidget *parent) : QWidget(parent) {
@@ -41,28 +42,49 @@ void Window::createWindow() {
                    &Window::errorOccurred);
 
   QObject::connect(mPlatoon->getScene(), &QGraphicsScene::changed, this, [&]() {
-      mSolver->updateScene("Truck", mPlatoon->getScene());
-    });
+    mSolver->updateScene("Truck", mPlatoon->getScene());
+  });
 
   QObject::connect(mBridge->getScene(), &QGraphicsScene::changed, this, [&]() {
     mSolver->updateScene("Bridge", mBridge->getScene());
-    });
+  });
 
-  QObject::connect(mSolver, &SolverVisual::loadReport, this, &Window::loadReport);
+  QObject::connect(mSolver, &SolverVisual::loadReport, this,
+                   &Window::loadReport);
 }
 
-void Window::loadReport()
-{
+void Window::loadReport() {
   Report report = loader::loadReportConfiguration();
+  if (report == Report())
+    return;
+
   auto inputs = report.input;
+
+
+  if (!validateTruckConfig(inputs.truckConfig)) {
+    QMessageBox::warning(this, QString("Invalid report"),
+                         QString("The report you loaded contains an "
+                                 "invalid truck configuration"));
+    return;
+  }
+  if (!validateBridgeConfig(inputs.bridgeConfig))
+  {
+    QMessageBox::warning(this, QString("Invalid report"),
+      QString("The report you loaded contains an "
+        "invalid bridge configuration"));
+    return;
+  }
+  if (!validateInput(inputs)) {
+    QMessageBox::warning(this, QString("Invalid report"),
+      QString("The report you loaded is invalid"));
+    return;
+  }
   mPlatoon->loadConfiguration(inputs.truckConfig);
   MockBridgeT bridge = inputs.bridgeConfig;
-  BridgeT config = {
-    .numberSpans = bridge.numberSpans,
-    .spanLength = bridge.spanLength,
-    .concernedSection = bridge.concernedSection,
-    .discretizationLength = bridge.discretizationLength
-  };
+  BridgeT config = {.numberSpans = bridge.numberSpans,
+                    .spanLength = bridge.spanLength,
+                    .concernedSection = bridge.concernedSection,
+                    .discretizationLength = bridge.discretizationLength};
   mBridge->loadConfiguration(config);
   mSolver->loadedReport(report);
 }

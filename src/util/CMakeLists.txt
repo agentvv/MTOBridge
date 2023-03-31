@@ -1,11 +1,16 @@
-add_library(util INTERFACE)
+add_library(util STATIC)
+
+target_sources(util
+    PRIVATE
+        ${CMAKE_CURRENT_LIST_DIR}/data_types.cpp
+)
 
 target_include_directories(util 
-	INTERFACE
+	PUBLIC
 		include
 )
 
 target_link_libraries(util
-	INTERFACE
+	PUBLIC
 		Qt6::Core
 )

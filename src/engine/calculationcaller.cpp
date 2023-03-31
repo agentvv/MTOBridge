@@ -1,6 +1,7 @@
 #include "calculationcaller.hpp"
 
 #include "../matlab/mtobridge_matlab.hpp"
+#include "util/data_types.hpp"
 
 namespace mtobridge {
 
@@ -254,34 +255,6 @@ void setupCalculations() {
   matlabFunctions[1][2][0] = &Critical_section_three_span_positive_moment;
   matlabFunctions[1][2][1] = &Critical_section_three_span_negative_moment;
   matlabFunctions[1][2][2] = &Critical_section_three_span_shear;
-}
-
-bool validateTruckConfig(MockTruckT platoon) {
-  if (platoon.axleLoad.size() < 1 ||
-      platoon.axleLoad.size() != platoon.axleSpacing.size() + 1 ||
-      platoon.headway <= 0 || platoon.numberOfTrucks <= 0) {
-    return false;
-  }
-  return true;
-}
-
-bool validateBridgeConfig(MockBridgeT bridge) {
-  double bridgeLength =
-      std::reduce(bridge.spanLength.begin(), bridge.spanLength.end());
-  if (bridge.numberSpans <= 0 || bridge.numberSpans > 3 ||
-      bridge.spanLength.size() != bridge.numberSpans ||
-      bridge.concernedSection < 0 || bridge.concernedSection > bridgeLength ||
-      bridge.discretizationLength <= 0) {
-    return false;
-  }
-  return true;
-}
-
-bool validateInput(MockCalculationInputT in) {
-  return validateTruckConfig(in.truckConfig) &&
-         validateBridgeConfig(in.bridgeConfig) &&
-         !(in.solverConfig.forceType == MockSolverT::NEGATIVE_MOMENT &&
-           in.bridgeConfig.numberSpans == 1);
 }
 
 /**
