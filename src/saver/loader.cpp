@@ -329,27 +329,66 @@ mtobridge::Report loader::loadReportConfiguration() {
               if (c.isDigit())
                 break;
             }
-            tempReport.input.truckConfig.numberOfTrucks = line.mid(17).toInt();
+            tempReport.input.truckConfig.numberOfTrucks = line.mid(i).toInt();
           }
         }
       } else if (line.startsWith("[Bridge]")) {
         while (!line.isEmpty()) {
           line = in.readLine().trimmed();
           if (line.startsWith("numberSpans")) {
-            tempReport.input.bridgeConfig.numberSpans = line.mid(12).toInt();
+            int i = 0;
+            for (; i < line.length(); i++)
+            {
+              auto c = line[i];
+              if (c.isDigit())
+                break;
+            }
+            tempReport.input.bridgeConfig.numberSpans = line.mid(i).toInt();
           } else if (line.startsWith("spanLength")) {
-            tempReport.input.bridgeConfig.spanLength.push_back(
-                line.mid(11).toDouble());
+            QStringList numberSpans =
+              line.mid(10).split(' ', Qt::SkipEmptyParts);
+            for (const QString& spanLength : numberSpans) {
+              if (spanLength == "=") continue;
+              tempReport.input.bridgeConfig.spanLength.push_back(spanLength.toDouble());
+            }
           } else if (line.startsWith("discretizationLength")) {
+            int i = 0;
+            for (; i < line.length(); i++)
+            {
+              auto c = line[i];
+              if (c.isDigit())
+                break;
+            }
             tempReport.input.bridgeConfig.discretizationLength =
-                line.mid(20).toDouble();
+                line.mid(i).toDouble();
+          }
+          else if (line.startsWith("concernedSection")) {
+            int i = 0;
+            for (; i < line.length(); i++)
+            {
+              auto c = line[i];
+              if (c.isDigit())
+                break;
+            }
+            tempReport.input.bridgeConfig.concernedSection =
+              line.mid(i).toDouble();
           }
         }
       } else if (line.startsWith("[Solver]")) {
         while (!line.isEmpty()) {
           line = in.readLine().trimmed();
           if (line.startsWith("forceType")) {
-            QString forceTypeStr = line.mid(10).trimmed();
+            int i = 0;
+            for (; i < line.length(); i++)
+            {
+              auto c = line[i];
+              if (c == '=')
+              {
+                i++;
+                break;
+              }
+            }
+            QString forceTypeStr = line.mid(i).trimmed();
             if (forceTypeStr == "Positive Moment") {
               tempReport.input.solverConfig.forceType =
                   MockSolverT::ForceE::POSITIVE_MOMENT;
@@ -361,7 +400,17 @@ mtobridge::Report loader::loadReportConfiguration() {
                   MockSolverT::ForceE::SHEAR;
             }
           } else if (line.startsWith("solverType")) {
-            QString solverTypeStr = line.mid(11).trimmed();
+            int i = 0;
+            for (; i < line.length(); i++)
+            {
+              auto c = line[i];
+              if (c == '=')
+              {
+                i++;
+                break;
+              }
+            }
+            QString solverTypeStr = line.mid(i).trimmed();
             if (solverTypeStr == "Critical") {
               tempReport.input.solverConfig.solverType =
                   MockSolverT::SolverE::CRITICAL;

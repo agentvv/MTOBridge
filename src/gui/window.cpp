@@ -56,6 +56,15 @@ void Window::loadReport()
   Report report = loader::loadReportConfiguration();
   auto inputs = report.input;
   mPlatoon->loadConfiguration(inputs.truckConfig);
+  MockBridgeT bridge = inputs.bridgeConfig;
+  BridgeT config = {
+    .numberSpans = bridge.numberSpans,
+    .spanLength = bridge.spanLength,
+    .concernedSection = bridge.concernedSection,
+    .discretizationLength = bridge.discretizationLength
+  };
+  mBridge->loadConfiguration(config);
+  mSolver->loadedReport(report);
 }
 
 void Window::errorOccurred(QString error) {

@@ -315,4 +315,30 @@ void BridgeVisual::createPage() {
     });
 
 }
+
+void BridgeVisual::loadConfiguration(BridgeT config)
+{
+  BridgeConfiguration::updateNumberOfSpans(QString::number(config.numberSpans));
+
+  QString spanLength = "";
+  for (double d : config.spanLength)
+  {
+    spanLength.append(QString::number(d) + " ");
+  }
+  BridgeConfiguration::updateConcernedSection(QString::number(config.concernedSection));
+  BridgeConfiguration::updateDiscretizationLength(QString::number(config.discretizationLength));
+
+  mNumberSpans->setCurrentText(QString::number(config.numberSpans));
+  int spanLengthCounter = 0;
+  for (double i : config.spanLength) {
+    spanLengthLineBoxes[spanLengthCounter]->setText(QString::number(i));
+    spanLengthCounter += 1;
+  }
+
+  mDiscretizationLength->setText(
+    QString::number(config.discretizationLength));
+  mConcernedSection->setText(QString::number(config.concernedSection));
+  bridgeConfigEdited();
+}
+
 }  // namespace mtobridge

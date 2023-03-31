@@ -18,6 +18,7 @@ class BridgeVisual : public QWidget {
 	void spanLengthChanged();
 	void concernedSectionChanged();
 	void discretizationLengthChanged();
+	void loadConfiguration(BridgeT config);
 
  private:
 	void createPage();

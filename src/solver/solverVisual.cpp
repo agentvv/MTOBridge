@@ -538,6 +538,12 @@ void SolverVisual::updateChart(MockCalculationInputT in,
   this->mReport.results = out;
   
   std::vector<double> x_vals = std::move(out.firstAxlePosition);
+  if (x_vals.empty())
+  {
+    this->calculateButton->setText("Run Analysis");
+    this->calculateButton->setDisabled(false);
+    return;
+  }
   std::vector<double> y_vals;
   if (in.solverConfig.solverType == MockSolverT::CONCERNED) {
     y_vals = std::move(out.forceConcernedSection);
@@ -811,5 +817,28 @@ void SolverVisual::showEvent(QShowEvent* showEvent) {
 
   QWidget::showEvent(showEvent);
   */
+}
+
+void SolverVisual::loadedReport(Report report)
+{
+  auto config = report.input.solverConfig;
+  if (config.forceType == MockSolverT::POSITIVE_MOMENT) {
+      Solver::updateForceType("Positive Moment");
+  }
+  else if (config.forceType == MockSolverT::NEGATIVE_MOMENT) {
+      Solver::updateForceType("Negative Moment");
+  }
+  else if (config.forceType == MockSolverT::SHEAR) {
+      Solver::updateForceType("Shear");
+  }
+
+  if (config.solverType == MockSolverT::CONCERNED) {
+      Solver::updateSolverType("Concerned Section");
+  }
+  else if (config.solverType == MockSolverT::CRITICAL) {
+      Solver::updateSolverType("Critical Section");
+  }
+  updatePage();
+  updateChart(report.input, report.results);
 }
 };  // namespace mtobridge
