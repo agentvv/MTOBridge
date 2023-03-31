@@ -39,6 +39,7 @@ class SolverVisual : public QWidget {
 
  signals:
   void runCommand(MockCalculationInputT);
+  void loadReport();
 
  public slots:
   void errorOccurred(QString);

@@ -1,5 +1,7 @@
 #pragma once
 #include <QtWidgets>
+#include <util/data_types.hpp>
+
 namespace mtobridge {
 class PlatoonVisual : public QWidget {
   Q_OBJECT
@@ -10,6 +12,9 @@ class PlatoonVisual : public QWidget {
 
   QGraphicsScene *getScene() { return mSceneWidget; }
 
+public slots:
+  void loadConfiguration(MockTruckT config);
+
  private slots:
   void numAxlesChanged(int i);
   void validateLoadText(QString s);
@@ -17,6 +22,7 @@ class PlatoonVisual : public QWidget {
   void platoonConfigured();
   void saveButtonClicked();
   void loadButtonClicked();
+  
 
  private:
   void createPage();

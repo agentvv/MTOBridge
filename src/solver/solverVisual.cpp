@@ -334,26 +334,26 @@ void SolverVisual::createPage() {
 
 
   saveLoadBox->addWidget(saveButton);
-  QPushButton* loadButton = new QPushButton("Load Solver Configuration", this);
+  QPushButton* loadButton = new QPushButton("Load Report", this);
 
   QObject::connect(loadButton, &QPushButton::clicked, this, [&]() {
-      MockSolverT config = loader::loadSolverConfiguration();
-  if (config.forceType == MockSolverT::POSITIVE_MOMENT) {
-      Solver::updateForceType("Positive Moment");
-  }
-  else if (config.forceType == MockSolverT::NEGATIVE_MOMENT) {
-      Solver::updateForceType("Negative Moment");
-  }
-  else if (config.forceType == MockSolverT::SHEAR) {
-      Solver::updateForceType("Shear");
-  }
+    emit loadReport();
+  //if (config.forceType == MockSolverT::POSITIVE_MOMENT) {
+  //    Solver::updateForceType("Positive Moment");
+  //}
+  //else if (config.forceType == MockSolverT::NEGATIVE_MOMENT) {
+  //    Solver::updateForceType("Negative Moment");
+  //}
+  //else if (config.forceType == MockSolverT::SHEAR) {
+  //    Solver::updateForceType("Shear");
+  //}
 
-  if (config.solverType == MockSolverT::CONCERNED) {
-      Solver::updateSolverType("Concerned Section");
-  }
-  else if (config.solverType == MockSolverT::CRITICAL) {
-      Solver::updateSolverType("Critical Section");
-  }
+  //if (config.solverType == MockSolverT::CONCERNED) {
+  //    Solver::updateSolverType("Concerned Section");
+  //}
+  //else if (config.solverType == MockSolverT::CRITICAL) {
+  //    Solver::updateSolverType("Critical Section");
+  //}
   updatePage();
       });
 

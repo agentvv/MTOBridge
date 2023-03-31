@@ -7,6 +7,7 @@
 #include "../PlatoonConfiguration/PlatoonVisual.hpp"
 #include "../bridge/bridgevisual.hpp"
 #include "../engine/engine.hpp"
+#include "../saver/loader.hpp"
 
 namespace mtobridge {
 Window::Window(QWidget *parent) : QWidget(parent) {
@@ -46,6 +47,15 @@ void Window::createWindow() {
   QObject::connect(mBridge->getScene(), &QGraphicsScene::changed, this, [&]() {
     mSolver->updateScene("Bridge", mBridge->getScene());
     });
+
+  QObject::connect(mSolver, &SolverVisual::loadReport, this, &Window::loadReport);
+}
+
+void Window::loadReport()
+{
+  Report report = loader::loadReportConfiguration();
+  auto inputs = report.input;
+  mPlatoon->loadConfiguration(inputs.truckConfig);
 }
 
 void Window::errorOccurred(QString error) {

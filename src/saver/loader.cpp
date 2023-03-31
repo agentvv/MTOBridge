@@ -288,35 +288,53 @@ mtobridge::Report loader::loadReportConfiguration() {
 
     QString temp;
     QTextStream in(&file);
-    temp = in.readAll();
 
     QString line;
     while (!in.atEnd()) {
       line = in.readLine().trimmed();
       if (line.isEmpty() || line.startsWith("*")) continue;
-      if (line == "[Platoon]") {
+      if (line.startsWith("[Platoon]")) {
         while (!line.isEmpty()) {
+          line = in.readLine().trimmed();
           if (line.startsWith("axleLoad")) {
             QStringList axleLoads =
                 line.mid(10).split(' ', Qt::SkipEmptyParts);
             for (const QString& load : axleLoads) {
+              if (load == "=") continue;
               tempReport.input.truckConfig.axleLoad.push_back(load.toDouble());
             }
           } else if (line.startsWith("axleSpacing")) {
             QStringList axleSpacings =
                 line.mid(12).split(' ', Qt::SkipEmptyParts);
             for (const QString& spacing : axleSpacings) {
+              if (spacing == "=") continue;
+              std::string t = spacing.toStdString();
               tempReport.input.truckConfig.axleSpacing.push_back(
                   spacing.toDouble());
             }
           } else if (line.startsWith("headway")) {
-            tempReport.input.truckConfig.headway = line.mid(8).toDouble();
+            int i = 0;
+            for (; i < line.length(); i++)
+            {
+              auto c = line[i];
+              if (c.isDigit())
+                break;
+            }
+            tempReport.input.truckConfig.headway = line.mid(i).toDouble();
           } else if (line.startsWith("numberofTrucks")) {
-            tempReport.input.truckConfig.numberOfTrucks = line.mid(15).toInt();
+            int i = 0;
+            for (; i < line.length(); i++)
+            {
+              auto c = line[i];
+              if (c.isDigit())
+                break;
+            }
+            tempReport.input.truckConfig.numberOfTrucks = line.mid(17).toInt();
           }
         }
-      } else if (line == "[Bridge]") {
+      } else if (line.startsWith("[Bridge]")) {
         while (!line.isEmpty()) {
+          line = in.readLine().trimmed();
           if (line.startsWith("numberSpans")) {
             tempReport.input.bridgeConfig.numberSpans = line.mid(12).toInt();
           } else if (line.startsWith("spanLength")) {
@@ -327,8 +345,9 @@ mtobridge::Report loader::loadReportConfiguration() {
                 line.mid(20).toDouble();
           }
         }
-      } else if (line == "[Solver]") {
+      } else if (line.startsWith("[Solver]")) {
         while (!line.isEmpty()) {
+          line = in.readLine().trimmed();
           if (line.startsWith("forceType")) {
             QString forceTypeStr = line.mid(10).trimmed();
             if (forceTypeStr == "Positive Moment") {

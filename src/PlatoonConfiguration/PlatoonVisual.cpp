@@ -393,4 +393,30 @@ void PlatoonVisual::createPage() {
 
   }
 }
+
+void PlatoonVisual::loadConfiguration(MockTruckT config)
+{
+  PlatoonConfiguration::updateAxleSpacing(config.axleSpacing);
+  PlatoonConfiguration::updateAxleLoad(config.axleLoad);
+  PlatoonConfiguration::updateHeadway(config.headway);
+  PlatoonConfiguration::updateNumberOfTrucks(config.numberOfTrucks);
+
+  mNumberOfAxles->setValue(config.axleLoad.size());
+  for (int i = 0; i < axleSpacingList.size(); i++)
+  {
+    auto spacing = QString::number(config.axleSpacing[i]);
+    axleSpacingList[i]->setText(spacing);
+  }
+
+  for (int i = 0; i < axleLoadList.size(); i++)
+  {
+    auto load = QString::number(config.axleLoad[i]);
+    axleLoadList[i]->setText(load);
+  }
+
+  mNumberOfTrucks->setValue(config.numberOfTrucks);
+  mHeadway->setValue(config.headway);
+
+  platoonConfigured();
+}
 };  // namespace mtobridge
