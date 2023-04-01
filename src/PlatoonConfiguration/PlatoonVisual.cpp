@@ -207,6 +207,18 @@ void PlatoonVisual::numAxlesChanged(int i) {
   return truck;
   
 }
+
+void PlatoonVisual::resizeEvent(QResizeEvent *event)
+{
+  QWidget::resizeEvent(event);
+  QRectF itemRect = mSceneWidget->itemsBoundingRect();
+  QRectF PaddedRect(itemRect.left() - itemRect.width() * 0.1, itemRect.top() - itemRect.height() * 0.1,
+    itemRect.width() * 1.2, itemRect.height() * 1.2);
+  mSceneWidget->setSceneRect(PaddedRect);
+  mViewWidget->fitInView(mSceneWidget->sceneRect(), Qt::KeepAspectRatio);
+  mViewWidget->centerOn(mSceneWidget->sceneRect().center());
+}
+
 void PlatoonVisual::platoonConfigured() {
     for (auto *w : axleLoadList) {
         QString text = w->text();
@@ -272,9 +284,9 @@ void PlatoonVisual::platoonConfigured() {
         truck->setZValue(i+1);
   }
   QRectF itemRect = mSceneWidget->itemsBoundingRect();
-  //QRectF PaddedRect(itemRect.left() - itemRect.width() * 0.1,itemRect.top() - itemRect.height() * 0.1,
-                    //itemRect.width() * 1.2, itemRect.height() * 1.2);
-  mSceneWidget->setSceneRect(itemRect);
+  QRectF PaddedRect(itemRect.left() - itemRect.width() * 0.1,itemRect.top() - itemRect.height() * 0.1,
+                    itemRect.width() * 1.2, itemRect.height() * 1.2);
+  mSceneWidget->setSceneRect(PaddedRect);
   mViewWidget->fitInView(mSceneWidget->sceneRect(), Qt::KeepAspectRatio);
   mViewWidget->centerOn(mSceneWidget->sceneRect().center());
   mSaveButton->setDisabled(false);

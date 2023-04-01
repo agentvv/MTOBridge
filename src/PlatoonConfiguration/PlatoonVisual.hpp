@@ -12,6 +12,8 @@ class PlatoonVisual : public QWidget {
 
   QGraphicsScene *getScene() { return mSceneWidget; }
 
+  void resizeEvent(QResizeEvent *event) override;
+
 public slots:
   void loadConfiguration(MockTruckT config);
 

@@ -13,6 +13,8 @@ class BridgeVisual : public QWidget {
 
   QGraphicsScene* getScene() { return mScene; }
 
+	void resizeEvent(QResizeEvent* event) override;
+
  public slots:
 	void bridgeConfigEdited();
 	void spanLengthChanged();

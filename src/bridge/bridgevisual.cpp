@@ -158,6 +158,18 @@ void BridgeVisual::bridgeConfigEdited() {
     this->saveButton->setDisabled(false);
 }
 
+void BridgeVisual::resizeEvent(QResizeEvent* event)
+{
+  QWidget::resizeEvent(event);
+  QRectF itemRect = mScene->itemsBoundingRect();
+  QRectF PaddedRect(itemRect.left() - itemRect.width() * 0.1,
+    itemRect.top() - itemRect.height() * 0.1,
+    itemRect.width() * 1.2, itemRect.height() * 1.2);
+  mScene->setSceneRect(PaddedRect);
+  mVisualizerView->fitInView(mScene->sceneRect(), Qt::KeepAspectRatio);
+  mVisualizerView->centerOn(mScene->sceneRect().center());
+}
+
 void BridgeVisual::numberOfSpansDetermined(QGridLayout* bridgeInputLayout, QString numberOfSpans) {
     int spanLengthsize = spanLengthLineBoxes.size();
 
