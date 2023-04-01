@@ -87,7 +87,13 @@ void BridgeVisual::bridgeConfigEdited() {
     if (concernedSectionValue > spanSum) {
         mConcernedSectionErrorLabel->setText("Concerned section should be less than sum of span lengths.");
         mConcernedSectionErrorLabel->setVisible(true);
+        mConcernedSection->setStyleSheet("border: 1px solid red");
         return;
+    }
+    else
+    {
+      mConcernedSectionErrorLabel->setVisible(false);
+      mConcernedSection->setStyleSheet("");
     }
 
     mScene->clear();
@@ -179,34 +185,36 @@ void BridgeVisual::numberOfSpansDetermined(QGridLayout* bridgeInputLayout, QStri
         {
             delete spanLengthLineBoxes[spanLengthLineBoxes.size() - 1];
             spanLengthLineBoxes.pop_back();
-            delete spanLengthErrorLables[spanLengthErrorLables.size() - 1];
-            spanLengthErrorLables.pop_back();
             bridgeConfigEdited();
         }
     }
     else if (spanLengthsize < numberOfSpans.toInt()) {
         for (int i = spanLengthsize; i < numberOfSpans.toInt(); i++) {
             QLineEdit* SpanLengthLineEdit = new QLineEdit(this);
-            QLabel* SpanLengthErrorLabel = new QLabel("Span Length is a single positive real number", this);
-            SpanLengthErrorLabel->setStyleSheet("QLabel { color : red; }");
-            SpanLengthErrorLabel->setVisible(false);
-            bridgeInputLayout->addWidget(SpanLengthLineEdit, i + 2, 1);
-            bridgeInputLayout->addWidget(SpanLengthErrorLabel, i + 2, 2);
+            auto* validator = new QDoubleValidator(SpanLengthLineEdit);
+            validator->setBottom(0);
+            SpanLengthLineEdit->setValidator(validator);
+            SpanLengthLineEdit->setSizePolicy(QSizePolicy(QSizePolicy::Policy::Maximum, QSizePolicy::Policy::Maximum));
+            SpanLengthLineEdit->setMaximumSize(45, 20);
+            
+            bridgeInputLayout->addWidget(SpanLengthLineEdit, 2, i + 1);
             string index = std::to_string(i);
             QObject::connect(SpanLengthLineEdit, &QLineEdit::editingFinished, this, [=]() {
                 if (!isNumber(SpanLengthLineEdit->text().toStdString())) {
-                    SpanLengthErrorLabel->setVisible(true);
+                    mSpanLengthErrorLabel->setVisible(true);
                 }
                 else {
-                    SpanLengthErrorLabel->setVisible(false);
+                    mSpanLengthErrorLabel->setVisible(false);
                     BridgeVisual::bridgeConfigEdited();
                 }
                 });
             setTabOrder(spanLengthLineBoxes.back(), SpanLengthLineEdit);
             spanLengthLineBoxes.push_back(SpanLengthLineEdit);
-            spanLengthErrorLables.push_back(SpanLengthErrorLabel);
             setTabOrder(spanLengthLineBoxes.back(), mConcernedSection);
         }
+        bridgeInputLayout->addWidget(mSpanLengthErrorLabel, 2, spanLengthLineBoxes.size() + 1);
+        bridgeInputLayout->addWidget(mConcernedSectionErrorLabel, 3, spanLengthLineBoxes.size() + 1);
+        bridgeInputLayout->addWidget(mDiscretizationLengthErrorLabel, 4, spanLengthLineBoxes.size() + 1);
     }
 }
 
@@ -221,32 +229,56 @@ void BridgeVisual::createPage() {
     bridgeInputLayout = new QGridLayout();
     QWidget* bridgeInputWidget = new QWidget(this);
     bridgeInputWidget->setSizePolicy(QSizePolicy(
-        QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Expanding));
+        QSizePolicy::Policy::Fixed, QSizePolicy::Policy::Fixed));
     bridgeInputWidget->setLayout(bridgeInputLayout);
+    bridgeInputLayout->setHorizontalSpacing(0);
     mNumberSpans = new QComboBox(this);
+    mNumberSpans->setSizePolicy(QSizePolicy(QSizePolicy::Policy::Maximum, QSizePolicy::Policy::Maximum));
+    mNumberSpans->setMaximumSize(45, 20);
     mNumberSpans->addItem("1");
     mNumberSpans->addItem("2");
     mNumberSpans->addItem("3");
-    
+
     mNumberSpansLabel = new QLabel("Number of Spans", this);
+    mNumberSpansLabel->setSizePolicy(QSizePolicy(QSizePolicy::Policy::Fixed, QSizePolicy::Policy::Fixed));
+
     mSpanLength = new QLineEdit(this);
+    auto* validator = new QDoubleValidator(mSpanLength);
+    validator->setBottom(0);
+    mSpanLength->setValidator(validator);
+    mSpanLength->setSizePolicy(QSizePolicy(QSizePolicy::Policy::Maximum, QSizePolicy::Policy::Maximum));
+    mSpanLength->setMaximumSize(45, 20);
+
     mSpanLengthLabel = new QLabel("Span Length(m)", this);
+    mSpanLengthLabel->setSizePolicy(QSizePolicy(QSizePolicy::Policy::Fixed, QSizePolicy::Policy::Fixed));
+
     mSpanLengthErrorLabel = new QLabel("Span Length is a single positive real number", this);
     mSpanLengthErrorLabel->setStyleSheet("QLabel { color : red; }");
     mSpanLengthErrorLabel->setVisible(false);
 
     mConcernedSectionLabel = new QLabel("Concerned Section(m)", this);
+    mConcernedSectionLabel->setSizePolicy(QSizePolicy(QSizePolicy::Policy::Fixed, QSizePolicy::Policy::Fixed));
+    
     mConcernedSection = new QLineEdit(this);
+    validator = new QDoubleValidator(mConcernedSection);
+    validator->setBottom(0);
+    mConcernedSection->setValidator(validator);
+    mConcernedSection->setSizePolicy(QSizePolicy(QSizePolicy::Policy::Maximum, QSizePolicy::Policy::Maximum));
+    mConcernedSection->setMaximumSize(45, 20);
     mConcernedSectionErrorLabel = new QLabel(this);
     mConcernedSectionErrorLabel->setStyleSheet("QLabel { color : red; }");
-    mSpanLengthErrorLabel->setVisible(false);
-
+    
     mDiscretizationLengthLabel = new QLabel("Discretization Length(m)", this);
+    mDiscretizationLengthLabel->setSizePolicy(QSizePolicy(QSizePolicy::Policy::Fixed, QSizePolicy::Policy::Fixed));
+
     mDiscretizationLength = new QLineEdit(this);
+    validator = new QDoubleValidator(mDiscretizationLength);
+    validator->setBottom(0);
+    mDiscretizationLength->setValidator(validator);
+    mDiscretizationLength->setSizePolicy(QSizePolicy(QSizePolicy::Policy::Maximum, QSizePolicy::Policy::Maximum));
+    mDiscretizationLength->setMaximumSize(45, 20);
     mDiscretizationLengthErrorLabel = new QLabel(this);
     mDiscretizationLengthErrorLabel->setStyleSheet("QLabel { color : red; }");
-    mSpanLengthErrorLabel->setVisible(false);
-    
 
     bridgeInputLayout->addWidget(mNumberSpansLabel, 1, 0);
     bridgeInputLayout->addWidget(mNumberSpans, 1, 1);
@@ -255,14 +287,13 @@ void BridgeVisual::createPage() {
     bridgeInputLayout->addWidget(mSpanLength, 2, 1);
     bridgeInputLayout->addWidget(mSpanLengthErrorLabel, 2, 2);
     spanLengthLineBoxes.push_back(mSpanLength);
-    spanLengthErrorLables.push_back(mSpanLengthErrorLabel);
-    bridgeInputLayout->addWidget(mConcernedSectionLabel, 5, 0);
-    bridgeInputLayout->addWidget(mConcernedSection, 5, 1);
-    bridgeInputLayout->addWidget(mConcernedSectionErrorLabel, 5, 2);
+    bridgeInputLayout->addWidget(mConcernedSectionLabel, 3, 0);
+    bridgeInputLayout->addWidget(mConcernedSection, 3, 1);
+    bridgeInputLayout->addWidget(mConcernedSectionErrorLabel, 3, 2);
 
-    bridgeInputLayout->addWidget(mDiscretizationLengthLabel, 6, 0);
-    bridgeInputLayout->addWidget(mDiscretizationLength, 6, 1);
-    bridgeInputLayout->addWidget(mDiscretizationLengthErrorLabel, 6, 2);
+    bridgeInputLayout->addWidget(mDiscretizationLengthLabel, 4, 0);
+    bridgeInputLayout->addWidget(mDiscretizationLength, 4, 1);
+    bridgeInputLayout->addWidget(mDiscretizationLengthErrorLabel, 4, 2);
 
     bridgePageLayout->addWidget(bridgeInputWidget);
   }
