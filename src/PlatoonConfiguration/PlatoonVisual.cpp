@@ -89,6 +89,8 @@ void PlatoonVisual::numAxlesChanged(int i) {
       this->inputLayout->addWidget(axleSpacing, 4, axleSpacingList.size() + 1);
       axleSpacingList.append(axleSpacing);
     }
+    setTabOrder(axleSpacingList.last(), mSaveButton);
+    setTabOrder(mSaveButton, mLoadButton);
     return;
    }
     int num = i - axleLoadList.size();
@@ -108,6 +110,7 @@ void PlatoonVisual::numAxlesChanged(int i) {
                          &PlatoonVisual::validateLoadText);
 
         this->inputLayout->addWidget(axleLoad, 3, axleLoadList.size() + 1);
+        setTabOrder(axleLoadList.last(), axleLoad);
         axleLoadList.append(axleLoad);
 
         QLineEdit *axleSpacing = new QLineEdit(this->mInputWidget);
@@ -125,6 +128,7 @@ void PlatoonVisual::numAxlesChanged(int i) {
 
         this->inputLayout->addWidget(axleSpacing, 4,
                                      axleSpacingList.size() + 1);
+        setTabOrder(axleSpacingList.last(), axleSpacing);
         axleSpacingList.append(axleSpacing);
       }
       this->inputLayout->removeWidget(axleLoadErrorLabel);
@@ -133,6 +137,8 @@ void PlatoonVisual::numAxlesChanged(int i) {
       this->inputLayout->removeWidget(axleSpacingErrorLabel);
       this->inputLayout->addWidget(axleSpacingErrorLabel, 4,
                                    axleLoadList.size() + 1);
+      setTabOrder(axleSpacingList.last(), mSaveButton);
+      setTabOrder(mSaveButton, mLoadButton);
   } 
   else if (num < 0) {
       for (int i = 0; i > num; i--) {
