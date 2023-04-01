@@ -190,9 +190,10 @@ void BridgeVisual::numberOfSpansDetermined(QGridLayout* bridgeInputLayout, QStri
                     BridgeVisual::bridgeConfigEdited();
                 }
                 });
+            setTabOrder(spanLengthLineBoxes.back(), SpanLengthLineEdit);
             spanLengthLineBoxes.push_back(SpanLengthLineEdit);
             spanLengthErrorLables.push_back(SpanLengthErrorLabel);
-            
+            setTabOrder(spanLengthLineBoxes.back(), mConcernedSection);
         }
     }
 }
@@ -279,7 +280,7 @@ void BridgeVisual::createPage() {
   bridgePageLayout->addWidget(saveButton);
   saveButton->setDisabled(true);
 
-  loadButton = new QPushButton("Load Bridge Configuratiom", this);
+  loadButton = new QPushButton("Load Bridge Configuration", this);
   bridgePageLayout->addWidget(loadButton);
 
   //signal handlers
