@@ -64,11 +64,10 @@ private slots:
   QPushButton* animationButton;
   QPushButton* nextFrameButton;
   QPushButton* lastFrameButton;
-  QPushButton* saveButton;
   QGroupBox* saveLoadGroup;
-  // QPushButton* saveButton;
-  // QPushButton* loadButton;
-  // Truck + bridge window
+  QPushButton* saveChartButton;
+  QPushButton* saveReportButton;
+  QPushButton* loadReportButton;
 
   QTabWidget* mChartTabWidget;
   QChart* mChart;
@@ -85,11 +84,6 @@ private slots:
   QRadioButton* criticalButton;
 
   QGraphicsView* truckBridgeVisual;
-
-  QLabel* concernedSectionLabel;
-  QLineEdit* concernedSectionReminder;
-  QLabel* discretizationLengthLabel;
-  QLineEdit* discretizationLengthReminder;
 
   Report mReport;
 

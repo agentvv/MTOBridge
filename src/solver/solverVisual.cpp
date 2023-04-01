@@ -147,7 +147,7 @@ void SolverVisual::createPage() {
     });
   solverBox->addWidget(criticalButton);
   solverBox->addStretch(1);
-  this->solverSettingGroup->setFixedHeight(75);
+  this->solverSettingGroup->setFixedHeight(80);
 
   this->calculateButton = new QPushButton("Initialising...", this);
   this->calculateButton->setDisabled(true);
@@ -299,33 +299,66 @@ void SolverVisual::createPage() {
   inputLayout->addWidget(this->saveLoadGroup);
   QVBoxLayout* saveLoadBox = new QVBoxLayout;
   this->saveLoadGroup->setLayout(saveLoadBox);
-  QPushButton* saveButton = new QPushButton("Save Solver Figure", this);
 
+  this->saveChartButton = new QPushButton("Save Chart", this);
+  this->saveChartButton->setDisabled(true);
+  QObject::connect(this->saveChartButton, &QPushButton::clicked, this, [&]() {
+    std::vector<double> x_vals = this->mReport.results.firstAxlePosition;
+    std::vector<double> y_vals;
+    if (this->mReport.input.solverConfig.solverType == MockSolverT::CONCERNED) {
+      y_vals = this->mReport.results.forceConcernedSection;
+    }
+    else {
+      y_vals = this->mReport.results.forceCriticalSection;
+    }
+    QLineSeries* series = new QLineSeries(this->mChart);
+    for (int i = 0; i < x_vals.size(); i++) {
+      series->append(QPointF(x_vals[i], y_vals[i]));
+    }
+    this->mChart->removeAllSeries();
+    this->mChart->addSeries(series);
+    foreach(QAbstractAxis * axis, this->mChart->axes()) {
+      series->attachAxis(axis);
+    }
 
-  saveLoadBox->addWidget(saveButton);
-  QPushButton* loadButton = new QPushButton("Load Report", this);
+    saver::saveSolverFigure(*mChartView->scene());
 
-  QObject::connect(loadButton, &QPushButton::clicked, this, [&]() {
+    double xMax = (this->truckGroup->x() - this->animationMin) / PIXELS_PER_METER;
+    series = new QLineSeries(this->mChart);
+    for (int i = 0; i < x_vals.size(); i++) {
+      if (x_vals[i] > xMax) break;
+      series->append(QPointF(x_vals[i], y_vals[i]));
+    }
+    this->mChart->removeAllSeries();
+    this->mChart->addSeries(series);
+    foreach(QAbstractAxis * axis, this->mChart->axes()) {
+      series->attachAxis(axis);
+    }
+    });
+  saveLoadBox->addWidget(this->saveChartButton);
+
+  this->saveReportButton = new QPushButton("Save Report", this);
+  this->saveReportButton->setDisabled(true);
+  QObject::connect(this->saveReportButton, &QPushButton::clicked, this, [&]() {
+    this->saveReportButton->setDisabled(true);
+    mtobridge::saver::saveReport(mReport);
+    this->saveReportButton->setDisabled(false);
+    });
+  saveLoadBox->addWidget(this->saveReportButton);
+
+  this->loadReportButton = new QPushButton("Load From Report", this);
+  this->loadReportButton->setDisabled(true);
+  QObject::connect(this->loadReportButton, &QPushButton::clicked, this, [&]() {
     emit loadReport();
     updatePage();
     });
+  saveLoadBox->addWidget(this->loadReportButton);
 
-  saveLoadBox->addWidget(loadButton);
   saveLoadBox->addStretch(1);
-  this->saveLoadGroup->setFixedHeight(100);
-  {
-    this->saveButton = new QPushButton("Save Results", this);
-    this->saveButton->setDisabled(true);
-    QObject::connect(this->saveButton, &QPushButton::clicked, this, [&]() {
-      this->saveButton->setDisabled(true);
-      mtobridge::saver::saveReport(mReport);
-      this->saveButton->setDisabled(false);
-    });
-    inputLayout->addWidget(this->saveButton);
-  }
+  this->saveLoadGroup->setFixedHeight(120);
   
   this->truckBridgeVisual = new QGraphicsView(this);
-  this->truckBridgeVisual->setFixedHeight(130);
+  this->truckBridgeVisual->setFixedHeight(115);
   QGraphicsScene* truckBridgeScene = new QGraphicsScene;
   this->truckBridgeVisual->setScene(truckBridgeScene);
   this->truckBridgeVisual->setAlignment(Qt::AlignLeft | Qt::AlignTop);
@@ -336,9 +369,6 @@ void SolverVisual::createPage() {
   this->discretizationLengthText = NULL;
   this->criticalSectionLine = NULL;
 
-  QObject::connect(saveButton, &QPushButton::clicked, this, [&]() {      
-      saver::saveSolverFigure(*mChartView->scene());
-  });
   auto& engine = Engine::getInstance();
 
   // add command for engine to run
@@ -348,6 +378,7 @@ void SolverVisual::createPage() {
   // enable buttons as soon as matlab is ready to go
   QObject::connect(&engine, &Engine::engineStarted, this, [&]() {
     this->calculateButton->setText("Run Analysis");
+    this->loadReportButton->setDisabled(false);
     if (this->truckGroup->childItems().size() != 0 && this->bridgeGroup->childItems().size() != 0) {
       this->calculateButton->setDisabled(false);
     }
@@ -387,7 +418,7 @@ void SolverVisual::setTruckPosition(double x) {
   if (x > this->animationMax) x = this->animationMax;
   else if (x < this->animationMin) x = this->animationMin;
 
-  this->truckGroup->setPos(x, 1);
+  this->truckGroup->setPos(x, 5);
 
   double xMax = (x - this->animationMin) / PIXELS_PER_METER;
   std::vector<double> x_vals = this->mReport.results.firstAxlePosition;
@@ -544,7 +575,8 @@ void SolverVisual::updateChart(MockCalculationInputT in,
     mEnvelopeChartView->setChart(mEnvelopeChart);
   }
 
-  this->saveButton->setDisabled(false);
+  this->saveReportButton->setDisabled(false);
+  this->saveChartButton->setDisabled(false);
   this->animationStatus = RunningForward;
   this->backFrameButton->setDisabled(true);
   this->firstFrameButton->setDisabled(true);
@@ -565,7 +597,8 @@ void SolverVisual::setUpAnimation() {
   this->lastFrameButton->setDisabled(true);
   this->animationButton->setText("Play");
   this->animationButton->setDisabled(true);
-  this->saveButton->setDisabled(true);
+  this->saveReportButton->setDisabled(true);
+  this->saveChartButton->setDisabled(true);
   if (this->calculateButton->text() != "Initialising...") {
     this->calculateButton->setText("Run Analysis");
     this->calculateButton->setDisabled(true);
@@ -591,9 +624,9 @@ void SolverVisual::setUpAnimation() {
 
   if (this->bridgeGroup->childItems().size() != 0) {
     //Set Bridge location
-    double width = (this->bridgeGroup->boundingRect().width() < 750) ? 750 : this->bridgeGroup->boundingRect().width();
+    double width = (this->bridgeGroup->boundingRect().width() + 10 < this->truckBridgeVisual->maximumViewportSize().width()) ? this->truckBridgeVisual->maximumViewportSize().width() : this->bridgeGroup->boundingRect().width() + 10;
     this->truckBridgeVisual->setSceneRect(0, 0, width, 110);
-    this->bridgeGroup->setPos(( width - this->bridgeGroup->boundingRect().width() ) / 2, 48);
+    this->bridgeGroup->setPos(( width - this->bridgeGroup->boundingRect().width() ) / 2, 29);
 
     if (this->concernedButton->isChecked()) {
       if (this->discretizationLengthText != NULL) {
@@ -611,7 +644,7 @@ void SolverVisual::setUpAnimation() {
 
       if (this->discretizationLengthText != NULL) {
         this->discretizationLengthText->show();
-        this->discretizationLengthText->setPos((width - this->discretizationLengthText->boundingRect().width()) / 2, 88);
+        this->discretizationLengthText->setPos((width - this->discretizationLengthText->boundingRect().width()) / 2, 69);
       }
     }
   }
@@ -629,10 +662,11 @@ void SolverVisual::setUpAnimation() {
     this->animationInc = (int)ceil(PIXELS_PER_METER * TRUCK_POSITION_INCREMENT);
     this->animationSpeed = ANIMATION_TIME / ((this->animationMax - this->animationMin) / this->animationInc);
 
-    this->truckGroup->setPos(this->animationMin, 1);
+    this->truckGroup->setPos(this->animationMin, 5);
   }
   else if (this->truckGroup->childItems().size() != 0) {
-    this->truckGroup->setPos(10, 1);
+    this->truckBridgeVisual->setSceneRect(0, 0, this->truckBridgeVisual->maximumViewportSize().width(), 110);
+    this->truckGroup->setPos(10, 5);
   }
 }
 
@@ -728,7 +762,8 @@ void SolverVisual::calculateClicked()
 {
   this->calculateButton->setDisabled(true);
   this->calculateButton->setText("Analysing...");
-  this->saveButton->setDisabled(true);
+  this->saveReportButton->setDisabled(true);
+  this->saveChartButton->setDisabled(true);
   this->backFrameButton->setDisabled(true);
   this->firstFrameButton->setDisabled(true);
   this->nextFrameButton->setDisabled(true);
