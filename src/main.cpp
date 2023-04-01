@@ -8,7 +8,7 @@
 
   int main(int argc, char* argv[]) {
     QApplication app(argc, argv);
-    
+    QApplication::setStyle("fusion");
     mtobridge::Window window;
     window.show();
     

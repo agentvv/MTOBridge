@@ -22,7 +22,7 @@ QPen blackPen(Qt::black);
 
 void PlatoonVisual::validateLoadText(QString s) {
     QLineEdit *sender = static_cast<QLineEdit *>(this->sender());
-    if (sender == nullptr) {
+    if (sender == nullptr || axleLoadErrorLabel == nullptr) {
       return;
     }
     int cursorPosition = 0;
@@ -32,14 +32,16 @@ void PlatoonVisual::validateLoadText(QString s) {
         sender->validator()->validate(s, cursorPosition) ==
             QValidator::Intermediate) {
       sender->setStyleSheet("border: 1px solid red");
+      axleLoadErrorLabel->setVisible(true);
   } else {
-      sender->setStyleSheet("border: 1px solid gray");
+      sender->setStyleSheet("");
+      axleLoadErrorLabel->setVisible(false);
   }
     
 }
 void PlatoonVisual::validateSpacingText(QString s) {
     QLineEdit *sender = static_cast<QLineEdit *>(this->sender());
-    if (sender == nullptr) {
+  if (sender == nullptr || axleSpacingErrorLabel == nullptr) {
       return;
     }
     int cursorPosition = 0;
@@ -49,8 +51,10 @@ void PlatoonVisual::validateSpacingText(QString s) {
         sender->validator()->validate(s, cursorPosition) ==
             QValidator::Intermediate)) {
       sender->setStyleSheet("border: 1px solid red");
+      axleSpacingErrorLabel->setVisible(true);
     } else {
-      sender->setStyleSheet("border: 1px solid gray");
+      sender->setStyleSheet("");
+      axleSpacingErrorLabel->setVisible(false);
     }
 }
 void PlatoonVisual::numAxlesChanged(int i) {
@@ -123,6 +127,12 @@ void PlatoonVisual::numAxlesChanged(int i) {
                                      axleSpacingList.size() + 1);
         axleSpacingList.append(axleSpacing);
       }
+      this->inputLayout->removeWidget(axleLoadErrorLabel);
+      this->inputLayout->addWidget(axleLoadErrorLabel, 3,
+                                   axleLoadList.size() + 1);
+      this->inputLayout->removeWidget(axleSpacingErrorLabel);
+      this->inputLayout->addWidget(axleSpacingErrorLabel, 4,
+                                   axleLoadList.size() + 1);
   } 
   else if (num < 0) {
       for (int i = 0; i > num; i--) {
@@ -256,11 +266,12 @@ void PlatoonVisual::platoonConfigured() {
         truck->setZValue(i+1);
   }
   QRectF itemRect = mSceneWidget->itemsBoundingRect();
-  QRectF PaddedRect(itemRect.left() - itemRect.width() * 0.1,itemRect.top() - itemRect.height() * 0.1,
-                    itemRect.width() * 1.2, itemRect.height() * 1.2);
-  mSceneWidget->setSceneRect(PaddedRect);
+  //QRectF PaddedRect(itemRect.left() - itemRect.width() * 0.1,itemRect.top() - itemRect.height() * 0.1,
+                    //itemRect.width() * 1.2, itemRect.height() * 1.2);
+  mSceneWidget->setSceneRect(itemRect);
   mViewWidget->fitInView(mSceneWidget->sceneRect(), Qt::KeepAspectRatio);
   mViewWidget->centerOn(mSceneWidget->sceneRect().center());
+  mSaveButton->setDisabled(false);
 }
 void PlatoonVisual::saveButtonClicked() {
   MockTruckT config;
@@ -277,27 +288,22 @@ void PlatoonVisual::saveButtonClicked() {
 void PlatoonVisual::loadButtonClicked() {
   MockTruckT config = loader::loadPlatoonConfiguration();
 
-  QString spacings;
-  std::vector<double>::iterator it = config.axleSpacing.begin();
-  while (it != config.axleSpacing.end()) {
-    spacings += QString::number(*it) + " ";
-    it++;
-  }
-  PlatoonConfiguration::updateAxleSpacing(spacings);
-  QString spacings2;
-  std::vector<double>::iterator it2 = config.axleLoad.begin();
-  while (it2 != config.axleLoad.end()) {
-    spacings2 += QString::number(*it2) + " ";
-    it2++;
+  PlatoonConfiguration::updateAxleSpacing(config.axleSpacing);
+  PlatoonConfiguration::updateAxleLoad(config.axleLoad);
+  PlatoonConfiguration::updateHeadway(config.headway);
+  PlatoonConfiguration::updateNumberOfTrucks(config.numberOfTrucks);
+
+  mNumberOfAxles->setValue(config.axleLoad.size());
+  for (int i = 0; i < axleSpacingList.size(); i++) {
+        auto spacing = QString::number(config.axleSpacing[i]);
+        axleSpacingList[i]->setText(spacing);
   }
 
-  PlatoonConfiguration::updateAxleLoad(spacings2);
-  PlatoonConfiguration::updateHeadway(QString::number(config.headway));
-  PlatoonConfiguration::updateNumberOfTrucks(
-      QString::number(config.numberOfTrucks));
+  for (int i = 0; i < axleLoadList.size(); i++) {
+        auto load = QString::number(config.axleLoad[i]);
+        axleLoadList[i]->setText(load);
+  }
 
-  mAxleSpacing->setText(spacings);
-  mAxleLoad->setText(spacings2);
   mNumberOfTrucks->setValue(config.numberOfTrucks);
   mHeadway->setValue(config.headway);
 
@@ -335,31 +341,44 @@ void PlatoonVisual::createPage() {
     mHeadway->setDecimals(1);
 
 
-    mHeadwayLabel = new QLabel("Truck Headway (m)", mInputWidget);
+    mHeadwayLabel = new QLabel("Truck Headway (Min 5m)", mInputWidget);
     mHeadwayLabel->setSizePolicy(QSizePolicy(QSizePolicy::Policy::Fixed, QSizePolicy::Policy::Fixed));
    
     mNumberOfAxles = new QSpinBox(mInputWidget);
     mNumberOfAxles->setMinimum(3);
+    mNumberOfAxles->setMaximum(17);
     mNumberOfAxles->setSizePolicy(QSizePolicy(QSizePolicy::Policy::Maximum,QSizePolicy::Policy::Maximum));
     mNumberOfAxles->setMaximumSize(45, 20);
 
-    mNumberOfAxlesLabel = new QLabel("Number of Axles", mInputWidget);
+    mNumberOfAxlesLabel = new QLabel("Number of Axles (Max 17)", mInputWidget);
     mNumberOfAxlesLabel->setSizePolicy(
         QSizePolicy(QSizePolicy::Policy::Fixed, QSizePolicy::Policy::Fixed));
 
-    mAxleLoadLabel = new QLabel("Axle Load (kNm) ", mInputWidget);
+    mAxleLoadLabel = new QLabel("Axle Loads (Max 1000 kN) ", mInputWidget);
     mAxleLoadLabel->setSizePolicy(QSizePolicy(QSizePolicy::Policy::Fixed, QSizePolicy::Policy::Fixed));
 
+    axleLoadErrorLabel = new QLabel("", this->mInputWidget);
+    axleLoadErrorLabel->setText(
+        "One of your Axle Loads is unrealistically large/small!");
+    axleLoadErrorLabel->setStyleSheet("color: red");
+    axleLoadErrorLabel->setVisible(false);
 
-    mAxleSpacingLabel = new QLabel("Axle Spacing (m)", mInputWidget);
+    mAxleSpacingLabel = new QLabel("Axle Spacings (Min 1.2m)", mInputWidget);
     mAxleSpacingLabel->setSizePolicy(QSizePolicy(QSizePolicy::Policy::Fixed, QSizePolicy::Policy::Fixed));
+    axleSpacingErrorLabel = new QLabel("", this->mInputWidget);
+    axleSpacingErrorLabel->setText(
+        "Axles cannot be less than 1.2m apart!");
+    axleSpacingErrorLabel->setStyleSheet("color: red");
+    axleSpacingErrorLabel->setVisible(false);
 
     mSaveButton = new QPushButton("Save Truck Configuration", this);
-    mSaveButton->setSizePolicy(QSizePolicy(QSizePolicy::Policy::Fixed, QSizePolicy::Policy::Fixed));
+    mSaveButton->setSizePolicy(QSizePolicy(QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Fixed));
+    mSaveButton->setDisabled(true);
 
     mLoadButton = new QPushButton("Load Truck Configuration", this);
-    mLoadButton->setSizePolicy(QSizePolicy(QSizePolicy::Policy::Fixed, QSizePolicy::Policy::Fixed));
+    mLoadButton->setSizePolicy(QSizePolicy(QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Fixed));
 
+    numAxlesChanged(3);
 
     inputLayout->addWidget(mNumberOfTrucksLabel, 0, 0);
     inputLayout->addWidget(mNumberOfTrucks, 0, 1);
@@ -368,17 +387,20 @@ void PlatoonVisual::createPage() {
     inputLayout->addWidget(mNumberOfAxlesLabel, 2, 0);
     inputLayout->addWidget(mNumberOfAxles, 2, 1);
     inputLayout->addWidget(mAxleLoadLabel, 3, 0);
+    inputLayout->addWidget(axleLoadErrorLabel, 3,axleLoadList.size() + 1);
     inputLayout->addWidget(mAxleSpacingLabel, 4, 0);
-    inputLayout->addWidget(mSaveButton, 5, 0);
-    inputLayout->addWidget(mLoadButton, 6, 0);
+    inputLayout->addWidget(axleSpacingErrorLabel, 4, axleLoadList.size() + 1);
+    /*inputLayout->addWidget(mSaveButton, 5, 0);
+    inputLayout->addWidget(mLoadButton, 6, 0);*/
     inputLayout->setHorizontalSpacing(0);
-    numAxlesChanged(3);
-
+    
     mViewWidget = new QGraphicsView(this);
     mSceneWidget = new QGraphicsScene(this);
     mViewWidget->setScene(mSceneWidget);
     pageLayout->addWidget(mInputWidget);
     pageLayout->addWidget(mViewWidget);
+    pageLayout->addWidget(mSaveButton);
+    pageLayout->addWidget(mLoadButton);
 
     QObject::connect(mNumberOfAxles, &QSpinBox::valueChanged, this,
                      &PlatoonVisual::numAxlesChanged);

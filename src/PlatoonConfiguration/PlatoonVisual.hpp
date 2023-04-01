@@ -50,6 +50,8 @@ public slots:
   QPushButton *mLoadButton;
   QDoubleValidator *axleLoadValidator;
   QDoubleValidator *axleSpacingValidator;
+  QLabel *axleLoadErrorLabel;
+  QLabel *axleSpacingErrorLabel;
 
   QGraphicsScene *mSceneWidget;
   QGraphicsView *mViewWidget;

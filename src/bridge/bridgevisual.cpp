@@ -139,11 +139,21 @@ void BridgeVisual::bridgeConfigEdited() {
     QGraphicsRectItem* bridge = mScene->addRect(4 * topLayerWidth, topLayerWidth, (bridgeLength - 8 * topLayerWidth), 2 * topLayerWidth, blackpen, lightGrayBrush);//Sketching the bridge
     bridge->setZValue(1);
 
-    QGraphicsTextItem* text = mScene->addText("Discretization Length: " + mDiscretizationLength->text()); //Indicating Discretization Length
+    QGraphicsTextItem* text = mScene->addText(
+        "Discretization Length: " + mDiscretizationLength->text() +
+        "m");  // Indicating Discretization Length
     text->setPos(( bridgeLength - text->boundingRect().width() ) / 2, 8 * topLayerWidth);
 
     QGraphicsLineItem* concernedLine = mScene->addLine(4 * topLayerWidth + configBridge.concernedSection * scale, topLayerWidth + 1, 4 * topLayerWidth + configBridge.concernedSection * scale, 3 * topLayerWidth - 1, redpen); // Indicating Concerned Section
     concernedLine->setZValue(2);
+
+    QRectF itemRect = mScene->itemsBoundingRect();
+    QRectF PaddedRect(itemRect.left() - itemRect.width() * 0.1,
+                      itemRect.top() - itemRect.height() * 0.1,
+                      itemRect.width() * 1.2, itemRect.height() * 1.2);
+    mScene->setSceneRect(PaddedRect);
+    mVisualizerView->fitInView(mScene->sceneRect(), Qt::KeepAspectRatio);
+    mVisualizerView->centerOn(mScene->sceneRect().center());
 
     this->saveButton->setDisabled(false);
 }
@@ -265,11 +275,11 @@ void BridgeVisual::createPage() {
                                             QSizePolicy::Policy::Expanding));
   bridgeIOWidget->setLayout(bridgeIOLayout);
 
-  saveButton = new QPushButton("Save Config", this);
+  saveButton = new QPushButton("Save Bridge Configuration", this);
   bridgePageLayout->addWidget(saveButton);
   saveButton->setDisabled(true);
 
-  loadButton = new QPushButton("Load Config", this);
+  loadButton = new QPushButton("Load Bridge Configuratiom", this);
   bridgePageLayout->addWidget(loadButton);
 
   //signal handlers
