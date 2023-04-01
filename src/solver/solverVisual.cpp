@@ -625,7 +625,7 @@ void SolverVisual::setUpAnimation() {
   if (this->bridgeGroup->childItems().size() != 0) {
     //Set Bridge location
     double width = (this->bridgeGroup->boundingRect().width() + 10 < this->truckBridgeVisual->maximumViewportSize().width()) ? this->truckBridgeVisual->maximumViewportSize().width() : this->bridgeGroup->boundingRect().width() + 10;
-    this->truckBridgeVisual->setSceneRect(0, 0, width, 110);
+    this->truckBridgeVisual->setSceneRect(0, 0, width, 95);
     this->bridgeGroup->setPos(( width - this->bridgeGroup->boundingRect().width() ) / 2, 29);
 
     if (this->concernedButton->isChecked()) {
@@ -665,7 +665,7 @@ void SolverVisual::setUpAnimation() {
     this->truckGroup->setPos(this->animationMin, 5);
   }
   else if (this->truckGroup->childItems().size() != 0) {
-    this->truckBridgeVisual->setSceneRect(0, 0, this->truckBridgeVisual->maximumViewportSize().width(), 110);
+    this->truckBridgeVisual->setSceneRect(0, 0, this->truckBridgeVisual->maximumViewportSize().width(), 95);
     this->truckGroup->setPos(10, 5);
   }
 }
