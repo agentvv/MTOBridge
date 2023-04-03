@@ -1,5 +1,6 @@
 \documentclass[12pt, titlepage]{article}
 
+\usepackage{pdflscape}
 \usepackage{fullpage}
 \usepackage[round]{natbib}
 \usepackage{multirow}
@@ -19,6 +20,7 @@
 \input{../../Comments}
 \input{../../Common}
 
+
 \newcounter{acnum}
 \newcommand{\actheacnum}{AC\theacnum}
 \newcommand{\acref}[1]{AC\ref{#1}}
@@ -33,7 +35,7 @@
 
 \begin{document}
 
-\title{Module Guide for \progname{}} 
+\title{System Design for \progname{}} 
 \author{\authname}
 \date{\today}
 
@@ -43,12 +45,18 @@
 
 \section{Revision History}
 
-\begin{tabularx}{\textwidth}{p{3cm}p{4cm}X}
-\toprule {\bf Date} & {\bf Developer(s)} & {\bf Notes}\\
+\begin{tabularx}{\textwidth}{p{2.5cm}p{3.5cm}X}
+\toprule {\bf Date} & {\bf Developer(s)} & {\bf Change}\\
 \midrule
-2023-01-17& Adham & Added Sections 4,5,7, and 8\\
-2023-01-17& Farzad & Added Introduction\\
-2023-01-17& Victor & Added Use Hierarchy\\
+15/01/2023 & Farzad & Initial Draft\\
+17/01/2023 & Victor & Added Timeline and Protocol Design\\
+18/01/2023 & Adham & Added Reflection\\
+18/01/2023 & Darren & Added Reflection\\
+18/01/2023 & Pedram & Added Reflection\\
+18/01/2023 & David & Added Reflection\\
+18/01/2023 & Victor & Added Reflection\\
+18/01/2023 & Farzad & Added Reflection\\
+4/03/2023 & Pedram & Rev1 Changes\\
 \bottomrule
 \end{tabularx}
 
@@ -65,22 +73,15 @@ This section records information for easy reference.
   \toprule		
   \textbf{symbol} & \textbf{description}\\
   \midrule 
-  AC & Anticipated Change\\
-  DAG & Directed Acyclic Graph \\
-  M & Module \\
-  MG & Module Guide \\
-  OS & Operating System \\
-  R & Requirement\\
-  SC & Scientific Computing \\
-  SRS & Software Requirements Specification\\
-  \progname & Explanation of program name\\
-  UC & Unlikely Change \\
+  \progname & This is the name of the program being designed\\
   \bottomrule
 \end{tabular}\\
 
 \newpage
 
 \tableofcontents
+
+\newpage
 
 \listoftables
 
@@ -91,580 +92,239 @@ This section records information for easy reference.
 \pagenumbering{arabic}
 
 \section{Introduction}
+The following is a high-level system design document for the MTOBridge software, a program for load-rating bridges experiencing strain caused by self-driving truck platoons. For more information on this software, you can consult the following documents as needed:\\
+\href{../../SRS/SRS.pdf}{Link to SRS}\\
+\href{../../HazardAnalysis/HazardAnalysis.pdf}{Link to HA}\\
+\href{../../VnVPlan/VnVPlan.pdf}{Link to V\&V}\\
+\href{../../Design/SoftArchitecture/MG.pdf}{Link to MG}\\
+\href{../../Design/SystDesign/SystDes.pdf}{Link to MIS}
 
-Decomposing a system into modules is a commonly accepted approach to developing
-software.  A module is a work assignment for a programmer or programming
-team~\citep{ParnasEtAl1984}.  We advocate a decomposition
-based on the principle of information hiding~\citep{Parnas1972a}.  This
-principle supports design for change, because the ``secrets'' that each module
-hides represent likely future changes.  Design for change is valuable in SC,
-where modifications are frequent, especially during initial development as the
-solution space is explored.  
+\section{Purpose}
+This document is intended to provide a high-level view of the design decisions made with regard to the user interface component of the MTOBridge software, along with a planned timeline of implementation.
 
-Our design follows the rules layed out by \citet{ParnasEtAl1984}, as follows:
-\begin{itemize}
-\item System details that are likely to change independently should be the
-  secrets of separate modules.
-\item Each data structure is implemented in only one module.
-\item Any other program that requires information stored in a module's data
-  structures must obtain it by calling access programs belonging to that module.
-\end{itemize}
-
-After completing the first stage of the design, the Software Requirements
-Specification (SRS), the Module Guide (MG) is developed~\citep{ParnasEtAl1984}. The MG
-specifies the modular structure of the system and is intended to allow both
-designers and maintainers to easily identify the parts of the software.  The
-potential readers of this document are as follows:
-
-\begin{itemize}
-\item New project members: This document can be a guide for a new project member
-  to easily understand the overall structure and quickly find the
-  relevant modules they are searching for.
-\item Maintainers: The hierarchical structure of the module guide improves the
-  maintainers' understanding when they need to make changes to the system. It is
-  important for a maintainer to update the relevant sections of the document
-  after changes have been made.
-\item Designers: Once the module guide has been written, it can be used to
-  check for consistency, feasibility, and flexibility. Designers can verify the
-  system in various ways, such as consistency among modules, feasibility of the
-  decomposition, and flexibility of the design.
-\end{itemize}
-
-\subsection{System Purpose}
-This project aims to develop an application MTOBridge that leverages novel bridge analysis methods and better visualizes their outputs while enhancing the user experience.
-This enables the refined methods of analysis to become routine for bridge design and evaluation. Moreover, A unique feature of MTOBridge which is otherwise unavailable in other
-bridge design/evaluation software, is that a direct comparison can be obtained between the results obtained from the CHBDC approximate/simplified approach and those from the
-refined analysis. This endeavor will facilitate confidence in using refined analysis for bridge evaluation and design.
-
-\subsection{Document Purpose}
-The Purpose of this document is to demonstrate how the system is decomposed into modules and communicate the overall design of the system which satisfies the requirements
- mentioned in the SRS. As a result helping future project members, maintainers, and designers to easily identify the parts of the software.
-
-\subsection{System Scope}
-The system is meant for use in offices (including home offices) by civil engineers designing or retrofitting bridges.
-
-\subsection{Document Scope}
-The scope of this document includes modules created by the development team and not components provided by the stakeholder (such as the MATLAB engines) 
-or third-party libraries.
-
-The rest of the document is organized as follows. Section
-\ref{SecChange} lists the anticipated and unlikely changes of the software
-requirements. Section \ref{SecMH} summarizes the module decomposition that
-was constructed according to the likely changes. Section \ref{SecConnection}
-specifies the connections between the software requirements and the
-modules. Section \ref{SecMD} gives a detailed description of the
-modules. Section \ref{SecTM} includes two traceability matrices. One checks
-the completeness of the design against the requirements provided in the SRS. The
-other shows the relation between anticipated changes and the modules. Section
-\ref{SecUse} describes the use relation between modules.
-
-\section{Anticipated and Unlikely Changes} \label{SecChange}
-
-This section lists possible changes to the system. According to the likeliness
-of the change, the possible changes are classified into two
-categories. Anticipated changes are listed in Section \ref{SecAchange}, and
-unlikely changes are listed in Section \ref{SecUchange}.
-
-\subsection{Anticipated Changes} \label{SecAchange}
-
-Anticipated changes are the source of the information that is to be hidden
-inside the modules. Ideally, changing one of the anticipated changes will only
-require changing the one module that hides the associated decision. The approach
-adapted here is called design for
-change.
-
-\begin{enumerate}
-    \item How the set of backend MATLAB functions will be called
-    \item How the calculation call will be visualized
-    \item The format of the truck platoon input data
-    \item How the truck platoon input data is stored
-    \item The method of visualizing the truck platoon configuration
-    \item The method of visualizing the truck platoon data saving
-    \item The method of visualizing the truck platoon data loading
-    \item The format of the bridge input data
-    \item How the bridge input data is stored
-    \item The method of visualizing the bridge configuration
-    \item The method of visualizing the bridge data saving
-    \item The method of visualizing the bridge data loading
-    \item How the solver configuration data is stored
-    \item The method of visualizing the solver configuration
-    \item The format of the solver configuration data
-    \item How the concerned section specification data is stored
-    \item How the critical section specification data is stored
-    \item The method of visualizing the solver configuration data saving
-    \item The method of visualizing the solver configuration data loading
-    \item How data is saved to the file system 
-    \item How data is loaded from the file system 
-    \item The format of the output report created by the program
-    \item The method by which the Output Report is visualized for the user
-    \item How the output report data is stored
-    \item The method of visualizing the output report saving
-    \item The set of backend MATLAB calculations called by the program
-\end{enumerate}    
-
-\subsection{Unlikely Changes} \label{SecUchange}
-
-The module design should be as general as possible. However, a general system is
-more complex. Sometimes this complexity is not necessary. Fixing some design
-decisions at the system architecture stage can simplify the software design. If
-these decision should later need to be changed, then many parts of the design
-will potentially need to be modified. Hence, it is not intended that these
-decisions will be changed.
-
-\begin{itemize}
-    \item The language the backend calculations are written in
-    \item The operating system the program will run on
-    \item The input/output devices available to the user
-    \item The baseline level of technical knowledge of the users of the software
-    \item The primary functions of the software (i.e, visually and textually representing the results of forces imparted on some bridge by some truck platoon)
-    \item The publicity of the software (expected to be a private in-house software used only by the MTO)
-    \item The number of solvers available to choose between
-\end{itemize}
-
-\section{Module Hierarchy} \label{SecMH}
-
-This section provides an overview of the module design. Modules are summarized
-in a hierarchy decomposed by secrets. The modules listed
-below, which are leaves in the hierarchy tree, are the modules that will
-actually be implemented. For clarity, The three top level categories as well and all leaf nodes are bolded.
-
-\begin{enumerate}
-    \item[|] \textbf{Hardware Hiding}
-    \begin{enumerate}
-        \item[|] Data Storage Hiding
-        \begin{enumerate}
-            \item[|] Input Data Storage Hiding
-            \begin{enumerate}
-                \item[|] \textbf{Truck Platoon Configuration Data Storage Hiding}
-                \item[|] \textbf{Bridge Configuration Data Storage Hiding}
-            \end{enumerate}
-            \item[|] Calculation Data Storage Hiding
-            \begin{enumerate}
-                \item[|] Calculation Variable Data Storage Hiding
-                \begin{itemize}
-                    \item[|] \textbf{Solver Choice Data Storage Hiding}
-                    \item[|] \textbf{Concerned Section Specification Data Storage Hiding}
-                    \item[|] \textbf{Critical Section Specification Data Storage Hiding}
-                \end{itemize}
-                \item[|] \textbf{Output Report Data Storage Hiding}
-            \end{enumerate}
-        \end{enumerate}
-        \item[|] File System Hiding
-        \begin{enumerate}
-            \item[|] \textbf{Save To File System Hiding}
-            \item[|] \textbf{Load From File System Hiding} 
-        \end{enumerate}
-    \end{enumerate}
-    \item[|] \textbf{Software Decision Hiding}
-    \begin{enumerate}
-        \item[|] \textbf{Calculation Call Hiding}
-        \item[|] \textbf{MATLAB Code Hiding}
-        \item[|] Data Format Hiding
-        \begin{enumerate}
-            \item[|] Configuration Data Format Hiding
-            \begin{itemize}
-                \item[|] \textbf{Truck Platoon Configuration Data Format Hiding}
-                \item[|] \textbf{Bridge Configuration Data Format Hiding}
-                \item[|] \textbf{Solver Configuration Data Format Hiding}
-            \end{itemize}
-            \item[|] \textbf{Report Data Format Hiding}
-        \end{enumerate}
-    \end{enumerate}
-    \item[|] \textbf{Behavior Hiding}
-    \begin{enumerate}
-        \item[|] Visualization Hiding
-        \begin{enumerate}
-            \item[|] Configuration Visualization Hiding
-            \begin{itemize}
-                \item[|] \textbf{Truck Platoon Configuration Visualization Hiding}
-                \item[|] \textbf{Bridge Configuration Visualization Hiding}
-            \end{itemize}
-            \item[|] Calculation Visualization Hiding
-            \begin{itemize}
-                \item[|] \textbf{Calculation Call Visualization Hiding}
-                \item[|] \textbf{Solver Configuration Visualization Hiding}
-            \end{itemize}
-            \item[|] \textbf{Output Report Visualization Hiding}
-            \item[|] File System Visualization Hiding
-            \begin{itemize}
-                \item[|] {Save To File System Visualization Hiding}
-                \begin{itemize}
-                    \item[|] \textbf{Truck Platoon Configuration Save To File System Visualization Hiding}
-                    \item[|] \textbf{Bridge Configuration Save To File System Visualization Hiding}
-                    \item[|] \textbf{Solver Configuration Save To File System Visualization Hiding}
-                    \item[|] \textbf{Output Report Save To File System Visualization Hiding}
-                \end{itemize}
-                \item[|] {Load From File System Visualization Hiding}
-                \begin{itemize}
-                    \item[|] \textbf{Truck Platoon Configuration Load From File System Visualization Hiding}
-                    \item[|] \textbf{Bridge Configuration Load From File System Visualization Hiding}
-                    \item[|] \textbf{Solver Configuration Load From File System Visualization Hiding}
-                \end{itemize}
-            \end{itemize}
-        \end{enumerate}
-    \end{enumerate}
-\end{enumerate}
-
-\section{Connection Between Requirements and Design} \label{SecConnection}
-
-The design of the system is intended to satisfy the requirements developed in
-the SRS. In this stage, the system is decomposed into modules. The connection
-between requirements and modules is listed in Table~\ref{TblRT}.
-
-\section{Module Decomposition} \label{SecMD}
-
-Modules are decomposed according to the principle of ``information hiding''
-proposed by \citet{ParnasEtAl1984}. The \emph{Secrets} field in a module
-decomposition is a brief statement of the design decision hidden by the
-module. The \emph{Services} field specifies \emph{what} the module will do
-without documenting \emph{how} to do it. For each module, a suggestion for the
-implementing software is given under the \emph{Implemented By} title. If the
-entry is \emph{OS}, this means that the module is provided by the operating
-system or by standard programming language libraries.  \emph{\progname{}} means the
-module will be implemented by the \progname{} software.
-
-Only the leaf modules in the hierarchy have to be implemented. If a dash
-(\emph{--}) is shown, this means that the module is not a leaf and will not have
-to be implemented.
-
-\subsection{Hardware Hiding Modules}
-\emph{{\large Data Storage Hiding}}
-    \begin{description}
-        \item[Secrets:] How to store all program data on the machine
-        \item[Services:]Takes data configurations or calculation results and stores them for later use by the program.
-        \item[Implemented By:] -- \\
-    \end{description}
-    \emph{{\large Input Data Storage Hiding}}
-    \begin{description}
-        \item[Secrets:] How to store all input data on the machine
-        \item[Services:] Takes data configurations and stores them for later use by the program
-        \item[Implemented By:] -- \\
-    \end{description}
-    \emph{{\large Truck Platoon Configuration Data Storage Hiding}}
-    \begin{description}
-        \item[Secrets:] How to store truck platoon configuration data on the machine
-        \item[Services:]Takes a truck platoon configuration and stores it for later use by the program
-        \item[Implemented By:] OS\\
-    \end{description}
-    \emph{{\large Bridge Configuration Data Storage Hiding}}
-    \begin{description}
-        \item[Secrets:] How to store bridge configuration data on the machine
-        \item[Services:]Takes a bridge configuration and stores it for later use by the program
-        \item[Implemented By:] OS\\
-    \end{description}
-    \emph{{\large Calculation Data Storage Hiding}}
-    \begin{description}
-        \item[Secrets:] How to store all calculation related data on the machine
-        \item[Services:]Takes a user calculation input data or calculation results and stores them 
-        \item[Implemented By:] --\\
-    \end{description}
-    \emph{{\large Calculation Variable Data Storage Hiding}}
-    \begin{description}
-        \item[Secrets:] How to store all calculation variable related data on the machine
-        \item[Services:]Takes a calculation variable and stores it for future use
-        \item[Implemented By:] --\\
-    \end{description}
-    \emph{{\large Solver Choice Data Storage Hiding}}
-    \begin{description}
-        \item[Secrets:] How to store solver choice data on the machine
-        \item[Services:]Takes a solver choice and stores it for future use
-        \item[Implemented By:] OS\\
-    \end{description}
-    \emph{{\large Concerned Section Specification Data Storage Hiding}}
-    \begin{description}
-        \item[Secrets:] How to store Concerned Section Specification data on the machine
-        \item[Services:]Takes a Concerned Section Specification and stores it for future use
-        \item[Implemented By:] OS\\
-    \end{description}
-    \emph{{\large Critical Section Specification Data Storage Hiding}}
-    \begin{description}
-        \item[Secrets:] How to store Critical Section Specification data on the machine
-        \item[Services:]Takes a Critical Section Specification and stores it for future use
-        \item[Implemented By:] OS\\
-    \end{description}
-    \emph{{\large Output Report Data Storage Hiding}}
-    \begin{description}
-        \item[Secrets:] How to store output report data on the machine
-        \item[Services:]Takes an output report data format and stores it for later use
-        \item[Implemented By:] OS\\
-    \end{description}
-    \emph{{\large File System Hiding}}
-    \begin{description}
-        \item[Secrets:]How to save/load data to/from the file system from/to the program runtime
-        \item[Services:]Provides a durable external storage system that outlasts program runtime
-        \item[Implemented By:] --\\
-    \end{description}
-    \emph{{\large Save To File System Hiding}}
-    \begin{description}
-        \item[Secrets:]How to save data to the file system from the program runtime
-        \item[Services:] Allows the program to save data in a durable manner that outlasts the program runtime.
-        \item[Implemented By:] MTOBridge\\
-    \end{description}
-    \emph{{\large Load From File System Hiding}}
-    \begin{description}
-        \item[Secrets:]How to load data from the file system to the program runtime
-        \item[Services:]Allows the program to load data from a durable source that outlasts the program runtime.
-        \item[Implemented By:] MTOBridge\\
-    \end{description}
-    
-        
-
-\subsection{Software Decision Modules}
-    \emph{{\large Calculation Call Hiding}}
-    \begin{description}
-        \item[Secrets:] How to call the calculations to have them provide the necessary data for the software to visualize
-        \item[Services:] Allows the user to call the backend calculations to provide simulation results
-        \item[Implemented By:] MTOBridge\\
-    \end{description}
-    \emph{{\large MATLAB Code Hiding}}
-    \begin{description}
-        \item[Secrets:] How to calculate the demands imposed on a given bridge by a given truck platoon
-        \item[Services:] Provides the outputs of the relevant calculations to the software using the backend MATLAB functions for later use
-        \item[Implemented By:] Dr Yang's Lab\\
-    \end{description}
-    \emph{{\large Data Format Hiding}}
-    \begin{description}
-        \item[Secrets:]How to manage all input/output data in the program
-        \item[Services:]Takes input from User or saved files and converts them into appropriate input/output data.
-        \item[Implemented By:] --\\
-    \end{description}
-    \emph{{\large Data Format Hiding}}
-    \begin{description}
-        \item[Secrets:]How to manage all user input data regarding Truck Platoon/Bridge/Solver configuration
-        \item[Services:]Takes User input data and converts into a Truck Platoon/Bridge/Solver configuration for use by the program
-        \item[Implemented By:] --\\
-    \end{description}
-    \emph{{\large Truck Platoon Configuration Data Format Hiding}}
-    \begin{description}
-        \item[Secrets:]How to manage all user input data regarding Truck Platoon configuration
-        \item[Services:]Takes User input data and converts into a Truck Platoon configuration for use by the program
-        \item[Implemented By:] MTOBridge\\
-    \end{description}
-    \emph{{\large Bridge Configuration Data Format Hiding}}
-    \begin{description}
-        \item[Secrets:]How to manage all user input data regarding Bridge configuration
-        \item[Services:]Takes User input data and converts into a Bridge configuration for use by the program
-        \item[Implemented By:] MTOBridge\\
-    \end{description}
-    \emph{{\large Solver Configuration Data Format Hiding}}
-    \begin{description}
-        \item[Secrets:]The format of the User's Solver Configuration data
-        \item[Services:]Provides a data structure to hold the relevant data
-        \item[Implemented By:] MTOBridge\\
-    \end{description}
-    \emph{{\large Solver Configuration Data Format Hiding}}
-    \begin{description}
-        \item[Secrets:]The format of the output report
-        \item[Services:]Takes visualization and calculation results from the appropriate modules and converts them to an output file format.
-        \item[Implemented By:] MTOBridge\\
-    \end{description}
-
-\subsection{Behavior-Hiding Modules}
-
-    \emph{{\large Visualization Hiding}}
-    \begin{description}
-        \item[Secrets:]How to visualize all information in the software
-        \item[Services:]Allows the user to graphically interact with the program for various I/O purposes
-        \item[Implemented By:] --\\
-    \end{description}
-    \emph{{\large Configuration Visualization Hiding}}
-    \begin{description}
-        \item[Secrets:]How to visualize the truck platoon or bridge configuration process
-        \item[Services:]Allows the user to graphically interact with the program to choose a configuration and see a preview
-        \item[Implemented By:] --\\
-    \end{description}
-    \emph{{\large Truck Platoon Configuration Visualization Hiding}}
-    \begin{description}
-        \item[Secrets:]How to visualize the truck platoon configuration process
-        \item[Services:]Allows the user to graphically interact with the program to choose a truck platoon configuration and see a preview
-        \item[Implemented By:] MTOBridge\\
-    \end{description}
-    \emph{{\large Bridge Configuration Visualization Hiding}}
-    \begin{description}
-        \item[Secrets:]How to visualize the bridge configuration process
-        \item[Services:]Allows the user to graphically interact with the program to choose a bridge configuration and see a preview
-        \item[Implemented By:] MTOBridge\\
-    \end{description}
-    \emph{{\large Calculation Visualization Hiding}}
-    \begin{description}
-        \item[Secrets:]How to visualize everything to do with the backend MATLAB Calculations
-        \item[Services:]Allows the user to graphically interact with the program for various calculation I/O purposes.
-        \item[Implemented By:] --\\
-    \end{description}
-    \emph{{\large Calculation Call Visualization Hiding}}
-    \begin{description}
-        \item[Secrets:]How to visualize the calling of the backend MATLAB calculations
-        \item[Services:]Allows the user to graphically interact with the program to call the MATLAB calculations.
-        \item[Implemented By:] MTOBridge\\
-    \end{description}
-    \emph{{\large Solver Configuration Visualization Hiding}}
-    \begin{description}
-        \item[Secrets:]How to visualize the solver configuration choices
-        \item[Services:]Allows the user to graphically interact with the program to configure the solver
-        \item[Implemented By:] MTOBridge\\
-    \end{description}
-    \emph{{\large Output Report Visualization Hiding}}
-    \begin{description}
-        \item[Secrets:]How to visualize the output report
-        \item[Services:]Allows the user to graphically interact with the program to see the output report
-        \item[Implemented By:] MTOBridge\\
-    \end{description}
-    \emph{{\large File System Visualization Hiding}}
-    \begin{description}
-        \item[Secrets:]How to visualize everything to do with saving/loading data to/from the file system from/to the program runtime
-        \item[Services:]Allows the user to graphically interact with the program for various file system related I/O purposes
-        \item[Implemented By:] --\\
-    \end{description}
-    \emph{{\large Save To File System Visualization Hiding}}
-    \begin{description}
-        \item[Secrets:]How to visualize everything to do with saving data to the file system from the program runtime
-        \item[Services:]Allows the user to graphically interact with the program to save their program data to the file system for later use.
-        \item[Implemented By:] --\\
-    \end{description}
-    \emph{{\large Truck Platoon Configuration Save To File System Visualization Hiding}}
-    \begin{description}
-        \item[Secrets:]How to visualize the saving of truck platoon configuration data
-        \item[Services:]Allows the user to graphically interact with the program to save their truck platoon configuration data to the file system for later use.
-        \item[Implemented By:] MTOBridge\\
-    \end{description}
-    \emph{{\large Bridge Configuration Save To File System Visualization Hiding}}
-    \begin{description}
-        \item[Secrets:]How to visualize the saving of bridge configuration data
-        \item[Services:]Allows the user to graphically interact with the program to save their bridge configuration data to the file system for later use.
-        \item[Implemented By:] MTOBridge\\
-    \end{description}
-    \emph{{\large Solver Configuration Save To File System Visualization Hiding}}
-    \begin{description}
-        \item[Secrets:]How to visualize the saving of solver configuration data
-        \item[Services:]Allows the user to graphically interact with the program to save their solver configuration data to the file system for later use.
-        \item[Implemented By:] MTOBridge\\
-    \end{description}
-    \emph{{\large Output Report Save To File System Visualization Hiding}}
-    \begin{description}
-        \item[Secrets:]How to visualize the saving of output report data
-        \item[Services:]Allows the user to graphically interact with the program to save their output report data to the file system for later use.
-        \item[Implemented By:] MTOBridge\\
-    \end{description}
-    \emph{{\large Load From File System Visualization Hiding}}
-    \begin{description}
-        \item[Secrets:]How to visualize everything to do with loading data from the file system to the program runtime
-        \item[Services:]Allows the user to graphically interact with the program to load their file system data to the program runtime for use.
-        \item[Implemented By:] --\\
-    \end{description}
-    \emph{{\large Truck Platoon Configuration Load From File System Visualization Hiding}}
-    \begin{description}
-        \item[Secrets:]How to visualize the loading of truck platoon configuration data
-        \item[Services:]Allows the user to graphically interact with the program to load their truck platoon configuration data to the program runtime for use.
-        \item[Implemented By:] MTOBridge\\
-    \end{description}
-    \emph{{\large Bridge Configuration Load From File System Visualization Hiding}}
-    \begin{description}
-        \item[Secrets:]How to visualize the loading of bridge configuration data
-        \item[Services:]Allows the user to graphically interact with the program to load their Bridge configuration data to the program runtime for use.
-        \item[Implemented By:] MTOBridge\\
-    \end{description}
-    \emph{{\large Solver Configuration Load From File System Visualization Hiding}}
-    \begin{description}
-        \item[Secrets:]How to visualize the loading of solver configuration data
-        \item[Services:]Allows the user to graphically interact with the program to load their solver configuration data to the program runtime for use.
-        \item[Implemented By:] MTOBridge\\
-    \end{description}
-
-
-\section{Traceability Matrix} \label{SecTM}
-
-This section shows two traceability matrices: between the modules and the
-requirements and between the modules and the anticipated changes.
-
-% the table should use mref, the requirements should be named, use something
-% like fref
-\begin{table}[H]
-\centering
-\begin{tabular}{p{0.2\textwidth} p{0.7\textwidth}}
-\toprule
-\textbf{Req.} & \textbf{Modules}\\
-\midrule
-FR.1 & Calculation Call Hiding, Calculation Call Visualization Hiding, and MATLAB Code Hiding\\
-FR.2 & Truck Platoon Configuration Data Storage/Format Hiding and Truck Platoon Configuration Visualization Hiding\\
-FR.3 & Truck Platoon Configuration Visualization Hiding\\
-FR.4 & Save to File System Hiding and Truck Platoon Config. Save to File System Visualization Hiding\\
-FR.5 & Load from File System Hiding and Truck Platoon Config. Load from File System Visualization Hiding\\
-FR.6 & Bridge Configuration Data Storage/Format Hiding and Bridge Configuration Visualization Hiding\\
-FR.7 & Bridge Configuration Visualization Hiding\\
-FR.8 & Save to File System Hiding and Bridge Config. Save to File System Visualization Hiding\\
-FR.9 & Load from File System Hiding and Bridge Config. Load from File System Visualization Hiding\\
-FR.10/11/12/13 & Solver Configuration Data Format/Storage Hiding and Visualization\\
-FR.14/15/16 & Output Report Data Format/Storage Hiding and Visualization, as well as Report Save/Load Visualization\\
-\bottomrule
-\end{tabular}
-\caption{Trace Between Requirements and Modules}
-\label{TblRT}
-\end{table}
-
-\begin{table}[H]
-\centering
-\begin{tabular}{p{0.2\textwidth} p{0.6\textwidth}}
-\toprule
-\textbf{AC} & \textbf{Modules}\\
-\midrule
-AC.1 & Calculation Call Hiding \\
-AC.2 & Calculation Call Visualization Hiding \\
-AC.3 & Truck Platoon Configuration Data Format Hiding \\
-AC.4 & Truck Platoon Configuration Data Storage Hiding \\
-AC.5 & Truck Platoon Configuration Visualization Hiding\\
-AC.6 & Truck Platoon Configuration Save to File System Visualization Hiding\\
-AC.7 & Truck Platoon Configuration Load From File System Visualization Hiding\\
-AC.8 & Bridge Configuration Data Format Hiding \\
-AC.9 & Bridge Configuration Data Storage Hiding \\
-AC.10 & Bridge Configuration Visualization Hiding\\
-AC.11 & Bridge Configuration Save to File System Visualization Hiding\\
-AC.12 & Bridge Configuration Load From File System Visualization Hiding\\
-AC.13 & Solver Configuration Data Storage Hiding \\
-AC.14 & Solver Choice Visualization Hiding \\
-AC.15 & Solver Choice Data Format Hiding \\
-AC.16 & Concerned Section Specification Data Storage Hiding \\
-AC.17 & Critical Section Specification Data Storage Hiding\\
-AC.18 & Solver Configuration Save to File System Visualization Hiding\\
-AC.19 & Solver Configuration Load from File System Visualization Hiding\\
-AC.20 & Save to File System\\
-AC.21 & Load From File System\\
-AC.22 & Output Report Data Format Hiding\\
-AC.23 & Output Report Visualization Hiding\\
-AC.24 & Output Report Data Storage Hiding\\
-AC.25 & Output Report Save to File System Visualization Hiding\\
-AC.26 & MATLAB Code Hiding\\
-
-\bottomrule
-\end{tabular}
-\caption{Trace Between Anticipated Changes and Modules}
-\label{TblACT}
-\end{table}
-
-\section{Use Hierarchy Between Modules} \label{SecUse}
-
-In this section, the uses hierarchy between modules is
-provided. \citet{Parnas1978} said of two programs A and B that A {\em uses} B if
-correct execution of B may be necessary for A to complete the task described in
-its specification. That is, A {\em uses} B if there exist situations in which
-the correct functioning of A depends upon the availability of a correct
-implementation of B.  Figure \ref{FigUH} illustrates the use relation between
-the modules. It can be seen that the graph is a directed acyclic graph
-(DAG). Each level of the hierarchy offers a testable and usable subset of the
-system, and modules in the higher level of the hierarchy are essentially simpler
-because they use modules from the lower levels.
-
+\section{Scope}
+Note that this document, as well as all others written by this team, will focus purely on the visualization and user interface component of MTOBridge, ignoring the back-end MATLAB solvers as this component will not be designed by this team, nor does this team have any hand in that design. A simple diagram outlining the system boundaries can be found below.
 \begin{figure}[H]
-\centering
-\includegraphics[width=1\textwidth]{../images/UseHierarchy.png}
-\caption{Use hierarchy among modules}
-\label{FigUH}
+  \centering
+  \includegraphics[]{../images/system-boundaries.PNG}
+  \caption{System Boundaries Diagram}
+  \label{fig:system-boundaries-diagram}
 \end{figure}
 
-%\section*{References}
+\section{Project Overview}
 
-\bibliographystyle {plainnat}
-\bibliography{../../../refs/References}
+\subsection{Normal Behaviour}
+Assuming everything goes smoothly, the most general user scenario for MTOBridge is as follows:
+\begin{enumerate}
+\item A user launches the program
+\item They set up/load a truck platoon configuration
+    \begin{itemize}
+        \item [2a.] They may choose to save their configuration for later
+    \end{itemize}
+\item They set up/load a bridge configuration
+    \begin{itemize}
+        \item [3a.] They may choose to save their configuration for later
+    \end{itemize}
+\item They set up/load a solver configuration
+    \begin{itemize}
+        \item [4a.] They may choose to save their configuration for later
+    \end{itemize}
+\item They run the calculations
+\item A visualization of the results is presented to them
+\item The output report is created and shown to them
+\item The out report is saved to the file system
+    \begin{itemize}
+        \item [8a.] They may choose to return to step 1
+    \end{itemize}
+\item They exit the program
+\end{enumerate}
+
+\subsection{Undesired Event Handling}
+As this is a user interface, robustness and reliability are of the utmost importance for a good user experience. Crashes, slowdowns, or hangs as a result of unexpected events will be highly detrimental to the quality of the program. With this in mind, the plan is to attempt to foresee and catch as many different types of errors as possible, and otherwise allow the program to fail in a palatable way. For example, if during step 4 the user inputs an invalid bridge configuration, the program will be set up to prompt them to enter another length, as their current one is invalid and it needs to be a number between x and y.
+
+Another consideration is to design the program in such a manner as to limit the possibility of undesired events occurring, by removing user freedom. For example, only allowing users to drag a slider from x to y meters to determine the length of their bridge rather than having them type it in or some other form of input where the range of inputs can be controlled. This can make the program feel constrained, but also create a safer runtime where the user is not given enough rope to hang themselves.
+Which of these undesired event-handling techniques is applied will depend on the context, something like user input is simple and its errors are able to be caught well enough that the first method seems feasible. However, the amount of interaction with the visualization/animation of the calculation results available to the user is a much less discrete design space and therefore might have to be limited using the second method. The choice of method and its application will be refined through testing, both for robustness and quality of life.
+
+\subsection{Component Diagram}
+N/A as there are no hardware or electrical components to this project
+
+\newpage
+\subsection{Connection Between Requirements and Design} 
+\begin{table}[hp]
+\centering
+\caption{Connection Between Requirements and Design}
+\label{TblRequirementsDesign}
+\begin{tabular}{|p{0.2\textwidth}|p{0.8\textwidth}|}
+\hline
+Decisions & Requirement \\
+\hline
+Concurrency & NFR.9: UI elements react promptly\\ & NFR.10 UI will not be unreasonably slow.\\
+\hline
+MVC architecture & NFR.13: The product shall be easily maintainable.\\ & NFR.14: The program should be able to be easily translated into other languages. \\ & NFR.3: The product will appear correctly on different display resolutions.\\
+\hline
+Local File system & SR-8: The system must automatically save to a file.\\ & SR-3: The system must produce a log of function calls made to MATLAB.\\ & The log will include timestamps along with software environment information\\ & such as the current input.\\
+\hline
+\end{tabular}
+\end{table}
+Following concurrency best practices and its design implications ensures that the UI thread will never get stuck. Therefore, it can remain responsive and reacts promptly.\\\\
+Incorporating the MVC architecture enables the separation of presentation components from the core logic. Firstly, this allows for a flexible presentation since different view modes can be “plugged” and “unplugged”. Secondly, taking advantage of such a feature makes altering the front-end source code more convenient because of it’s low coupling with other components.\\\\
+Since the number of automatic saves is high, it’s wise to have a local data storage. Moreover, in order to prevent the automatic saving from taking a lot of space thus decreasing it’s value, a simple file system (vs a database) can be created where automatic saves are stored with the same filename overwriting the previous auto-saves. However, custom saves with a unique name given by the user will remain intact.  
+
+
+
+\section{System Variables}
+
+\subsection{Monitored Variables}
+N/A
+\subsection{Controlled Variables}
+N/A
+\subsection{Constants Variables}
+N/A
+\section{User Interfaces}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1\textwidth]{../images/Userinterface-Platoon.PNG}
+  \caption{User interface Platoon Diagram}
+  \label{fig:userinterface-platoon-diagram}
+\end{figure}
+The screen where the user inputs information related to the truck configuration including the axle load, axle spacing, number of trucks, and headway. Visual feedback of the inputted information is given at the bottom of the page to the user for confirmation. The effects of the specified platoon configuration on the critical/concerned section are displayed in real-time as a graph in the middle of the screen. \\\\
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1\textwidth]{../images/Userinterface-Bridge.PNG}
+  \caption{User interface Bridge Diagram}
+  \label{fig:userinterface-bridge-diagram}
+\end{figure}
+The screen where the user inputs information related to the Bridge configuration including the bridge span, span length, section of the concern, and the discretization length. Visual feedback of the inputted information is given at the bottom of the page to the user for confirmation. The effects of the specified bridge configuration on the critical/concerned section are displayed in real time as a graph in the middle of the screen.\\\\
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1\textwidth]{../images/Userinterface-Analysis.PNG}
+  \caption{User interface Analysis Diagram}
+  \label{fig:userinterface-analysis-diagram}
+\end{figure}
+The screen where the user determines the Analysis setting as well as the section to be analyzed. Users can observe and verify the result of all of their customizations at the bottom right corner of the page.\\\\
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1\textwidth]{../images/Userinterface-Report.PNG}
+  \caption{User interface Report Diagram}
+  \label{fig:userinterface-report-diagram}
+\end{figure}
+The screen where the calculations are done by the solver and the outputted graphs can be exported to PDF.
+
+\section{Design of Hardware}
+N/A
+
+\section{Design of Electrical Components}
+N/A
+
+\section{Design of Communication Protocols}
+
+The only communication protocol used by the program is when it communicates with the MATLAB script. This actually uses two protocols: the method names and parameters defined in the MATLAB code, and the functionality implemented by the OS that allows our program to call the MATLAB script. Neither of these communication protocols has been designed by the project team.
+
+
+\section{Timeline}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[scale=0.7]{../images/Timeline1.PNG}
+  \caption{Project Timeline Section 1}
+  \label{fig:timeline1}
+\end{figure}
+
+\begin{landscape}
+\newpage
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[scale=0.65]{../images/Timeline2.PNG}
+  \caption{Project Timeline Section 2}
+  \label{fig:timeline2}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[scale=0.65]{../images/Timeline3.PNG}
+  \caption{Project Timeline Section 3}
+  \label{fig:timeline3}
+\end{figure}
+
+\end{landscape}
+
+% \bibliographystyle {plainnat}
+% \bibliography{../../../refs/References}
 
 \newpage{}
 
+\appendix
+
+\section{Interface}
+
+N/A
+
+\section{Mechanical Hardware}
+N/A
+\section{Electrical Components}
+N/A
+\section{Communication Protocols}
+N/A
+\section{Reflection}
+
+The information in this section will be used to evaluate the team members on the
+graduate attribute of Problem Analysis and Design.  Please answer the following questions:
+
+\begin{enumerate}
+  \item What are the limitations of your solution?  Put another way, given
+  unlimited resources, what could you do to make the project better? (LO\_ProbSolutions)
+  \item Give a brief overview of other design solutions you considered.  What
+  are the benefits and tradeoffs of those other designs compared with the chosen
+  design?  From all the potential options, why did you select documented design?
+  (LO\_Explores)
+\end{enumerate}
+
+\noindent\textbf{Adham}\\
+I think the main aspect of the design that might be limited by time/resources is the presentation of the calculation results. In the worst case, it may end up as just a 2D
+representation or graph, when ideally we would want a 3D fully animated visual of the platoon as it travels across the bridge and the effects it has over the course of its
+trip.\\
+
+I think the main point of discussion as far as how to design the system was the level of modularity involved. As it stands, the project currently has 26 anticipated changes
+corresponding 1 to 1 to 26 modules. over the course of the design process, this ballooned as high as 30+ and some suggested designs shrank it down to closer to 10. We decided
+to err more on the side of highly atomic modules in the end, for clarity and ease of understanding in the documentation but still combined some modules that were extremely
+trivial to avoid committing too dogmatically to a design principle even when it could be hurtful in practice.\\\\
+
+\noindent\textbf{Darren}\\
+Given time, could look at further reconfigurability of platoons, e.g. accounting for trucks of different lengths, models, or wheel counts. Also for the animation to be a more 
+faithful representation to better reflect the forces at play, such as altering the colors of the bridge display to reflect the stress on any given point.\\
+
+Considered documenting further detail on subjects such as file I/O and graphics rendering. A generic visualizer module defining the exact nature of displaying 
+a graphic on the screen was discussed to rigorously detail the design. We determined it was more important to focus efforts on the design of the system itself and the 
+interaction of its parts rather than these modules to avoid reinventing the wheel.\\\\
+
+\noindent\textbf{Victor}\\
+I think one of the biggest limitations of our current design is the bridge input, as it allows for a very little customization. That is, with more time we could implement a 
+system that would allow the user to run calculations on more types and variations of bridges than the current design allows for.\\
+
+We had considered designing our system so that it strictly followed the Model-View-Controller architectural pattern. While MVC would ease development and improve
+maintainability, we decided that strictly following it would limit our design freedom too much. We decided to use our current design as it follows some of the same patterns,
+allowing us to take advantage of many of the pros of MVC, while also giving us more flexibility.\\\\
+
+\noindent\textbf{David}\\
+I think, as Darren mentioned, the configurability of the truck platoon and the bridge could be enhanced greatly. For 
+the bridge configurability, allowing for a larger number of bridge sections, defining bridge materials and section 
+geometry could also be implemented. We could also enhance the way reports can be used, since they are essentially just
+a text file, where it could be made into a format that accepts pictures (or maybe it creates the report in pdf form).\\
+
+The calculation call module was one that we considered different solutions for. A design solution to this was to have
+many external access programs, all of which would be a single call to the matlab engine. This would make the module
+simpler, because it would avoid all the conditional logic. However, we decided against this because it would've just
+shifted the responsibility to the users of this module. We instead decided to only have a single external access
+program, with a unified input and output, and it's up to the other modules to decide how to use that output.\\\\
+
+\noindent\textbf{Pedram}\\
+With dozens of different Civil Engineering applications in the market, there is the opportunity to work on connecting our application with other platforms. This can be as simple as Import and Export functionalities or even adding our application as a plugin to their frameworks. The application, in theory, should also be capable of a cloud deployment where people can access through a webapp.\\
+
+Creating an intuitive yet detailed UI with lots of options proved to be a main design challenge. The team debated on various layouts featuring design elements from animations, forms, tabs, and dynamic graphing. Members favored creating the UI from scratch as opposed to using partial templates to achieve specific functionalities enabled through a unique set of interactions between the graphs and the animations across all tabs. \\\\
+
+\noindent\textbf{Farzad}\\
+I think one of the biggest limitations of our project is the lack of drawing ability. This feature can enable a user to sketch a custom bridge and proceed with the analysis. Therefore, given unlimited developers as well as time incorporating such feature would significantly increase the value of the program by making it more flexible.\\
+
+To accomodate for information saving the desicion between incorporting a relational databse to the overall architecture or using a simple filesystem was one of the points of discussion. The Team Decided that A file system is a better suit as the complexity that accompanies setting up a database doesn't outweight it's benefits. A local storage system that can easly be overwritten (Filesystem) would be a good solution to satisfy our Requirements.\\\\
 \end{document}
