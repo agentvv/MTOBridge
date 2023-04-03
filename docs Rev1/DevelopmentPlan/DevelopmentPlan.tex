@@ -1,0 +1,165 @@
+\documentclass{article}
+
+\usepackage{booktabs}
+\usepackage{tabularx}
+
+\title{Development Plan\\\progname}
+
+\author{\authname}
+
+\date{}
+
+\input{../Comments}
+\input{../Common}
+
+\begin{document}
+
+\maketitle
+
+\begin{table}[hp]
+\caption{Revision History} \label{TblRevisionHistory}
+\begin{tabularx}{\textwidth}{llX}
+\toprule
+\textbf{Date} & \textbf{Developer(s)} & \textbf{Change}\\
+\midrule
+September 21 2022 & Darren & Team information sections\\
+September 21 2022 & David & Technology sections\\
+September 21 2022 & Adham & Project Scheduling Section\\
+September 22 2022 & Victor & Technology sections\\
+September 24 2022 & Darren & Edited team roles and workflow\\
+September 24 2022 & David & Update technology sections\\
+September 26 2022 & Victor & Update technology sections\\
+November 14 2022 & Victor & Update to POC Demo Plan\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+
+
+\section{Team Meeting Plan}
+
+The team will meet on Tuesdays on campus at 5:30PM weekly for 1 to 1.5 hours. Team members will meet in-person when possible but will join virtually when unable to be physically present. Meetings are expected to review progress made since the previous meeting, review the status of the project, and discuss and divide upcoming work among team members.
+
+Adham has reserved a room in Gerald Hatch Centre and will chair meetings. Darren will open the call for team members to join virtually. Meeting minutes will be taken as needed when group decisions are reached on topics, responsibility for which will pass between team members as is appropriate.
+
+\section{Team Communication Plan}
+
+Git issues will be used to track ongoing tasks on the project. Aside from meetings and impromptu conversations between shared classes, the team is communicating primarily through a group chat in Discord.
+
+The team will communicate with the client via email and Zoom calls. Team members will CC the rest of the team when emailing the client.
+
+\section{Team Member Roles}
+
+\begin{itemize}
+	\item Adham will act as team leader and chair meetings.
+	\item Darren will facilitate hybrid meetings, has experience in C++, and will participate in designing the implementation.
+	\item David has experience in C++ and will oversee the design, as he is the most familiar with the UI implementation framework we currently expect to use.
+	\item Farzad possesses the most domain knowledge in civil engineering and is the main point of contact with the client.
+	\item Pedram will maintain the git repo, including monitoring issues, automated testing setup, and PR management.
+	\item Victor has experience in C++ and will participate in designing the implementation.
+\end{itemize}
+
+Note that these are the specializations of the team members. These roles are flexible. We each expect to have an understanding of and to contribute towards the design and implementation. Each team member will also be responsible for following the git workflow and using its features appropriately. 
+
+\section{Workflow Plan}
+
+The git will be separated into a dev and prod (master) branch. Developers will fork from the dev branch to implement changes. After merging changes into the dev branch and confirming no issues with integration, the dev branch will be merged into prod. CI/CD will be set up between prod and dev as well as between dev and feature branches.
+
+Issues will be used to maintain and track tasks. We expect that a relatively small set of categories such as bug fix, addition, or review will be suitable for this project. As such, we do not plan to make significant use of labels.
+
+\section{Proof of Concept Demonstration Plan}
+
+Critical parts of the proof of concept which aims to verify the viability of the project are: \\
+\begin{itemize}
+\item Creating an integration point between the MATLAB source code prepared by the primarily stakeholder with our C++ Windows application. Failure of accomplishing this task would prove the project unfeasible. As part of the proof of concept we are at the very least planning on showing simple MATLAB scripts related to the project can be manipulated through the C++ code.
+\item The other important implementation challenge is building a robust asynchronous/concurrent program to promote useability while calling methods from MATLAB source code and waiting for the response. Since the stakeholder's emphasis is on useability making sure the UI is responsive at all times and the application is capable of performing multiple analysis is crucial. Our application would lose its value if it fails to handle multitasking. In order to mitigate this risk our plan is to run the UI, and each one of commanded analysis on a separate thread while following thread safety best practices such as minimal introduction of global variables.
+\item There was a discussion about incorporating the ability to sketch structures and cross sections, in which case thoroughly testing different possibilities of drawings might become unfeasible based on available resources and time. The team has decided that getting domain knowledge, as to what structural patterns are common in bridge design, is a good compromise and can help us prioritize testing possibilities. As this is a testing risk, it will not be included in the Proof of Concept Demonstration.
+
+\end{itemize}
+If any of the assessed risks prove to be right, in reaction to such scenario discussions regarding rescoping the project can be held. In an extreme case working with the instructor of the course to redefine our project should be considered.
+
+\section{Technology}
+
+\subsection{Programming Language}
+C++20 will be used for the GUI, and will be connected to the backend made in MATLAB. 
+The backend is already written for us in MATLAB, so we don't have a choice in this regard.
+We chose C++ as it is a language we are all somewhat familiar with, and it works for
+Windows development. We will also use GCC-12 to compile our source code. It supports C++20
+features, and it's the compiler we are all familiar with.
+
+\subsection{Linter}
+The IDEs we are using (Visual Studio and Visual Studio Code) have their own code linters, which are enabled by default.
+We may consider using clang-tidy for error checking, as well as looking questionable code constructs. We will
+only use it if the standard IDE linting it not sufficient. This tool is fairly standard, with integration in many 
+IDEs. We can also have it look for code that is against certain coding standards, for example Google coding conventions.
+
+In order to maintain consistent code formatting, we will use clang-format for formatting. Using this linter, 
+we can also easily select a coding standard to follow, which will come from a file in our repo. Many IDEs
+also support the use of clang-format. 
+
+\subsection{Unit Testing Framework}
+We will be using a combination of two testing libraries to test our code. The first is Qt Test, a testing library made specifically for the Qt GUI framework we will be using. This testing library will be used to test the GUI elements of our project.
+The second testing library we will be using is Google Test. This library will allow us to test the other parts of our code in great detail, and offers many advanced features that we can use during development (report generation, death tests, automatic test discovery, etc.).
+
+\subsection{Code Coverage Measuring Tools}
+Since we will using GCC for compilation, we will be using GCOV to test our code coverage. We will use it as
+it comes standard with GCC, and will hook in directly with our compilation.
+
+\subsection{Continuous Integration}
+We will use GitHub's built-in CI/CD in multiple ways to help the development of this project. Firstly, we will automatically run clang-format when code is pushed to the repo, allowing us to ensure that any code on GitHub complies with the coding standard.
+We will also automatically run pdflatex on uploaded .tex files so that the PDF versions of all documents are guaranteed to be up to date. Lastly, any uploaded code will be built and tested against our current suite of tests to ensure that it has not introduced any errors.
+This testing will also include the use of Valgrind and GCOV.
+
+\subsection{Performance Measuring Tools}
+Although we don't expect the performance of our code to have much effect on the performance of the project as a whole (the majority of computing resources will be taken up by the MATLAB back-end), we will still use Valgrind to measure the performance of our program to ensure that
+it is within reasonable bounds. We will also use Valgrind as a way to check for runtime errors in our code.
+
+\subsection{Libraries}
+A GUI framework called \href{https://www.qt.io/}{Qt} will be used.
+\begin{itemize}
+	\item This framework will allow for easy creation of a simple GUI, but also allows for extensibility which may be required.
+	\item It contains basics for creating buttons, text fields etc., and more complex components like graphs (or even 3D views) with good performance.
+	\item It also contains a testing framework for easily testing the GUI, as well as benchmarking performance.
+\end{itemize}
+MATLAB is being used for the backend, and in order to connect it with the GUI, an engine and data type API is 
+provided by MATLAB in order to integrate it with C++.
+
+\subsection{Tools}
+We will use the following tools during our development:
+\begin{itemize}
+	\item GitHub will be used as our version control system. It will also be used to track issues and implement continuous integration.
+	\item MATLAB will be used to run the back-end code provided to us from the MTO.
+	\item LaTeX will be used to create the documentation for this project.
+	\item Doxygen will be used for source code documentation.
+	\item While each developer will use the IDE of their preference, a number of us will use Visual Studio.
+	\item CMake will be used to facilitate building the C++ code. It also has a lot of functionality for facilitating testing and using other tools listed seamlessly (e.g. clang-tidy).
+	\item As stated in the linter section, we will use clang-format and clang-tidy to enforce a standard on the code we write.
+	\item As stated in the language section, GCC-12 as our compiler.
+	\item As stated in code coverage tools, we will be using GCOV.
+	\item As stated in performance measuring tools, Valgrind will be used both to test performance and check for runtime bugs in the code.
+\end{itemize}
+
+\section{Coding Standard}
+We will be using the \href{https://google.github.io/styleguide/cppguide.html}{Google C++ Style Guide} for our project as it is one of the most popular C++ style guides available. Using a standard will allow our code to have a consistent style no matter which of us wrote it.
+The Google Style Guide is also supported by clang-format, which will allow us to easily check the compliance of code.
+
+\section{Project Scheduling}
+	Scheduling will be done in somewhat of a sprint format, week to week, to avoid what we see as relatively futile attempts to predict where along the project we will be 8 weeks
+from now in spite of all the stacking uncertainties between now and then. With that in mind, a significant part of the weekly meetings will be discussing upcoming milestones,
+and decomposing larger tasks, such as this development plan, into single person-sized chunks to be split amongst the team, as well as scheduling smaller sub meetings as needed.
+We will be deciding who does what based on individual preferences and suitability’s to different portions of each step of the project.\\
+
+	An important part of scheduling work is to ensure the schedule is the correct mix of both efficiency and feasibility of accomplishment. Another advantage to this week-by-week
+sprint based scheduling is that a very granular look can be taken at the free time available to each group member each week, and adjusting accordingly, as schoolwork tends
+to come in waves, and we can therefore take advantage of lighter weeks to allow us to ease up on tougher weeks when possible, instead of assuming a static amount of free
+time per week. As well, maintaining a living schedule every week means the work ends up getting spread out across the project, and minimizes last second cramming.\\
+
+	The major milestones for this project will follow along with the deliverable schedule fairly well for the most part, if pushed up a few days. i.e. though the external deadline
+for the requirements document may be October 5th, an internal deadline of Oct 3rd will be maintained, circumstances permitting, to ensure suitable time to review and double
+check deliverables before they are to be presented to stakeholders. This example would go for all other stated deliverables as well, however there may be more sub-milestones
+identified within the weekly meetings, especially where the deliverable schedule leaves very large gaps. Namely, as we get a better grasp on the finer points of the 
+implementation, the sizeable chunk of time with no deadlines between Nov. 25th and Jan. 18th will materialize into many sub deliverables and internal milestones for the group,
+working around exams and holidays of course. 
+
+
+\end{document}
