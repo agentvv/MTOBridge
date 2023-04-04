@@ -20,7 +20,6 @@
 \input{../../Comments}
 \input{../../Common}
 
-
 \newcounter{acnum}
 \newcommand{\actheacnum}{AC\theacnum}
 \newcommand{\acref}[1]{AC\ref{#1}}
@@ -56,7 +55,6 @@
 18/01/2023 & David & Added Reflection\\
 18/01/2023 & Victor & Added Reflection\\
 18/01/2023 & Farzad & Added Reflection\\
-4/03/2023 & Pedram & Rev1 Changes\\
 \bottomrule
 \end{tabularx}
 
@@ -73,14 +71,7 @@ This section records information for easy reference.
   \toprule		
   \textbf{symbol} & \textbf{description}\\
   \midrule 
-  MG & Module Guide \\
-\progname & A portable Software program capable of helping bridge engineers\\
- MVC & Model-View-Control Software Architecture\\
-  OS & Operating System \\
-  R & Requirement\\
-  SC & Scientific Computing \\
-  SRS & Software Requirements Specification\\
-
+  \progname & This is the name of the program being designed\\
   \bottomrule
 \end{tabular}\\
 
@@ -99,7 +90,7 @@ This section records information for easy reference.
 \pagenumbering{arabic}
 
 \section{Introduction}
-The following is a high-level system design document for the MTOBridge software, a program for load-rating bridges experiencing strain caused by self-driving truck platoons. For more information on this software, you can consult the following documents as needed:\\
+The following is a high level system design document for the MTOBridge software, a program for load rating bridges experiencing strain caused by self driving truck platoons. For more information on this software, you can consult the following documents as needed:\\
 \href{../../SRS/SRS.pdf}{Link to SRS}\\
 \href{../../HazardAnalysis/HazardAnalysis.pdf}{Link to HA}\\
 \href{../../VnVPlan/VnVPlan.pdf}{Link to V\&V}\\
@@ -107,10 +98,10 @@ The following is a high-level system design document for the MTOBridge software,
 \href{../../Design/SystDesign/SystDes.pdf}{Link to MIS}
 
 \section{Purpose}
-This document is intended to provide a high-level view of the design decisions made with regard to the user interface component of the MTOBridge software, along with a planned timeline of implementation.
+This document is intended to provide a high-level view of the design decisions made with regards to the user interface component of the MTOBridge software, along with a planned timeline of implementation.
 
 \section{Scope}
-Note that this document, as well as all others written by this team, will focus purely on the visualization and user interface component of MTOBridge, ignoring the back-end MATLAB solvers as this component will not be designed by this team, nor does this team have any hand in that design. A simple diagram outlining the system boundaries can be found below.
+Note that this document, as well as all others written by this team, will focus purely on the visualization and user interface component of MTOBridge, ignoring the backend MATLAB solvers as this component will not be designed by this team, nor does this team have any hand in that design. A simple diagram outlining the system boundaries can be found below.
 \begin{figure}[H]
   \centering
   \includegraphics[]{../images/system-boundaries.PNG}
@@ -147,10 +138,9 @@ Assuming everything goes smoothly, the most general user scenario for MTOBridge 
 \end{enumerate}
 
 \subsection{Undesired Event Handling}
-As this is a user interface, robustness and reliability are of the utmost importance for a good user experience. Crashes, slowdowns, or hangs as a result of unexpected events will be highly detrimental to the quality of the program. With this in mind, the plan is to attempt to foresee and catch as many different types of errors as possible, and otherwise allow the program to fail in a palatable way. For example, if during step 4 the user inputs an invalid bridge configuration, the program will be set up to prompt them to enter another length, as their current one is invalid and it needs to be a number between x and y.
-
-Another consideration is to design the program in such a manner as to limit the possibility of undesired events occurring, by removing user freedom. For example, only allowing users to drag a slider from x to y meters to determine the length of their bridge rather than having them type it in or some other form of input where the range of inputs can be controlled. This can make the program feel constrained, but also create a safer runtime where the user is not given enough rope to hang themselves.
-Which of these undesired event-handling techniques is applied will depend on the context, something like user input is simple and its errors are able to be caught well enough that the first method seems feasible. However, the amount of interaction with the visualization/animation of the calculation results available to the user is a much less discrete design space and therefore might have to be limited using the second method. The choice of method and its application will be refined through testing, both for robustness and quality of life.
+As this is a user interface, robustness and reliability are of the utmost importance for a good user experience. Crashes, slowdowns, or hangs as a result of unexpected events will be highly detrimental to the quality of the program. With this in mind, the plan is to attempt to foresee and catch as many different types of errors as possible, and otherwise allow the program to fail in a palatable way. For example, if during step 4 the user inputs an invalid bridge configuration (i.e choosing “swaws” as the length of their bridge), the program will be set up to prompt them to enter another length, as their current one is invalid and it needs to be a number between x and y, say.
+Another consideration is to design the program in such a manner so as to limit the possibility of undesired events occurring, by removing user freedom. For example, only allowing users to drag a slider from x to y meters to determine the length of their bridge rather than having them type it in, or some other form of input where the range of inputs can be controlled. This can make the program feel constrained, but also create a safer runtime where the user is not given enough rope to hang themselves.
+Which of these undesired event handling techniques is applied will depend on the context, something like user input is simple and its errors are able to be caught well enough that the first method seems feasible. However, the amount of interaction with the visualization/animation of the calculation results available to the user is a much less discrete design space, and therefore might have to be limited using the second method. The choice of method and its application will be refined through testing, both for robustness and quality of life.
 
 \subsection{Component Diagram}
 N/A as there are no hardware or electrical components to this project
@@ -194,28 +184,28 @@ N/A
   \caption{User interface Platoon Diagram}
   \label{fig:userinterface-platoon-diagram}
 \end{figure}
-The screen where the user inputs information related to the truck configuration including the axle load, axle spacing, number of trucks, and headway. Visual feedback of the inputted information is given at the bottom of the page to the user for confirmation. The effects of the specified platoon configuration on the critical/concerned section are displayed in real-time as a graph in the middle of the screen. \\\\
+The screen where the user inputs information related to the truck configuration including the axle load, axle spacing, number of trucks and headway. A visual feedback of the inputted information is given at the bottom of the page to the user for confirmation. The effects of the specified platoon configuration to the critical/concerned section is displayed real-time as a graph in the middle of the screen. \\\\
 \begin{figure}[H]
   \centering
   \includegraphics[width=1\textwidth]{../images/Userinterface-Bridge.PNG}
   \caption{User interface Bridge Diagram}
   \label{fig:userinterface-bridge-diagram}
 \end{figure}
-The screen where the user inputs information related to the Bridge configuration including the bridge span, span length, section of the concern, and the discretization length. Visual feedback of the inputted information is given at the bottom of the page to the user for confirmation. The effects of the specified bridge configuration on the critical/concerned section are displayed in real time as a graph in the middle of the screen.\\\\
+The screen where the user inputs information related to the Bridge configuration including the bridge span, span length, section of concern and the discretization length. A visual feedback of the inputted information is given at the bottom of the page to the user for confirmation. The effects of the specified bridge configuration to the critical/concerned section is displayed real-time as a graph in the middle of the screen.\\\\
 \begin{figure}[H]
   \centering
   \includegraphics[width=1\textwidth]{../images/Userinterface-Analysis.PNG}
   \caption{User interface Analysis Diagram}
   \label{fig:userinterface-analysis-diagram}
 \end{figure}
-The screen where the user determines the Analysis setting as well as the section to be analyzed. Users can observe and verify the result of all of their customizations at the bottom right corner of the page.\\\\
+The screen where the user determines the Analysis setting as well as the section to be analyzed.Users can observe and verify the result of all of their customizations at bottom right corner of the page.\\\\
 \begin{figure}[H]
   \centering
   \includegraphics[width=1\textwidth]{../images/Userinterface-Report.PNG}
   \caption{User interface Report Diagram}
   \label{fig:userinterface-report-diagram}
 \end{figure}
-The screen where the calculations are done by the solver and the outputted graphs can be exported to PDF.
+The screen where the calculations done by the solver and the outputted graphs can be exported to PDF.
 
 \section{Design of Hardware}
 N/A
@@ -288,25 +278,25 @@ graduate attribute of Problem Analysis and Design.  Please answer the following 
 \end{enumerate}
 
 \noindent\textbf{Adham}\\
-I think the main aspect of the design that might be limited by time/resources is the presentation of the calculation results. In the worst case, it may end up as just a 2D
+I think the main aspect of the design that might be limited by time/resources is the presentation of the calculation results. In the worst case it may end up as just a 2D
 representation or graph, when ideally we would want a 3D fully animated visual of the platoon as it travels across the bridge and the effects it has over the course of its
 trip.\\
 
 I think the main point of discussion as far as how to design the system was the level of modularity involved. As it stands, the project currently has 26 anticipated changes
-corresponding 1 to 1 to 26 modules. over the course of the design process, this ballooned as high as 30+ and some suggested designs shrank it down to closer to 10. We decided
-to err more on the side of highly atomic modules in the end, for clarity and ease of understanding in the documentation but still combined some modules that were extremely
+corresponding 1 to 1 to 26 modules. over the course of the design process this ballooned as high as 30+ and some suggested designs shrank it down to closer to 10. We decided
+to err more on the side of highly atomic modules in the end, for clarity and easy of understanding in the documentation, but still combined some modules that were extremely
 trivial to avoid committing too dogmatically to a design principle even when it could be hurtful in practice.\\\\
 
 \noindent\textbf{Darren}\\
-Given time, could look at further reconfigurability of platoons, e.g. accounting for trucks of different lengths, models, or wheel counts. Also for the animation to be a more 
-faithful representation to better reflect the forces at play, such as altering the colors of the bridge display to reflect the stress on any given point.\\
+Given time, could look at further configurability of platoons, e.g. accounting for trucks of different lengths, models, or wheel counts. Also for the animation to be a more 
+faithful representation to better reflect the forces at play, such as alter the colors of the bridge display to reflect the stress on any given point.\\
 
 Considered documenting further detail on subjects such as file I/O and graphics rendering. A generic visualizer module defining the exact nature of displaying 
-a graphic on the screen was discussed to rigorously detail the design. We determined it was more important to focus efforts on the design of the system itself and the 
+a graphic to the screen was discussed to rigorously detail the design. We determined it was more important to focus efforts on the design of the system itself and the 
 interaction of its parts rather than these modules to avoid reinventing the wheel.\\\\
 
 \noindent\textbf{Victor}\\
-I think one of the biggest limitations of our current design is the bridge input, as it allows for a very little customization. That is, with more time we could implement a 
+I think one of the biggest limitations of our current design is the bridge input, as it allows for very little customization. That is, with more time we could implement a 
 system that would allow the user to run calculations on more types and variations of bridges than the current design allows for.\\
 
 We had considered designing our system so that it strictly followed the Model-View-Controller architectural pattern. While MVC would ease development and improve

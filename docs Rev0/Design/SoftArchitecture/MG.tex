@@ -66,15 +66,14 @@ This section records information for easy reference.
   \textbf{symbol} & \textbf{description}\\
   \midrule 
   AC & Anticipated Change\\
-  CHBDC & Canadian Highway Bridge Design Code\\
   DAG & Directed Acyclic Graph \\
   M & Module \\
   MG & Module Guide \\
-\progname & A portable Software program capable of helping bridge engineers\\
   OS & Operating System \\
   R & Requirement\\
   SC & Scientific Computing \\
   SRS & Software Requirements Specification\\
+  \progname & Explanation of program name\\
   UC & Unlikely Change \\
   \bottomrule
 \end{tabular}\\
@@ -97,12 +96,12 @@ Decomposing a system into modules is a commonly accepted approach to developing
 software.  A module is a work assignment for a programmer or programming
 team~\citep{ParnasEtAl1984}.  We advocate a decomposition
 based on the principle of information hiding~\citep{Parnas1972a}.  This
-principle supports design for change because the ``secrets'' that each module
+principle supports design for change, because the ``secrets'' that each module
 hides represent likely future changes.  Design for change is valuable in SC,
 where modifications are frequent, especially during initial development as the
 solution space is explored.  
 
-Our design follows the rules laid out by \citet{ParnasEtAl1984}, as follows:
+Our design follows the rules layed out by \citet{ParnasEtAl1984}, as follows:
 \begin{itemize}
 \item System details that are likely to change independently should be the
   secrets of separate modules.
@@ -127,7 +126,7 @@ potential readers of this document are as follows:
   after changes have been made.
 \item Designers: Once the module guide has been written, it can be used to
   check for consistency, feasibility, and flexibility. Designers can verify the
-  system in various ways, such as consistency among modules, the feasibility of the
+  system in various ways, such as consistency among modules, feasibility of the
   decomposition, and flexibility of the design.
 \end{itemize}
 
@@ -208,7 +207,7 @@ change.
 The module design should be as general as possible. However, a general system is
 more complex. Sometimes this complexity is not necessary. Fixing some design
 decisions at the system architecture stage can simplify the software design. If
-this decision should later need to be changed, then many parts of the design
+these decision should later need to be changed, then many parts of the design
 will potentially need to be modified. Hence, it is not intended that these
 decisions will be changed.
 
@@ -329,79 +328,79 @@ Only the leaf modules in the hierarchy have to be implemented. If a dash
 to be implemented.
 
 \subsection{Hardware Hiding Modules}
-  \hypertarget{DSH}{\emph{{\large Data Storage Hiding}}}
+\emph{{\large Data Storage Hiding}}
     \begin{description}
         \item[Secrets:] How to store all program data on the machine
         \item[Services:]Takes data configurations or calculation results and stores them for later use by the program.
         \item[Implemented By:] -- \\
     \end{description}
-      \hypertarget{IDSH}{\emph{{\large Input Data Storage Hiding}}}
+    \emph{{\large Input Data Storage Hiding}}
     \begin{description}
         \item[Secrets:] How to store all input data on the machine
         \item[Services:] Takes data configurations and stores them for later use by the program
         \item[Implemented By:] -- \\
     \end{description}
-      \hypertarget{TPCDSH}{\emph{{\large Truck Platoon Configuration Data Storage Hiding}}}
+    \emph{{\large Truck Platoon Configuration Data Storage Hiding}}
     \begin{description}
         \item[Secrets:] How to store truck platoon configuration data on the machine
         \item[Services:]Takes a truck platoon configuration and stores it for later use by the program
         \item[Implemented By:] OS\\
     \end{description}
-      \hypertarget{BCDSH}{\emph{{\large Bridge Configuration Data Storage Hiding}}}
+    \emph{{\large Bridge Configuration Data Storage Hiding}}
     \begin{description}
         \item[Secrets:] How to store bridge configuration data on the machine
         \item[Services:]Takes a bridge configuration and stores it for later use by the program
         \item[Implemented By:] OS\\
     \end{description}
-      \hypertarget{CDSH}{\emph{{\large Calculation Data Storage Hiding}}}
+    \emph{{\large Calculation Data Storage Hiding}}
     \begin{description}
         \item[Secrets:] How to store all calculation related data on the machine
         \item[Services:]Takes a user calculation input data or calculation results and stores them 
         \item[Implemented By:] --\\
     \end{description}
-      \hypertarget{CVDSH}{\emph{{\large Calculation Variable Data Storage Hiding}}}
+    \emph{{\large Calculation Variable Data Storage Hiding}}
     \begin{description}
         \item[Secrets:] How to store all calculation variable related data on the machine
         \item[Services:]Takes a calculation variable and stores it for future use
         \item[Implemented By:] --\\
     \end{description}
-      \hypertarget{SCDSH}{\emph{{\large Solver Choice Data Storage Hiding}}}
+    \emph{{\large Solver Choice Data Storage Hiding}}
     \begin{description}
         \item[Secrets:] How to store solver choice data on the machine
         \item[Services:]Takes a solver choice and stores it for future use
         \item[Implemented By:] OS\\
     \end{description}
-      \hypertarget{CSSDSH}{\emph{{\large Concerned Section Specification Data Storage Hiding}}}
+    \emph{{\large Concerned Section Specification Data Storage Hiding}}
     \begin{description}
         \item[Secrets:] How to store Concerned Section Specification data on the machine
         \item[Services:]Takes a Concerned Section Specification and stores it for future use
         \item[Implemented By:] OS\\
     \end{description}
-      \hypertarget{CSSDSH}{\emph{{\large Critical Section Specification Data Storage Hiding}}}
+    \emph{{\large Critical Section Specification Data Storage Hiding}}
     \begin{description}
         \item[Secrets:] How to store Critical Section Specification data on the machine
         \item[Services:]Takes a Critical Section Specification and stores it for future use
         \item[Implemented By:] OS\\
     \end{description}
-      \hypertarget{ORDSH}{\emph{{\large Output Report Data Storage Hiding}}}
+    \emph{{\large Output Report Data Storage Hiding}}
     \begin{description}
         \item[Secrets:] How to store output report data on the machine
         \item[Services:]Takes an output report data format and stores it for later use
         \item[Implemented By:] OS\\
     \end{description}
-      \hypertarget{FSH}{\emph{{\large File System Hiding}}}
+    \emph{{\large File System Hiding}}
     \begin{description}
         \item[Secrets:]How to save/load data to/from the file system from/to the program runtime
         \item[Services:]Provides a durable external storage system that outlasts program runtime
         \item[Implemented By:] --\\
     \end{description}
-      \hypertarget{STFSH}{\emph{{\large Save To File System Hiding}}}
+    \emph{{\large Save To File System Hiding}}
     \begin{description}
         \item[Secrets:]How to save data to the file system from the program runtime
         \item[Services:] Allows the program to save data in a durable manner that outlasts the program runtime.
         \item[Implemented By:] MTOBridge\\
     \end{description}
-      \hypertarget{LFFSH}{\emph{{\large Load From File System Hiding}}}
+    \emph{{\large Load From File System Hiding}}
     \begin{description}
         \item[Secrets:]How to load data from the file system to the program runtime
         \item[Services:]Allows the program to load data from a durable source that outlasts the program runtime.
@@ -411,7 +410,7 @@ to be implemented.
         
 
 \subsection{Software Decision Modules}
-    \hypertarget{CCH}{\emph{{\large Calculation Call Hiding}}}
+    \emph{{\large Calculation Call Hiding}}
     \begin{description}
         \item[Secrets:] How to call the calculations to have them provide the necessary data for the software to visualize
         \item[Services:] Allows the user to call the backend calculations to provide simulation results
@@ -423,7 +422,7 @@ to be implemented.
         \item[Services:] Provides the outputs of the relevant calculations to the software using the backend MATLAB functions for later use
         \item[Implemented By:] Dr Yang's Lab\\
     \end{description}
-     \hypertarget{DFH}{\emph{{\large Data Format Hiding}}}
+    \emph{{\large Data Format Hiding}}
     \begin{description}
         \item[Secrets:]How to manage all input/output data in the program
         \item[Services:]Takes input from User or saved files and converts them into appropriate input/output data.
@@ -435,25 +434,25 @@ to be implemented.
         \item[Services:]Takes User input data and converts into a Truck Platoon/Bridge/Solver configuration for use by the program
         \item[Implemented By:] --\\
     \end{description}
-     \hypertarget{TPCDFH}{\emph{{\large Truck Platoon Configuration Data Format Hiding}}}
+    \emph{{\large Truck Platoon Configuration Data Format Hiding}}
     \begin{description}
         \item[Secrets:]How to manage all user input data regarding Truck Platoon configuration
-        \item[Services:]Takes User input data and converts it into a Truck Platoon configuration for use by the program
+        \item[Services:]Takes User input data and converts into a Truck Platoon configuration for use by the program
         \item[Implemented By:] MTOBridge\\
     \end{description}
-     \hypertarget{BCDFH}{\emph{{\large Bridge Configuration Data Format Hiding}}}
+    \emph{{\large Bridge Configuration Data Format Hiding}}
     \begin{description}
         \item[Secrets:]How to manage all user input data regarding Bridge configuration
-        \item[Services:]Takes User input data and converts it into a Bridge configuration for use by the program
+        \item[Services:]Takes User input data and converts into a Bridge configuration for use by the program
         \item[Implemented By:] MTOBridge\\
     \end{description}
-     \hypertarget{SCDFH}{\emph{{\large Solver Configuration Data Format Hiding}}}
+    \emph{{\large Solver Configuration Data Format Hiding}}
     \begin{description}
         \item[Secrets:]The format of the User's Solver Configuration data
         \item[Services:]Provides a data structure to hold the relevant data
         \item[Implemented By:] MTOBridge\\
     \end{description}
-     \hypertarget{SCDFH}{\emph{{\large Solver Configuration Data Format Hiding}}}
+    \emph{{\large Solver Configuration Data Format Hiding}}
     \begin{description}
         \item[Secrets:]The format of the output report
         \item[Services:]Takes visualization and calculation results from the appropriate modules and converts them to an output file format.
@@ -462,109 +461,109 @@ to be implemented.
 
 \subsection{Behavior-Hiding Modules}
 
-     \hypertarget{VH}{\emph{{\large Visualization Hiding}}}
+    \emph{{\large Visualization Hiding}}
     \begin{description}
         \item[Secrets:]How to visualize all information in the software
         \item[Services:]Allows the user to graphically interact with the program for various I/O purposes
         \item[Implemented By:] --\\
     \end{description}
-     \hypertarget{CVH}{\emph{{\large Configuration Visualization Hiding}}}
+    \emph{{\large Configuration Visualization Hiding}}
     \begin{description}
         \item[Secrets:]How to visualize the truck platoon or bridge configuration process
         \item[Services:]Allows the user to graphically interact with the program to choose a configuration and see a preview
         \item[Implemented By:] --\\
     \end{description}
-     \hypertarget{TPCVH}{\emph{{\large Truck Platoon Configuration Visualization Hiding}}}
+    \emph{{\large Truck Platoon Configuration Visualization Hiding}}
     \begin{description}
         \item[Secrets:]How to visualize the truck platoon configuration process
         \item[Services:]Allows the user to graphically interact with the program to choose a truck platoon configuration and see a preview
         \item[Implemented By:] MTOBridge\\
     \end{description}
-     \hypertarget{BCVH}{\emph{{\large Bridge Configuration Visualization Hiding}}}
+    \emph{{\large Bridge Configuration Visualization Hiding}}
     \begin{description}
         \item[Secrets:]How to visualize the bridge configuration process
         \item[Services:]Allows the user to graphically interact with the program to choose a bridge configuration and see a preview
         \item[Implemented By:] MTOBridge\\
     \end{description}
-     \hypertarget{CVH}{\emph{{\large Calculation Visualization Hiding}}}
+    \emph{{\large Calculation Visualization Hiding}}
     \begin{description}
         \item[Secrets:]How to visualize everything to do with the backend MATLAB Calculations
         \item[Services:]Allows the user to graphically interact with the program for various calculation I/O purposes.
         \item[Implemented By:] --\\
     \end{description}
-     \hypertarget{CCVH}{\emph{{\large Calculation Call Visualization Hiding}}}
+    \emph{{\large Calculation Call Visualization Hiding}}
     \begin{description}
         \item[Secrets:]How to visualize the calling of the backend MATLAB calculations
         \item[Services:]Allows the user to graphically interact with the program to call the MATLAB calculations.
         \item[Implemented By:] MTOBridge\\
     \end{description}
-     \hypertarget{SCVH}{\emph{{\large Solver Configuration Visualization Hiding}}}
+    \emph{{\large Solver Configuration Visualization Hiding}}
     \begin{description}
         \item[Secrets:]How to visualize the solver configuration choices
         \item[Services:]Allows the user to graphically interact with the program to configure the solver
         \item[Implemented By:] MTOBridge\\
     \end{description}
-     \hypertarget{ORVH}{\emph{{\large Output Report Visualization Hiding}}}
+    \emph{{\large Output Report Visualization Hiding}}
     \begin{description}
         \item[Secrets:]How to visualize the output report
         \item[Services:]Allows the user to graphically interact with the program to see the output report
         \item[Implemented By:] MTOBridge\\
     \end{description}
-     \hypertarget{FSVH}{\emph{{\large File System Visualization Hiding}}}
+    \emph{{\large File System Visualization Hiding}}
     \begin{description}
         \item[Secrets:]How to visualize everything to do with saving/loading data to/from the file system from/to the program runtime
         \item[Services:]Allows the user to graphically interact with the program for various file system related I/O purposes
         \item[Implemented By:] --\\
     \end{description}
-     \hypertarget{STFSVH}{\emph{{\large Save To File System Visualization Hiding}}}
+    \emph{{\large Save To File System Visualization Hiding}}
     \begin{description}
         \item[Secrets:]How to visualize everything to do with saving data to the file system from the program runtime
         \item[Services:]Allows the user to graphically interact with the program to save their program data to the file system for later use.
         \item[Implemented By:] --\\
     \end{description}
-     \hypertarget{TPCSTFSVH}{\emph{{\large Truck Platoon Configuration Save To File System Visualization Hiding}}}
+    \emph{{\large Truck Platoon Configuration Save To File System Visualization Hiding}}
     \begin{description}
         \item[Secrets:]How to visualize the saving of truck platoon configuration data
         \item[Services:]Allows the user to graphically interact with the program to save their truck platoon configuration data to the file system for later use.
         \item[Implemented By:] MTOBridge\\
     \end{description}
-    \hypertarget{BCSTFSVH}{ \emph{{\large Bridge Configuration Save To File System Visualization Hiding}}}
+    \emph{{\large Bridge Configuration Save To File System Visualization Hiding}}
     \begin{description}
         \item[Secrets:]How to visualize the saving of bridge configuration data
         \item[Services:]Allows the user to graphically interact with the program to save their bridge configuration data to the file system for later use.
         \item[Implemented By:] MTOBridge\\
     \end{description}
-     \hypertarget{SCSTFSVH}{\emph{{\large Solver Configuration Save To File System Visualization Hiding}}}
+    \emph{{\large Solver Configuration Save To File System Visualization Hiding}}
     \begin{description}
         \item[Secrets:]How to visualize the saving of solver configuration data
         \item[Services:]Allows the user to graphically interact with the program to save their solver configuration data to the file system for later use.
         \item[Implemented By:] MTOBridge\\
     \end{description}
-     \hypertarget{ORSTFSVH}{\emph{{\large Output Report Save To File System Visualization Hiding}}}
+    \emph{{\large Output Report Save To File System Visualization Hiding}}
     \begin{description}
         \item[Secrets:]How to visualize the saving of output report data
         \item[Services:]Allows the user to graphically interact with the program to save their output report data to the file system for later use.
         \item[Implemented By:] MTOBridge\\
     \end{description}
-     \hypertarget{LFFSVH}{\emph{{\large Load From File System Visualization Hiding}}}
+    \emph{{\large Load From File System Visualization Hiding}}
     \begin{description}
         \item[Secrets:]How to visualize everything to do with loading data from the file system to the program runtime
         \item[Services:]Allows the user to graphically interact with the program to load their file system data to the program runtime for use.
         \item[Implemented By:] --\\
     \end{description}
-     \hypertarget{TPCLFFSVH}{\emph{{\large Truck Platoon Configuration Load From File System Visualization Hiding}}}
+    \emph{{\large Truck Platoon Configuration Load From File System Visualization Hiding}}
     \begin{description}
         \item[Secrets:]How to visualize the loading of truck platoon configuration data
         \item[Services:]Allows the user to graphically interact with the program to load their truck platoon configuration data to the program runtime for use.
         \item[Implemented By:] MTOBridge\\
     \end{description}
-     \hypertarget{BCLFFSVH}{\emph{{\large Bridge Configuration Load From File System Visualization Hiding}}}
+    \emph{{\large Bridge Configuration Load From File System Visualization Hiding}}
     \begin{description}
         \item[Secrets:]How to visualize the loading of bridge configuration data
         \item[Services:]Allows the user to graphically interact with the program to load their Bridge configuration data to the program runtime for use.
         \item[Implemented By:] MTOBridge\\
     \end{description}
-    \hypertarget{SCLFFSVH}{ \emph{{\large Solver Configuration Load From File System Visualization Hiding}}}
+    \emph{{\large Solver Configuration Load From File System Visualization Hiding}}
     \begin{description}
         \item[Secrets:]How to visualize the loading of solver configuration data
         \item[Services:]Allows the user to graphically interact with the program to load their solver configuration data to the program runtime for use.
@@ -585,17 +584,17 @@ requirements and between the modules and the anticipated changes.
 \toprule
 \textbf{Req.} & \textbf{Modules}\\
 \midrule
-FR.1 & \hyperlink{CCH}{Calculation Call Hiding}, \hyperlink{CCVH}{Calculation Call Visualization Hiding}, and MATLAB Code Hiding\\
-FR.2 & \hyperlink{TPCVH}{Truck Platoon Configuration Data Storage/Format Hiding and Truck Platoon Configuration Visualization Hiding}\\
-FR.3 & \hyperlink{TPCVH}{Truck Platoon Configuration Visualization Hiding}\\
-FR.4 & \hyperlink{STFSVH}{Save to File System Hiding and Truck Platoon Config. Save to File System Visualization Hiding}\\
-FR.5 & \hyperlink{LFFSVH}{Load from File System Hiding and Truck Platoon Config. Load from File System Visualization Hiding}\\
-FR.6 & \hyperlink{BCLFFSVH}{Bridge Configuration Data Storage/Format Hiding and Bridge Configuration Visualization Hiding}\\
-FR.7 & \hyperlink{BCVH}{Bridge Configuration Visualization Hiding}\\
-FR.8 & \hyperlink{FSVH}{Save to File System Hiding and Bridge Config. Save to File System Visualization Hiding}\\
-FR.9 & \hyperlink{FSVH}{Load from File System Hiding and Bridge Config. Load from File System Visualization Hiding}\\
-FR.10/11/12/13 & \hyperlink{SCSTFSVH}{Solver Configuration Data Format/Storage Hiding and Visualization}\\
-FR.14/15/16 & \hyperlink{ORSTFSVH}{Output Report Data Format/Storage Hiding and Visualization, as well as Report Save/Load Visualization}\\
+FR.1 & Calculation Call Hiding, Calculation Call Visualization Hiding, and MATLAB Code Hiding\\
+FR.2 & Truck Platoon Configuration Data Storage/Format Hiding and Truck Platoon Configuration Visualization Hiding\\
+FR.3 & Truck Platoon Configuration Visualization Hiding\\
+FR.4 & Save to File System Hiding and Truck Platoon Config. Save to File System Visualization Hiding\\
+FR.5 & Load from File System Hiding and Truck Platoon Config. Load from File System Visualization Hiding\\
+FR.6 & Bridge Configuration Data Storage/Format Hiding and Bridge Configuration Visualization Hiding\\
+FR.7 & Bridge Configuration Visualization Hiding\\
+FR.8 & Save to File System Hiding and Bridge Config. Save to File System Visualization Hiding\\
+FR.9 & Load from File System Hiding and Bridge Config. Load from File System Visualization Hiding\\
+FR.10/11/12/13 & Solver Configuration Data Format/Storage Hiding and Visualization\\
+FR.14/15/16 & Output Report Data Format/Storage Hiding and Visualization, as well as Report Save/Load Visualization\\
 \bottomrule
 \end{tabular}
 \caption{Trace Between Requirements and Modules}
