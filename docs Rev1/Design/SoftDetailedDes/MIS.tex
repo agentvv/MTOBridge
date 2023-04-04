@@ -56,6 +56,7 @@ urlcolor=cyan          % color of external links
 January 15, 2023 & David and Darren & Initial Draft\\
 January 17, 2023 & Adham, Farzad, Pedram, and Victor & Conversion to LaTeX\\
 January 18, 2023 & David and Victor & Formatting\\
+April 4, 2023 & Darren & Rev1 Changes\\
 \bottomrule
 \end{tabularx}
 
@@ -201,7 +202,7 @@ The following is taken directly from the Module Guide document for this project.
                 \begin{itemize}
                     \item[|] \textbf{Truck Platoon Configuration Load From File System Visualization Hiding}
                     \item[|] \textbf{Bridge Configuration Load From File System Visualization Hiding}
-                    \item[|] \textbf{Solver Configuration Load From File System Visualization Hiding}
+                    \item[|] \textbf{Output Report Load From File System Visualization Hiding}
                 \end{itemize}
             \end{itemize}
         \end{enumerate}
@@ -310,7 +311,7 @@ loadPlatoonConfiguration & string & PlatoonT & - \\
 \hline
 loadBridgeConfiguration & string & BridgeT & - \\
 \hline
-loadSolverConfiguration & string & SolverT & - \\
+loadReport & string & \{ PlatoonT, BridgeT, SolverT \} & - \\
 \hline
 \end{tabular}
 \end{center}
@@ -325,7 +326,7 @@ None
 None
 \subsubsection{Access Routine Semantics}
 
-\noindent loadPlatoonConfiguration(platoon, filepath)
+\noindent loadPlatoonConfiguration(filepath)
 \begin{itemize}
 \item output: open outputFile at filepath for read and read each field: 
 Parse space separated $\mathbb{R}$ until comma as axleLoad, parse next set of space separated $\mathbb{R}$ until the next comma as axleSpacing, parse next $\mathbb{N}$ as numberOfTrucks, parse last $\mathbb{R}$ as headway.
@@ -334,7 +335,7 @@ out := PlatoonT constructed from the parsed values above.
 \item exception: none
 \end{itemize}
 
-\noindent loadBridgeConfiguration(bridge, filepath)
+\noindent loadBridgeConfiguration(filepath)
 \begin{itemize}
 \item output: open outputFile at filepath for read and read each field: 
 Parse first number as numberOfSpans, parse space separated $\mathbb{R}$ until comma as spanLength, parse next $\mathbb{R}$ as concernedSection, parse last $\mathbb{R}$ as discretization length.
@@ -343,12 +344,10 @@ out := BridgeT constructed from the parsed values above.
 \item exception: none
 \end{itemize}
 
-\noindent loadSolverConfiguration(solver, filepath)
+\noindent loadReport(filepath)
 \begin{itemize}
-\item output: open outputFile at filepath for read and read each field: 
-Parse first string until comma as solver.forceType, parse string after comma as solver.solverType
-Close outputFile.\\
-out := SolverT constructed from the parsed values above.
+\item output: open outputFile at filepath for read. Process lines until the line "[Platoon]" is found. Parse the space-separated numbers on the line containing "axleLoad" as the PlatoonT axleLoad. Parse for axleSpacing in the same manner. Parse for headway and number of trucks in the same manner. Parse for BridgeT in the same manner beginning at "[Bridge]." Parse for SolverT in the same manner beginning at "[Solver]." Close outputFile.\\
+out := \{ PlatoonT, BridgeT, SolverT \} constructed from the parsed values above.
 \item exception: none
 \end{itemize}
 \subsubsection{Local Functions}
@@ -414,7 +413,7 @@ runCalculation & CalculationInputT & CalculationOutputT & - \\
 \subsubsection{State Variables}
 None
 \subsubsection{Environment Variables}
-engine: an instance of the matlab engine which exports functions that run the relevant matlab code.
+engine: An instance of the MATLAB engine which exports functions that run the relevant MATLAB code.
 \subsubsection{Assumptions}
 None
 \subsubsection{Access Routine Semantics}
@@ -627,15 +626,15 @@ PlatoonT = \{\\
 \hline
 new PlatoonConfiguration & - & PlatoonConfiguration & - \\
 \hline
-getConfiguration & - & PlatoonT & invalidConfiguration \\
+getConfiguration & - & PlatoonT & -\\
 \hline
-updateAxleLoad & string & - & invalidConfigurationValue\\
+updateAxleLoad & seq of $\mathbb{R}$ & - & -\\
 \hline
-updateAxleSpacing & string & - & invalidConfigurationValue\\
+updateAxleSpacing & seq of $\mathbb{R}$ & - & -\\
 \hline
-updateNumberOfTrucks & string & - & invalidConfigurationValue\\
+updateNumberOfTrucks & $\mathbb{N}$ & - & -\\
 \hline
-updateHeadway & string & - & invalidConfigurationValue\\
+updateHeadway & $\mathbb{R}$	 & - & -\\
 \end{tabular}
 \end{center}
 
@@ -656,8 +655,8 @@ None
 \begin{itemize}
 \item transition:\\
         \begin{tabular}{p{1cm} p{8cm}}
-        & axleLoad := empty sequence\\
-		& axleSpacing := empty sequence\\
+		& axleLoad := $\emptyset$\\
+		& axleSpacing := $\emptyset$\\
 		& numberOfTrucks := 0\\
 		& headway := 0.0\\
         \end{tabular}
@@ -668,58 +667,33 @@ None
 \noindent PlatoonT getConfiguration():
 \begin{itemize}
 \item output: out := PlatoonT \{ axleLoad, axleSpacing, numberOfTrucks, headway \} 
-\item exception:\\
-    \begin{tabular}{p{1cm} p{14cm}}
-    & If axleLoad is empty sequence $\Rightarrow$ invalidConfiguration \\
-    & If axleSpacing is empty sequence $\Rightarrow$ invalidConfiguration \\
-    & If the size of axleSpacing is not size of axleLoad - 1 $\Rightarrow$ invalidConfiguration \\
-    & If number of trucks is 0 $\Rightarrow$ invalidConfiguration \\
-    & If headway is 0 $\Rightarrow$ invalidConfiguration \\
-    \end{tabular}
+\item exception: none
 \end{itemize}
 
 \noindent updateAxleLoad(newAxleLoad):
 \begin{itemize}
-\item transition: Parse newAxleLoad as either comma separated or space separated sequence of $\mathbb{R}$ greater than 0 of at least length 2. Set self.axleLoad to the parsed value of newAxleLoad.
-\item exception:\\
-  \begin{tabular}{p{1cm} p{16cm}}
-    & If newAxleLoad has commas and spaces, or any of the numbers are parsed as being negative, or if the number of parsed numbers is 1 $\Rightarrow$ invalidConfigurationValue \\
-    & If newAxleLoad has any characters other than 0-9, '.', ' ', $\Rightarrow$ invalidConfigurationValue \\
-    &If newAxleLoad has a '.' not followed by a 0-9 $\Rightarrow$ invalidConfigurationValue \\
-\end{tabular}
-
+\item transition: self.axleLoad := newAxleLoad
+\item exception: none
 \end{itemize}
 
 \noindent updateAxleSpacing(newAxleSpacing):
 \begin{itemize}
-\item transition: Parse newAxleSpacing as either comma separated or space separated sequence of $\mathbb{R}$ greater than 0 of at least length 1. Set self.axleSpacing to the parsed value of newAxleSpacing.
-\item exception:\\
-  \begin{tabular}{p{1cm} p{16.3cm}}
-    & If newAxleSpacing has commas and spaces, or any of the numbers are parsed as being negative $\Rightarrow$ invalidConfigurationValue \\
-    & If newAxleSpacing has any characters other than 0-9, '.', ' ' $\Rightarrow$ invalidConfigurationValue \\
-    & If newAxleSpacing has a '.' not followed by a 0-9 $\Rightarrow$ invalidConfigurationValue \\
-  \end{tabular}
+\item transition: self.axleSpacing := newAxleSpacing
+\item exception: none
 \end{itemize}
 
 \noindent updateNumberOfTrucks(newNumberOfTrucks)
 \begin{itemize}
-\item transition: Parse newNumberOfTrucks as $\mathbb{N}$. Set self.numberOfTrucks to the parsed value of newNumberOfTrucks.
-\item exception:\\
-  \begin{tabular}{p{1cm} p{16cm}}
-    & If newAxleSpacing has any characters other than 0-9 $\Rightarrow$ invalidConfigurationValue \\
-    & If newAxleSpacing has only 0's  $\Rightarrow$ invalidConfigurationValue \\
-  \end{tabular}
+\item transition: self.numberOfTrucks := newNumberOfTrucks
+\item exception: none
 \end{itemize}
 
 \noindent updateHeadway(newHeadway)
 \begin{itemize}
-\item transition: Parse newHeadway as a $\mathbb{R}$ greater than 0. Set self.headway to the parsed value of newHeadway.
-\item exception:\\
-  \begin{tabular}{p{1cm} p{16.3cm}}
-    & If newAxleSpacing has any characters other than 0-9 or '.' $\Rightarrow$ invalidConfigurationValue \\
-    & If newAxleSpacing has a '.' not followed by a 0-9 $\Rightarrow$ invalidConfigurationValue \\
-  \end{tabular}
+\item transition: self.headway := newHeadway
+\item exception: none
 \end{itemize}
+
 \subsubsection{Local Functions}
 None
 \newpage
@@ -754,7 +728,7 @@ BridgeT = \{\\
 \hline
 new BridgeConfiguration & - & BridgeConfiguration & - \\
 \hline
-getConfiguration & - & BridgeT & invalidConfiguration \\
+getConfiguration & - & BridgeT & -\\
 \hline
 updateNumberOfSpans & string & - & invalidConfigurationValue \\
 \hline
@@ -792,10 +766,10 @@ None
 \begin{itemize}
 \item transition:\\
         \begin{tabular}{p{1cm} p{8cm}}
-        & numberOfSpans := 0\\
-	& spanLength := empty sequence\\
-	& concernedSection := -1.0\\
-	& discretizationLength := 0.0\\
+		& numberOfSpans := 0\\
+		& spanLength := empty sequence\\
+		& concernedSection := 0.0\\
+		& discretizationLength := 0.0\\
         \end{tabular}
 \item output: out := self
 \item exception: none
@@ -803,54 +777,32 @@ None
 
 \noindent BridgeT getConfiguration():
 \begin{itemize}
-\item output: out := BridgeT \{ numberOfSpans, spanLength, concernedSection, discretizationLength \}.
-\item exception:\\
-    \begin{tabular}{p{1cm}p{15cm}}
-    & numberOfSpans = 0 or spanLength = empty sequence or concernedSection = -1.0 or discretizationLength = 0 $\Rightarrow$ invalidConfiguration\\
-    \end{tabular}
+\item output: out := BridgeT \{ numberOfSpans, spanLength, concernedSection, discretizationLength \}
+\item exception: none
 \end{itemize}
 
 \noindent updateNumberOfSpans(newNumberOfSpans):
 \begin{itemize}
-\item transition: Parse newNumberOfSpans as $\mathbb{N}$ between 1 and 3 (inclusive). Set self.numberOfSpans to the parsed value of newNumberOfSpans.
-\item exception:\\
-    \begin{tabular}{p{1cm} p{16cm}}
-    & If newAxleSpacing has any characters other than 1-3 $\Rightarrow$ invalidConfigurationValue\\
-    & If newAxleSpacing is not a string with length less than 2 $\Rightarrow$ invalidConfigurationValue\\
-    \end{tabular}
+\item transition: Parse newNumberOfSpans as $\mathbb{N}$. Set self.numberOfSpans to the parsed value of newNumberOfSpans.
+\item exception: $exc := newNumberOfSpans \notin \mathbb{N} \Rightarrow invalidConfigurationValue$
 \end{itemize}
 
 \noindent updateSpanLength(newSpanLength):
 \begin{itemize}
-\item transition: Parse newSpanLength as either comma separated or space separated sequence of $\mathbb{R}$ greater than 0. Set self.axleLoad to the parsed value of newAxleLoad.
-\item exception:\\
-    \begin{tabular}{p{1cm} p{16cm}}
-    & If newAxleLoad has commas and spaces, or any of the numbers are parsed as being negative $\Rightarrow$ invalidConfigurationValue\\
-    & If newAxleLoad has any characters other than 0-9, '.', ' ', $\Rightarrow$ invalidConfigurationValue\\
-    & If newAxleLoad has a '.' not followed by a 0-9 $\Rightarrow$ invalidConfigurationValue\\
-    & If newAxleLoad is parsed as a sequence of greater than 3 numbers $\Rightarrow$ invalidConfigurationValue\\
-    \end{tabular}
+\item transition: Parse newSpanLength as a space-separated sequence of $\mathbb{R}$. Set self.axleLoad to the parsed value of newAxleLoad.
+\item exception: $exc := \exists(n | n \in newSpanLength \land (n \notin \mathbb{N} \land n \neq \text{' '})) \Rightarrow invalidConfigurationValue$
 \end{itemize}
 
 \noindent updateConcernedSection(newConcernedSection)
 \begin{itemize}
-\item transition: Parse newConcernedSection as a $\mathbb{R}$ greater than 0.
-\item exception:\\
-    \begin{tabular}{p{1cm} p{12cm}}
-    & If newConcernedSection has any characters other than 0-9 or '.'$\Rightarrow$ invalidConfigurationValue \\
-    & If newConcernedSection has a '.' not followed by a 0-9 $\Rightarrow$ invalidConfigurationValue \\
-    \end{tabular}
+\item transition: Parse newConcernedSection as $\mathbb{R}$. Set self.concernedSection to the parsed value of newConcernedSection.
+\item exception: $exc := newConcernedSection \notin \mathbb{R} \Rightarrow invalidConfigurationValue$
 \end{itemize}
 
 \noindent updateDiscretizationLength(newDiscretizationLength)
 \begin{itemize}
-\item transition: Parse newDiscretizationLength as a $\mathbb{R}$ greater than 0.
-\item exception:\\
-    \begin{tabular}{p{1cm} p{12cm}}
- & If newDiscretizationLength has any characters other than 0-9 or '.' $\Rightarrow$ invalidConfigurationValue\\
-& If newDiscretizationLength has a '.' not followed by a 0-9 $\Rightarrow$ invalidConfigurationValue\\
- \\
-    \end{tabular}
+\item transition: Parse newDiscretizationLength as $\mathbb{R}$. Set self.discretizationLength to the parsed value of newDiscretizationLength.
+\item exception: $exc := newDiscretizationLength \notin \mathbb{R} \Rightarrow invalidConfigurationValue$
 \end{itemize}
 
 \subsubsection{Local Functions}
@@ -937,7 +889,7 @@ None
 & newForceType = "Negative Moment" $\Rightarrow$ forceType := NEGATIVE\_MOMENT $|$\\
 & newForceType = "Shear" $\Rightarrow$ forceType := SHEAR)\\
 \end{tabular}
-\item exception: if newForceType is not one of the above strings $\Rightarrow$ invalidConfigurationValue
+\item exception: $exc := newForceType \notin \{\text{"Positive Moment", "Negative Moment", "Shear"}\} \Rightarrow invalidConfigurationValue$
 \end{itemize}
 
 \noindent updateSolverType(newSolverType):
@@ -947,8 +899,7 @@ None
 & (newSolverType = "Concerned Section" $\Rightarrow$ solverType := CONCERNED $|$\\
 & newSolverType = "Negative Moment" $\Rightarrow$ solverType := CRITICAL)\\
 \end{tabular}
-
-\item exception: if newSolverType is not one of the above strings $\Rightarrow$ invalidConfigurationValue
+\item exception: $exc := newSolverType \notin \{\text{"Concerned Section", "Negative Moment"}\} \Rightarrow invalidConfigurationValue$
 \end{itemize}
 
 \subsubsection{Local Functions}
@@ -1140,7 +1091,7 @@ None
 SolverSaver
 
 \subsection{Uses}
-\hyperref[Saver]{Saver}, \hyperref[SolverConfiguration]{SolverConfiguration}
+\hyperref[Saver]{Saver}, \hyperref[SolverConfiguration]{SolverConfiguration}, \hyperref[Report]{Report}
 
 \subsection{Syntax}
 
@@ -1180,7 +1131,7 @@ None
 
 \noindent  {buttonPressed}()
 \begin{itemize}
-\item output: When the button is clicked, open a windows file dialog to select where to save the file. After the user selects a valid location and clicks save, the method shall call SolverConfiguration().getConfiguration() to get the current solver configuration. Then, the method shall call saveSolverConfiguration with the parsed configuration and the filepath the user specified.
+\item output: When the button is clicked, open a windows file dialog to select where to save the file. After the user selects a valid location and clicks save, the method shall call Report.getReport() to get the current results, plot them, and then save the graph to the filepath the user specified.
 \item exception: none
 \end{itemize}
 
@@ -1350,14 +1301,14 @@ None
 \subsubsection{Local Functions}
 None
 \newpage
-\section{MIS of Solver Configuration Load From File System Visualization} \label{SolverLoader}
+\section{MIS of Output Report Load From File System Visualization} \label{ReportLoader}
 
 \subsection{Module}
 
-SolverLoader
+ReportLoader
 
 \subsection{Uses}
-\hyperref[Loader]{Loader}, \hyperref[SolverConfiguration]{SolverConfiguration}
+\hyperref[Loader]{Loader}, \hyperref[Report]{Report}
 
 \subsection{Syntax}
 
@@ -1372,7 +1323,7 @@ None
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-new SolverLoader & - & SolverLoader & - \\
+new ReportLoader & - & ReportLoader & - \\
 \hline
 buttonPressed & - & - & - \\
 \hline
@@ -1389,15 +1340,15 @@ None
 None
 \subsubsection{Access Routine Semantics}
 
-\noindent {new SolverLoader}()
+\noindent {new ReportLoader}()
 \begin{itemize}
-\item output: out :=  SolverLoader
+\item output: out := ReportLoader
 \item exception: none
 \end{itemize}
 
 \noindent  {buttonPressed}()
 \begin{itemize}
-\item output: When the button is clicked, open a windows file dialog to select the file containing the solver configuration. After the user selects a file and clicks load, the method shall call loadSolverConfiguration() with the file specified by the user. Then, the method shall set the values of SolverConfiguration() with the respective values.
+\item output: When the button is clicked, open a windows file dialog to select the file containing the report. After the user selects a file and clicks load, the method shall call loadReport() with the file specified by the user. Then, the method shall set the values of PlatoonConfiguration, BridgeConfiguration, and SolverConfiguration with the respective values.
 \item exception: none
 \end{itemize}
 
@@ -1435,15 +1386,11 @@ None
 \hline
 new PlatoonVisualizer & - & PlatoonVisualizer & - \\
 \hline
-setAxleLoad & - & - & invalidConfigurationValue \\
+numAxlesChanged & $\mathbb{N}$ & - & -\\
 \hline
-setAxleSpacing & - & - & invalidConfigurationValue\\
+platoonConfigured & - & - & -\\
 \hline
-setNumberOfTrucks & - & - & invalidConfigurationValue \\
-\hline
-setHeadway & - & - & invalidConfigurationValue \\
-\hline
-visualize & - & - & invalidConfiguration \\
+visualize & - & - & -\\
 \hline
 \end{tabular}
 \end{center}
@@ -1451,10 +1398,19 @@ visualize & - & - & invalidConfiguration \\
 \subsection{Semantics}
 
 \subsubsection{State Variables}
-axleLoad: string\\
-axleSpacing: string\\
-numberOfTrucks: string\\
-headway: string
+numAxles: $\mathbb{N}$\\
+axleLoad: sequence of $\mathbb{R}$\\
+axleSpacing: sequence of $\mathbb{R}$\\
+numberOfTrucks: $\mathbb{N}$\\
+headway: $\mathbb{R}$
+\subsubsection{State Invariants}
+$numAxles \geq 3 \land numAxles \leq 17$\\
+$|axleLoad| \leq numberOfTrucks * numAxles$\\
+$|axleSpacing| \leq numberOfTrucks * (numAxles - 1)$\\
+$\forall(x : \mathbb{R} | x \in axleLoad \land x \geq 0.1 \land x \leq 1000)$\\
+$\forall(x : \mathbb{R} | x \in axleSpacing \land x \geq 1.2 \land x \leq 20)$\\
+$numberOfTrucks > 0$\\
+$headway \geq 5.0$
 \subsubsection{Environment Variables}
 None
 \subsubsection{Assumptions}
@@ -1464,36 +1420,36 @@ None
 \noindent \textbf{new PlatoonVisualizer}()
 \begin{itemize}
 \item transition: \\
-        axleLoad := ""\\
-		axleSpacing := ""\\
-		numberOfTrucks := ""\\
-		headway := ""
+		numAxles := 3\\
+		axleLoad := $\emptyset$\\
+		axleSpacing := $\emptyset$\\
+		numberOfTrucks := 1\\
+		headway := 5.0
 \item output: out := self
 \item exception: none
 \end{itemize}
 
-\noindent \textbf{setAxleLoad}()
+\noindent \textbf{numAxlesChanged}(i)
 \begin{itemize}
-\item transition: Whenever the user updates the axleLoad line edit, set the axleLoad string to the value of the line edit. If the user presses enter, then call TruckConfiguration.updateAxleLoad(axleLoad).
-\item exception: TruckConfiguration.updateAxleLoad(axleLoad) could not parse axleLoad $\Rightarrow$ invalidConfigurationValue
+\item transition: numAxles := $i$. Add or remove input fields until there are $i$ axle load fields and $i-1$ axle spacing fields. Call platoonConfigured.
+\item exception: none
 \end{itemize}
 
-\noindent \textbf{setAxleSpacing}()
+\noindent \textbf{platoonConfigured}()
 \begin{itemize}
-\item transition: Whenever the user updates the axleSpacing line edit, set the axleSpacing string to the value of the line edit. If the user presses enter, then call TruckConfiguration.updateAxleSpacing(axleSpacing).
-\item exception: TruckConfiguration.updateAxleSpacing(axleSpacing) could not parse axleSpacing $\Rightarrow$ invalidConfigurationValue
-\end{itemize}
-
-\noindent \textbf{setNumberOfTrucks}()
-\begin{itemize}
-\item transition: Whenever the user updates the numberOfTrucks line edit, set the numberOfTrucks string to the value of the line edit. If the user presses enter, then call TruckConfiguration.updateNumberOfTrucks(numberOfTrucks).
-\item exception: TruckConfiguration.updateNumberOfTrucks(numberOfTrucks) could not parse numberOfTrucks $\Rightarrow$ invalidConfigurationValue
-\end{itemize}
-
-\noindent \textbf{setHeadway}()
-\begin{itemize}
-\item transition: Whenever the user updates the headway line edit, set the headway string to the value of the line edit. If the user presses enter, then call TruckConfiguration.updateHeadway(headway).
-\item exception: TruckConfiguration.updateHeadway(headway) could not parse headway $\Rightarrow$ invalidConfigurationValue
+\item transition: If\\
+	\begin{tabular}{p{1cm} p{14cm}}
+	& $|axleLoad| = numberOfTrucks * numAxles \land$\\
+	& $|axleSpacing| = numberOfTrucks * (numAxles - 1)$
+	\end{tabular}
+	call\\
+	\begin{tabular}{p{1cm} p{14cm}}
+	& TruckConfiguration.updateAxleLoad(axleLoad)\\
+	& TruckConfiguration.updateAxleSpacing(axleSpacing)\\
+	& TruckConfiguration.updateNumberOfTrucks(numberOfTrucks)\\
+	& TruckConfiguration.updateHeadway(headway)
+	\end{tabular}
+\item exception: none
 \end{itemize}
 
 \noindent \textbf{visualize}()
@@ -1505,7 +1461,7 @@ None
 \item Do this truck.numberOfTrucks times.
 \end{itemize}
 Draw the fields for axleLoad, axleSpacing, numberOfTrucks, headway using the respective state variables as their values.
-\item exception: Calling TruckConfiguration.getConfig() yields invalidConfiguration exception $\Rightarrow$ invalidConfiguration
+\item exception: none
 \end{itemize}
 \subsubsection{Local Functions}
 None
@@ -1533,17 +1489,13 @@ None
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-new BridgeVisualizer & - & BridgeVisualizer & - \\
+new BridgeVisualizer & - & BridgeVisualizer & -\\
 \hline
-setNumberOfSpans & - & - & invalidConfigurationValue \\
+numberOfSpansDetermined & seq of $\mathbb{R}$ & - & -\\
 \hline
-setSpanLength & - & - & invalidConfigurationValue\\
+bridgeConfigEdited & - & - & -\\
 \hline
-setConcernedSection & - & - & invalidConfigurationValue \\
-\hline
-setDiscretizationLength & - & - & invalidConfigurationValue \\
-\hline
-visualize & - & - & invalidConfiguration \\
+visualize & - & - & -\\
 \hline
 \end{tabular}
 \end{center}
@@ -1551,10 +1503,16 @@ visualize & - & - & invalidConfiguration \\
 \subsection{Semantics}
 
 \subsubsection{State Variables}
-numberOfSpans: string\\
-spanLength: string\\
-concernedSection: string\\
-discretizationLength: string
+numberOfSpans: $\mathbb{N}$\\
+spanLength: $\mathbb{R}$\\
+concernedSection: $\mathbb{R}$\\
+discretizationLength: $\mathbb{R}$
+\subsubsection{State Invariants}
+$numberOfSpans \geq 1 \land numberOfSpans \leq 3$\\
+$|spanLength| \leq numberOfSpans$\\
+$\forall(x : \mathbb{R} | x \in spanLength \land x \geq 0.0)$\\
+$concernedSection \geq 0.0 \land concernedSection \leq spanLength$\\
+$discretizationLength \geq 0.0$
 \subsubsection{Environment Variables}
 None
 \subsubsection{Assumptions}
@@ -1564,36 +1522,30 @@ None
 \noindent \textbf{new BridgeVisualizer}()
 \begin{itemize}
 \item transition: \\
-        numberOfSpans := ""\\
-		spanLength := ""\\
-		concernedSection := ""\\
-		discretizationLength := ""
+		numberOfSpans := 1\\
+		spanLength := 0.0\\
+		concernedSection := 0.0\\
+		discretizationLength := 0.0
 \item output: out := self
 \item exception: none
 \end{itemize}
 
-\noindent \textbf{setNumberOfSpans}()
+\noindent \textbf{numberOfSpansDetermined}(numberOfSpans)
 \begin{itemize}
-\item transition: Whenever the user updates the numberOfSpans field, set the numberOfFields string to the value of the field and call BridgeConfiguration.updateNumberOfSpans(numberOfSpans).
-\item exception: BridgeConfiguration.updateNumberOfSpans(numberOfSpans) could not parse numberOfSpans $\Rightarrow$ invalidConfigurationValue
+\item transition: Whenever the user updates the numberOfSpans field, set self.numberOfSpans := numberOfSpans. Add or remove span length input fields until there are $numberOfSpans$ fields. Call bridgeConfigEdited().
+\item exception: none
 \end{itemize}
 
-\noindent \textbf{setSpanLength}()
+\noindent \textbf{bridgeConfigEdited}()
 \begin{itemize}
-\item transition: Whenever the user updates the spanLength line edit, set the spanLength string to the value of the line edit. If the user presses enter, then call BridgeConfiguration.updateSpanLength(spanLength).
-\item exception: BridgeConfiguration.updateSpanLength(spanLength) could not parse spanLength $\Rightarrow$ invalidConfigurationValue
-\end{itemize}
-
-\noindent \textbf{setConcernedSection}()
-\begin{itemize}
-\item transition: Whenever the user updates the concernedSection line edit, set the concernedSection string to the value of the line edit. If the user presses enter, then call BridgeConfiguration.updateConcernedSection(concernedSection).
-\item exception: BridgeConfiguration.updateConcernedSection(concernedSection) could not parse concernedSection $\Rightarrow$ invalidConfigurationValue
-\end{itemize}
-
-\noindent \textbf{setDiscretizationLength}()
-\begin{itemize}
-\item transition: Whenever the user updates the discretizationLength line edit, set the discretizationLength string to the value of the line edit. If the user presses enter, then call BridgeConfiguration.updateDiscretizationLength(discretizationLength).
-\item exception: BridgeConfiguration.updateDiscretizationLength(discretizationLength) could not parse discretizationLength $\Rightarrow$ invalidConfigurationValue
+\item transition: Whenever the user updates an input field, if $|spanLength| = numberOfSpans$, convert numberOfSpans, spanLength, concernedSection, and discretizationLength into strings and call\\
+	\begin{tabular}{p{1cm} p{14cm}}
+	& BridgeConfiguration.updateNumberOfSpans(numberOfSpans)\\
+	& BridgeConfiguration.updateSpanLength(spanLength)\\
+	& BridgeConfiguration.updateConcernedSection(concernedSection)\\
+	& BridgeConfiguration.updateDiscretizationLength(discretizationLength)
+	\end{tabular}
+\item exception: none
 \end{itemize}
 
 \noindent \textbf{visualize}()
@@ -1605,7 +1557,7 @@ None
 \item If bridge.sectionOfConcern is defined, then show a vertical line at the position of bridge.sectionOfConcern.
 \end{itemize}
 Draw the input fields for numberOfSpans, spanLength, concernedSection, discretizationLength using the respective state variables as their values.
-\item exception: Calling BridgeConfiguration.getConfig() yields invalidConfiguration exception $\Rightarrow$ invalidConfiguration
+\item exception: none
 \end{itemize}
 \subsubsection{Local Functions}
 None
@@ -1733,7 +1685,8 @@ None
 
 \noindent \textbf{buttonPressed}()
 \begin{itemize}
-\item output: When the button to calculate is pressed, call CalculationCaller().runCalculation(CalculationInputT { TruckConfiguration.getConfig(), BridgeConfiguration.getConfig(), SolverConfiguration.getConfig() }).
+\item output: When the button to calculate is pressed, call\\
+CalculationCaller().runCalculation((CalculationInputT) \{ TruckConfiguration.getConfig(), BridgeConfiguration.getConfig(), SolverConfiguration.getConfig() \}).
 \item exception: if TruckConfiguration(), BridgeConfiguration() are invalid configurations $\Rightarrow$ invalidConfiguration
 \end{itemize}
 \subsubsection{Local Functions}
@@ -1787,7 +1740,7 @@ None
 
 \noindent \textbf{visualize}()
 \begin{itemize}
-\item output: Call Report.getReport(). To visualize the ReportT, show each field of the input alongside its output. Then, to visualize the results, show a depiction of the truck platoon and bridge above a graph. The graph should have an x-axis of the first axle positions, and the y-axis should be the force at each fist axle position. Also, there should be a vertical line where the critical/concerned section is on the bridge. 
+\item output: Call Report.getReport(). To visualize the ReportT, show each field of the input alongside its output. Then, to visualize the results, show a depiction of the truck platoon and bridge above a graph. The graph should have an x-axis of the first axle positions, and the y-axis should be the force at each first axle position. For critical section analysis, there should be a second graph showing the moment envelope with bridge section on the x-axis and moment on the y-axis. Also, there should be a vertical line where the critical/concerned section is on the bridge. 
 \item exception: There is no report $\Rightarrow$ invalidReport
 \end{itemize}
 \subsubsection{Local Functions}
