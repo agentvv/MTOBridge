@@ -33,6 +33,21 @@ from the supervisor shaped your project.  In particular, you should highlight th
 supervisor's response to your Rev 0 demonstration to them.}
 
 \subsection{SRS and Hazard Analysis}
+\subsubsection{SRS}
+
+\subsubsection{Hazard Analysis}
+The changes made to the hazard analysis in response to feedback were relatively small. These changes mainly related to clarity and completeness, and had little impact on the final implementation. The largest change that was made was adding a new hazard relating to the case of lost saved data. Here is a complete list of changes:
+\begin{enumerate}
+  \item Swapped the position of HA-11 and HA-12 for better readability
+  \item Clarified certain vague failure effects (e.g., "program cannot function")
+  \item Modified incorrect failure conditions in HC-2 and HD-2
+  \item Moved SR-3 and SR-4 to phase 2 of implementation
+  \item Changed some of the recommended actions in HA-1 to better resolve the identified failures
+  \item Clarified some of the recommended actions in HA-1, HA-6, and HD-3
+  \item Added background information in section 1
+  \item Added a new hazard for lost save data. 
+\end{enumerate}
+
 
 \subsection{Design and Design Documentation}
 
@@ -43,7 +58,9 @@ supervisor's response to your Rev 0 demonstration to them.}
 \plt{Explain how you arrived at your final design and implementation.  How did
 the design evolve from the first version to the final version?} 
 
-Pedram : Arriving at our final design was a process of rapid requirements gathering, feasibility analysis and software design built upon the initial findings and the proof of concept. In terms of requirements gathering, the client was regularly given multiple mockups of the proposed designs to choose from in addition to refining the requirements, constrains and assumptions. The team would often conduct brief feasibility analysis to better understand the priority and complexity of each ask. Very importantly, relational tools and diagrams where used in documenting and detailing the different components and their interactions.  From the final design, a similar iterative approach was taken for the final implementation. The first steps, including the Rev0, was seen as a prototyping stage where the team made the basic infrastructure and user interface that could later be shaped in different ways. A similar iterative approach was taken with the client where the prototypes where refined and presented in a biweekly manner to clearly highlight what has been completed and what is left to implement. Toward the end, most members focused on rigorous testing to ensure the validity of the implementation. 
+Pedram: Arriving at our final design was a process of rapid requirements gathering, feasibility analysis and software design built upon the initial findings and the proof of concept. In terms of requirements gathering, the client was regularly given multiple mockups of the proposed designs to choose from in addition to refining the requirements, constrains and assumptions. The team would often conduct brief feasibility analysis to better understand the priority and complexity of each ask. Very importantly, relational tools and diagrams where used in documenting and detailing the different components and their interactions.  From the final design, a similar iterative approach was taken for the final implementation. The first steps, including the Rev0, was seen as a prototyping stage where the team made the basic infrastructure and user interface that could later be shaped in different ways. A similar iterative approach was taken with the client where the prototypes where refined and presented in a biweekly manner to clearly highlight what has been completed and what is left to implement. Toward the end, most members focused on rigorous testing to ensure the validity of the implementation. 
+
+Victor: 
 
 \section{Design Decisions (LO12)}
 
@@ -51,6 +68,8 @@ Pedram : Arriving at our final design was a process of rapid requirements gather
  assumptions, and constraints influence your decisions?}
 
 Pedram: As a front-facing software project, the design decisions used in MTOBridge were mostly justified through the perspectives of the stakeholders, often being the client and final user. Nevertheless, there were many factors that also helped justify each decision. For starters, most of the decisions were justified considering the implicit or explicit trade-offs that would be involved. For example, certain frameworks offered less robustness but a higher performance which was not ideal for our scenario. At the same time, there were many constraints that we had to adhere. The program had to be portable and installable on any Windows 10 and 11 machine without the requirement for any other software or applications. These constraint also often included the actual limitations of the framework being used which could vary by use case. Finally, the assumptions and the context for this project, specifically the user behavior and future requirements were other influencing factors. 
+
+Victor: 
 
 \section{Economic Considerations (LO23)}
 
@@ -67,20 +86,28 @@ users currently exist?}
 
 \subsection{How Does Your Project Management Compare to Your Development Plan}
 
+Victor: 
+
 \plt{Did you follow your Development plan, with respect to the team meeting plan, 
 team communication plan, team member roles and workflow plan.  Did you use the 
 technology you planned on using?}
 
 \subsection{What Went Well?}
 
+Victor: 
+
 \plt{What went well for your project management in terms of processes and 
 technology?}
 
 \subsection{What Went Wrong?}
 
+Victor: 
+
 \plt{What went wrong in terms of processes and technology?}
 
 \subsection{What Would you Do Differently Next Time?}
+
+Victor: 
 
 \plt{What will you do differently for your next project?}
 
