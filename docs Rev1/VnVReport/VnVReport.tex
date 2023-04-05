@@ -120,21 +120,36 @@ The SRS is fairly legible and easy to understand, but it has areas in which it c
 Another area in which the SRS lacks legibility is in the figures. None of the figures contain legends which detail what the various symbols and arrows used within the figure represent. This is especially important for the use case diagram (Figure 2), which uses various arrows with different meaning. Adding a simple legend to each figure would solve this issue and improve the readability of the SRS.
 
 \subsection{Design Evaluation}
-\subsubsection{Usability} In a meeting with Dr Yang and her team, we collectively agreed upon a score out of 5 for each of the following Usability metrics the program should 
-have. Below are the scores decided upon along with a paraphrased summary of the group's reasoning.\\
+\subsubsection{Usability Scores for Rev0} In a meeting with Dr Yang and her team, we collectively agreed upon a score out of 10 for each of the following Usability metrics 
+the Rev0 program should have. Below are the scores decided upon along with a paraphrased summary of the group's reasoning.\\
 \begin{itemize}
-\item \textbf{Keeps Users informed about its status:} 3/5 for the wrong reasons. Error messages pop up when something goes wrong, but they also tend to crash the program.\\
-\item \textbf{Show information in a way users understand:} 4/5. Overall acceptable, but the bridge visualization is not very accurate to what a Civil Engineer would expect\\
-\item \textbf{Offer users control:} 2/5. User often loses control of the program due to errors that lead to crashes, and there is no way to undo an error.\\
-\item \textbf{Be consistent:} 4/5. Not bad. A couple of the button labels need to be changed to be consistent across tabs.\\
-\item \textbf{Prevent errors:} 1/5. The program does basically none of this. Error prevention is almost entirely up to the user. Very bad in its current state.\\
-\item \textbf{Have visible information to let users recognize options:} 3/5. The program is fairly simple, and the labels on the buttons imply function well enough to make it
+\item \textbf{Keeps Users informed about its status:} 8/10 for the wrong reasons. Error messages pop up when something goes wrong, but they also tend to crash the program.\\
+\item \textbf{Show information in a way users understand:} 8/10. Overall acceptable, but the bridge visualization is not very accurate to what a Civil Engineer would expect\\
+\item \textbf{Offer users control:} 6/10. User often loses control of the program due to errors that lead to crashes, and there is no way to undo an error.\\
+\item \textbf{Be consistent:} 7/10. Not bad. A couple of the button labels need to be changed to be consistent across tabs.\\
+\item \textbf{Prevent errors:} 2/10. The program does basically none of this. Error prevention is almost entirely up to the user. Very bad in its current state.\\
+\item \textbf{Have visible information to let users recognize options:} 8/10. The program is fairly simple, and the labels on the buttons imply function well enough to make it
 intuitive, but some actual on screen instructions or help hovers would be useful.\\
-\item \textbf{Be flexible:} 1/5. There is only really one way to operate the program, and if the user skips any steps to try and speed things up it usually leads to error.\\
-\item \textbf{Have no clutter:} 5/5. No discussed issues here, no extraneous information was found on any of the tabs.\\
-\item \textbf{Provide plain-language help:} 1/5. No help/documentation tab, and when errors pop up they are C++ jargon and not helpful to a layman user.\\
+\item \textbf{Be flexible:} 5/10. There is only really one way to operate the program, and if the user skips any steps to try and speed things up it usually leads to error.\\
+\item \textbf{Have no clutter:} 9/10. No discussed issues here, no extraneous information was found on any of the tabs.\\
+\item \textbf{Provide plain-language help:} 6/10. No help/documentation tab, and when errors pop up they are C++ jargon and not helpful to a layman user.\\
 \end{itemize}
 There is quite a lot to improve upon here, and we plan to take this into Rev1 and hopefully remeasure all of these at the end with Yang and her team.
+
+\subsubsection{Usability Scores for Rev1} In a meeting with Dr Yang and her team, we collectively agreed upon a score out of 10 for each of the following Usability metrics the
+Rev1 program should have. Below are the scores decided upon along with a paraphrased summary of the group's reasoning.\\
+\begin{itemize}
+\item \textbf{Keeps Users informed about its status:} 10/10 Plain text error messages, and the random crashes have been fixed. Much better!\\
+\item \textbf{Show information in a way users understand:} 9/10. Very good, but it would be nice for the animation to be to scale with the graph.\\
+\item \textbf{Offer users control:} 10/10. All issues with this in rev0 have been fixed!\\
+\item \textbf{Be consistent:} 10/10. No issues mentioned.\\
+\item \textbf{Prevent errors:} 10/10. Program is so much better at preventing errors now. No crashes found.\\
+\item \textbf{Have visible information to let users recognize options:} 9/10. Better affordances to indicate how input should be provided, slightly better than rev0.\\
+\item \textbf{Be flexible:} 9/10. Much better at handling different user inputs and paths through the program, but by nature is still rather rigid in terms of the order things will be done in.\\
+\item \textbf{Have no clutter:} 10/10. Just like Rev0\\
+\item \textbf{Provide plain-language help:} 9/10. Plain text error messages are very helpful, and labels are more descriptive now. Help tab would still be nice.\\
+\end{itemize}
+The scores improved significantly for Rev1, which is very pleasing.
 
 \subsubsection{Flexibility}
 After a review of the module guide, stretch goals, and some hands on experience of expanding and extending the Rev0 demo with more features, we came to the conclusion that
