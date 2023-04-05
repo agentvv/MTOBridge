@@ -49,6 +49,7 @@
 2023-01-17& Adham & Added Sections 4,5,7, and 8\\
 2023-01-17& Farzad & Added Introduction\\
 2023-01-17& Victor & Added Use Hierarchy\\
+2023-04-4& Pedram & Rev1 Changes\\
 \bottomrule
 \end{tabularx}
 
@@ -417,7 +418,7 @@ to be implemented.
         \item[Services:] Allows the user to call the backend calculations to provide simulation results
         \item[Implemented By:] MTOBridge\\
     \end{description}
-    \emph{{\large MATLAB Code Hiding}}
+     \hypertarget{MCH}{\emph{{\large MATLAB Code Hiding}}}
     \begin{description}
         \item[Secrets:] How to calculate the demands imposed on a given bridge by a given truck platoon
         \item[Services:] Provides the outputs of the relevant calculations to the software using the backend MATLAB functions for later use
@@ -453,7 +454,7 @@ to be implemented.
         \item[Services:]Provides a data structure to hold the relevant data
         \item[Implemented By:] MTOBridge\\
     \end{description}
-     \hypertarget{SCDFH}{\emph{{\large Solver Configuration Data Format Hiding}}}
+     \hypertarget{SCDFH}{\emph{{\large Report Configuration Data Format Hiding}}}
     \begin{description}
         \item[Secrets:]The format of the output report
         \item[Services:]Takes visualization and calculation results from the appropriate modules and converts them to an output file format.
@@ -585,7 +586,7 @@ requirements and between the modules and the anticipated changes.
 \toprule
 \textbf{Req.} & \textbf{Modules}\\
 \midrule
-FR.1 & \hyperlink{CCH}{Calculation Call Hiding}, \hyperlink{CCVH}{Calculation Call Visualization Hiding}, and MATLAB Code Hiding\\
+FR.1 & \hyperlink{CCH}{Calculation Call Hiding}, \hyperlink{CCVH}{Calculation Call Visualization Hiding}, and \hyperlink{MCH}{MATLAB Code Hiding}\\
 FR.2 & \hyperlink{TPCVH}{Truck Platoon Configuration Data Storage/Format Hiding and Truck Platoon Configuration Visualization Hiding}\\
 FR.3 & \hyperlink{TPCVH}{Truck Platoon Configuration Visualization Hiding}\\
 FR.4 & \hyperlink{STFSVH}{Save to File System Hiding and Truck Platoon Config. Save to File System Visualization Hiding}\\

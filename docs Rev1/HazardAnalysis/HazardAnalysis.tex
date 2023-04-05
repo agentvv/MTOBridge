@@ -44,6 +44,8 @@ October 12 2022 & Darren & Added System Boundaries \& Components\\
 October 19 2022& Adham & Added Adham/Victor/Farzads FMEA work into a latex table\\
 October 19 2022& Pedram & Added Safety reqs and Roadmap\\
 October 19 2022& Victor & Changes to FMEA table formatting\\
+April 04 2023& Victor & Revision 1\\
+
 
 \bottomrule
 \end{tabularx}
@@ -63,7 +65,7 @@ October 19 2022& Victor & Changes to FMEA table formatting\\
 
 \section{Introduction}
 
-This document is a hazard analysis of MTOBridge. A hazard is a potentially harmful event resulting
+This document is a hazard analysis of MTOBridge. Background for the project can be found in \href{https://github.com/agentvv/MTOBridge/blob/main/docs%20Rev1/ProblemStatementAndGoals/ProblemStatement.pdf}{the Problem Statement}. A hazard is a potentially harmful event resulting
 from the conditions of the system and the environment.
 
 \section{Scope and Purpose of Hazard Analysis}
@@ -110,14 +112,14 @@ any assumptions about its correctness and functionality.
   \endhead
   UI & UI displays truck config incorrectly. & User confusion / misleading interface. &
   \begin{enumerate}[leftmargin=*, label={\alph*.}, itemsep=1pt, topsep=0pt, partopsep=0pt] 
-    \item Incorrect processing of user input.
-    \item Runtime error in truck display module.
+    \item Failure to catch invalid user input.
+    \item Bug or error in truck display module.
     \item Unexpected/boundary case user input.
   \end{enumerate} &
   \begin{enumerate}[leftmargin=*, label={\alph*.}, itemsep=1pt, topsep=0pt, partopsep=0pt] 
+    \item Ensure truck display module has correct input bounds and safety net to catch invalid user input.
     \item Thoroughly test the truck display module to avoid unexpected responses to input.
-    \item Ensure truck display module has robust error handling to avoid catastrophic failure if an error is encountered.
-    \item Design modules with separation of concerns in mind to limit complexity and increase program robustness.
+    \item User input modules will be tested thoroughly to ensure that all boundary cases are accounted for.
   \end{enumerate} & 
   None & HA-1 \\
 
@@ -126,11 +128,11 @@ any assumptions about its correctness and functionality.
   UI & UI does not update to match truck config. & User missing important information. & 
   \begin{enumerate}[leftmargin=*, label={\alph*.}, itemsep=1pt, topsep=0pt, partopsep=0pt] 
     \item Failure to catch invalid user input.
-    \item Runtime error in truck display module.
+    \item Bug or error in truck display module.
     \item Unexpected/boundary case user input.
   \end{enumerate} &
   \begin{enumerate}[leftmargin=*, label={\alph*.}, itemsep=1pt, topsep=0pt, partopsep=0pt] 
-    \item Ensure truck display module has correct input bounds and safety net to catch invalid user input.
+    \item Same as HA-1a
     \item Same as HA-1b
     \item Same as HA-1c
   \end{enumerate} & 
@@ -140,13 +142,13 @@ any assumptions about its correctness and functionality.
 
   UI & UI displays bridge config incorrectly. & User confusion / misleading interface. &
   \begin{enumerate}[leftmargin=*, label={\alph*.}, itemsep=1pt, topsep=0pt, partopsep=0pt] 
-    \item Incorrect processing of user input.
-    \item Runtime error in bridge display module.
+    \item Failure to catch invalid user input.
+    \item Bug or error in bridge display module.
     \item Unexpected/boundary case user input.
   \end{enumerate} &
   \begin{enumerate}[leftmargin=*, label={\alph*.}, itemsep=1pt, topsep=0pt, partopsep=0pt] 
     \item Ensure bridge display module has correct input bounds and safety net to catch invalid user input.
-    \item Same as HA-1b.
+    \item Thoroughly test the bridge display module to avoid unexpected responses to input.
     \item Same as HA-1c.
   \end{enumerate} & 
   None & HA-3 \\
@@ -156,12 +158,12 @@ any assumptions about its correctness and functionality.
   UI & UI does not update to match new bridge config. & User missing important information. &
   \begin{enumerate}[leftmargin=*, label={\alph*.}, itemsep=1pt, topsep=0pt, partopsep=0pt] 
     \item Failure to catch invalid user input.
-    \item Runtime error in truck display module.
+    \item Bug or error in bridge display module.
     \item Unexpected/boundary case user input.
   \end{enumerate} &
   \begin{enumerate}[leftmargin=*, label={\alph*.}, itemsep=1pt, topsep=0pt, partopsep=0pt] 
-    \item Same as HA-2a.
-    \item  Same as HA-1b.
+    \item Same as HA-3a.
+    \item  Same as HA-3b.
     \item Same as HA-1c.
   \end{enumerate} &
   None & HA-4 \\
@@ -190,21 +192,21 @@ any assumptions about its correctness and functionality.
   \end{enumerate} &
   \begin{enumerate}[leftmargin=*, label={\alph*.}, itemsep=1pt, topsep=0pt, partopsep=0pt] 
     \item Thoroughly test calculation display module(s) to avoid unexpected behavior.
-    \item Include checks to determine if the two displays align and catch/correct it if they don’t.
+    \item Include check of truck display location (as in coordinates of trucks in the animation) vs bridge load animation frame within display logic to endure the two displays are alligned. Re-calculate and restart animation if they are not.
   \end{enumerate} &
   SR-1 & HA-6 \\
 
   \hline
 
-  UI & Platoon trip and bridge load synch check(s) provide false positives or negatives. & 
+  UI & Platoon trip and bridge load sync check(s) provide false positives or negatives. & 
   Deny a fine display or let through an erroneous one. & 
   \begin{enumerate}[leftmargin=*, label={\alph*.}, itemsep=1pt, topsep=0pt, partopsep=0pt] 
-    \item Incorrect synch check logic.
-    \item Unexpected bug or glitch in synch module.
+    \item Incorrect sync check logic.
+    \item Unexpected bug or glitch in sync module.
   \end{enumerate} & 
   \begin{enumerate}[leftmargin=*, label={\alph*.}, itemsep=1pt, topsep=0pt, partopsep=0pt] 
-    \item Thoroughly test synch checks to avoid unexpected behavior.
-    \item Simplify synch check logic while maintaining accuracy to limit the chance of incorrect logic.
+    \item Thoroughly test sync checks to avoid unexpected behavior.
+    \item Simplify sync check logic while maintaining accuracy to limit the chance of incorrect logic.
   \end{enumerate} &
   SR-1 & HA-7 \\
 
@@ -252,6 +254,18 @@ any assumptions about its correctness and functionality.
   None & HA-10 \\
 
   \hline
+
+  UI & UI encounters parallel computing issue such as deadlock/race condition. & 
+  Incorrect results or unexpected program behavior &
+  \begin{enumerate}[leftmargin=*, label={\alph*.}, itemsep=1pt, topsep=0pt, partopsep=0pt] 
+    \item Multiple threads modifying the same values/waiting on each other.
+  \end{enumerate} &
+  \begin{enumerate}[leftmargin=*, label={\alph*.}, itemsep=1pt, topsep=0pt, partopsep=0pt] 
+    \item Implement proper thread safety measures to avoid deadlocks, race conditions, etc\ldots
+  \end{enumerate} &
+  SR-2 & HA-11 \\
+
+  \hline
   
   UI & UI stops reacting to user inputs & User locked out from using UI, program is unusable. &
   \begin{enumerate}[leftmargin=*, label={\alph*.}, itemsep=1pt, topsep=0pt, partopsep=0pt] 
@@ -260,31 +274,19 @@ any assumptions about its correctness and functionality.
   \end{enumerate} & 
   \begin{enumerate}[leftmargin=*, label={\alph*.}, itemsep=1pt, topsep=0pt, partopsep=0pt] 
     \item Ensure all display modules have robust error handling to avoid catastrophic failure if an error is encountered, and design all modules with separation of concerns in mind to limit error propagation.
-    \item Implement proper thread safety measures to avoid deadlocks, race conditions etc..
-  \end{enumerate} &
-  SR-2 & HA-11 \\
-
-  \hline
-
-  UI & UI encounters parallel computing issue such as deadlock/race condition. & 
-  Incorrect results or unexpected program behavior &
-  \begin{enumerate}[leftmargin=*, label={\alph*.}, itemsep=1pt, topsep=0pt, partopsep=0pt] 
-    \item Multiple threads modifying the same values/waiting on each other.
-  \end{enumerate} &
-  \begin{enumerate}[leftmargin=*, label={\alph*.}, itemsep=1pt, topsep=0pt, partopsep=0pt] 
-    \item Same as HA-11b.
+    \item Same as HA-11a.
   \end{enumerate} &
   SR-2 & HA-12 \\
 
   \hline
 
-  Matlab Interaction & Data received is incorrectly formatted. & Program cannot function. & 
+  Matlab Interaction & Data received is incorrectly formatted. & Program cannot display or save calculation results. & 
   \begin{enumerate}[leftmargin=*, label={\alph*.}, itemsep=1pt, topsep=0pt, partopsep=0pt] 
     \item One-time error in cross-program communication caused by outside factors (OS, hardware, etc.).
     \item Bug or error in MATLAB engine.
   \end{enumerate} &
   \begin{enumerate}[leftmargin=*, label={\alph*.}, itemsep=1pt, topsep=0pt, partopsep=0pt] 
-    \item Try all calculations a second time if first calculation fails.
+    \item Try all calculations a second time if first calculation fails. If it fails a second time, then the errors are most likely being produced by cause b and those recommended actions must be taken.
     \item The MATLAB engine will be tested thoroughly to try to reduce the amount of bugs it has. 
     The program will always log in-depth error information and display an error message to the user telling them to 
     contact the developers when there is an issue with the MATLAB component. 
@@ -293,7 +295,7 @@ any assumptions about its correctness and functionality.
 
   \hline
 
-  Matlab Interaction & Unable to call engine. & Program cannot function. &
+  Matlab Interaction & Unable to call engine. & Program cannot perform calculations. &
   \begin{enumerate}[leftmargin=*, label={\alph*.}, itemsep=1pt, topsep=0pt, partopsep=0pt] 
     \item One-time error in cross-program communication caused by outside factors (OS, hardware, etc.).
     \item Engine not installed / installed improperly.
@@ -307,7 +309,7 @@ any assumptions about its correctness and functionality.
 
   \hline
 
-  Matlab Engine & The engine crashes unexpectedly. & Program cannot function. &
+  Matlab Engine & The engine crashes unexpectedly. & Program cannot display or save calculation results. &
   \begin{enumerate}[leftmargin=*, label={\alph*.}, itemsep=1pt, topsep=0pt, partopsep=0pt] 
     \item One-time crash caused by outside factors (OS, hardware, etc.).
     \item Bug or error in MATLAB engine.
@@ -320,7 +322,7 @@ any assumptions about its correctness and functionality.
 
   \hline
 
-  Matlab Engine & The engine calculations take more time than should be required (more than 1 second). &
+  Matlab Engine & The engine calculations take more time than should be required (more than 10 seconds). &
   Program must wait for results. &
   \begin{enumerate}[leftmargin=*, label={\alph*.}, itemsep=1pt, topsep=0pt, partopsep=0pt] 
     \item One-time error causing infinite looping caused by outside factors (OS, hardware, etc.).
@@ -335,7 +337,7 @@ any assumptions about its correctness and functionality.
   \hline
 
   Matlab Engine & Data received from the engine is incorrect (as in physically impossible). &
-  Program cannot function. &
+  Program cannot display or save calculation results as they are incorrect. &
   \begin{enumerate}[leftmargin=*, label={\alph*.}, itemsep=1pt, topsep=0pt, partopsep=0pt] 
     \item One-time calculation error caused by outside factors (OS, hardware, etc.).
     \item Bug or error in MATLAB engine.  
@@ -360,7 +362,7 @@ any assumptions about its correctness and functionality.
 
   \hline
 
-  Input Handler & Handler unable to handle to incorrect type of input. & System crash. &
+  Input Handler & Handler passes incorrect type of input to other components. & System crash. &
   \begin{enumerate}[leftmargin=*, label={\alph*.}, itemsep=1pt, topsep=0pt, partopsep=0pt] 
       \item Accidental mix and match of inputs, for example inputting string into bridge length.
   \end{enumerate} &
@@ -376,7 +378,7 @@ any assumptions about its correctness and functionality.
     \item Submitting before completing all input.
   \end{enumerate} &
   \begin{enumerate}[leftmargin=*, label={\alph*.}, itemsep=1pt, topsep=0pt, partopsep=0pt] 
-    \item Detecting if required inputs are missing.
+    \item Detecting if required inputs are missing. If they are then notify user that all inputs must be completed before calculations can be started, and do not pass on incomplete inputs.
   \end{enumerate} &
   None & HD-3 \\
 
@@ -407,6 +409,19 @@ any assumptions about its correctness and functionality.
     \item Same as HE-2a.
   \end{enumerate} & 
   SR-8 & HE-2 \\
+
+  \hline
+
+  File Manager & File containing saved data is lost. & User cannot load previously saved data. &
+  \begin{enumerate}[leftmargin=*, label={\alph*.}, itemsep=1pt, topsep=0pt, partopsep=0pt] 
+    \item File was moved or deleted by user.
+    \item File was deleted by the system file manager.
+  \end{enumerate} &
+  \begin{enumerate}[leftmargin=*, label={\alph*.}, itemsep=1pt, topsep=0pt, partopsep=0pt] 
+    \item When saving a file, the user will be prompted to input a memorable and meaningful name and location on disk. Saved files will have a specific extension indicating that they are files associated with the program.
+    \item User will be warned if the location they are saving the file to is on a disk with very limited space.
+  \end{enumerate} & 
+  None & HE-3 \\
   \hline
 \end{longtable}
 \end{landscape}
@@ -490,18 +505,19 @@ system. These requirements will be developed as part of the primary development 
 stretch requirements for later implementation. 
 
 \subsection{Phase 1}
-Critical requirements include SR-1, SR-2, SR-3, SR-4, SR-5 and SR-6. SR-1 is meant to mitigate the risk of mismatch and 
+Critical requirements include SR-1, SR-2, SR-5 and SR-6. SR-1 is meant to mitigate the risk of mismatch and 
 miscalculations across modules which, even though very unlikely, can cause faulty results with a low chance of 
 detection. SR-2 is to avoid any problems that may occur in a multi-threaded system, where there is significant risk.
-SR-3 and SR-4 are to implement the logging system which will directly support debugging, especially due to engine and 
-pipeline errors. SR-5, SR-6 are meant to mitigate the risks associated with user input. While these requirements may 
+SR-5, SR-6 are meant to mitigate the risks associated with user input. While these requirements may 
 take a long time to develop, they have high probability and severity and should be implemented as soon as possible.
 
 \subsection{Phase 2}
-Phase two requirements include SR-7 and SR-8. SR-7 is a security requirement meant to validate imported files and their 
-integrity through different methods. While a fairly important requirement, we believe that it has a low probability of 
-occurrence and high time to develop. Similarly, SR-8 is another requirement which can protect the user against 
-unforeseen environment changes such as computer crashes or power outages. Such requirements are of low priority and are 
-scheduled as part of the stretch requirements for later development.
+Phase two requirements include SR-3, SR-4, SR-7 and SR-8. SR-3 and SR-4 are to implement the logging system which will
+directly support debugging, especially due to engine and pipeline errors. Supporting debugging would be helpful for developement
+and for future changes, but it is not an important feature to have immediately. SR-7 is a security requirement meant to
+validate imported files and their integrity through different methods. While a fairly important requirement, we believe
+that it has a low probability of occurrence and high time to develop. Similarly, SR-8 is another requirement which can
+protect the user against unforeseen environment changes such as computer crashes or power outages. Such requirements are
+of low priority and are scheduled as part of the stretch requirements for later development.
 
 \end{document}
