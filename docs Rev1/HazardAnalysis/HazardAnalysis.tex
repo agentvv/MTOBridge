@@ -409,6 +409,19 @@ any assumptions about its correctness and functionality.
     \item Same as HE-2a.
   \end{enumerate} & 
   SR-8 & HE-2 \\
+
+  \hline
+
+  File Manager & File containing saved data is lost. & User cannot load previously saved data. &
+  \begin{enumerate}[leftmargin=*, label={\alph*.}, itemsep=1pt, topsep=0pt, partopsep=0pt] 
+    \item File was moved or deleted by user.
+    \item File was deleted by the system file manager.
+  \end{enumerate} &
+  \begin{enumerate}[leftmargin=*, label={\alph*.}, itemsep=1pt, topsep=0pt, partopsep=0pt] 
+    \item When saving a file, the user will be prompted to input a memorable and meaningful name and location on disk. Saved files will have a specific extension indicating that they are files associated with the program.
+    \item User will be warned if the location they are saving the file to is on a disk with very limited space.
+  \end{enumerate} & 
+  None & HE-3 \\
   \hline
 \end{longtable}
 \end{landscape}

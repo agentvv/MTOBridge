@@ -76,8 +76,8 @@ interested in knowing more about.\\
 \subsection{Objectives}
 
 There are two overarching objectives to any V\&V plan, ensuring we are actually building what we want to build correctly, or verification,
-and ensuring that we think we want to build is what the client actually wants from us, or validation. Verification is where a lot of the domain specific definitions
-of “correct” actually come in. As far as the verification plans for the design documents, the main goal is to build confidence that the design documents are complete,
+and ensuring that we plan to build is what the client actually wants, or validation. Verification is where a lot of the domain specific definitions
+of “correct” come in. As far as the verification plans for the design documents, the main goal is to build confidence that the design documents are complete,
 verifiable, unambiguous, and generally of high quality. The design documents inform the implementation to a huge degree, so ensuring we are building on a solid foundation
 is one of the main goals of this plan. As we are building a user interface, non functional qualities such as usability and performance/responsiveness are of 
 utmost importance, and many of the tests outlined in this document will center around building confidence that our program has those qualities, or at least 
@@ -87,13 +87,13 @@ in a predictable way. Ensuring our program properly executes all the functions w
 
 \subsection{Relevant Documentation}
 
-Essentially every design document written for this project will be relevant documentation here, a mostly exhaustive list of this would include:
-\href{https://github.com/agentvv/MTOBridge/blob/main/docs/ProblemStatementAndGoals/ProblemStatement.pdf}{The Problem Statement}\\
-\href{https://github.com/agentvv/MTOBridge/blob/main/docs/DevelopmentPlan/DevelopmentPlan.pdf}{The Development Plan}\\
-\href{https://github.com/agentvv/MTOBridge/blob/main/docs/SRS/SRS.pdf}{The SRS}\\
-\href{https://github.com/agentvv/MTOBridge/blob/main/docs/HazardAnalysis/HazardAnalysis.pdf}{The Hazard Analysis}\\
-The Module Guide: This document is not yet written, but will be extremely relevant for this plan, particularly for unit testing\\
-The Module Interface Spec: Same as the Module Guide.\\
+Almost every design document written for this project will be relevant documentation here, as the V\&V plan involves validating the design documents as well as the implementation.
+Relevant documents are listed below.
+\href{https://github.com/agentvv/MTOBridge/blob/main/docs Rev1/SRS/SRS.pdf}{The SRS}: The document involves a plan to Verify \& Validate the SRS\\
+\href{https://github.com/agentvv/MTOBridge/blob/main/docs Rev1/HazardAnalysis/HazardAnalysis.pdf}{The Hazard Analysis}: The Hazard Analysis informs the SRS\\
+\href{https://github.com/agentvv/MTOBridge/blob/main/docs Rev1/Design/SoftArchitecture/MG.pdf}{The Module Guide}: This document will be extremely relevant for this plan, 
+particularly for unit testing\\
+\href{https://github.com/agentvv/MTOBridge/blob/main/docs Rev1/Design/SoftDetailedDes/MIS.pdf}{The Module Interface Spec}: Same as the Module Guide.\\
 
 \section{Plan}
 
@@ -139,28 +139,36 @@ the development team ourselves. And will be split into three separate reviews th
 \item Checking requirements ambiguity
 \end{itemize} 
 
-Two members of the team will be assigned to each of the three reviews, a compromise between giving each task more than 1 set of eyes and maintaining a feasible schedule
-for the review. There are, after all, many other parts of this plan to be implemented.  As well, these same criteria go for both the functional and non-functional requirements,
+Two members of the team will be assigned to 2 of the effectively 6 reviews, a compromise between giving each task more than 1 set of eyes and maintaining a feasible schedule
+for the review. There are, after all, many other parts of this plan to be implemented. The assignments are as follows: 
+\begin{itemize}
+\item \textbf{Adham\&David}: Completeness \& Testability\\
+\item \textbf{Pedram\&Victor}: Ease of Understanding \& Ambiguity\\
+\item \textbf{Darren\&Farzad}: Spelling \& Grammar \& Abstraction\\
+\end{itemize}
+As well, these same criteria go for both the functional and non-functional requirements,
 and both will be reviewed in one pass. The subgroups will then discuss their findings at a meeting where any necessary changes to the SRS will be discussed. External, 
 more holistic reviews of quality will also be conducted by 2 other teams enrolled in the course as well as the teaching staff, and this feedback will also be discussed 
 amongst the group.\\\\ For requirements completeness, much of the same methodology of document readthroughs and reviews will occur, however the goal will be to identify any 
 missing functionality through the review. The creation of other documents, such as the Hazard Analysis, is also done with ensuring SRS completeness in mind. The process of 
-drafting these documents can illuminate new requirements previously unnoticed. This is also where the client, the Civil Eng. team we are working with, can come in handy.
-Of course, we based our requirements entirely off of discussions with them, however it is often said that people can’t tell you exactly what they want, however if you show
-them something specific, they can tell you whether or not they want that. It is not expected that the client will read the entire document, but we plan to prepare a quick 
-summary of the requirements and present it to them and get their feedback on if anything strikes them as missing/incorrect. Naturally the client will also play a huge role
-in Software validation, but this will be discussed in Section 4.7. A final note on completeness, it is impossible to prove that the SRS is truly, 100\% complete, but our team’s
-mindset is that if we do our due diligence, we should get 99\% of the way there, and the difference should be negligible.\\\\
+drafting these documents can illuminate new requirements previously unnoticed. This is also where the client, the Civil Eng. team we are working with, comes in.
+Of course, the requirements are based entirely off of discussions with them, however, continued confirmation that the project is implementing everything they want is important. 
+It is not expected that the client will read the entire document, but we plan to prepare a quick summary of the requirements and present it to them and get their feedback.
+Naturally the client will also play a huge role in Software validation, but this will be discussed in Section 4.7.A final note on completeness, it is impossible to prove that the SRS is 
+truly, 100\% complete, but the goal is that if we do our due diligence, we should get 99\% of the way there, and the difference should be negligible.\\\\
 Once again, for grammar/spelling the same methodology applies, however this review process will be entirely internal. 1-2 group members will be assigned to 
 check the document and ensure no errors of this nature exist. This step, while simple, is still important for the understandability and disambiguation of the document.\\\\
 Finally, the last goal with regards to the SRS; legibility and ease of understanding, is a very subjective one. The main idea here is that the document should present 
 its information in as easy to digest a way as possible. Is related information located near to each other? Is there proper traceability between all parts of the document? 
-Is the document easy to navigate? These are the kinds of questions that 1 group member will be assigned to answer. Once again, they will report their findings and any 
+Is the document easy to navigate? These are the kinds of questions the assigned group members will seek to answer. Once again, they will report their findings and any 
 recommendations to the group in the nearest meeting to their completion of the review chronologically.
 
 \subsection{Design Verification Plan}
 
-MTO bridge is bringing value mainly through creating an accessible user-friendly platform for bridge engineers. Therefore, the associated usability verification process should be more elaborate and done with greater insistence. The second most important design aspect is anticipation of change since our development effort is limited by the number of team members as well as the duration of this course. As a result, it’s important to verify our design output accommodates for potential future alterations. In our list of design metrics anticipation of change is divided into two design metrics flexibility and maintainability.\\\\
+MTO bridge is bringing value mainly through creating an accessible user-friendly platform for bridge engineers. Therefore, the associated usability verification process 
+should be more elaborate and done with greater insistence. The second most important design aspect is anticipation of change since our development effort is limited by the 
+number of team members as well as the duration of this course. As a result, it’s important to verify our design output accommodates for potential future alterations. 
+In our list of design metrics anticipation of change is divided into two design metrics flexibility and maintainability.\\\\
 List of design metrics (in order of priority):
 \begin{itemize}
 \item \textbf{Usability}: How user friendly the system is. \\
@@ -177,8 +185,13 @@ The Heuristic Evaluation checklist below will be used by some of our and Dr.Yang
     \item\textbf{Provide plain-language help} regarding errors and solutions.\\
     \end{itemize}
 \item\textbf{Flexibility:} The ease of expanding the product with new feature sets and capabilities.\\
-We shall refer the module guide (MG) and determine based on the stretch goals section of the problem statement and goals document the feasibility of decomposition as well as design flexibility.
-For example, one of our stretch goals was the ability to draw two dimensional models of bridges and have analysis performed based on the sketches. Graphical additions of this sort which might be common for our application would require a software design that decouples the “view” component as much as possible from other components. Our second stretch goal was having a customizable UI, consequently our sub-architecture for the "view" component should accommodate for a plug-and-play behaviour. A team members and volunteer class members from a different group will be divided into two groups and each group is responsible for verification of flexibility of one stretch goal. They can provide us with feedback in separate meetings, after they were given time to examine our Module Guide, on whether our modular structure and overall architecture can facilitate for this design metric.\\
+We shall refer the module guide (MG) and determine based on the stretch goals section of the problem statement and goals document the feasibility of decomposition as well as 
+design flexibility. For example, one of our stretch goals was the ability to draw two dimensional models of bridges and have analysis performed based on the sketches.
+Graphical additions of this sort which might be common for our application would require a software design that decouples the “view” component as much as possible from other 
+components. Our second stretch goal was having a customizable UI, consequently our sub-architecture for the "view" component should accommodate for a plug-and-play behaviour. 
+A team members and volunteer class members from a different group will be divided into two groups and each group is responsible for verification of flexibility of one stretch 
+goal. They can provide us with feedback in separate meetings, after they were given time to examine our Module Guide, on whether our modular structure and overall architecture
+can facilitate for this design metric.\\
 \item\textbf{Maintainability:} The ease of coding bug repairs and adding minor features.\\
 Maintainability is greatly dependent on principles such as information hiding, code reusability and single-responsibility. The MG will be examined to particularly check for proper decomposition of modules and the “secrets” they hide through their interface. Base classes and inheritance should be utilized in cases where a general module can be decomposed into smaller sub-classes. The MIS (Module Interface Specification) shall be analyzed to ensure that every function is only responsible for doing one thing and if its other functionalities can be separated using new methods. Code inspections will be performed to identify repetitive logic and separate them using a helper function or class. The code inspections, MG and MIS analysis are going to be conducted by all team members. MG and MIS analysis will commence as soon as they are completed and code inspections begin when the first prototype is created. Each team member is going to be responsible for a component and its code inspection (same for MG and MIS assessments).
 \end{itemize}
@@ -193,23 +206,32 @@ Similar to other sections, the V\&V verification plan involves a set of reviews 
 \end{itemize} 
 For all of these reviews there are three major divisions for the document. Verification/Validation Plans, System Tests, and Unit Tests. These divisions exist as the definition
 of “complete, unambiguous, and feasible” is likely to be different, or at least they might be achieved differently for each of these sections, particularly between the plans
-and the tests. For the most part, all of these reviews will be completed by assigning 2 members of the group to each of the three sections, having them conduct their analysis,
-and reporting their findings and recommendations for changes to the group at the nearest available meeting. The only exception to this general rule is that a more holistic 
-and comprehensive single review will be performed by the teaching staff for the capstone course, and some feedback from 1-2 other groups will be generated as well. 
-Some more detailed notes on each of the goals follows below.\\\\ As far as completeness, the main aim here is to ensure that the plans and tests as written, if executed,
+and the tests. Howver, due to time constraints it would be infeasible to conduct 12 different reviews on this document, so each review will be assigned to one team member who
+will cover all three sections for their specific review. As for the SRS each member will complete their analysis, document their findings, and report them as well as any
+recommendations for changes to the group at the nearest available meeting. The assignments are as follows:
+\begin{itemize}
+  \item \textbf{Victor}: Completeness\\
+  \item \textbf{Pedram}: Unambiguousness\\
+  \item \textbf{Darren}: Feasibility\\
+  \item \textbf{Adham}: Overall accomplishment of Objectives\\
+  \end{itemize} 
+There will also be a more holistic and comprehensive single review that will be performed by the teaching staff for the capstone course, 
+and some feedback from 1-2 other groups will be generated as well. Some more detailed notes on each of the goals follows below.\\\\ 
+As far as completeness, the main aim here is to ensure that the plans and tests as written, if executed,
 would genuinely function as a comprehensive verification and validation of the program. As well, this plan should be easy to follow by a third party with no information
-provided besides this document and a primer on how to execute the code perhaps. Similarly to the SRS verification, 100\% completeness can never be guaranteed no matter how many
+provided besides this document and a primer on how to run the code. Similarly to the SRS verification, 100\% completeness can never be guaranteed no matter how many
 reviews we do, but an effort to strive towards that goes a long way.\\\\ For ambiguity, this connects to what was talked about at the end of the completeness section. 
 This plan is worthless if we can’t actually follow it and draw conclusions from it, so it needs to be clear what is to be done, how it is to be done, and what we should expect
 to get out of it. Making the plan unambiguous also helps this document to serve as a reliable test of the program. That is, if there’s only one way to interpret the plans, 
 and the document is well thought out, the plan should return mostly the same results if given the same input program and documents, every time.\\\\
 Feasibility is simple, but important. There is always more testing that can be done, more through reviews that can be conducted, infinitely recursing verification plans
-and plans to verify the plans and plans to verify those plans, but at a certain point the buck must stop and considerations for the fact that this plan is written
+and plans to verify the plans and plans to verify those plans, but at a certain point the recursion must stop and considerations for the fact that this plan is written
 with the intent to actually be carried out to the tee by a group of students with time constraints and other priorities must be made. A balance must be struck between
 accomplishing the objectives set out in this document to the best of our abilities, and not overestimating what those abilities actually are.\\\\ The last goal is somewhat
 related to all three of the previous ones. It basically functions as a final review of the document following the other three to double check the entire document more
-holistically. If the document is complete, unambiguous, and feasible, this goal is likely already accomplished, but a holistic review will both not take too much time to
-complete following the information gathered from the previous three and also serve as a nice wrap up for the verification.
+holistically, and ensure that it accomplishes the objectives laid out in section 3.2. If the document is complete, unambiguous, and feasible, 
+this goal is likely already accomplished, but a holistic review will both not take too much time to complete following the information gathered from the previous three
+and also serve as a wrap up for the verification.
 
 \subsection{Implementation Verification Plan}
 \begin{itemize}
@@ -235,10 +257,10 @@ it comes standard with GCC, and will hook in directly with our compilation.
 
 \subsection{Software Validation Plan}
 
-There will be multiple steps to validating our software, however they will all have the same goal. Answering this question:  Are we building/did we build what our client wanted
-us to build, or has there been some terrible misunderstanding? Well, if there’s always only one goal, then why are there multiple steps? We plan to have the validation
-process be a continuous one throughout the development of the project. Sure, we could wait till the program was mostly done and then only check with them once we had 
-something concrete to show, but that can lead to catastrophic refactoring if it turns out we weren’t on the right track.\\\\ We already have biweekly meetings
+There will be multiple steps to validating our software, however they will all have the same goal. Answering this question: Are we building/did we build what our client wanted
+us to build, or has there been some terrible misunderstanding? We plan to have the validation
+process be a continuous one throughout the development of the project, as waiting until the program is mostly done and checking with the client once we have 
+something concrete to show can lead to catastrophic refactoring if it turns out we weren’t on the right track.\\\\ We already have biweekly meetings
 scheduled with the client for the lifespan of the project, every Friday at 10:00-11:00am. In the earlier stages of the project, these served as requirements elicitation
 meetings and an opportunity to deepen our understanding of the problem. Now that the project is well underway, however, these same meetings will switch to a primarily software
 validation role. As we make progress on the project, and lock in design decisions, we can run them by our primary stakeholder to ensure our vision remains aligned with theirs
@@ -248,7 +270,7 @@ but this exact methodology in a slightly more general sense would work perfectly
 set of ideas and receive feedback from the client on how well this solves their problem and how it could be improved/what to avoid.\\\\ The implementation of this
 section of the V\&V plan may sound a little vague in comparison to others, and that’s because it is. It’s difficult to predict exactly how client meetings may affect our
 next steps or even refactor our requirements entirely, so the best way to track and report on the implementation of this section is likely in a set of meeting minutes
-from each of the biweekly meetings and subsequent team follow up meetings, cut down to include only relevant V\&V information, and stuck into the V\&V report.
+from each of the biweekly meetings and subsequent team follow up meetings, cut down to include only relevant V\&V information, in the V\&V report.
 
 \section{System Test Description}
 	
@@ -257,8 +279,49 @@ from each of the biweekly meetings and subsequent team follow up meetings, cut d
 Below are system tests for the functional requirements in the SRS for MTOBridge.
 Each functional requirement has at least one system test. The identifiers follow a pattern of
 functional requirement number, system test number. For example, FR1.ST2 refers to the second
-system test for functional requirement 1.
-
+system test for functional requirement 1.\\
+As well, many of the tests below utilize the same valid or invalid truck or bridge configuration for input. For the sake of space and legibility, these template configurations
+are listed below, and will be referred to by their names in the input section of the system tests. They are TruckConfig1, TruckConfig2, BridgeConfig1, and BridgeConfig2, 
+SolverConfigConcerned, and SolverConfigCritical,
+1 refers to a valid configuration, 2 to an invalid one.\\
+\textbf{TruckConfig1}
+\begin{itemize}
+\item NumberOfTrucks: 3
+\item Headway: 15
+\item AxleLoads: [52 52 52 52]
+\item AxleSpacings: [7 3 2]
+\end{itemize}
+\textbf{TruckConfig2}
+\begin{itemize}
+\item NumberOfTrucks: I
+\item Headway: Love
+\item AxleLoads: Software
+\item AxleSpacings: Enginering 
+\end{itemize}
+\textbf{BridgeConfig1}
+\begin{itemize}
+\item NumberOfSpans: 3 
+\item SpanLength: [40 40 40]
+\item ConcernedSection: 10
+\item DiscretizationLength: 0.1m
+\end{itemize}
+\textbf{BridgeConfig2}
+\begin{itemize}
+\item NumberOfSpans: Cats  
+\item SpanLength: hate
+\item ConcernedSection: getting
+\item DiscretizationLength: wet
+\end{itemize}
+\textbf{SolverConfigConcerned}
+\begin{itemize}
+\item ForceType: Positive Moment  
+\item SolverType: Concerned Section
+\end{itemize}
+\textbf{SolverConfigCritical}
+\begin{itemize}
+\item ForceType: Negative Moment  
+\item SolverType: Critical Section
+\end{itemize}
 \subsubsection{MATLAB}
 
 \paragraph{MATLAB Communication}
@@ -286,7 +349,7 @@ system test for functional requirement 1.
 
   Initial State: None
 
-  Input: Truck, Bridge, and Analysis configurations
+  Input: TruckConfig1, BridgeConfig1, and SolverConfigConcerned
 
   Output: Any result from standard out or standard error
 
@@ -310,7 +373,7 @@ system test for functional requirement 1.
 
   Initial State: GUI exists
 
-  Input: Axle load, axle spacing, number of trucks, headway
+  Input: Input corresponding to TruckConfig1
 
   Output: GUI fields are filled
 
@@ -318,7 +381,7 @@ system test for functional requirement 1.
   should also be able to fill in the fields.
 
   How test will be performed: Input fields will filled, and checked if they have the
-  correct value.
+  correct value. That is, a value that corresponds to the input provided.
 
   \item{FR2.ST2\\}
 
@@ -326,9 +389,9 @@ system test for functional requirement 1.
 
   Initial State: GUI exists
 
-  Input: Invalid axle load, axle spacing, number of trucks, headway
+  Input: Input corresponding to TruckConfig2
 
-  Output: GUI fields are filled, highlighted as incorrect
+  Output: GUI fields are filled, any invalid ones are highlighted as incorrect
 
   Test Case Derivation: The user should be able to enter data, but be informed if the
   entered information is invalid.
@@ -348,7 +411,7 @@ system test for functional requirement 1.
 
   Initial State: GUI exists
 
-  Input: Valid truck configuration
+  Input: TruckConfig1
 
   Output: A valid visualization of the truck platoon shown
 
@@ -364,7 +427,7 @@ system test for functional requirement 1.
 
   Initial State: GUI exists
 
-  Input: Invalid truck configuration
+  Input: TruckConfig2
 
   Output: A message informing the user of an incorrect truck configuration
 
@@ -387,7 +450,7 @@ system test for functional requirement 1.
 
   Initial State: GUI exists
 
-  Input: A truck configuration
+  Input: TruckConfig1
 
   Output: A file with the correctly saved configuration
 
@@ -409,7 +472,7 @@ system test for functional requirement 1.
 
   Initial State: GUI exists, a truck configuration file exists
 
-  Input: Truck configuration file
+  Input: Truck configuration file created from TruckConfig1
 
   Output: Truck configuration input fields will be filled correctly
 
@@ -433,7 +496,7 @@ system test for functional requirement 1.
   
   Initial State: GUI exists
   
-  Input: Number of spans, bridge length
+  Input: Input corresponding to BridgeConfig1.NumberOfSpans and BridgeConfig1.SpanLength
   
   Output: GUI fields are filled
   
@@ -441,7 +504,7 @@ system test for functional requirement 1.
   should also be able to fill in the fields.
   
   How test will be performed: Input fields will filled, and checked if they have the
-  correct value.
+  correct value, that is, a value that corresponds to the input provided
   
   \item{FR6.ST2\\}
   
@@ -449,9 +512,9 @@ system test for functional requirement 1.
   
   Initial State: GUI exists
   
-  Input: Invalid number of spans, bridge length
+  Input: Input corresponding to BridgeConfig2.NumberOfSpans and BridgeConfig2.SpanLength
   
-  Output: GUI fields are filled, highlighted as incorrect
+  Output: GUI fields are filled, any invalid ones highlighted as incorrect
   
   Test Case Derivation: The user should be able to enter data, but be informed if the
   entered information is invalid.
@@ -471,7 +534,7 @@ system test for functional requirement 1.
   
   Initial State: GUI exists
   
-  Input: Valid bridge configuration
+  Input: BridgeConfig1
   
   Output: A valid visualization of the bridge shown
   
@@ -487,7 +550,7 @@ system test for functional requirement 1.
   
   Initial State: GUI exists
   
-  Input: Invalid bridge configuration
+  Input: BridgeConfig2
   
   Output: A message informing the user of an incorrect bridge configuration
   
@@ -510,7 +573,7 @@ system test for functional requirement 1.
   
   Initial State: GUI exists
   
-  Input: A bridge configuration
+  Input: BridgeConfig1
   
   Output: A file with the correctly saved configuration
   
@@ -532,7 +595,7 @@ system test for functional requirement 1.
   
   Initial State: GUI exists, a bridge configuration file exists
   
-  Input: Bridge configuration file
+  Input: Bridge configuration file created from BridgeConfig1
   
   Output: Bridge configuration input fields will be filled correctly
   
@@ -556,11 +619,11 @@ system test for functional requirement 1.
             
   Initial State: None
             
-  Input: input to indicate the desired solver 
+  Input: SolverConfigConcerned or SolverConfigCritical
             
-  Output: Calculation results based on the selected solver
+  Output: Calculation results according to the selected solver
 
-  Test Case Derivation: The current logic allows for calculation of the demand at a concerned section, or at the critical section, and there are separate calculations for each.
+  Test Case Derivation: It is important to ensure the program is properly accepting the user's solver choice, as concerned and critical section will have different results.
 
   How test will be performed: The test involves running a series of pre-determined calculations using both solvers and then comparing with the expected output. 
 					
@@ -576,7 +639,7 @@ system test for functional requirement 1.
             
   Initial State: GUI exists
             
-  Input: location of concerned section
+  Input: Input Corresponding to BridgeConfig1->ConcernedSection
             
   Output: GUI field is filled
 
@@ -596,7 +659,7 @@ Control: Automatic
 					
 Initial State: GUI exists
 					
-Input: discretization length 
+Input: Input Corresponding to BridgeConfig1->Discretization Length
 					
 Output: GUI field is filled
 
@@ -616,7 +679,35 @@ Control: Automatic
 					
 Initial State: GUI exists
 					
-Input: force type  
+Input: Input Corresponding to SolverConfigConcerned->ForceType where ForceType = Positive Moment 
+					
+Output: GUI field is filled
+
+Test Case Derivation: The user can select the type of force to calculate for. If they select the force type it should reflect in the GUI by filling the field properly.
+
+How test will be performed: Input fields will filled, and checked if they have the correct value.
+
+\item{FR13.ST2\\}
+
+Control: Automatic
+					
+Initial State: GUI exists
+					
+Input: Input Corresponding to SolverConfigConcerned->ForceType where ForceType = Negative Moment 
+					
+Output: GUI field is filled
+
+Test Case Derivation: The user can select the type of force to calculate for. If they select the force type it should reflect in the GUI by filling the field properly.
+
+How test will be performed: Input fields will filled, and checked if they have the correct value.
+
+\item{FR13.ST3\\}
+
+Control: Automatic
+					
+Initial State: GUI exists
+					
+Input: Input Corresponding to SolverConfigConcerned->ForceType where ForceType = Shear
 					
 Output: GUI field is filled
 
@@ -624,13 +715,13 @@ Test Case Derivation: The user can select the type of force to calculate for. If
 
 How test will be performed: Input fields will filled, and checked if they have the correct value.
 					
-\item{FR13.ST2\\}
+\item{FR13.ST4\\}
 
 Control: Automatic
 					
 Initial State: None
 					
-Input: text input to indicate the desired moment  
+Input: TruckConfig1, BridgeConfig1, and SolverConfigConcerned 
 					 
 Output: Calculation results based on the selected parameters 
 
@@ -694,7 +785,7 @@ Control: Automatic
 					
 Initial State: None
 					
-Input: text input to indicate logging flags 
+Input: Input to indicate logging flags 
 					
 Output: text output, "logs"
 
@@ -702,6 +793,73 @@ Test Case Derivation: With the engine built in another framework, its important 
 
 How test will be performed: While running multiple calculations, the system is asked to comprehensively log the flow in the engine. The system will be interrupted at times to test the robustness as well. The resulting logs should be clearly highlighting the steps taken including any errors or warnings.
 					
+\end{enumerate}
+\subsubsection{Error Handling}
+\begin{enumerate}
+
+  \item{FR17.ST1\\}
+  
+  Control: Automatic
+            
+  Initial State: GUI exists
+            
+  Input: TruckConfig1, BridgeConfig1, SolverConfigConcerned
+            
+  Output: An animation of the calculation results where the animation and the calculation results graph are to scale.
+  
+  Test Case Derivation: as the program will be animating the results of the platoon's trip over the bridge, it is important for visual clarity that the animation displayed matches up with the cartestian results displayed, scale-wise.
+  
+  How test will be performed: The calculation will be run with valid inputs and the resulting animation will be compared to the x-axis of the graph, with the result of this comparison compared to the orcale.
+\end{enumerate}
+\begin{enumerate}
+  \item{FR18.ST1\\}
+  
+  Control: Automatic
+            
+  Initial State: MATLAB and GUI Threads are initialized
+            
+  Input: TruckConfig2, BridgeConfig2, SolverConfigConcerned
+            
+  Output: MATLAB thread crashes, remainder of the program continues running as normal. 
+  
+  Test Case Derivation: As this is a multithreaded program, it is important to ensure that it is thread safe, and that one thread crashing will not affect the other.
+  
+  How test will be performed: With an invalid set of inputs the caluclation will call the MATLAB functions, which will cause the MATLAB to crash, the status of the GUI thread will then be observed.
+              
+\end{enumerate}
+\begin{enumerate}
+
+  \item{FR19.ST1\\}
+  
+  Control: Automatic
+            
+  Initial State: GUI exists
+            
+  Input: TruckConfig1 but with NumberOfTrucks changed to be 0 instead of 3
+            
+  Output: The input is rejected and not passed on to the solver component
+
+  Test Case Derivation: The program cannot allow users to enter invalid values, as this could lead to inaccurate results at best, or even NANs at worst if the values are too wild or if a division by 0 occurs.
+  
+  How test will be performed: The invalid TruckConfig1 tweak will be inputted to the system and what the system does with that input will be observed and compared to the oracle.
+                
+\end{enumerate}
+\begin{enumerate}
+
+  \item{FR20.ST1\\}
+  
+  Control: Automatic
+            
+  Initial State: GUI Exists
+            
+  Input: TruckConfig2
+            
+  Output: The input is rejected and not passed on to the solver component
+  
+  Test Case Derivation: The program cannot allow users to enter invalid values, as this could lead to inaccurate results at best, or even NANs at worst if the values are too wild or if a division by 0 occurs.
+  
+  How test will be performed: The invalid TruckConfig2 that has strings for fields will be inputted to the system and what the system does with that input will be observed and compared to the oracle.
+                  
 \end{enumerate}
 
 \subsection{Tests for Nonfunctional Requirements}
@@ -864,11 +1022,11 @@ Type: Automatic, Dynamic
 
 Initial State: Application is opened with no past data
 
-Input/Condition: Various valid inputs
+Input/Condition: Various slightly tweaked but still valid versions of TruckConfig1, BridgeConfig1, and SolverConfigConcerned
 
 Output/Results: Total execution time of calculations will not exceed underlying MATLAB script's execution time by more than 10\%
 
-How test will be performed: Many different analyses will be performed and timed on a computer with hardware similar to that of an MTO engineer's.
+How test will be performed: The calculation will be run using the various inputs and timed on a computer with hardware similar to that of an MTO engineer's.
 
 \end{enumerate}
 
@@ -971,6 +1129,14 @@ How test will be performed: The clang-tidy linter will be used to automatically 
   \hline
   FR16 & FR16.ST1\\
   \hline
+  FR17 & FR17.ST1\\
+  \hline
+  FR18 & FR18.ST1\\
+  \hline
+  FR19 & FR19.ST1\\
+  \hline
+  FR20 & FR20.ST1\\
+  \hline
 \end{longtable}
 
 \begin{longtable}[H]{|p{0.2\textwidth} | p{0.8\textwidth}|}
@@ -1010,125 +1176,23 @@ How test will be performed: The clang-tidy linter will be used to automatically 
   \hline
   NFR13 & NFR13.ST1, NFR13.ST2, NFR13.ST3, NFR13.ST4\\
   \hline
-  NFR14 & N/A\\
-  \hline
-  NFR15 & N/A\\
-  \hline
 \end{longtable}
 
 
 \section{Unit Test Description}
 
-As outlined in our \href{https://github.com/agentvv/MTOBridge/blob/main/docs/DevelopmentPlan/DevelopmentPlan.pdf}{Development Plan}, we will be using Qt Test and Google Test to conduct our unit testing. These testing frameworks will allow us to create and run unit tests quickly and easily.
+As outlined in our \href{https://github.com/agentvv/MTOBridge/blob/main/docs/DevelopmentPlan/DevelopmentPlan.pdf}{Development Plan}, we will be using Qt Test
+to conduct our unit testing. This testing framework will allow us to create and run unit tests quickly and easily.
 
-% \subsection{Unit Testing Scope}
+The general philosophy for the unit testing will be to test each individual fucntion/method of each module in two main categories: ensuring it provides the expected output
+when a valid input is provided, and ensuring it properly handles the error when an invalid input is required. For the sake of brevity, and to avoid repeating information,
+an exhaustive list of all unit tests will not be created in this document. Instead, to view the unit tests utilzed to test the implementation, please check
+\href{https://github.com/agentvv/MTOBridge/blob/main/test}{this folder on our Github}.
 
-% \wss{What modules are outside of the scope.  If there are modules that are
-%   developed by someone else, then you would say here if you aren't planning on
-%   verifying them.  There may also be modules that are part of your software, but
-%   have a lower priority for verification than others.  If this is the case,
-%   explain your rationale for the ranking of module importance.}
+\subsection{Unit Testing Scope}
+The main note here is that all backend MATLAB functions are out of scope for our testing, as these were developed by Dr Yang and her team. Our base assumption for testing
+is that these functions will work as intended in all cases, and if something goes wrong, it is the fault of our own implementation. 
 
-% \subsection{Tests for Functional Requirements}
-
-% \wss{Most of the verification will be through automated unit testing.  If
-%   appropriate specific modules can be verified by a non-testing based
-%   technique.  That can also be documented in this section.}
-
-% \subsubsection{Module 1}
-
-% \wss{Include a blurb here to explain why the subsections below cover the module.
-%   References to the MIS would be good.  You will want tests from a black box
-%   perspective and from a white box perspective.  Explain to the reader how the
-%   tests were selected.}
-
-% \begin{enumerate}
-
-% \item{test-id1\\}
-
-% Type: \wss{Functional, Dynamic, Manual, Automatic, Static etc. Most will
-%   be automatic}
-					
-% Initial State: 
-					
-% Input: 
-					
-% Output: \wss{The expected result for the given inputs}
-
-% Test Case Derivation: \wss{Justify the expected value given in the Output field}
-
-% How test will be performed: 
-					
-% \item{test-id2\\}
-
-% Type: \wss{Functional, Dynamic, Manual, Automatic, Static etc. Most will
-%   be automatic}
-					
-% Initial State: 
-					
-% Input: 
-					
-% Output: \wss{The expected result for the given inputs}
-
-% Test Case Derivation: \wss{Justify the expected value given in the Output field}
-
-% How test will be performed: 
-
-% \item{...\\}
-    
-% \end{enumerate}
-
-% \subsubsection{Module 2}
-
-% ...
-
-% \subsection{Tests for Nonfunctional Requirements}
-
-% \wss{If there is a module that needs to be independently assessed for
-%   performance, those test cases can go here.  In some projects, planning for
-%   nonfunctional tests of units will not be that relevant.}
-
-% \wss{These tests may involve collecting performance data from previously
-%   mentioned functional tests.}
-
-% \subsubsection{Module ?}
-		
-% \begin{enumerate}
-
-% \item{test-id1\\}
-
-% Type: \wss{Functional, Dynamic, Manual, Automatic, Static etc. Most will
-%   be automatic}
-					
-% Initial State: 
-					
-% Input/Condition: 
-					
-% Output/Result: 
-					
-% How test will be performed: 
-					
-% \item{test-id2\\}
-
-% Type: Functional, Dynamic, Manual, Static etc.
-					
-% Initial State: 
-					
-% Input: 
-					
-% Output: 
-					
-% How test will be performed: 
-
-% \end{enumerate}
-
-% \subsubsection{Module ?}
-
-% ...
-
-% \subsection{Traceability Between Test Cases and Modules}
-
-% \wss{Provide evidence that all of the modules have been considered.}
 
 \newpage
 
