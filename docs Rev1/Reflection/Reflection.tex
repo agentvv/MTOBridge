@@ -34,6 +34,20 @@ supervisor's response to your Rev 0 demonstration to them.}
 
 \subsection{SRS and Hazard Analysis}
 \subsubsection{SRS}
+\begin{enumerate}
+    \item Modified context and use case diagrams to be higher quality
+    \item Added an appropriate introduction to the appendix
+    \item Modified user characteristics to be more clear
+    \item Modified the mandated constraints to be correct
+    \item Fix behavioral overview to reflect changes to requirements
+    \item Add functional requirements discovered from hazard analysis: FR.16-20
+    \item Modify FR.1 to have better defined fit criterion
+    \item Modify FR.2, FR.6 to reflect the change in required user input for analysis
+    \item Remove NFR.14,15, as they are irrelevant/untestable
+    \item Add extra risk related to changing the changing of the MATLAB code
+    \item Fixed wording and grammar all over the document, especially with some of the 
+    functional requirements to maintain clarity
+\end{enumerate}
 
 \subsubsection{Hazard Analysis}
 The changes made to the hazard analysis in response to feedback were relatively small. These changes mainly related to clarity and completeness, and had little impact on the final implementation. The largest change that was made was adding a new hazard relating to the case of lost saved data. Here is a complete list of changes:
@@ -59,7 +73,7 @@ The design was adjusted based on user feedback over the course of the project an
   \item Altering how input fields are made available to the user and validated by the system
 \end{enumerate}
 
-The MIS was updated to reflect the above changes to the design. In particular:
+\noindent The MIS was updated to reflect the above changes to the design. In particular:
 \begin{enumerate}
   \item Removed exceptions that are no longer thrown
   \item Revised some method parameters, primarily changing from receiving string and the associated parsing and exceptions to receiving the types that the string was originally converted to
@@ -70,6 +84,22 @@ The MIS was updated to reflect the above changes to the design. In particular:
   \item Corrected some grammar and formatting issues
 \end{enumerate}
 
+\noindent The MG Document was updated to reflect the above changes to the design. In particular:
+\begin{enumerate}
+  \item Corrected grammar, tone and spelling throughout the document
+  \item Expanded the acronym and abbreviation table including the program name and description
+  \item Revised some of the titles for the modules 
+  \item Clarified some of the secrets for the modules 
+  \item Added links to the traceability matrix for easier use 
+\end{enumerate}
+
+\noindent The System Design Document was updated to reflect the above changes to the design. In particular:
+\begin{enumerate}
+  \item Corrected grammar, tone and spelling throughout the document
+  \item Added an acronym and abbreviation table including the program name and description
+  \item Revised the Project Timeline to reflect the actual dates that the team was able to meet
+  \item Removed the "Code Integrartion Testing" phase as the testing was mainly done in accordance to the V\&V plan in a later phase 
+\end{enumerate}
 \subsection{VnV Plan and Report}
 
 \subsubsection{VnV Plan}
@@ -92,6 +122,15 @@ There was quite a bit to change in response to TA Feedback for the VnV Plan, and
   \item NFR 14 and 15 were removed from the SRS, as they were unnecessary and either not testable or not system requirements. So the issue of no tests for them also goes away
 \end{enumerate}
 
+\subsubsection{VnV Report}
+There were some changes to the VnV report in response to TA and peer evaluation. The changes are as follows:
+\begin{enumerate}
+\item More formal word choice was substituted in some instances.
+\item System tests were ran again and results were updated with all except for one passing.
+\item Unit tests were ran again and the results were updated. More tests passed since rev 0, however there were a few which failed without any implication on the program's functionality at the system level since the UI doesn't allow the provision of invalid inputs.
+\item The results have been color coded to make it easier for the reader to identify them.
+\item The total number of civil engineers who were subjected to non-functional testing was specified.
+\end{enumerate}
 \section{Design Iteration (LO11)}
 
 \plt{Explain how you arrived at your final design and implementation.  How did
@@ -108,9 +147,14 @@ and how best to implement them.
  meetings focused on refinement, particularly focusing on robustness as well as user experience and flow of use, and confirming our decisions with feedback from the clients. 
  The final version turned out much easier to use and more presentable.
 
-\textbf{David:}
+\textbf{David:} The design evolved quite a bit. Since we were constantly meeting with Dr. Yang and her team, we were 
+discovering that new design decisions had to be made in order to accommodate their preferences and requirements. We had 
+made some assumptions for the first version that were not true, one of which was that there were would only be 2 
+graphs that are needed, which changed for our final version. We were constantly discussing changes that should be made,
+especially in terms of usability. We paired this with with the feedback we received to ensure we were doing the best we 
+could. 
 
-\textbf{Farzad:}
+\textbf{Farzad:} Our team initially followed a waterfall approach to gather and document requirements for our project. However, as we progressed, we realized the need for a more flexible and iterative approach to deliver a high-quality product that meets the evolving needs of our stakeholders. We transitioned to more agile-like practices that involved building, measuring, rebuilding, and remeasuring to continuously improve our design and implementation. This allowed us to be more responsive to changing requirements, incorporate feedback from users, and quickly adapt to emerging challenges. Our final design and implementation were a result of this agile approach, which enabled us to deliver a product that met the needs of our stakeholders while ensuring quality and efficiency.\\
 
 \textbf{Pedram:} Arriving at our final design was a process of rapid requirements gathering, feasibility analysis and software design built upon the initial findings and the 
 proof of concept. In terms of requirements gathering, the client was regularly given multiple mockups of the proposed designs to choose from in addition to refining the 
@@ -141,9 +185,9 @@ in favor of what we decided to be more pressing functionalities based on our dis
 
 \textbf{Darren:} The design was ultimately for a user interface and so was approached with that as the main focus of our efforts. A particular assumption discussed in meetings with the client was that the user would be experienced and familiar with the terminology used, so we limited the resources we used on explaining those. We determined late in the course that this wasn't infallible, as certain terms like "headway" may have a discrepancy between the user perception (distance from the back of the leading truck to the front of the truck behind it) and its intended meaning (distance from the leading truck's rearmost axle to the next truck's front axle). Beyond this, we justified our decisions on information to include, parameters to hide from the user, and how inputs are afforded by reviewing them with the client. We used Dr. Yang and her graduate students to judge its usability and clarity of information - one limitation is that we weren't able to contact an MTO engineer to seek their feedback on the project.
 
-\textbf{David:}
+\textbf{David:} I think generally we made the best design decisions that we could've at the time of implementation. There are some decisions that we actually never made, like whether or not to include a menu bar, context menu etc. that are important for any GUI, however we were limited in our time and scope. We were also limited in terms of using MATLAB, which is something that we were not too happy about. We also made assumptions that didn't turn out to be true, which slowed down our implementation since we had to go back and redesign features.
 
-\textbf{Farzad:}
+\textbf{Farzad:} Constraints and limitations have played a significant role in shaping our design and implementation decisions. For instance, we were informed that bridge calculations were performed on a Matlab engine, which meant that our application had to implement thread safety to avoid any data corruption or race conditions. Additionally, we had to ensure a strict UI design, as retrieving error messages from the Matlab engine would have been a complex and time-consuming process. Time and development power were also major limitations that affected our implementation choices. Due to these constraints, we had to restrict ourselves to 2D and single angle visualizations, which may have limited the overall functionality and user experience of our application.\\
 
 \textbf{Pedram:} As a front-facing software project, the design decisions used in MTOBridge were mostly justified through the perspectives of the stakeholders, often being the 
 client and final user. Nevertheless, there were many factors that also helped justify each decision. For starters, most of the decisions were justified considering the implicit 
@@ -210,11 +254,14 @@ a timely manner. We never missed a deadline, even when things got very busy, and
 
 \textbf{Darren:} The team had very effective communication and division of work. We had meetings  within in the team at least once per week and met with the client every other week. We used our team meetings well in discussing and dividing tasks, as well as following up on assigned work and assisting each other in the case of blockers. Client meetings were used to confirm the direction of implementation and that the product being developed was what the client wanted. I felt the team also had a very good atmosphere and sense of cohesion. Particularly, there was no tension such as a teammate slacking on their part or failing to contribute meaningfully. Communication was open and comfortable.
 
-\textbf{David:}
+\textbf{David:} I think generally everything went well, especially our communication, meetings, and our teamwork. We 
+were very open to each others' ideas, happy to receive feedback and everyone got their work done on time. We were all 
+also willing to help each other if need be. I think our communication with our client went well as well, as we met with 
+Dr. Yang and her team consistently, and we accepted valuable feedback from them as well. 
 
-\textbf{Farzad:}
+\textbf{Farzad: }In terms of project management, several aspects of our project went well. Firstly, we established clear and achievable project goals and objectives at the outset, which helped us stay focused and motivated throughout the project lifecycle.Regular team meetings and communication channels were established to ensure that everyone was on the same page and any issues were addressed promptly.\\
 
-\textbf{Pedram:}
+\textbf{Pedram:} The project was a complete success and as such I believe there were many things that went well during the term. Most importantly, the team had a very welcoming dynamic where each person was helped and encouraged to achieve more, creating a positive feedback loop. We all knew our own skillsets as well as limitations, making the division of work often very easy. We were also very understanding of each other’s situations and showed the utmost flexibility toward each member. Furthermore, all team members had dabbled with the programming language used for the project, C++, which was very good for bootstrapping the early works. The regular meetings as well as the client meetings were both also great assets in managing the process. Lastly, our team was lucky to have a member (Adam) to be enthusiastic about running and keeping the meetings on time, which was very nice. This could be a suggestion for all the groups in the future. 
 
 \textbf{Victor:} Our team meeting and team communication plans went very well in my opinion. We kept to our team meeting plan and consistently met every week, 
 allowing us to go over all the progress that's been made since our last meeting in addition to what must still be done. Our team communication plan, aside from the use of 
@@ -234,10 +281,15 @@ on the build used when reviewing with clients while that same bug has been fixed
 that that is indeed the same bug and whether it is already fixed. There were also initial difficulties getting the project set up on everyone's computers due to dependencies 
 such as the MATLAB installation being in different directories, but the files required for changing them being synced by Git.
 
-\textbf{David:}
+\textbf{David:} There were a lot of things we wanted to do in terms of setting up our project and our Github, but we 
+just never got around to it. We also ended up finishing deliverables the day they were due very often, just like this 
+very deliverable. I think we didn't really live up to the first deliverable where we said we would set internal 
+deadlines, and use all the features of Github and other tools like Valgrind to help us achieve our objective, which was 
+to make a usable program. 
 
-\textbf{Farzad:}
-\textbf{Pedram:}
+\textbf{Farzad:} In terms of technology, one issue that we faced was not utilizing Git and its features like pull requests effectively. This led to a lack of coordination and version control, resulting in some confusion and delays in the development process. As a result, we had to spend more time resolving merge conflicts and ensuring that all team members were working with the latest code. On the project management front, one issue that we faced was finishing deliverables on the day they were due. This put unnecessary pressure on the team and made it difficult to address any last-minute issues that arose.\\
+
+\textbf{Pedram:} The project was definitely full of challenges and things that simply went wrong nevertheless, we quickly found the key is to be adaptable and creative. One of the biggest challenges that we faced was the limitations of the framework we chose to work with, Qt. Although a very popular and powerful way of developing windows applications, it can have a steep learning curve. For our application, where the UI was one of the most important aspects, other frameworks more focused on GUI could be considered. For our technology, there was a considerable amount of time spent on creating the infrastructure of the program. Lastly, the GitHub might have not been used to its full potential. The team did lack the continuous integration and testing operations along with the proper use of issue tracking. 
 
 \textbf{Victor:} One of the things that went wrong for our project's management was our workflow plan. While we had initially intended to use a primary production branch in 
 conjunction with feature branches, we ended up simply using one main branch. The reason for this was simplicity: it was much easier to use one main branch for all changes than
@@ -255,11 +307,11 @@ a lot of work to do when it comes to clear and concise communication in project 
 
 \textbf{Darren:} I would work on separate branches as we originally stated. I would also want to investigate means for better task and Git tracking beyond GitHub itself for better accessibility and organization. There were times when some confusion arose on remaining tasks due to almost all team communication being conducted in the same single text channel. While this was usually handled well by simply asking around or addressed in meeting, it could be improved or made more accessible nonetheless with tools such as Trello.
 
-\textbf{David:}
+\textbf{David:} There is not much I would do differently, I really enjoyed working on this project. I do wish, as I mentioned earlier, that we followed though with some of the decisions in regards to CI/CD, because it would have made our lives much easier in the long run. I also wish we made separate branches instead of pushing straight to main, since that caused issues occasionally. I would have also wanted to push for a meeting with the MTO so that we could receive valuable usability data, as well as general suggestions.
 
-\textbf{Farzad:}
+\textbf{Farzad:} This project was a pleasant experience, primarily due to the team members' contribution. There are very few aspects I would alter if I were to commence it again. However, focusing less on the revision 0 documentation (given there was a revision 1) and starting implementation sooner would have been advantageous to produce a superior final product. By doing so, we could have received more feedback and transformed our project management approach to adopt a more agile style.
 
-\textbf{Pedram:}
+\textbf{Pedram:} In all honesty, I found my capstone team and project very interesting, and I am truly happy to have had such an opportunity. Nevertheless, if I had to redo a new capstone, with similarly great team members, I would encourage my team to spend much more time in understanding our true capabilities as well as the tools and technologies that would be best suited for our needs. In more detail, by spending more time on the proposed solutions, we could have possibly come up with a hybrid set of tools that is more suitable for our goals and easier to implement. At the same time, I would have tried to scale our user testing to get input from a much larger set of audience, some of which could actually be Civil Engineers working in MTO (for our case specifically). 
 
 \textbf{Victor:} One of the biggest things I will do differently next time is to actually use GitHub to its full potential. While we used GitHub for version control and to 
 facilitate all working on the project simultaneously, the lack of CI/CD and GitHub issues was sorely felt. CI/CD could have been used to run tests when code was uploaded and 
