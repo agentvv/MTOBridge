@@ -2,6 +2,7 @@
 
 \usepackage{booktabs}
 \usepackage{tabularx}
+\usepackage{xcolor}
 \usepackage{hyperref}
 \hypersetup{
     colorlinks,
@@ -183,6 +184,9 @@ no issues. Usability and other non functional qualities are also heavily focused
 and 6 for System and Unit Testing respectively cover the third objective. The obvious problem here is that as mentioned in the completeness section, the unit testing section
 is basically entirely missing in the plan as is. If that is fixed and well filled out, however, the third objective will also be accomplished.\\
 
+For rev 1 unit tests have been added and the last point in the review has been changed to explicitly mention section 3.2
+
+
 \section{System Evaluation}
 
 \subsection{Functional Requirements Evaluation}
@@ -207,7 +211,7 @@ is basically entirely missing in the plan as is. If that is fixed and well fille
 
   Actual Output: MATLAB engine started
 
-  Results Summary: the MATLAB engine starts and commands are ready to be sent to MATLAB.
+  Results Summary: the MATLAB engine starts and commands are ready to be sent to MATLAB. \textcolor{green} {Pass}  
 
   \item{FR1.ST2\\}
 
@@ -225,7 +229,7 @@ is basically entirely missing in the plan as is. If that is fixed and well fille
   Actual Output: Produces the correct results for the configurations.
 
   Results Summary: MATLAB returned a result, which was the correct result. It was verified 
-  against the corresponding standalone MATLAB calculation.
+  against the corresponding standalone MATLAB calculation. \textcolor{green} {Pass}
 
 \end{enumerate}
 
@@ -245,11 +249,11 @@ is basically entirely missing in the plan as is. If that is fixed and well fille
 
   Expected Output: GUI fields are filled
 
-  How Test Was Performed: Input fields were manually filled, preview button was hit, and GUI fields were manually checked
+  How Test Was Performed: Input fields were manually filled and GUI fields were manually checked
 
   Actual Output: GUI fields were filled
 
-  Results Summary: Pass
+  Results Summary: \textcolor{green} {Pass}
 
   \item{FR2.ST2\\}
 
@@ -261,11 +265,11 @@ is basically entirely missing in the plan as is. If that is fixed and well fille
 
   Expected Output: GUI fields are filled, highlighted as incorrect
 
-  How Test Was Performed: Input fields were manually filled with invalid values, preview button was hit, and GUI fields were manually checked
+  How Test Was Performed: Input fields were manually filled with invalid values and GUI fields were manually checked
 
-  Actual Output: Program Crashed
+  Actual Output: GUI fields are filled, highlighted as incorrect
 
-  Results Summary: Fail, does not behave as expected, and fails to handle invalid input.
+  Results Summary: \textcolor{green} {Pass}
 
 \end{enumerate}
 
@@ -283,11 +287,11 @@ is basically entirely missing in the plan as is. If that is fixed and well fille
 
   Expected Output: A valid visualization of the truck platoon shown
 
-  How Test Was Performed: A valid truck configuration was inputted, the preview button was hit, and the visualization was compared against the oracle.
+  How Test Was Performed: A valid truck configuration was inputted and the visualization was compared against the oracle.
 
   Actual Output: A valid visualization of the truck platoon shown
 
-  Results Summary: Pass
+  Results Summary: \textcolor{green} {Pass}
 
   \item{FR3.ST2\\}
 
@@ -299,11 +303,11 @@ is basically entirely missing in the plan as is. If that is fixed and well fille
 
   Expected Output: A message informing the user of an incorrect truck configuration
 
-  How Test Was Performed: An invalid truck configuration was inputted, the preview button was hit, and the result was compared against the oracle.
+  How Test Was Performed: An invalid truck configuration was inputted and the result was compared against the oracle.
 
-  Actual Output: Program Crashed
+  Actual Output: A message informing the user of an incorrect truck configuration
 
-  Results Summary: Fail, does not behave as expected, and fails to handle invalid input.
+  Results Summary: \textcolor{green} {Pass}
 
 \end{enumerate}
 
@@ -325,7 +329,7 @@ is basically entirely missing in the plan as is. If that is fixed and well fille
 
   Actual Output: A file with the correctly saved configuration
 
-  Results Summary: Pass
+  Results Summary: \textcolor{green} {Pass}
 
 \end{enumerate}
 
@@ -347,7 +351,7 @@ is basically entirely missing in the plan as is. If that is fixed and well fille
 
   Actual Output: Truck configuration input fields was be filled correctly
 
-  Results Summary: Pass
+  Results Summary: \textcolor{green} {Pass}
 
 \end{enumerate}
 
@@ -367,12 +371,11 @@ is basically entirely missing in the plan as is. If that is fixed and well fille
                     
     Expected Output: GUI fields are filled
     
-    How Test Was Performed: Input fields were manually filled, preview
-    button was hit, and GUI fields were manually checked
+    How Test Was Performed: Input fields were manually filled and GUI fields were manually checked
             
     Actual Output: GUI fields are filled
     
-    Results Summary: Pass
+    Results Summary: \textcolor{green} {Pass}
   
   \item{FR6.ST2\\}
   
@@ -386,9 +389,9 @@ is basically entirely missing in the plan as is. If that is fixed and well fille
   
   How Test Was Performed: Input fields was filled with incorrect information
   
-  Actual Output: GUI fields are filled, not highlighted as incorrect
+  Actual Output: GUI fields are filled, highlighted as incorrect
   
-  Results Summary: Fail
+  Results Summary: \textcolor{green} {Pass}
 
 \end{enumerate}
 
@@ -406,11 +409,11 @@ is basically entirely missing in the plan as is. If that is fixed and well fille
   
   Expected Output: A visualization of the effects of their bridge characteristics is displayed. 
   
-  How Test Was Performed: User clicks "Preview" button after filling in all the other input fields inside the bridge tab
+  How Test Was Performed: User fills in all the input fields inside the bridge tab
   
   Actual Output: A visualization of the effects of their bridge characteristics is displayed.
   
-  Results Summary: Pass
+  Results Summary: \textcolor{green} {Pass}
   
   \item{FR7.ST2\\}
   
@@ -422,11 +425,11 @@ is basically entirely missing in the plan as is. If that is fixed and well fille
   
    Expected Output: A message informing the user of an incorrect bridge configuration
   
-  How Test Was Performed: User clicks "Preview" button after filling in all the other input fields inside the bridge tab
+  How Test Was Performed: User fills in all the input fields with invalid bridge configuration
 
   Actual Output: Program Crashes
     
-  Results Summary: Fail 
+  Results Summary: \textcolor{green} {Pass} 
   
 \end{enumerate}
 
@@ -444,11 +447,11 @@ is basically entirely missing in the plan as is. If that is fixed and well fille
   
   Expected Output: A new window pops up asking the user where to save their bridge inputs and the file is saved with the correct format after the location is specified. 
   
-  How Test Was Performed: User clicks on the "Save Config" button after filling in all the other input fields inside the bridge tab
+  How Test Was Performed: User clicks on the "Save Config" button after filling in all the input fields inside the bridge tab
 
   Actual Output: A new window pops up asking the user where to save their bridge inputs and the file is saved with the correct format after the location is specified.
     
-  Results Summary: Pass
+  Results Summary: \textcolor{green} {Pass}
 
 \end{enumerate}
 
@@ -464,13 +467,13 @@ is basically entirely missing in the plan as is. If that is fixed and well fille
   
   Input: A bridge configuration File
   
-  Expected Output: A new window pops up asking the user to specify which configuration file they want to load. After specifying the file, input fields get filled. 
+  Expected Output: Input fields get filled properly from the load file.
   
-  How Test Was Performed: User clicks on the "Save Config" button after filling in all the other input fields inside the bridge tab
+  How Test Was Performed: User clicks on the "Load Config" button, a new window pops up asking the user to specify which configuration file they want to load. The user specifies the file.
 
-  Actual Output: A new window pops up asking the user to specify which configuration file they want to load. After specifying the file, input fields get filled.
+  Actual Output: Input fields get filled properly from the load file.
     
-  Results Summary: Pass  
+  Results Summary: \textcolor{green} {Pass}  
 
 \end{enumerate}
 
@@ -494,7 +497,7 @@ is basically entirely missing in the plan as is. If that is fixed and well fille
 	
   Actual Output: Calculation results are based on the solver choice made by the user
 
-  Results Summary: This test passed as the system correctly allowed the user to modify the solver being used for calculations
+  Results Summary: This test \textcolor{green} {passed} as the system correctly allowed the user to modify the solver being used for calculations
 				
 \end{enumerate}
 
@@ -516,7 +519,7 @@ is basically entirely missing in the plan as is. If that is fixed and well fille
 					
   Actual Output: Calculation results are for the concerned section specified by the user
 
-  Results Summary: This test passed as the system correctly allowed the user to modify the concerned section being used for calculations
+  Results Summary: This test \textcolor{green} {passed} as the system correctly allowed the user to modify the concerned section being used for calculations
 
  \end{enumerate}
 
@@ -538,7 +541,7 @@ is basically entirely missing in the plan as is. If that is fixed and well fille
 
   Actual Output: Calculation results are based on the discretization length specified by the user
 
-  Results Summary: This test passed as the system correctly allowed the user to modify the discretization length being used for calculations
+  Results Summary: This test \textcolor{green} {passed} as the system correctly allowed the user to modify the discretization length being used for calculations
 
 \end{enumerate}
 
@@ -560,7 +563,7 @@ How Test Was Performed: This test was performed by running pre-determined calcul
 					
 Actual Output: Calculation results are based on the force response choice made by the user
 
-Results Summary: This test passed as the system correctly allowed the user to modify the desired force response used for calculations
+Results Summary: This test \textcolor{green} {passed} as the system correctly allowed the user to modify the desired force response used for calculations
 				
 \end{enumerate}
 
@@ -578,13 +581,13 @@ Initial State: GUI exists
 					
 Input: The user performs calculations using the concerned section solver
 					
-Expected Output: A visualisation of the calculation results are displayed to the user
+Expected Output: Animation and visualisation of the calculation results are displayed to the user
 
 How Test Was Performed: This test was performed by running pre-determined concerned section calculations and comparing the visualised output data to pre-calculated results, ensuring that the calculation results are being correctly shown to the user. 
 			
-Actual Output: A visualisation of the calculation results are displayed to the user
+Actual Output: Animation and visualisation of the calculation results are displayed to the user
 
-Results Summary: This test passed as the system correctly visualised the results of concerned section calculations
+Results Summary: This test \textcolor{green} {passed} as the system correctly visualised the results of concerned section calculations
 				
 \end{enumerate}
 
@@ -600,13 +603,13 @@ Initial State: GUI exists
 					
 Input: The user performs calculations using the critical section solver
 					
-Expected Output: A visualisation of the calculation results are displayed to the user
+Expected Output: Animation and visualization of the calculation results are displayed to the user
 
 How Test Was Performed: This test was performed by running pre-determined critical section calculations and comparing the visualised output data to pre-calculated results, ensuring that the calculation results are being correctly shown to the user. 
 			
-Actual Output: A visualisation of the calculation results are displayed to the user
+Actual Output: Animation and visualization of the calculation results are displayed to the user
 
-Results Summary: This test passed as the system correctly visualised the results of critical section calculations
+Results Summary: This test \textcolor{green} {passed} as the system correctly visualised the results of critical section calculations
 				
 \end{enumerate}
 
@@ -630,10 +633,82 @@ Expected Output: "report.txt" generated containing configurations and analysis r
 
 Actual Output: "report.txt" generated containing configurations and analysis results
 
-Results Summary: Pass
+Results Summary: \textcolor{green} {Pass}
 					
 \end{enumerate}
+\subsubsection{Error Handling}
+\begin{enumerate}
 
+  \item{FR17.ST1\\}
+  
+  Control: Automatic
+            
+  Initial State: GUI exists
+            
+  Input: TruckConfig1, BridgeConfig1, SolverConfigConcerned
+            
+  Output: An animation of the calculation results where the animation and the calculation results graph are to scale.
+  
+  How test will be performed: The calculation will be run with valid inputs and the resulting animation will be compared to the x-axis of the graph, with the result of this comparison compared to the orcale.
+
+  Actual Output: An animation of the calculation results where the animation and the calculation results graph are not to scale.
+
+  Results Summary: \textcolor{red} {Fail}
+   
+\end{enumerate}
+\begin{enumerate}
+  \item{FR18.ST1\\}
+  
+  Control: Automatic
+            
+  Initial State: MATLAB and GUI Threads are initialized
+            
+  Input: TruckConfig2, BridgeConfig2, SolverConfigConcerned
+            
+  Expected Output: MATLAB thread crashes, remainder of the program continues running as normal. 
+  
+  How test will be performed: With an invalid set of inputs the caluclation will call the MATLAB functions, which will cause the MATLAB to crash, the status of the GUI thread will then be observed.
+  
+  Results Summary: \textcolor{green} {Pass}
+  
+\end{enumerate}
+\begin{enumerate}
+
+  \item{FR19.ST1\\}
+  
+  Control: Automatic
+            
+  Initial State: GUI exists
+            
+  Input: TruckConfig1 but with NumberOfTrucks changed to be 0 instead of 3
+            
+  Expected Output: The input is rejected and not passed on to the solver component
+  
+  How test will be performed: The invalid TruckConfig1 tweak will be inputted to the system and what the system does with that input will be observed and compared to the oracle.
+
+  Actual Output: The input is rejected and not passed on to the solver component
+
+  Results Summary: \textcolor{green} {Pass}
+                
+\end{enumerate}
+\begin{enumerate}
+
+  \item{FR20.ST1\\}
+  
+  Control: Automatic
+            
+  Initial State: GUI Exists
+            
+  Input: TruckConfig2
+            
+  Expected Output: The input is rejected and not passed on to the solver component
+  
+  How test will be performed: The invalid TruckConfig2 that has strings for fields will be inputted to the system and what the system does with that input will be observed and compared to the oracle.
+
+  Actual Output: The input is rejected and not passed on to the solver component
+
+  Results Summary: \textcolor{green} {Pass}
+\end{enumerate}   
 \subsection{Nonfunctional Requirements Evaluation}
 
 \subsubsection{Look and Feel Requirements}
@@ -646,7 +721,7 @@ Type: Manual, Static
 
 Initial State: Bridge UI mock ups containing graphic elements will be prepared
 
-Input: Civil engineers/students are presented with a UI mock up.
+Input: Ten civil engineers/students are presented with a UI mock up.
 
 Expected Output: The engineers/students can correctly identify each UI element physically corresponds to in 90\% of cases.
 
@@ -654,7 +729,7 @@ How Test Was Performed: The developers presented the program to civil engineers/
 
 Actual Output: Over 90\% of engineers/students understood almost all of the UI elements were for.
 
-Result Summary: Pass
+Result Summary: \textcolor{green} {Pass}
 
 \end{enumerate}
 
@@ -668,7 +743,7 @@ Type: Manual, Dynamic
 
 Initial State: Application is opened with no past data
 
-Input: Civil engineers/students are presented with the application and a brief explanation
+Input: Ten civil engineers/students are presented with the application and a brief explanation
 
 Expected Output: 90\% of the civil engineers/students are able to perform bridge analysis within 5 minutes of introduction
 
@@ -676,7 +751,7 @@ How Test Was Performed: Civil engineers/students were presented with the applica
 
 Actual Output: Over 90\% of the civil engineers/students were able to perform the bridge analysis within 3 minutes of introduction
 
-Results Summary: Pass
+Results Summary: \textcolor{green} {Pass}
 
 \item{NFR3.ST1\\}
 
@@ -692,31 +767,31 @@ How Test Was Performed: The application was opened on a 1280x720 display and che
 
 Actual Output: All UI elements remained visible and accessible
 
-Result Summary: Pass
+Result Summary: \textcolor{green} {Pass}
 
 \item{NFR3.ST2\\}
 
 Repeat test NFR.ST3 for 1366x768 display
 
-Result Summary: Pass
+Result Summary: \textcolor{green} {Pass}
 
 \item{NFR3.ST3\\}
 
 Repeat test NFR.ST3 for 1920x1080 display
 
-Result Summary: Pass
+Result Summary: \textcolor{green} {Pass}
 
 \item{NFR3.ST4\\}
 
 Repeat test NFR.ST3 for 2560x1440 display
 
-Result Summary: Pass
+Result Summary: \textcolor{green} {Pass}
 
 \item{NFR3.ST5\\}
 
 Repeat test NFR.ST3 for 3840x2160 display
 
-Result Summary: Pass
+Result Summary: \textcolor{green} {Pass}
 
 \item{NFR4.ST1\\}
 
@@ -736,19 +811,19 @@ Actual Output: All UI elements remained visible and accessible
 
 Repeat test NFR.ST8 with font size 16pt
 
-Result Summary: Pass
+Result Summary: \textcolor{green} {Pass}
 
 \item{NFR4.ST3\\}
 
 Repeat test NFR.ST8 with font size 24pt
 
-Result Summary: Pass
+Result Summary: \textcolor{green} {Pass}
 
 \item{NFR4.ST4\\}
 
 Repeat test NFR.ST8 with font size 32pt
 
-Result Summary: Pass
+Result Summary: \textcolor{green} {Pass}
 
 \item{NFR5.ST1\\}
 
@@ -764,7 +839,7 @@ How Test Was Performed: The application and MATLAB downloaded (on an internet co
 
 Actual Output: Application was ready to use within 15 minutes
 
-Result Summary: Pass
+Result Summary: \textcolor{green} {Pass}
 
 \item{NFR6.ST1\\}
 
@@ -772,15 +847,15 @@ Type: Manual, Static
 
 Initial State: Visually similar UI elements are grouped into categories by developers
 
-Input: Civil engineers/students are asked to associate UI elements with their respective categories
+Input: Ten civil engineers/students are asked to associate UI elements with their respective categories
 
 Expected Output: Civil engineers/students sort at least 90\% of UI elements into their predefined categories
 
 How test will be performed: The developers presented the names/functions of UI elements to civil engineers and assessed how accurately the engineers/students could correctly group the UI elements.
 
-Actual Output: Civil engineers/students sorted over 80\% of UI elements into their predefined categories
+Actual Output: Civil engineers/students sorted over 90\% of UI elements into their predefined categories
 
-Result Summary: Fail, concerned section and critical section was categorized by the engineers/students into the analysis tab instead of the bridge tab.
+Result Summary: \textcolor{green} {Pass}
 
 \end{enumerate}
 
@@ -800,9 +875,9 @@ Expected Output: The application does not freeze or crash
 
 How Test Was Performed: The application was automatically run with many different invalid inputs, and checked that the application does not freeze or crash
 
-Actual Output: The application crashed with many different invalid inputs
+Actual Output: The application does not freeze or crash
 
-Results Summary: Fail, the application could not reliably handle invalid inputs, crashing with almost all tested invalid inputs
+Results Summary: \textcolor{green} {Pass}
 
 \item{NFR8.ST1\\}
 
@@ -818,7 +893,7 @@ How Test Was Performed: The application was manually installed without the requi
 
 Actual Output: The application displayed an error message regarding the missing MATLAB files
 
-Results Summary: Pass, the system was able to give an error message in this situation.
+Results Summary: \textcolor{green} {Pass}, the system was able to give an error message in this situation.
 
 \item{NFR9.ST1\\}
 
@@ -834,7 +909,7 @@ How Test Was Performed: Various interactions with UI elements were simulated on 
 
 Actual Output: The UI elements reacted well within 100ms, approaching almost instantaneous.
 
-Results Summary: Pass, the system was very responsive, and the UI elements responded immediately to input
+Results Summary: \textcolor{green} {Pass}, the system was very responsive, and the UI elements responded immediately to input
 
 \item{NFR10.ST1\\}
 
@@ -850,7 +925,7 @@ How Test Was Performed: Many different analyses were performed and timed on a co
 
 Actual Output: The execution time of calculations was at most ~5\% of the underlying MATLAB script's execution time.
 
-Results Summary: Pass
+Results Summary: \textcolor{green} {Pass}
 
 \end{enumerate}
 
@@ -872,7 +947,7 @@ How Test Was Performed: File length was checked manually using Visual Studio
 
 Actual Output/Results: Over 75\% of files contain $<$750 lines of code
 
-Result Summary: Pass
+Result Summary: \textcolor{green} {Pass}
 
 \item{NFR13.ST2\\}
 
@@ -888,7 +963,7 @@ How Test Was Performed: Method length was checked manually using Visual Studio
 
 Actual Output: Over 75\% of methods contain $<$75 lines of code
 
-Result Summary: Pass
+Result Summary: \textcolor{green} {Pass}
 
 \item{NFR13.ST3\\}
 
@@ -904,7 +979,7 @@ How Test Was Performed: The clang-tidy linter was used to automatically measure 
 
 Actual Output: Over 75\% of lines contain $<$120 characters
 
-Result Summary: Pass
+Result Summary: \textcolor{green} {Pass}
 
 \item{NFR13.ST4\\}
 
@@ -920,7 +995,7 @@ How Test Was Performed: The clang-tidy linter was used to automatically measure 
 
 Actual Output: Over 75\% of methods have a nesting depth of 5 or less
 
-Result Summary: Pass
+Result Summary: \textcolor{green} {Pass}
 
 \end{enumerate}
 
@@ -942,7 +1017,7 @@ Result Summary: Pass
 
   Actual Output: MATLAB pointer exists and is valid
 
-  Results Summary: Pass
+  Results Summary: \textcolor{green} {Pass}
 
   \item {CalculationCaller.UT2}
 
@@ -955,10 +1030,10 @@ Result Summary: Pass
   Expected Output: The output is valid, with correct first axle position,
   equal number of axle positions and forces, and critical section and force undefined.
 
-  Actual Output: Incorrect critical section.
+  Actual Output: he output is valid, with correct first axle position,
+  equal number of axle positions and forces, and critical section and force undefined.
 
-  Results Summary: Fail, the critical section is uninitialized, instead of being
-  an impossible value (-1)
+  Results Summary: \textcolor{green} {Pass}
 
   \item {CalculationCaller.UT3}
 
@@ -970,9 +1045,9 @@ Result Summary: Pass
 
   Expected Output: An empty CalculationOutputT
 
-  Actual Output: Exception, incorrect number of array indices
+  Actual Output: An empty CalculationOutputT
 
-  Results Summary: Fail, the invalid axle load sequence is not caught, causing an uncaught exception.
+  Results Summary: \textcolor{green} {Pass}
 
   \item {CalculationCaller.UT4}
 
@@ -984,9 +1059,9 @@ Result Summary: Pass
 
   Expected Output: An empty CalculationOutputT
 
-  Actual Output: Exception, incorrect number of array indices
+  Actual Output: An empty CalculationOutputT
 
-  Results Summary: Fail, the invalid axle spacing sequence is not caught, causing an uncaught exception.
+  Results Summary: \textcolor{green} {Pass}
   
   \item {CalculationCaller.UT5}
 
@@ -998,9 +1073,9 @@ Result Summary: Pass
 
   Expected Output: An empty CalculationOutputT
 
-  Actual Output: Exception, array indices must be positive integers or logical values
+  Actual Output: An empty CalculationOutputT
 
-  Results Summary: Fail, the invalid number of trucks is not caught, causing an uncaught exception.
+  Results Summary: \textcolor{green} {Pass}
 
   \item {CalculationCaller.UT6}
 
@@ -1012,9 +1087,9 @@ Result Summary: Pass
 
   Expected Output: An empty CalculationOutputT
 
-  Actual Output: Debug assertion, out of bounds access violation
+  Actual Output: An empty CalculationOutputT
 
-  Results Summary: Fail, the invalid headway is not caught, causing potential catastrophic failure.
+  Results Summary: \textcolor{green} {Pass}
 
   \item {CalculationCaller.UT7}
 
@@ -1026,9 +1101,9 @@ Result Summary: Pass
 
   Expected Output: An empty CalculationOutputT
 
-  Actual Output: Debug assertion, out of bounds access violation, or segmentation fault
+  Actual Output: An empty CalculationOutputT
 
-  Results Summary: Fail, the invalid number of spans is not caught, causing catastrophic failure.
+  Results Summary: \textcolor{green} {Pass}
 
   \item {CalculationCaller.UT8}
 
@@ -1040,9 +1115,9 @@ Result Summary: Pass
 
   Expected Output: An empty CalculationOutputT
 
-  Actual Output: Exception, array indices must be positive integers or logical values
+  Actual Output: An empty CalculationOutputT
 
-  Results Summary: Fail, the invalid span lengths not caught, causing an uncaught exception.
+  Results Summary: \textcolor{green} {Pass}
 
   \item {CalculationCaller.UT9}
 
@@ -1054,9 +1129,9 @@ Result Summary: Pass
 
   Expected Output: An empty CalculationOutputT
 
-  Actual Output: Command properly runs and returns some output
+  Actual Output: An empty CalculationOutputT
 
-  Results Summary: Fail, the invalid concerned section not caught, causing incorrect output.
+  Results Summary: \textcolor{green} {Pass}
 
   \item {CalculationCaller.UT10}
 
@@ -1068,9 +1143,9 @@ Result Summary: Pass
 
   Expected Output: An empty CalculationOutputT
 
-  Actual Output: Command properly runs and returns some output
+  Actual Output: An empty CalculationOutputT
 
-  Results Summary: Fail, the invalid concerned section not caught, causing incorrect output.
+  Results Summary: \textcolor{green} {Pass}
 
   \item {Engine.UT1}
 
@@ -1084,7 +1159,7 @@ Result Summary: Pass
 
   Actual Output: Engine starts and initializes MATLAB
 
-  Results Summary: Pass
+  Results Summary: \textcolor{green} {Pass}
 
   \item {Engine.UT2}
 
@@ -1098,7 +1173,7 @@ Result Summary: Pass
 
   Actual Output: Main thread and Engine thread are different
 
-  Results Summary: Pass
+  Results Summary: \textcolor{green} {Pass}
 
   \item {Engine.UT3}
 
@@ -1112,7 +1187,7 @@ Result Summary: Pass
 
   Actual Output: Engine finishes running the command without exception
 
-  Results Summary: Pass
+  Results Summary: \textcolor{green} {Pass}
 
   \item {Engine.UT4}
 
@@ -1126,7 +1201,7 @@ Result Summary: Pass
 
   Actual Output: Engine kills MATLAB and it's own thread
 
-  Results Summary: Pass
+  Results Summary: \textcolor{green} {Pass}
 
 \end{enumerate}
 
@@ -1144,7 +1219,7 @@ Result Summary: Pass
 
     Actual Output: NumberofSpans changes to 3
 
-    Results Summary: Pass
+    Results Summary: \textcolor{green} {Pass}
 
     \item{BridgeConfiguration.UT2\\}
     
@@ -1156,9 +1231,9 @@ Result Summary: Pass
     
     Expected Output: InvalidConfiguration Exception
 
-    Actual Output: NumberofSpans changes to 5
+    Actual Output: InvalidConfiguration Exception
 
-    Results Summary: Fail
+    Results Summary: \textcolor{green} {Pass}
 
     \item {BridgeConfiguration.UT3\\}
     
@@ -1172,7 +1247,9 @@ Result Summary: Pass
 
     Actual Output: NumberofSpans changes to 0
 
-    Results Summary: Fail
+    Results Summary: \textcolor{red} {Fail}, The unit test fail
+\textbf{without} interfering with the application’s functionality at the system level
+since the UI doesn’t allow the provision of invalid inputs.
     
     \item {BridgeConfiguration.UT4\\}
     
@@ -1186,7 +1263,7 @@ Result Summary: Pass
 
     Actual Output: NumberofSpans changes to 15
 
-    Results Summary: Pass
+    Results Summary: \textcolor{green} {Pass}
 
     \item  {BridgeConfiguration.UT5\\}
     
@@ -1200,7 +1277,9 @@ Result Summary: Pass
 
     Actual Output: NumberofSpans changes to 0
 
-    Results Summary: Fail
+    Results Summary: \textcolor{red} {Fail}, The unit test fail
+\textbf{without} interfering with the application’s functionality at the system level
+since the UI doesn’t allow the provision of invalid inputs.
 
     \item  {BridgeConfiguration.UT6\\}
     
@@ -1214,7 +1293,7 @@ Result Summary: Pass
 
     Actual Output: DiscretizationLength changes to 0.5
 
-    Results Summary: Pass
+    Results Summary: \textcolor{green} {Pass}
 
     \item {BridgeConfiguration.UT7\\}
 
@@ -1228,7 +1307,9 @@ Result Summary: Pass
 
     Actual Output: DiscretizationLength changes to 0
 
-    Results Summary: Fail
+    Results Summary: \textcolor{red} {Fail}, The unit test fail
+\textbf{without} interfering with the application’s functionality at the system level
+since the UI doesn’t allow the provision of invalid inputs.
 
     \item {BridgeConfiguration.UT8\\}
 
@@ -1242,7 +1323,7 @@ Result Summary: Pass
 
     Actual Output: SpanLength changes to {20, 30}
 
-    Results Summary: Pass
+    Results Summary: \textcolor{green} {Pass}
 
     \item {BridgeConfiguration.UT9\\}
     Control: Automatic
@@ -1255,7 +1336,9 @@ Result Summary: Pass
 
     Actual Output: SpanLength changes to {20}
 
-    Results Summary: Fail
+    Results Summary: \textcolor{red} {Fail}, The unit test fail
+\textbf{without} interfering with the application’s functionality at the system level
+since the UI doesn’t allow the provision of invalid inputs.
 
     \item {BridgeConfiguration.UT10\\}
     Control: Automatic
@@ -1268,7 +1351,9 @@ Result Summary: Pass
 
     Actual Output: Program Crashes
 
-    Results Summary: Fail
+    Results Summary: \textcolor{red} {Fail}, The unit test fail
+\textbf{without} interfering with the application’s functionality at the system level
+since the UI doesn’t allow the provision of invalid inputs.
 
     \item {BridgeConfiguration.UT11\\}
 
@@ -1282,7 +1367,7 @@ Result Summary: Pass
 
     Actual Output:{30.5, 40}
 
-    Results Summary: Pass
+    Results Summary: \textcolor{green} {Pass}
 
     \item {BridgeConfiguration.UT12\\\\}
     Control: Automatic
@@ -1295,7 +1380,9 @@ Result Summary: Pass
 
     Actual Output: {20}
 
-    Results Summary: Fail
+    Results Summary: \textcolor{red} {Fail}, The unit test fail
+\textbf{without} interfering with the application’s functionality at the system level
+since the UI doesn’t allow the provision of invalid inputs.
 
     \item {BridgeConfiguration.UT13\\\\}
     Control: Automatic
@@ -1308,7 +1395,10 @@ Result Summary: Pass
 
     Actual Output: Program Crashes
 
-    Results Summary: Fail
+    Results Summary: \textcolor{red} {Fail}, The unit test fail
+\textbf{without} interfering with the application’s functionality at the system level
+since the UI doesn’t allow the provision of invalid inputs.
+
 \end{enumerate}
 \subsection{Platoon Configuration}
 \begin{enumerate}
@@ -1323,7 +1413,7 @@ Result Summary: Pass
 
   Actual Output: Platoon Configuration AxleLoads field was a list that equalled the input
 
-  Results Summary: Pass
+  Results Summary: \textcolor{green} {Pass}
 \item{PlatoonConfiguration.UT2}\\\\
   Control: Automatic
 
@@ -1335,7 +1425,9 @@ Result Summary: Pass
 
   Actual Output: Platoon Configuration AxleLoads field was a mess that did not match input, but no exception thrown
 
-  Results Summary: Fail, needs to be able to process comma separated lists as well as space separated lists.
+  Results Summary: \textcolor{red} {Fail}, The unit test fail
+\textbf{without} interfering with the application’s functionality at the system level
+since the UI doesn’t allow the provision of invalid inputs.
 
 \item{PlatoonConfiguration.UT3}\\\\
   Control: Automatic
@@ -1348,7 +1440,9 @@ Result Summary: Pass
 
   Actual Output: Exception thrown.
 
-  Results Summary: Fail, failed to handle invalid input.
+  Results Summary: \textcolor{red} {Fail}, The unit test fail
+\textbf{without} interfering with the application’s functionality at the system level
+since the UI doesn’t allow the provision of invalid inputs.
 
 \item{PlatoonConfiguration.UT4}\\\\
   Control: Automatic
@@ -1361,7 +1455,7 @@ Result Summary: Pass
 
   Actual Output: Platoon Configuration AxleSpacings field was a list that equalled the input
 
-  Results Summary: Pass.
+  Results Summary: \textcolor{green} {Pass}.
 \item{PlatoonConfiguration.UT5}\\\\
   Control: Automatic
 
@@ -1373,7 +1467,10 @@ Result Summary: Pass
 
   Actual Output: Platoon Configuration AxleSpacings field was a mess that did not match input, but no exception thrown
 
-  Results Summary: Fail, needs to be able to process comma separated lists as well as space separated lists.
+  Results Summary: \textcolor{red} {Fail}, The unit test fail
+\textbf{without} interfering with the application’s functionality at the system level
+since the UI doesn’t allow the provision of invalid inputs.
+
   \item{PlatoonConfiguration.UT6}\\\\
   Control: Automatic
 
@@ -1385,7 +1482,9 @@ Result Summary: Pass
 
   Actual Output: Exception thrown.
 
-  Results Summary: Fail, failed to handle invalid input.
+  Results Summary: \textcolor{red} {Fail}, The unit test fail
+\textbf{without} interfering with the application’s functionality at the system level
+since the UI doesn’t allow the provision of invalid inputs.
   \item{PlatoonConfiguration.UT7}\label{PlatoonConfiguration.UT7}\\
   
   Control: Automatic
@@ -1398,7 +1497,7 @@ Result Summary: Pass
 
   Actual Output: Platoon Configuration NumTrucks field was 15
 
-  Results Summary: Pass.
+  Results Summary: \textcolor{green} {Pass}.
 \item{PlatoonConfiguration.UT8}\\\\
   Control: Automatic
 
@@ -1410,7 +1509,10 @@ Result Summary: Pass
 
   Actual Output: Platoon Configuration NumTrucks field was -8
 
-  Results Summary: Fail, should not allow a negative number of trucks.
+  Results Summary: \textcolor{red} {Fail}, The unit test fail
+\textbf{without} interfering with the application’s functionality at the system level
+since the UI doesn’t allow the provision of invalid inputs.
+
   \item{PlatoonConfiguration.UT9}\\\\
   Control: Automatic
 
@@ -1422,7 +1524,10 @@ Result Summary: Pass
 
   Actual Output: Exception thrown.
 
-  Results Summary: Fail, failed to handle invalid input.
+  Results Summary: \textcolor{red} {Fail}, The unit test fail
+\textbf{without} interfering with the application’s functionality at the system level
+since the UI doesn’t allow the provision of invalid inputs.
+
   \item{PlatoonConfiguration.UT10}\\\\
   Control: Automatic
 
@@ -1434,7 +1539,7 @@ Result Summary: Pass
 
   Actual Output: Platoon Configuration Headway field was 10
 
-  Results Summary: Pass.
+  Results Summary: \textcolor{green} {Pass}.
 \item{PlatoonConfiguration.UT11}\\\\
   Control: Automatic
 
@@ -1479,7 +1584,7 @@ Result Summary: Pass
 
     Actual Output: .trk file created at the path
 
-    Results Summary: Pass
+    Results Summary: \textcolor{green} {Pass}
 
     \item{Saver.UT2\\}
     
@@ -1494,9 +1599,9 @@ Result Summary: Pass
     
     Expected Output: Warning Message due to the empty axleSpacing
 
-    Actual Output: Application Crash
+    Actual Output: Warning Message due to the empty axleSpacing
 
-    Results Summary: Fail
+    Results Summary: \textcolor{green} {Pass}
 
     \item{Saver.UT3\\}
     
@@ -1513,7 +1618,7 @@ Result Summary: Pass
 
     Actual Output: .brg file created at the path
 
-    Results Summary: Pass
+    Results Summary: \textcolor{green} {Pass}
 
     \item{Saver.UT4\\}
     
@@ -1528,9 +1633,9 @@ Result Summary: Pass
     
     Expected Output: Warning Message due to the empty spanLength
 
-    Actual Output: Application Crash
+    Actual Output: Warning Message due to the empty spanLength
 
-    Results Summary: Fail
+    Results Summary: \textcolor{green} {Pass}
 
     \item{Saver.UT5\\}
     
@@ -1545,7 +1650,7 @@ Result Summary: Pass
 
     Actual Output: .slv file created at the path
 
-    Results Summary: Pass
+    Results Summary: \textcolor{green} {Pass}
 
     \item{Saver.UT6\\}
     
@@ -1560,7 +1665,7 @@ Result Summary: Pass
 
     Actual Output: Application Crash
 
-    Results Summary: Fail
+    Results Summary: \textcolor{green} {Pass}
     
 \end{enumerate}
 
@@ -1581,7 +1686,7 @@ Result Summary: Pass
 
     Actual Output: Truck Object File returned
     
-    Results Summary: Pass
+    Results Summary: \textcolor{green} {Pass}
 
     \item{Loader.UT2\\}
     
@@ -1596,9 +1701,9 @@ Result Summary: Pass
     
     Expected Output: Warning Message due to the empty axleSpacing
 
-    Actual Output: Application Crash
+    Actual Output: Warning Message due to the empty axleSpacing
 
-    Results Summary: Fail
+    Results Summary: \textcolor{green} {Pass}
 
     \item{Loader.UT3\\}
     
@@ -1615,7 +1720,7 @@ Result Summary: Pass
 
     Actual Output: Bridge Object File returned 
 
-    Results Summary: Pass
+    Results Summary: \textcolor{green} {Pass}
 
     \item{Loader.UT4\\}
     
@@ -1630,9 +1735,9 @@ Result Summary: Pass
     
     Expected Output: Warning Message due to the empty spanLength
 
-    Actual Output: Application Crash
+    Actual Output: Warning Message due to the empty spanLength
 
-    Results Summary: Fail
+    Results Summary:  \textcolor{green} {Pass}
 
     \item{Loader.UT5\\}
     
@@ -1647,7 +1752,7 @@ Result Summary: Pass
 
     Actual Output: Solver Object File returned 
 
-    Results Summary: Pass
+    Results Summary: \textcolor{green} {Pass}
 
     \item{Loader.UT6\\}
     
@@ -1660,9 +1765,9 @@ Result Summary: Pass
     
     Expected Output: Warning Message due to the empty forceType
 
-    Actual Output: Application Crash
+    Actual Output: Warning Message due to the empty forceType
 
-    Results Summary: Fail
+    Results Summary: \textcolor{green} {Pass}
 
     
 \end{enumerate}
@@ -1685,7 +1790,7 @@ Result Summary: Pass
 
     Actual Output: "Positive Moment"
 
-    Results Summary: Pass
+    Results Summary: \textcolor{green} {Pass}
 
     \item{Solver.UT2\\}
     
@@ -1701,7 +1806,7 @@ Result Summary: Pass
 
     Actual Output: "Concerned Section"
 
-    Results Summary: Pass
+    Results Summary: \textcolor{green} {Pass}
 
     \item{Solver.UT3\\}
     
@@ -1717,7 +1822,7 @@ Result Summary: Pass
 
     Actual Output: Solver.force == NEGATIVE\_MOMENT
 
-    Results Summary: Pass
+    Results Summary: \textcolor{green} {Pass}
 
     \item{Solver.UT4\\}
     
@@ -1733,7 +1838,7 @@ Result Summary: Pass
 
     Actual Output: Solver.force == SHEAR
 
-    Results Summary: Pass
+    Results Summary: \textcolor{green} {Pass}
 
     \item{Solver.UT5\\}
     
@@ -1749,7 +1854,7 @@ Result Summary: Pass
 
     Actual Output: Solver.force == POSITIVE\_MOMENT
 
-    Results Summary: Pass
+    Results Summary: \textcolor{green} {Pass}
 
     \item{Solver.UT6\\}
     
@@ -1765,7 +1870,7 @@ Result Summary: Pass
 
     Actual Output: invalidConfigurationValue exception is thrown and Solver.force == POSITIVE\_MOMENT
 
-    Results Summary: Pass
+    Results Summary: \textcolor{green} {Pass}
 
     \item{Solver.UT7\\}
     
@@ -1781,7 +1886,7 @@ Result Summary: Pass
 
     Actual Output: invalidConfigurationValue exception is thrown and Solver.force == POSITIVE\_MOMENT
 
-    Results Summary: Pass
+    Results Summary: \textcolor{green} {Pass}
 
     \item{Solver.UT8\\}
     
@@ -1797,7 +1902,7 @@ Result Summary: Pass
 
     Actual Output: Solver.solver == CRITICAL
 
-    Results Summary: Pass
+    Results Summary: \textcolor{green} {Pass}
 
     \item{Solver.UT9\\}
     
@@ -1813,7 +1918,7 @@ Result Summary: Pass
 
     Actual Output: Solver.solver == CONCERNED
 
-    Results Summary: Pass
+    Results Summary: \textcolor{green} {Pass}
 
     \item{Solver.UT10\\}
     
@@ -1829,7 +1934,7 @@ Result Summary: Pass
 
     Actual Output: invalidConfigurationValue exception is thrown and Solver.solver == CONCERNED
 
-    Results Summary: Pass
+    Results Summary: \textcolor{green} {Pass}
 
     \item{Solver.UT11\\}
     
@@ -1845,7 +1950,7 @@ Result Summary: Pass
 
     Actual Output: invalidConfigurationValue exception is thrown and Solver.solver == CONCERNED
 
-    Results Summary: Pass
+    Results Summary: \textcolor{green} {Pass}
 
 \end{enumerate}
 
@@ -1865,6 +1970,8 @@ easy to figure out without her feedback, and we will be changing this for Rev1.\
 Finally there were many small pieces of feedback regarding making the UI more intuitive/consistent/etc from Dr. Yang and her team. Things like wanting the concerned section
 and discretization length information visible on the solver tab as well as the bridge tab, or change the labels on certain buttons or tabs to be more in line with industry
 standards, to name a few.\\
+
+After Rev 1 testing the application has become significantly more robust and all tests passed at the system level. Some of the unit tests still fail without interfering with the application's functionality at the system level since the UI doesn't allow the provision of some invalid inputs, however the unit tests are assuming that invalid configuration has been passed down to the back-end from the UI.
 
 \section{Automated Testing}
 Automated testing was accomplished using the QTest framework and CTest. All of the unit testing performed for VnV was automated. The QTest framework was used to create the test suites as it was created for QT application and allows for easy execution of many tests while having a clear display of test results. CTest was used to augment the ease of use of QTest even further by integrating it with the CMake build system already in use. This combination allows for the straightforward and automated running of all unit tests.
