@@ -53,12 +53,35 @@ The changes made to the hazard analysis in response to feedback were relatively 
 
 \subsection{VnV Plan and Report}
 
+\subsubsection{VnV Plan}
+There was quite  abit to change in response to TA Feedback for the VnV Plan, and this was the sole source of implemented feedback for this document. The changes are as follows:
+\begin{enumerate}
+  \item Fixed some grammar issues and conversational tone in earlier parts of the document
+  \item Added reasoning for each linked document as to why it is relevant to the VnV Plan in Section 3.3
+  \item Assigned specific team members to specific reviews in Section 4
+  \item Added a pool of predetermined test objects for the system tests and referenced them in input data of system tests to provide specific test data instead of just 
+  "valid bridge length", for example.
+  \item The feedback about some requirement fit criteria, such as the one for FR2, not being fully covered is an issue with the SRS being out of date, not the VnV plan, so that
+  problem was fixed upstream and not implemented in the VnV Plan.
+  \item Made certain tests, such as NFR10.ST1, less vague.
+  \item Made it more clear that any subset of the information being invalid is an overall invalid input for FR2 ST2 and FR6 ST2
+  \item Made it more clear what a "correct value" is for FR2 ST1 and FR6 ST2
+  \item Changed input decisions to not mention "Text input" to avoid making desing decisions in the VnV plan
+  \item Added 4 requirements for thread safety and error handling from the Hazard analysis and added system tests for them, to cover scenarios such as a user trying to run the 
+  second solver without specifying a discretization length, and more.
+  \item split up STs for FR13 to be more specific
+  \item NFR 14 and 15 were removed from the SRS, as they were unnecessary and either not testable or not system requirements. So the issue of no tests for them also goes away
+\end{enumerate}
+
 \section{Design Iteration (LO11)}
 
 \plt{Explain how you arrived at your final design and implementation.  How did
 the design evolve from the first version to the final version?}
 
-\textbf{Adham:}
+\textbf{Adham:} Honestly I think we did a pretty decent job of requirements elicitation early on in the project, so there were no huge left turns we had to make in the design
+process. The FRs and NFRs we defined in the SRS and HA back in September and October remained almost entirely static for the duration of the project
+Most of the evolution was not the design as a whole changing or evolving in significant ways, but rather us refining our understanding of our initial set of requirements
+and how best to implement them.
 
 \textbf{Darren:}
 
@@ -66,16 +89,32 @@ the design evolve from the first version to the final version?}
 
 \textbf{Farzad:}
 
-\textbf{Pedram:} Arriving at our final design was a process of rapid requirements gathering, feasibility analysis and software design built upon the initial findings and the proof of concept. In terms of requirements gathering, the client was regularly given multiple mockups of the proposed designs to choose from in addition to refining the requirements, constrains and assumptions. The team would often conduct brief feasibility analysis to better understand the priority and complexity of each ask. Very importantly, relational tools and diagrams where used in documenting and detailing the different components and their interactions.  From the final design, a similar iterative approach was taken for the final implementation. The first steps, including the Rev0, was seen as a prototyping stage where the team made the basic infrastructure and user interface that could later be shaped in different ways. A similar iterative approach was taken with the client where the prototypes where refined and presented in a biweekly manner to clearly highlight what has been completed and what is left to implement. Toward the end, most members focused on rigorous testing to ensure the validity of the implementation. 
+\textbf{Pedram:} Arriving at our final design was a process of rapid requirements gathering, feasibility analysis and software design built upon the initial findings and the 
+proof of concept. In terms of requirements gathering, the client was regularly given multiple mockups of the proposed designs to choose from in addition to refining the 
+requirements, constrains and assumptions. The team would often conduct brief feasibility analysis to better understand the priority and complexity of each ask. 
+Very importantly, relational tools and diagrams where used in documenting and detailing the different components and their interactions.  
+From the final design, a similar iterative approach was taken for the final implementation. 
+The first steps, including the Rev0, was seen as a prototyping stage where the team made the basic infrastructure and user interface that could later be shaped in different 
+ways. A similar iterative approach was taken with the client where the prototypes where refined and presented in a biweekly manner to clearly highlight what has been completed 
+and what is left to implement. Toward the end, most members focused on rigorous testing to ensure the validity of the implementation.\\
 
-\textbf{Victor:} Arriving at our final design and implementation involved a series of steps loosely following the waterfall method. First, we gathered requirements from the clients, Dr. Yang and her grad students, which allowed us to create the first few pieces of documentation for our project. Using these initial documents, we created a first prototype: the proof of concept. We then differed from the waterfall method by showing the prototype and the documentation to the clients and using the feedback gathered to modify the documentation and implementation. This process of using feedback gathered from the client to go back and modify our documentation and implementation was used throughout the project, being used with the SRS and revision 0 prototype, with the final documentation and the final product, and many times in between. This design methodology allowed us to evolve our first designs into a final product that met client expectations and needs.
+\textbf{Victor:} Arriving at our final design and implementation involved a series of steps loosely following the waterfall method. First, we gathered requirements from the 
+clients, Dr. Yang and her grad students, which allowed us to create the first few pieces of documentation for our project. Using these initial documents, we created a first 
+prototype: the proof of concept. We then differed from the waterfall method by showing the prototype and the documentation to the clients and using the feedback gathered to 
+modify the documentation and implementation. This process of using feedback gathered from the client to go back and modify our documentation and implementation was used 
+throughout the project, being used with the SRS and revision 0 prototype, with the final documentation and the final product, and many times in between. This design methodology 
+allowed us to evolve our first designs into a final product that met client expectations and needs.
 
 \section{Design Decisions (LO12)}
 
 \plt{Reflect and justify your design decisions.  How did limitations,
  assumptions, and constraints influence your decisions?}
 
-\textbf{Adham:}
+\textbf{Adham:} I think the main limitation, as might be unsurprising, that defined the project was a limitation of time. The main design decisions that need to be justified, in
+my opinion, are the ones that involved omission of features, rather than their inclusion. The main one that comes to mind right now is the fact that the program is left without
+an installer. detailed installation instructions were created and we tested that non computer inclined folks could follow them successfully with Dr Yang and her grad students,
+but this is obviously not ideal compared to an installer that just does the more confusing stuff, such as setting environment variables, for you. The installer had to get axed
+in favor of what we decided to be more pressing functionalities based on our discussions with Dr Yang, but it still would've been nice to have.
 
 \textbf{Darren:}
 
@@ -83,18 +122,25 @@ the design evolve from the first version to the final version?}
 
 \textbf{Farzad:}
 
-\textbf{Pedram:} As a front-facing software project, the design decisions used in MTOBridge were mostly justified through the perspectives of the stakeholders, often being the client and final user. Nevertheless, there were many factors that also helped justify each decision. For starters, most of the decisions were justified considering the implicit or explicit trade-offs that would be involved. For example, certain frameworks offered less robustness but a higher performance which was not ideal for our scenario. At the same time, there were many constraints that we had to adhere. The program had to be portable and installable on any Windows 10 and 11 machine without the requirement for any other software or applications. These constraint also often included the actual limitations of the framework being used which could vary by use case. Finally, the assumptions and the context for this project, specifically the user behavior and future requirements were other influencing factors. 
+\textbf{Pedram:} As a front-facing software project, the design decisions used in MTOBridge were mostly justified through the perspectives of the stakeholders, often being the 
+client and final user. Nevertheless, there were many factors that also helped justify each decision. For starters, most of the decisions were justified considering the implicit 
+or explicit trade-offs that would be involved. For example, certain frameworks offered less robustness but a higher performance which was not ideal for our scenario. 
+At the same time, there were many constraints that we had to adhere. The program had to be portable and installable on any Windows 10 and 11 machine without the requirement 
+for any other software or applications. These constraint also often included the actual limitations of the framework being used which could vary by use case. Finally, 
+the assumptions and the context for this project, specifically the user behavior and future requirements were other influencing factors.\\
 
-\textbf{Victor:} Many of our design decisions revolved around the implementation and design of the user interface. Because our project was largely visual, the decisions made were based on HCI design principles to ensure that the interface created would be practical to those using it. Another key influence on our design decisions was the end user, civil engineers, which we were able to take into account by gaining feedback from Dr. Yang and her graduate students. These things led to the visual design of our project being quite simple and straightforward, eliminating clutter and reducing possible user confusion. By far the largest limitation to our project was time: while 8 months seems like a lot when the project is just getting started, it passes by very quickly, and it is difficult to implement all of the features originally planned. Our assumptions regarding the design of the project related to civil engineers' knowledge and familiarity with computer interfaces, and were confirmed by Dr. Yang and her team. Finally, the constraints around our project related mostly to the end environment in which the program would be used, Windows 10 and 11, and did not influence our design decisions heavily. 
+\textbf{Victor:} Many of our design decisions revolved around the implementation and design of the user interface. Because our project was largely visual, the decisions made 
+were based on HCI design principles to ensure that the interface created would be practical to those using it. Another key influence on our design decisions was the end user, 
+civil engineers, which we were able to take into account by gaining feedback from Dr. Yang and her graduate students. These things led to the visual design of our project being 
+quite simple and straightforward, eliminating clutter and reducing possible user confusion. By far the largest limitation to our project was time: while 8 months seems like a 
+lot when the project is just getting started, it passes by very quickly, and it is difficult to implement all of the features originally planned. Our assumptions regarding the 
+design of the project related to civil engineers' knowledge and familiarity with computer interfaces, and were confirmed by Dr. Yang and her team. Finally, the constraints 
+around our project related mostly to the end environment in which the program would be used, Windows 10 and 11, and did not influence our design decisions heavily. 
 
 \section{Economic Considerations (LO23)}
 
-\plt{Is there a market for your product? What would be involved in marketing your 
-product? What is your estimate of the cost to produce a version that you could 
-sell?  What would you charge for your product?  How many units would you have to 
-sell to make money? If your product isn't something that would be sold, like an 
-open source project, how would you go about attracting users?  How many potential 
-users currently exist?}
+As this is a bespoke product created for internal use at Dr Yang's lab as part of a research project, Economic and for profit considerations are not really viewed as relevant by
+the team.
 
 \section{Reflection on Project Management (LO24)}
 
@@ -106,21 +152,38 @@ team communication plan, team member roles and workflow plan.  Did you use the
 technology you planned on using?}
 
 \subsubsection{Team Meeting Plan}
+For the most part, we stuck to our team meeting plans perfectly, even over reading week. We did eventually switch to primarily virtual instead of in-person meetings, and the
+meeting time changed from 5:30 on tuesdays to 6pm on thursdays once second semester hit and everyone's schedules changed, but there were no real deviations otherwise.
 
 \subsubsection{Team Communication Plan}
-
+A few  more deviations here, namely, Git issues were not used by the team, and the primary communication for action items became the discord group and meetings.
+We also met with Dr Yang in person instead of over zoom, thankfully.
 \subsubsection{Team Member Roles}
+Considering how little we knew about what we were getting into, this section is also quite accurate. Adham did in fact act as lead and chair meetings, Darren facilitated the
+hybrid meetings with Dr Yang when not everyone could make it to the room, and David was the technical lead for the implementation, Victor was also given a more complex part
+of the implementation due to his experience in C++. The only deviations are really that Adham ended up being the primary point of contact with Dr Yang over the course of the
+year, and Victor shared the role of Github maintainer with Pedram.
 
 \subsubsection{Workflow Plan}
+This was the one we were most off the mark on. We did not have separate dev and prod branches, we did not implement CI/CD, and we did not use git issues. Basically not a single
+part of this Workflow plan was followed. Oh well, it worked out well enough.
+
 
 \subsubsection{Technology}
-When it comes to technology, we somewhat followed our original development plan. We did use C++ and MATLAB as our coding languages, and did use our IDE's linters as outlined in the dev plan. We did not use clang-tidy, though this only mentioned as a tool we might possibly use. When it comes to testing, we did in fact use Qt Test for our unit testing framework, however we did not use GCOV for code coverage measuring or Valgrind for performance measuring. We ended up not using these tools as we decided they were not necessary. We also did not use GitHub's built in CI/CD, or any CI/CD, as we deemed, because the project was fairly brief, it would not save use enough time to offset the time it would take to implement. As outlined in the development plan, we used the Qt GUI framework for C++, which allowed us to quickly and relatively easily build our front-end program. We did not use Doxygen to generate source code documentation, instead opting for in-depth code comments.
+When it comes to technology, we somewhat followed our original development plan. We did use C++ and MATLAB as our coding languages, 
+and did use our IDE's linters as outlined in the dev plan. We did not use clang-tidy, though this only mentioned as a tool we might possibly use. 
+When it comes to testing, we did in fact use Qt Test for our unit testing framework, however we did not use GCOV for code coverage measuring or Valgrind 
+for performance measuring. We ended up not using these tools as we decided they were not necessary. We also did not use GitHub's built in CI/CD, or any CI/CD, 
+as we deemed, because the project was fairly brief, it would not save use enough time to offset the time it would take to implement. As outlined in the development plan, 
+we used the Qt GUI framework for C++, which allowed us to quickly and relatively easily build our front-end program. We did not use Doxygen to generate source code 
+documentation, instead opting for in-depth code comments.
 
 \subsection{What Went Well?}
 \plt{What went well for your project management in terms of processes and 
 technology?}
 
-\textbf{Adham:}
+\textbf{Adham:} I think we did very well in terms of organizing ourselves, meeting consistently, identifying action items, assigning work fairly, and getting things done in 
+a timely manner. We never missed a deadline, even when things got very busy, and had very few issues in terms of team communication or missed meetings.
 
 \textbf{Darren:}
 
@@ -130,28 +193,38 @@ technology?}
 
 \textbf{Pedram:}
 
-\textbf{Victor:} Our team meeting and team communication plans went very well in my opinion. We kept to our team meeting plan and consistently met every week, allowing us to go over all the progress that's been made since our last meeting in addition to what must still be done. Our team communication plan, aside from the use of GitHub issues which we did not implement, proved very fruitful, allowing for our team to communicate information and needs in between our meetings. These two combined allowed our team to stay in constant communication, meaning that every member was always up to date and no information was being missed.
+\textbf{Victor:} Our team meeting and team communication plans went very well in my opinion. We kept to our team meeting plan and consistently met every week, 
+allowing us to go over all the progress that's been made since our last meeting in addition to what must still be done. Our team communication plan, aside from the use of 
+GitHub issues which we did not implement, proved very fruitful, allowing for our team to communicate information and needs in between our meetings. These two combined allowed 
+our team to stay in constant communication, meaning that every member was always up to date and no information was being missed.
 
 \subsection{What Went Wrong?}
 \plt{What went wrong in terms of processes and technology?}
 
-\textbf{Adham:}
+\textbf{Adham:} We made basically no use of git and its features outside of using as a code repository. We didnt really stick to our workflow plan in the slightest, and that
+definitely hurt us sometimes in the implementation, where someone would push code that didnt compile and stop the workflow until it was fixed, or people would step on each others
+toes when it came to implementing features or solving problems sometimes.
 
 \textbf{Darren:}
 
 \textbf{David:}
 
 \textbf{Farzad:}
-
 \textbf{Pedram:}
 
-\textbf{Victor:} One of the things that went wrong for our project's management was our workflow plan. While we had initially intended to use a primary production branch in conjunction with feature branches, we ended up simply using one main branch. The reason for this was simplicity: it was much easier to use one main branch for all changes than have to create a feature branch every time a change was to be made, especially with the way in which we implemented the project. This did, however, cause issues for our project. One of these issues was that half-finished features would end up being pushed to the GitHub, where a second teammate would start working on a new feature based on this half-finished feature, and once the first feature is properly finished it invalidates some of the work done by the second teammate.
+\textbf{Victor:} One of the things that went wrong for our project's management was our workflow plan. While we had initially intended to use a primary production branch in 
+conjunction with feature branches, we ended up simply using one main branch. The reason for this was simplicity: it was much easier to use one main branch for all changes than
+have to create a feature branch every time a change was to be made, especially with the way in which we implemented the project. This did, however, cause issues for our project.
+One of these issues was that half-finished features would end up being pushed to the GitHub, where a second teammate would start working on a new feature based on this 
+half-finished feature, and once the first feature is properly finished it invalidates some of the work done by the second teammate.
 
 \subsection{What Would you Do Differently Next Time?}
 \plt{What will you do differently for your next project?}
 
-\textbf{Adham:}
-
+\textbf{Adham:} Besides the obvious "Use Github More Effectively" I feel that personally as team lead I could have often done a much better job of chairing the meetings. Things
+such as letting people know the agenda for each meeting ahead of time, and more clearly communicating the actions items at the end of the meetings. I also tend to drone on 
+often, which I could definitely tell led to me losing people's attention often, which would subsequently lead to important information being missed. To sum it up I think I have
+a lot of work to do when it comes to clear and concise communication in project management.\\
 \textbf{Darren:}
 
 \textbf{David:}
@@ -160,6 +233,9 @@ technology?}
 
 \textbf{Pedram:}
 
-\textbf{Victor:} One of the biggest things I will do differently next time is to actually use GitHub to its full potential. While we used GitHub for version control and to facilitate all working on the project simultaneously, the lack of CI/CD and GitHub issues was sorely felt. CI/CD could have been used to run tests when code was uploaded and would have prevented multiple regression bugs that we encountered. GitHub issues for tracking changes to be made would have significantly improved the final touches and review stages of our project.
+\textbf{Victor:} One of the biggest things I will do differently next time is to actually use GitHub to its full potential. While we used GitHub for version control and to 
+facilitate all working on the project simultaneously, the lack of CI/CD and GitHub issues was sorely felt. CI/CD could have been used to run tests when code was uploaded and 
+would have prevented multiple regression bugs that we encountered. GitHub issues for tracking changes to be made would have significantly improved the final touches and review 
+stages of our project.
 
 \end{document}
