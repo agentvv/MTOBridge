@@ -50,6 +50,25 @@ The changes made to the hazard analysis in response to feedback were relatively 
 
 
 \subsection{Design and Design Documentation}
+The design was adjusted based on user feedback over the course of the project and for general improvement, particularly in robustness. This included the following:
+\begin{enumerate}
+  \item Removed numerous exceptions in favour of better handling and designing to prevent them
+  \item The solver section was deemed to not need a save/load system due to its simplicity and so removed
+  \item Implemented loading parameters from report file
+  \item Added graph for displaying the moment envelope exclusive to one of the solver modes
+  \item Altering how input fields are made available to the user and validated by the system
+\end{enumerate}
+
+The MIS was updated to reflect the above changes to the design. In particular:
+\begin{enumerate}
+  \item Removed exceptions that are no longer thrown
+  \item Revised some method parameters, primarily changing from receiving string and the associated parsing and exceptions to receiving the types that the string was originally converted to
+  \item Formalized exception conditions for several modules
+  \item Added state invariants to Platoon Configuration Visualizer and Bridge Configuration Visualizer
+  \item Updated methods, particularly for Platoon Configuration Data Format, Bridge Configuration Data Format, Platoon Configuration Visualizer, and Bridge Configuration Visualizer
+  \item Solver Configuration Loader replaced with Output Report Loader
+  \item Corrected some grammar and formatting issues
+\end{enumerate}
 
 \subsection{VnV Plan and Report}
 
@@ -83,7 +102,7 @@ process. The FRs and NFRs we defined in the SRS and HA back in September and Oct
 Most of the evolution was not the design as a whole changing or evolving in significant ways, but rather us refining our understanding of our initial set of requirements
 and how best to implement them.
 
-\textbf{Darren:}
+\textbf{Darren:} We stayed in regular  contact with the clients throughout the project. As we made progress on the design, we reviewed the changes and additions with them. This occasionally raised new insights into what the client wanted and what should be prioritized. Some features were initially requested and then the client determined them unnecessary or another method preferred to fulfill the underlying requirement. The first version was mainly to accomplish the core features of the design. After this, the meetings focused on refinement, particularly focusing on robustness as well as user experience and flow of use, and confirming our decisions with feedback from the clients. The final version turned out much easier to use and more presentable.
 
 \textbf{David:}
 
@@ -116,7 +135,7 @@ an installer. detailed installation instructions were created and we tested that
 but this is obviously not ideal compared to an installer that just does the more confusing stuff, such as setting environment variables, for you. The installer had to get axed
 in favor of what we decided to be more pressing functionalities based on our discussions with Dr Yang, but it still would've been nice to have.
 
-\textbf{Darren:}
+\textbf{Darren:} The design was ultimately for a user interface and so was approached with that as the main focus of our efforts. A particular assumption discussed in meetings with the client was that the user would be experienced and familiar with the terminology used, so we limited the resources we used on explaining those. We determined late in the course that this wasn't infallible, as certain terms like "headway" may have a discrepancy between the user perception (distance from the back of the leading truck to the front of the truck behind it) and its intended meaning (distance from the leading truck's rearmost axle to the next truck's front axle). Beyond this, we justified our decisions on information to include, parameters to hide from the user, and how inputs are afforded by reviewing them with the client. We used Dr. Yang and her graduate students to judge its usability and clarity of information - one limitation is that we weren't able to contact an MTO engineer to seek their feedback on the project.
 
 \textbf{David:}
 
@@ -185,7 +204,7 @@ technology?}
 \textbf{Adham:} I think we did very well in terms of organizing ourselves, meeting consistently, identifying action items, assigning work fairly, and getting things done in 
 a timely manner. We never missed a deadline, even when things got very busy, and had very few issues in terms of team communication or missed meetings.
 
-\textbf{Darren:}
+\textbf{Darren:} The team had very effective communication and division of work. We had meetings  within in the team at least once per week and met with the client every other week. We used our team meetings well in discussing and dividing tasks, as well as following up on assigned work and assisting each other in the case of blockers. Client meetings were used to confirm the direction of implementation and that the product being developed was what the client wanted. I felt the team also had a very good atmosphere and sense of cohesion. Particularly, there was no tension such as a teammate slacking on their part or failing to contribute meaningfully. Communication was open and comfortable.
 
 \textbf{David:}
 
@@ -205,7 +224,7 @@ our team to stay in constant communication, meaning that every member was always
 definitely hurt us sometimes in the implementation, where someone would push code that didnt compile and stop the workflow until it was fixed, or people would step on each others
 toes when it came to implementing features or solving problems sometimes.
 
-\textbf{Darren:}
+\textbf{Darren:} Git wasn't used to its full potential, as we all worked on the same branch. This saved on time by cutting out the process of switching branches and any potential confusion or dropped features due to some code being left behind on an unmerged branch. This also caused some discrepancies in team meetings where a bug appears on the build used when reviewing with clients while that same bug has been fixed in a commit overnight, leading to repeated work or extra time spent confirming with teammates that that is indeed the same bug and whether it is already fixed. There were also initial difficulties getting the project set up on everyone's computers due to dependencies such as the MATLAB installation being in different directories, but the files required for changing them being synced by Git.
 
 \textbf{David:}
 
@@ -225,7 +244,8 @@ half-finished feature, and once the first feature is properly finished it invali
 such as letting people know the agenda for each meeting ahead of time, and more clearly communicating the actions items at the end of the meetings. I also tend to drone on 
 often, which I could definitely tell led to me losing people's attention often, which would subsequently lead to important information being missed. To sum it up I think I have
 a lot of work to do when it comes to clear and concise communication in project management.\\
-\textbf{Darren:}
+
+\textbf{Darren:} I would work on separate branches as we originally stated. I would also want to investigate means for better task and Git tracking beyond GitHub itself for better accessibility and organization. There were times when some confusion arose on remaining tasks due to almost all team communication being conducted in the same single text channel. While this was usually handled well by simply asking around or addressed in meeting, it could be improved or made more accessible nonetheless with tools such as Trello.
 
 \textbf{David:}
 
