@@ -58,16 +58,18 @@ void BridgeVisual::discretizationLengthChanged() {
 void BridgeVisual::bridgeConfigEdited() {
 
     bool spanLengthsGiven = true;
+    // if input is empty don't take action
     for (int i = 0; i < spanLengthLineBoxes.size(); i++) {
         if (spanLengthLineBoxes[i]->text() == "") {
             spanLengthsGiven = false;
         }
     }
+
     if (!spanLengthsGiven || mConcernedSection->text() == "" ||
         mDiscretizationLength->text() == "") {
         return;
     }
-
+    // if input is not number dont take action
     bool spanLenghtsAreNumbers = true;
     for (int i = 0; i < spanLengthLineBoxes.size(); i++) {
         if (!isNumber(spanLengthLineBoxes[i]->text().toStdString())) {
@@ -151,7 +153,7 @@ void BridgeVisual::bridgeConfigEdited() {
     text->setPos(( bridgeLength - text->boundingRect().width() ) / 2, 8 * topLayerWidth);
 
     QGraphicsLineItem* concernedLine = mScene->addLine(4 * topLayerWidth + configBridge.concernedSection * scale, topLayerWidth + 1, 4 * topLayerWidth + configBridge.concernedSection * scale, 3 * topLayerWidth - 1, redpen); // Indicating Concerned Section
-    concernedLine->setZValue(2);
+    concernedLine->setZValue(2); // Indicating concerned section with a red line 
 
     QRectF itemRect = mScene->itemsBoundingRect();
     QRectF PaddedRect(itemRect.left() - itemRect.width() * 0.1,
@@ -178,7 +180,7 @@ void BridgeVisual::resizeEvent(QResizeEvent* event)
 
 void BridgeVisual::numberOfSpansDetermined(QGridLayout* bridgeInputLayout, QString numberOfSpans) {
     int spanLengthsize = spanLengthLineBoxes.size();
-
+    // Deleting input boxes when the number of spans is decreased
     if(spanLengthsize > numberOfSpans.toInt()){
         
         for (int i = numberOfSpans.toInt(); i < spanLengthsize; i++)
@@ -188,6 +190,7 @@ void BridgeVisual::numberOfSpansDetermined(QGridLayout* bridgeInputLayout, QStri
             bridgeConfigEdited();
         }
     }
+    // creating new input boxes when the number of spans is increased
     else if (spanLengthsize < numberOfSpans.toInt()) {
         for (int i = spanLengthsize; i < numberOfSpans.toInt(); i++) {
             QLineEdit* SpanLengthLineEdit = new QLineEdit(this);

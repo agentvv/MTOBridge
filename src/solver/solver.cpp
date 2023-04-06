@@ -2,9 +2,11 @@
 #include "util/data_types.hpp"
 
 namespace mtobridge {
+	//Initialise default values of force response type and solver type
 	ForceType Solver::force = ForceType(POSITIVE_MOMENT);
 	SolverType Solver::solver = SolverType(CONCERNED);
 
+	//Getter for the currently configured force response, returns a string for general use
 	std::string Solver::getForceType() {
 		if (Solver::force == ForceType(POSITIVE_MOMENT)) {
 			return("Positive Moment");
@@ -18,6 +20,7 @@ namespace mtobridge {
 		return NULL;
 	}
 
+	//Getter for the currently configured solver type, returns a string for general use
 	std::string Solver::getSolverType() {
 		if (Solver::solver == SolverType(CONCERNED)) {
 			return("Concerned Section");
@@ -28,6 +31,7 @@ namespace mtobridge {
 		return NULL;
 	}
 
+	//Setter to change the currently configured force response, takes in a string representing the desired force response
 	void Solver::updateForceType(std::string forceStr) {
 		if (forceStr == "Positive Moment") {
 			Solver::force = ForceType(POSITIVE_MOMENT);
@@ -43,6 +47,7 @@ namespace mtobridge {
 		}
 	}
 
+	//Setter to change the currently configured solver type, takes in a string representing the desired solver
 	void Solver::updateSolverType(std::string solverStr) {
 		if (solverStr == "Concerned Section") {
 			Solver::solver = SolverType(CONCERNED);
