@@ -5,10 +5,12 @@
 #include <list>
 using namespace std;
 namespace mtobridge {
-    MockTruckT PlatoonConfiguration::TruckConfig;
-    MockTruckT* PlatoonConfiguration::getConfiguration() { return &TruckConfig; }
+//Initialize Struct   
+MockTruckT PlatoonConfiguration::TruckConfig;
 
+MockTruckT* PlatoonConfiguration::getConfiguration() { return &TruckConfig; }
 
+//vector<double>/int/double versions of functions are for loading from files, QString versions of functions are for processing user input
 void PlatoonConfiguration::updateAxleLoad(std::vector<double> newLoad)
 {
   TruckConfig.axleLoad = newLoad;

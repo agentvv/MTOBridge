@@ -14,12 +14,14 @@ PlatoonVisual::PlatoonVisual(QWidget *parent) : QWidget(parent) {
   createPage();
 }
 PlatoonVisual::~PlatoonVisual() {}
+//Initialize Brushes used for drawing
 QBrush redBrush(Qt::red);
 QBrush grayBrush(Qt::lightGray);
 QBrush blackBrush(Qt::black);
 QBrush whiteBrush(Qt::white);
 QPen blackPen(Qt::black);
 
+// Function for error checking Axle Load Input
 void PlatoonVisual::validateLoadText(QString s) {
     QLineEdit *sender = static_cast<QLineEdit *>(this->sender());
     if (sender == nullptr || axleLoadErrorLabel == nullptr) {
@@ -39,6 +41,7 @@ void PlatoonVisual::validateLoadText(QString s) {
   }
     
 }
+// Function for error checking Axle Spacing Input
 void PlatoonVisual::validateSpacingText(QString s) {
     QLineEdit *sender = static_cast<QLineEdit *>(this->sender());
   if (sender == nullptr || axleSpacingErrorLabel == nullptr) {
@@ -57,35 +60,42 @@ void PlatoonVisual::validateSpacingText(QString s) {
       axleSpacingErrorLabel->setVisible(false);
     }
 }
+//Function for drawing extra text boxes when the Number Of Axles Spin Box is updated
 void PlatoonVisual::numAxlesChanged(int i) {
+  //Special case for program startup
   if (axleLoadList.size() == 0 && axleSpacingList.size() == 0) {
     for (int i = 0; i < 3; i++) {
+      //Create new QLineEdit and Set Size
       QLineEdit *axleLoad = new QLineEdit(this->mInputWidget);
       axleLoad->setSizePolicy(QSizePolicy(QSizePolicy::Policy::Maximum,QSizePolicy::Policy::Maximum));
       axleLoad->setMaximumSize(45, 20);
-
+      //Connect new QLineEdit to the function that updates the platoon from user input
       QObject::connect(axleLoad, &QLineEdit::editingFinished, this,
                        &PlatoonVisual::platoonConfigured);
+      //Add a QValidator to the new QLineEdit
       QDoubleValidator *axleLoadValidator = new QDoubleValidator(this->mInputWidget);
       axleLoadValidator->setRange(0.1, 1000, 1);
       axleLoad->setValidator(axleLoadValidator);
       QObject::connect(axleLoad, &QLineEdit::textChanged, this,
                        &PlatoonVisual::validateLoadText);
-
+      //Place new QLineEdit on the layout
       this->inputLayout->addWidget(axleLoad, 3, axleLoadList.size() + 1);
       axleLoadList.append(axleLoad);
     }
     for (int i = 0; i < 2; i++) {
+      //Create new QLineEdit and Set Size
       QLineEdit *axleSpacing = new QLineEdit(this->mInputWidget);
       axleSpacing->setSizePolicy(QSizePolicy(QSizePolicy::Policy::Maximum,QSizePolicy::Policy::Maximum));
       axleSpacing->setMaximumSize(45, 20);
-
+      // Connect new QLineEdit to the function that updates the platoon from user input
       QObject::connect(axleSpacing, &QLineEdit::editingFinished, this, &PlatoonVisual::platoonConfigured);
+      // Add a QValidator to the new QLineEdit
       QDoubleValidator *axleSpacingValidator = new QDoubleValidator(this->mInputWidget);
       axleSpacingValidator->setRange(1.2, 20, 1);
       axleSpacing->setValidator(axleSpacingValidator);
       QObject::connect(axleSpacing, &QLineEdit::textChanged, this,
                        &PlatoonVisual::validateSpacingText);
+      // Place new QLineEdit on the layout
       this->inputLayout->addWidget(axleSpacing, 4, axleSpacingList.size() + 1);
       axleSpacingList.append(axleSpacing);
     }
@@ -93,44 +103,48 @@ void PlatoonVisual::numAxlesChanged(int i) {
     setTabOrder(mSaveButton, mLoadButton);
     return;
    }
+  //Non-Special case for when Number Of Axles is updated
     int num = i - axleLoadList.size();
+  //num > 0 means we are adding new boxes
   if (num > 0) {
       for (int i = 0; i < num; i++) {
+        // Create new QLineEdit and Set Size
         QLineEdit *axleLoad = new QLineEdit(this->mInputWidget);
         axleLoad->setSizePolicy(QSizePolicy(QSizePolicy::Policy::Maximum,QSizePolicy::Policy::Maximum));
         axleLoad->setMaximumSize(45, 20);
-
+        // Connect new QLineEdit to the function that updates the platoon from user input
         QObject::connect(axleLoad, &QLineEdit::editingFinished, this,&PlatoonVisual::platoonConfigured);
-
+        // Add a QValidator to the new QLineEdit
         QDoubleValidator *axleLoadValidator =
             new QDoubleValidator(this->mInputWidget);
         axleLoadValidator->setRange(0.1, 1000, 1);
         axleLoad->setValidator(axleLoadValidator);
         QObject::connect(axleLoad, &QLineEdit::textChanged, this,
                          &PlatoonVisual::validateLoadText);
-
+        // Place new QLineEdit on the layout
         this->inputLayout->addWidget(axleLoad, 3, axleLoadList.size() + 1);
         setTabOrder(axleLoadList.last(), axleLoad);
         axleLoadList.append(axleLoad);
-
+        // Create new QLineEdit and Set Size
         QLineEdit *axleSpacing = new QLineEdit(this->mInputWidget);
         axleSpacing->setSizePolicy(QSizePolicy(QSizePolicy::Policy::Maximum,QSizePolicy::Policy::Maximum));
         axleSpacing->setMaximumSize(45, 20);
-
+        // Connect new QLineEdit to the function that updates the platoon from user input
         QObject::connect(axleSpacing, &QLineEdit::editingFinished, this,&PlatoonVisual::platoonConfigured);
-
+        // Add a QValidator to the new QLineEdit
         QDoubleValidator *axleSpacingValidator =
             new QDoubleValidator(this->mInputWidget);
         axleSpacingValidator->setRange(1.2, 20, 1);
         axleSpacing->setValidator(axleSpacingValidator);
         QObject::connect(axleSpacing, &QLineEdit::textChanged, this,
                          &PlatoonVisual::validateSpacingText);
-
+        // Place new QLineEdit on the layout
         this->inputLayout->addWidget(axleSpacing, 4,
                                      axleSpacingList.size() + 1);
         setTabOrder(axleSpacingList.last(), axleSpacing);
         axleSpacingList.append(axleSpacing);
       }
+      //realign any existing error labels
       this->inputLayout->removeWidget(axleLoadErrorLabel);
       this->inputLayout->addWidget(axleLoadErrorLabel, 3,
                                    axleLoadList.size() + 1);
@@ -140,6 +154,7 @@ void PlatoonVisual::numAxlesChanged(int i) {
       setTabOrder(axleSpacingList.last(), mSaveButton);
       setTabOrder(mSaveButton, mLoadButton);
   } 
+  //num < 0 means we are removing boxes
   else if (num < 0) {
       for (int i = 0; i > num; i--) {
         QLineEdit *victimLoad = axleLoadList.takeLast();
@@ -160,8 +175,8 @@ void PlatoonVisual::numAxlesChanged(int i) {
   }
 }
 
-
-    QGraphicsItemGroup *PlatoonVisual::makeTruck() {
+  //Creates a truck object
+  QGraphicsItemGroup *PlatoonVisual::makeTruck() {
   std::vector<double> spacings = PlatoonConfiguration::getAxleSpacings();
   std::vector<double>::iterator it = spacings.begin();
   int length = 0;
@@ -207,7 +222,7 @@ void PlatoonVisual::numAxlesChanged(int i) {
   return truck;
   
 }
-
+//Keeps the visualization consistent when window is resized
 void PlatoonVisual::resizeEvent(QResizeEvent *event)
 {
   QWidget::resizeEvent(event);
@@ -218,8 +233,9 @@ void PlatoonVisual::resizeEvent(QResizeEvent *event)
   mViewWidget->fitInView(mSceneWidget->sceneRect(), Qt::KeepAspectRatio);
   mViewWidget->centerOn(mSceneWidget->sceneRect().center());
 }
-
+//Updates the data structure and creates the visualization when all inputs are valid
 void PlatoonVisual::platoonConfigured() {
+    //Checking for validity of inputs before proceeding
     for (auto *w : axleLoadList) {
         QString text = w->text();
         int cursorPosition = 0;
@@ -249,7 +265,7 @@ void PlatoonVisual::platoonConfigured() {
   blackPen.setWidth(2);
   QString axleLoads = "";
   QString axleSpacings = "";
-  
+  //retrieve axleLoad and spacing data from all individual QLineEdits
   for (auto *w : axleLoadList) {
        axleLoads += w->text();
        axleLoads += " ";
@@ -260,14 +276,15 @@ void PlatoonVisual::platoonConfigured() {
   }
   QString numTrucks = mNumberOfTrucks->text();
   QString headway = mHeadway->text();
-
+  //Update data structure
   PlatoonConfiguration::updateAxleLoad(axleLoads);
   PlatoonConfiguration::updateAxleSpacing(axleSpacings);
   PlatoonConfiguration::updateNumberOfTrucks(numTrucks);
   PlatoonConfiguration::updateHeadway(headway);
-
+  
   std::vector<double> spacings = PlatoonConfiguration::getAxleSpacings();
   std::vector<double>::iterator it = spacings.begin();
+  //make as many trucks as necessary
   if (PlatoonConfiguration::getNumTrucks() > 0) {
        truck = makeTruck();
        mSceneWidget->clear();
@@ -275,7 +292,7 @@ void PlatoonVisual::platoonConfigured() {
        truck->setPos(0, 0);
   }
   
-
+  //add the trucks to the visualization and set their positions properly
   for (int i = 1; i < PlatoonConfiguration::getNumTrucks(); i++) {
         QGraphicsItemGroup *truck2 = makeTruck();
         mSceneWidget->addItem(truck2);
@@ -283,6 +300,7 @@ void PlatoonVisual::platoonConfigured() {
         truck2->setPos((length - 20 + PlatoonConfiguration::getHeadway()*5) * i, 0);
         truck->setZValue(i+1);
   }
+  //Centers the visualization on the trucks
   QRectF itemRect = mSceneWidget->itemsBoundingRect();
   QRectF PaddedRect(itemRect.left() - itemRect.width() * 0.1,itemRect.top() - itemRect.height() * 0.1,
                     itemRect.width() * 1.2, itemRect.height() * 1.2);
@@ -291,6 +309,7 @@ void PlatoonVisual::platoonConfigured() {
   mViewWidget->centerOn(mSceneWidget->sceneRect().center());
   mSaveButton->setDisabled(false);
 }
+//Calls the save function when the save button is clicked
 void PlatoonVisual::saveButtonClicked() {
   MockTruckT config;
   std::vector<double> axleLoadTemp = PlatoonConfiguration::getAxleLoads();
@@ -303,6 +322,7 @@ void PlatoonVisual::saveButtonClicked() {
   config.numberOfTrucks = PlatoonConfiguration::getNumTrucks();
   saver::savePlatoonConfiguration(config);
 }
+// Calls the load function when the load button is clicked
 void PlatoonVisual::loadButtonClicked() {
   MockTruckT config = loader::loadPlatoonConfiguration();
 
@@ -327,7 +347,7 @@ void PlatoonVisual::loadButtonClicked() {
 
   platoonConfigured();
 }
-
+//makes the Platoon tab
 void PlatoonVisual::createPage() {
   this->setSizePolicy(QSizePolicy(QSizePolicy::Policy::Expanding,
                                   QSizePolicy::Policy::Expanding));
@@ -336,6 +356,7 @@ void PlatoonVisual::createPage() {
 
   // set up all inputs and layout
   {
+    //Sets up layout and all widgets that go in it
     inputLayout = new QGridLayout();
     mInputWidget = new QWidget(this);
     mInputWidget->setSizePolicy(QSizePolicy(QSizePolicy::Policy::Fixed, QSizePolicy::Policy::Fixed));
@@ -397,7 +418,7 @@ void PlatoonVisual::createPage() {
     mLoadButton->setSizePolicy(QSizePolicy(QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Fixed));
 
     numAxlesChanged(3);
-
+    //adds everything to the layout
     inputLayout->addWidget(mNumberOfTrucksLabel, 0, 0);
     inputLayout->addWidget(mNumberOfTrucks, 0, 1);
     inputLayout->addWidget(mHeadwayLabel, 1, 0);
@@ -420,6 +441,7 @@ void PlatoonVisual::createPage() {
     pageLayout->addWidget(mSaveButton);
     pageLayout->addWidget(mLoadButton);
 
+    //Listens for any signals to call the appropriate functions
     QObject::connect(mNumberOfAxles, &QSpinBox::valueChanged, this,
                      &PlatoonVisual::numAxlesChanged);
     QObject::connect(mNumberOfTrucks, &QSpinBox::valueChanged, this,
@@ -433,7 +455,7 @@ void PlatoonVisual::createPage() {
 
   }
 }
-
+//For loading from report instead of report button
 void PlatoonVisual::loadConfiguration(MockTruckT config)
 {
   PlatoonConfiguration::updateAxleSpacing(config.axleSpacing);
