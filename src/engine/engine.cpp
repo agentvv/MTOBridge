@@ -13,27 +13,37 @@
 namespace mtobridge {
 
 Engine::Engine(QObject* parent) : QObject(parent) {
+  // move this object to a new thread to avoid clogging the main gui thread
   this->moveToThread(&mThread);
   connect(&mThread, &QThread::started, this, &Engine::startEngine);
   mThread.start();
 }
 
+/**
+ * @brief Destroys MATLAB and ends this threads execution
+ */
 void Engine::stopEngine() {
   destroyMatlab();
   mThread.quit();
 }
 
+/**
+ * @brief Ensures MATLAB is running, and emits engineStarted
+ * signal
+ */
 void Engine::startEngine() {
   getMatlab();
   emit engineStarted();
 }
 
+/**
+ * @brief Runs the command based on the calculation input, and
+ * emits finishedCommand signal when finished
+ * @param in input including all configuration
+ */
 void Engine::runCommand(MockCalculationInputT in) {
-#include <chrono>
-  auto start = std::chrono::high_resolution_clock::now();
   MockCalculationOutputT out;
   try {
-    // // running custom matlab script!!
     out = runCalculation(in);
   } catch (const matlab::Exception& e) {
     emit errorOccurred(
@@ -44,9 +54,6 @@ void Engine::runCommand(MockCalculationInputT in) {
         QString("An exception has occurred!\nError: %1").arg(e.what()));
     return;
   }
-  auto end = std::chrono::high_resolution_clock::now();
-  auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-  QTextStream(stdout) << "Engine: " << duration.count();
   emit finishedCommand(in, out);
 }
 }  // namespace mtobridge

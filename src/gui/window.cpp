@@ -17,8 +17,9 @@ Window::Window(QWidget *parent) : QWidget(parent) {
   createWindow();
 }
 
-/// SPAGHETTI INCOMING
-/// should move this stuff to separate custom widgets, and also .ui files...
+/**
+ * @brief creates the main gui window and connections between widgets
+ */
 void Window::createWindow() {
   mTabWidget = new QTabWidget(this);
   mTabWidget->setSizePolicy(QSizePolicy(QSizePolicy::Policy::Expanding,
@@ -53,6 +54,9 @@ void Window::createWindow() {
                    &Window::loadReport);
 }
 
+/**
+ * @brief loads the report and validates the values received
+ */
 void Window::loadReport() {
   Report report = loader::loadReportConfiguration();
   if (report == Report())
@@ -89,6 +93,10 @@ void Window::loadReport() {
   mSolver->loadedReport(report);
 }
 
+/**
+ * @brief opens a message box indicating an error has occured
+ * @param error a string of the error message to be display
+ */
 void Window::errorOccurred(QString error) {
   QMessageBox::critical(this, QString("Unknown Error!"), error);
 }

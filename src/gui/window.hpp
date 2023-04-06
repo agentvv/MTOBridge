@@ -17,7 +17,8 @@ class Window : public QWidget {
   Window(QWidget* parent = nullptr);
   ~Window() {
     Engine::getInstance().stopEngine();
-
+    // this ensures the engine thread is stopped before
+    // the application is killed
     QEventLoop loop(this);
     while (!Engine::getInstance().thread()->isFinished()) {
       loop.processEvents();
